@@ -1,0 +1,41 @@
+# --- AZWebCorp retired-URL 301 map (added 2026-08-07) ---
+# These lines belong in the site's .htaccess file, ABOVE the "# BEGIN WordPress"
+# block. They are Apache directives, not shell commands -- do not paste them
+# into a terminal.
+#
+# Every destination below was confirmed present in page-sitemap.xml on
+# 2026-08-07. Source URLs were confirmed 404 in the Ahrefs Site Audit crawl
+# of the same date.
+
+# Renamed page - exact equivalent exists
+Redirect 301 /featured-projects/ https://azwebcorp.com/our-featured-projects/
+
+# Digital presence / marketing
+Redirect 301 /optimize-your-digital-presence/ https://azwebcorp.com/arizona-digital-marketing/
+
+# Development pages - no separate mobile/front-end/back-end pages remain,
+# so all consolidate into the surviving web development page
+Redirect 301 /mobile-development/ https://azwebcorp.com/arizona-web-development/
+Redirect 301 /develop-your-mobile-app/ https://azwebcorp.com/arizona-web-development/
+Redirect 301 /mobile-app-development-services-arizona/ https://azwebcorp.com/arizona-web-development/
+Redirect 301 /frontend-development/ https://azwebcorp.com/arizona-web-development/
+Redirect 301 /arizona-backend-development/ https://azwebcorp.com/arizona-web-development/
+Redirect 301 /backend-dev-services/ https://azwebcorp.com/arizona-web-development/
+
+# Retired blog posts
+Redirect 301 /2020/07/29/how-much-does-seo-cost-in-arizona/ https://azwebcorp.com/arizona-seo-services/
+Redirect 301 /2020/07/29/7-best-internal-linking-plugins-for-wordpress-websites/ https://azwebcorp.com/wordpress-tutorials-resolve-at-arizona-azwebcorp/
+Redirect 301 /2020/07/29/free-instagram-followers-hack-50k-free-that-works-in-2024/ https://azwebcorp.com/arizona-digital-marketing/
+
+# News / insights - closest surviving equivalent
+Redirect 301 /news-and-insights/ https://azwebcorp.com/case-studies/
+
+# Printing services - NOTE: no printing page exists on the site any more.
+# If printing is still offered, build that page and repoint this line at it.
+Redirect 301 /affordable-printing-services/ https://azwebcorp.com/hire-our-services/
+
+# Leftover from the everythingit.ie consolidation - Dublin is not a service
+# area for a Gilbert, AZ business and dilutes local geographic signals.
+Redirect 301 /managed-it-services-dublin/ https://azwebcorp.com/hire-our-services/
+
+# --- end 301 map ---
