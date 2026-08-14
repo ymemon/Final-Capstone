@@ -22,7 +22,10 @@ param(
 
 $SshUser   = 'client_9d34da8b_644762'
 $SshHost   = '644762.us8.ssh.myftpupload.com'
-$RemoteDir = 'public_html'          # adjust if wp-config.php lives elsewhere
+$RemoteDir = 'public_html'          # upload staging area, NOT the WordPress root
+$WpPath    = '/html'                # where wp-config.php actually is; ~/html is
+                                    # a symlink to it, and WP-CLI needs the real
+                                    # path or it reports "not a WordPress install"
 $Script    = 'azw-fix-all.sh'
 $Publisher = 'azw-publish-content.php'
 $ContentIn = Join-Path $PSScriptRoot '..\content'   # the .html pages to publish
@@ -57,7 +60,7 @@ if ($Publish -or $PublishDryRun) {
         return
     }
 
-    $flag = if ($Publish) { '--apply' } else { '' }
+    $flag = if ($Publish) { 'apply' } else { '' }
 
     # The publisher reads ./content/*.html relative to itself, so both the PHP
     # file and the pages have to land in the same remote directory.
@@ -68,7 +71,7 @@ if ($Publish -or $PublishDryRun) {
 
     Write-Host "Running $Publisher $flag ..." -ForegroundColor Cyan
     & $plink.Source -ssh -batch -pw $plain "$SshUser@$SshHost" `
-        "cd $RemoteDir && wp eval-file $Publisher $flag"
+        "cd $RemoteDir && wp --path=$WpPath eval-file $Publisher $flag"
 
     # These are deliverables, not site files - they have no business sitting in
     # the web root where they can be fetched or indexed.

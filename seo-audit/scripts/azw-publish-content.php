@@ -4,8 +4,11 @@
  *
  * Run through WP-CLI so WordPress is fully loaded:
  *
- *     wp eval-file azw-publish-content.php            # DRY RUN
- *     wp eval-file azw-publish-content.php --apply    # write
+ *     wp eval-file azw-publish-content.php          # DRY RUN
+ *     wp eval-file azw-publish-content.php apply    # write
+ *
+ * The write flag is a bare word, not --apply: WP-CLI parses anything starting
+ * with a dash as one of its own options and rejects it before this file runs.
  *
  * Matching is by slug, so this is idempotent: a page that already exists is
  * updated in place and keeps its ID, its permalink and whatever link equity it
@@ -18,7 +21,7 @@
  * every page two <h1> tags.
  */
 
-$apply = in_array( '--apply', (array) $args, true );
+$apply = (bool) array_intersect( array( 'apply', '--apply' ), (array) $args );
 
 $dir = __DIR__ . '/content';
 if ( ! is_dir( $dir ) ) {
@@ -31,7 +34,7 @@ if ( ! $files ) {
 }
 
 if ( ! $apply ) {
-	WP_CLI::line( 'DRY RUN — nothing will be written. Re-run with --apply.' );
+	WP_CLI::line( "DRY RUN — nothing will be written. Re-run with 'apply'." );
 }
 WP_CLI::line( '' );
 
@@ -148,5 +151,5 @@ if ( $apply ) {
 	WP_CLI::success( "{$published} page(s) published, {$skipped} skipped." );
 	WP_CLI::line( 'Cloudflare still caches at the edge — purge it before checking the live URLs.' );
 } else {
-	WP_CLI::line( 'Dry run complete. Re-run with --apply to write.' );
+	WP_CLI::line( "Dry run complete. Re-run with 'apply' to write." );
 }
