@@ -3,9 +3,11 @@
 # Keeps the credential on your machine so it never travels with the deliverables
 # and never lands in the web root. Run from anywhere:
 #
-#     .\connect.ps1              # open an interactive session
-#     .\connect.ps1 -DryRun      # upload + dry-run the remediation script
-#     .\connect.ps1 -Apply       # upload + apply it
+#     .\connect.ps1                 # open an interactive session
+#     .\connect.ps1 -DryRun         # upload + dry-run the remediation script
+#     .\connect.ps1 -Apply          # upload + apply it
+#     .\connect.ps1 -PublishDryRun  # show what publishing the content pages would do
+#     .\connect.ps1 -Publish        # publish the content pages to WordPress
 #
 # FIRST RUN: the password is read once and stored in Windows Credential Manager,
 # encrypted to your Windows account. It is not written into this file.
@@ -13,6 +15,8 @@
 param(
     [switch]$DryRun,
     [switch]$Apply,
+    [switch]$Publish,
+    [switch]$PublishDryRun,
     [switch]$ResetPassword
 )
 
@@ -20,6 +24,8 @@ $SshUser   = 'client_9d34da8b_644762'
 $SshHost   = '644762.us8.ssh.myftpupload.com'
 $RemoteDir = 'public_html'          # adjust if wp-config.php lives elsewhere
 $Script    = 'azw-fix-all.sh'
+$Publisher = 'azw-publish-content.php'
+$ContentIn = Join-Path $PSScriptRoot '..\content'   # the .html pages to publish
 $CredName  = 'AZWebCorp-SSH'
 
 # --- credential handling ---------------------------------------------------
@@ -44,6 +50,37 @@ $plain  = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
 # Windows' built-in OpenSSH cannot take a password on the command line, so
 # non-interactive runs need plink (PuTTY) or an SSH key. See notes at the end.
 $plink = Get-Command plink.exe -ErrorAction SilentlyContinue
+
+if ($Publish -or $PublishDryRun) {
+    if (-not $plink) {
+        Write-Host "plink.exe not found - install PuTTY, or set up key auth (see below)." -ForegroundColor Yellow
+        return
+    }
+
+    $flag = if ($Publish) { '--apply' } else { '' }
+
+    # The publisher reads ./content/*.html relative to itself, so both the PHP
+    # file and the pages have to land in the same remote directory.
+    Write-Host "Uploading $Publisher and the content pages ..." -ForegroundColor Cyan
+    & $plink.Source -ssh -batch -pw $plain "$SshUser@$SshHost" "mkdir -p $RemoteDir/content"
+    & pscp.exe -pw $plain $Publisher "$SshUser@$SshHost`:$RemoteDir/$Publisher"
+    & pscp.exe -pw $plain (Join-Path $ContentIn '*.html') "$SshUser@$SshHost`:$RemoteDir/content/"
+
+    Write-Host "Running $Publisher $flag ..." -ForegroundColor Cyan
+    & $plink.Source -ssh -batch -pw $plain "$SshUser@$SshHost" `
+        "cd $RemoteDir && wp eval-file $Publisher $flag"
+
+    # These are deliverables, not site files - they have no business sitting in
+    # the web root where they can be fetched or indexed.
+    Write-Host "Cleaning up uploaded files ..." -ForegroundColor Cyan
+    & $plink.Source -ssh -batch -pw $plain "$SshUser@$SshHost" `
+        "cd $RemoteDir && rm -f $Publisher && rm -rf content"
+
+    if ($Publish) {
+        Write-Host "`nDone. Now purge Cloudflare, or the edge keeps serving the old pages." -ForegroundColor Yellow
+    }
+    return
+}
 
 if ($DryRun -or $Apply) {
     if (-not $plink) {
