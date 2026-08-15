@@ -135,8 +135,8 @@ function azw_section( $html ) {
 					array(
 						'id'         => azw_id(),
 						'elType'     => 'widget',
-						'widgetType' => 'text-editor',
-						'settings'   => array( 'editor' => $html ),
+						'widgetType' => 'html',
+						'settings'   => array( 'html' => $html ),
 					),
 				),
 			),
@@ -144,7 +144,14 @@ function azw_section( $html ) {
 	);
 }
 
-/** Body of one of our HTML deliverables, minus the <h1> the theme renders. */
+/**
+ * One of our HTML deliverables, ready to drop into an Elementor HTML widget:
+ * the JSON-LD blocks followed by the body, minus the <h1> the theme renders.
+ *
+ * The schema has to come along. It sits outside <body> in the source files, and
+ * on an Elementor page nothing else will emit it — post_content is never read,
+ * so schema left there would be invisible to crawlers.
+ */
 function azw_body( $file ) {
 	if ( ! is_readable( $file ) ) {
 		WP_CLI::error( "Cannot read {$file}" );
@@ -153,7 +160,13 @@ function azw_body( $file ) {
 	if ( ! preg_match( '#<body>(.*?)</body>#s', $src, $m ) ) {
 		WP_CLI::error( "No <body> block in {$file}" );
 	}
-	return trim( preg_replace( '#<h1>.*?</h1>#s', '', $m[1], 1 ) );
+	$body = trim( preg_replace( '#<h1>.*?</h1>#s', '', $m[1], 1 ) );
+
+	preg_match_all( '#<script type="application/ld\+json">.*?</script>#s', $src, $schema );
+	if ( $schema[0] ) {
+		$body = implode( "\n", $schema[0] ) . "\n\n" . $body;
+	}
+	return $body;
 }
 
 function azw_save( $post, $data, $apply ) {
@@ -231,9 +244,11 @@ switch ( $cmd ) {
 		WP_CLI::line( sprintf( 'Replacing %s (%s)', $id, $node['widgetType'] ?? $node['elType'] ) );
 		WP_CLI::line( '  old: ' . mb_strimwidth( trim( wp_strip_all_tags( azw_text( $node ) ) ), 0, 90, '…' ) );
 		WP_CLI::line( '  new: ' . mb_strimwidth( trim( wp_strip_all_tags( $html ) ), 0, 90, '…' ) );
+		// An html widget renders its content verbatim. text-editor would put the
+		// markup through wpautop and strip the JSON-LD, which is most of the point.
 		$node['elType']     = 'widget';
-		$node['widgetType'] = 'text-editor';
-		$node['settings']   = array( 'editor' => $html );
+		$node['widgetType'] = 'html';
+		$node['settings']   = array( 'html' => $html );
 		unset( $node['elements'] );
 		unset( $node );
 		azw_save( $post, $data, $apply );
