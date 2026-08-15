@@ -37,10 +37,25 @@ if ( ! $raw && 'restore' !== $cmd ) {
 	WP_CLI::error( "Post {$post} has no _elementor_data — use the post_content publisher instead." );
 }
 
-/** Elementor stores this slashed; decode after stripping. */
-$data = $raw ? json_decode( wp_unslash( $raw ), true ) : array();
-if ( $raw && null === $data ) {
-	WP_CLI::error( '_elementor_data is not valid JSON — refusing to touch it.' );
+/**
+ * Elementor writes this through update_post_meta, which unslashes before
+ * storing, so what comes back is normally valid JSON already. Running
+ * wp_unslash on it strips the backslashes that are part of the JSON escaping
+ * (\", \/, \uXXXX) and breaks the decode. Try it straight first; only fall back
+ * to unslashing for installs where something re-slashed the value on the way in.
+ */
+$data = array();
+if ( $raw ) {
+	$data = json_decode( $raw, true );
+	if ( null === $data ) {
+		$data = json_decode( wp_unslash( $raw ), true );
+	}
+	if ( null === $data ) {
+		WP_CLI::error( sprintf(
+			'_elementor_data is not valid JSON (%s) — refusing to touch it.',
+			json_last_error_msg()
+		) );
+	}
 }
 
 /** Walk every element depth-first, passing each node by reference. */
