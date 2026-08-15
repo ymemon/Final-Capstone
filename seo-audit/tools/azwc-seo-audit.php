@@ -220,9 +220,43 @@ function azwc_audit_check( $id, $label, $status, $detail, $weight = 1, $group = 
 	return compact( 'id', 'label', 'status', 'detail', 'weight', 'group' );
 }
 
+/**
+ * Visible text, with script and style contents removed.
+ *
+ * Deliberately not a regex. A lazy `.*?` across a multi-megabyte document
+ * exceeds pcre.backtrack_limit, and preg_replace signals that by returning
+ * null rather than raising anything — so the caller silently sees an empty
+ * string and reports a full page as having zero words. This scanner has no
+ * backtracking to exhaust.
+ */
+function azwc_audit_strip_blocks( $html ) {
+	foreach ( array( 'script', 'style', 'noscript', 'template', 'svg' ) as $tag ) {
+		$offset = 0;
+		while ( false !== ( $start = stripos( $html, '<' . $tag, $offset ) ) ) {
+			$close = stripos( $html, '</' . $tag, $start );
+			if ( false === $close ) {
+				$html = substr( $html, 0, $start );
+				break;
+			}
+			$end   = strpos( $html, '>', $close );
+			$end   = false === $end ? strlen( $html ) : $end + 1;
+			$html  = substr( $html, 0, $start ) . ' ' . substr( $html, $end );
+			$offset = $start + 1;
+		}
+	}
+	return $html;
+}
+
 function azwc_audit_text( $html ) {
-	$html = preg_replace( '#<(script|style|noscript)\b[^>]*>.*?</\1>#is', ' ', $html );
-	return trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( $html ) ) );
+	$stripped = azwc_audit_strip_blocks( $html );
+	// strip_tags joins adjacent elements with nothing between them, so
+	// "<a>one</a><a>two</a>" becomes "onetwo" and counts as a single word. On
+	// minified HTML — which is most of it — that badly under-reports length.
+	$stripped = str_replace( '<', ' <', $stripped );
+	$plain    = wp_strip_all_tags( $stripped );
+	$collapsed = preg_replace( '/\s+/', ' ', $plain );
+	// preg_replace returns null on failure; fall back rather than report zero.
+	return trim( null === $collapsed ? $plain : $collapsed );
 }
 
 function azwc_audit_run_checks( $url, $page, $chain ) {
@@ -276,12 +310,31 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 	$has_sitemap       = ! is_wp_error( $sitemap ) && 200 === $sitemap['status'] && false !== stripos( $sitemap['body'], '<' );
 	$sitemap_urls      = $has_sitemap ? substr_count( $sitemap['body'], '<loc>' ) : 0;
 
+	// A <sitemapindex> lists child sitemaps rather than pages. Counting its
+	// <loc> entries as URLs reports a 400-page site as having four.
+	$is_index      = $has_sitemap && false !== stripos( $sitemap['body'], '<sitemapindex' );
+	$sitemap_label = ! $has_sitemap
+		? ''
+		: ( $is_index
+			? sprintf(
+				'Sitemap index found at %s, referencing %d child sitemap%s. The page count is inside those.',
+				$sitemap_url,
+				$sitemap_urls,
+				1 === $sitemap_urls ? '' : 's'
+			)
+			: sprintf(
+				'Sitemap found at %s listing %d URL%s.',
+				$sitemap_url,
+				$sitemap_urls,
+				1 === $sitemap_urls ? '' : 's'
+			) );
+
 	$checks[] = azwc_audit_check(
 		'sitemap',
 		'An XML sitemap is reachable',
 		$has_sitemap ? 'pass' : 'warn',
 		$has_sitemap
-			? sprintf( 'Sitemap found at %s listing %d URL%s.', esc_url_raw( $sitemap_url ), $sitemap_urls, 1 === $sitemap_urls ? '' : 's' )
+			? $sitemap_label
 			: 'No XML sitemap found at /sitemap.xml or declared in robots.txt. Crawlers will still find pages through links, but a sitemap makes discovery faster and more complete.',
 		2,
 		'indexability'
@@ -296,7 +349,7 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 		'A canonical URL is declared',
 		$canonical ? 'pass' : 'warn',
 		$canonical
-			? 'Canonical points to ' . esc_html( $canonical )
+			? 'Canonical points to ' . $canonical
 			: 'No canonical tag. Without one, the same page reached through different URLs — with and without www, with tracking parameters — can be treated as separate duplicate pages.',
 		2,
 		'indexability'
@@ -327,7 +380,7 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 				'%d redirect%s before the page loads: %s',
 				$hops,
 				1 === $hops ? '' : 's',
-				esc_html( implode( ' -> ', wp_list_pluck( $chain, 'url' ) ) )
+				implode( ' -> ', wp_list_pluck( $chain, 'url' ) )
 			),
 		2,
 		'technical'
@@ -354,7 +407,7 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 		'The HTML is compressed in transit',
 		$compressed ? 'pass' : 'warn',
 		$compressed
-			? 'Content-Encoding: ' . esc_html( is_array( $headers['content-encoding'] ) ? implode( ',', $headers['content-encoding'] ) : $headers['content-encoding'] )
+			? 'Content-Encoding: ' . ( is_array( $headers['content-encoding'] ) ? implode( ',', $headers['content-encoding'] ) : $headers['content-encoding'] )
 			: 'No Content-Encoding header. Enabling gzip or brotli typically cuts HTML transfer size by 60-80%.',
 		1,
 		'technical'
@@ -383,7 +436,7 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 		'' === $title ? 'fail' : ( ( $tlen >= 20 && $tlen <= 60 ) ? 'pass' : 'warn' ),
 		'' === $title
 			? 'No title tag. This is the headline of your search result — without it Google invents one from the page content.'
-			: sprintf( '%d characters: "%s"%s', $tlen, esc_html( $title ), $tlen > 60 ? ' — likely truncated in results beyond about 60.' : ( $tlen < 20 ? ' — short enough that it is probably not describing the page fully.' : '' ) ),
+			: sprintf( '%d characters: "%s"%s', $tlen, $title, $tlen > 60 ? ' — likely truncated in results beyond about 60.' : ( $tlen < 20 ? ' — short enough that it is probably not describing the page fully.' : '' ) ),
 		3,
 		'onpage'
 	);
@@ -413,7 +466,7 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 		0 === $h1_count
 			? 'No H1 found. The H1 is the clearest statement of what a page is about.'
 			: ( 1 === $h1_count
-				? 'One H1: "' . esc_html( trim( wp_strip_all_tags( $h1s[1][0] ) ) ) . '"'
+				? 'One H1: "' . trim( html_entity_decode( wp_strip_all_tags( $h1s[1][0] ), ENT_QUOTES ) ) . '"'
 				: $h1_count . ' H1 tags. Multiple top-level headings dilute the signal about the page subject.' ),
 		2,
 		'onpage'
@@ -495,7 +548,7 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 		'Structured data is present',
 		$types ? 'pass' : 'warn',
 		$types
-			? 'JSON-LD found describing: ' . esc_html( implode( ', ', array_slice( $types, 0, 8 ) ) )
+			? 'JSON-LD found describing: ' . implode( ', ', array_slice( $types, 0, 8 ) )
 			: 'No JSON-LD structured data. This is what produces star ratings, FAQ dropdowns and business details in search results.',
 		2,
 		'structured'
@@ -528,7 +581,10 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 
 	/* --- links ----------------------------------------------------------- */
 
-	preg_match_all( '#<a\b[^>]+href=["\']([^"\'#]+)#i', $html, $links );
+	// Delimiter is '~': the previous '#' delimiter collided with the '#' inside
+	// the character class, so the pattern never compiled and preg_match_all
+	// returned false without a warning. Every site audited reported zero links.
+	preg_match_all( '~<a\b[^>]+href\s*=\s*["\']([^"\']+)["\']~i', $html, $links );
 	$internal = 0;
 	$external = 0;
 	foreach ( $links[1] as $href ) {
