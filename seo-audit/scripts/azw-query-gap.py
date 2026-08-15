@@ -36,6 +36,7 @@ Verdicts:
 """
 
 import csv
+import math
 import re
 import sys
 from collections import defaultdict
@@ -218,6 +219,24 @@ def slugify(text):
     return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", text.lower())).strip("-")
 
 
+def idf_weights(queries):
+    """How much each token narrows the subject.
+
+    Counting shared tokens equally is what merged 202 queries into one page:
+    "arizona" and "seo" appear in hundreds of these searches, so any two SEO
+    queries share them and look related. They carry almost no information about
+    what a page should be about, while "tempe" or "wordpress" nearly determine
+    it. Weight by inverse document frequency and the generic words stop
+    deciding anything.
+    """
+    df = defaultdict(int)
+    for q in queries:
+        for t in q["tokens"]:
+            df[t] += 1
+    n = max(len(queries), 1)
+    return {t: math.log(n / c) + 1.0 for t, c in df.items()}
+
+
 def cluster(queries, min_overlap=0.6):
     """Group unmatched queries into the pages that would serve them.
 
@@ -236,16 +255,16 @@ def cluster(queries, min_overlap=0.6):
     becomes a magnet and swallows everything ("seo" + "arizona" absorbed 198
     unrelated queries). A fixed seed keeps each cluster about one thing.
     """
+    idf = idf_weights(queries)
+    weight = lambda ts: sum(idf.get(t, 1.0) for t in ts)
+
     clusters = []
     for q in sorted(queries, key=lambda r: -r["impressions"]):
         if not q["tokens"]:
             continue
         for c in clusters:
-            shared = len(q["tokens"] & c["tokens"])
-            # Two generic words in common is coincidence, not a shared subject.
-            if shared < 2 and min(len(q["tokens"]), len(c["tokens"])) > 1:
-                continue
-            if shared / min(len(q["tokens"]), len(c["tokens"])) >= min_overlap:
+            shared = weight(q["tokens"] & c["tokens"])
+            if shared / min(weight(q["tokens"]), weight(c["tokens"])) >= min_overlap:
                 c["queries"].append(q)
                 c["impressions"] += q["impressions"]
                 c["clicks"] += q["clicks"]
