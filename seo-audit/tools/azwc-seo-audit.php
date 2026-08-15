@@ -740,6 +740,18 @@ function azwc_audit_score( $checks ) {
 
 /* -------------------------------------------------------------------------
  * REST endpoint
+ *
+ * Split into stages the client requests in turn, rather than one long call.
+ *
+ * The reason is honesty about timing as much as user experience. The audit does
+ * genuinely separate work — fetch the page, walk the redirect chain, read
+ * robots.txt and the sitemap, then ask Google twice — and PageSpeed alone can
+ * take twenty seconds per strategy. Returning it all at the end means either a
+ * spinner that explains nothing for half a minute, or, when PageSpeed quietly
+ * fails, a result so fast the visitor assumes nothing happened.
+ *
+ * Staged, the progress shown corresponds to work actually in flight. Nothing
+ * here pads the clock: if a stage is fast, it reports fast.
  * ---------------------------------------------------------------------- */
 
 add_action( 'rest_api_init', function () {
@@ -747,7 +759,9 @@ add_action( 'rest_api_init', function () {
 		'methods'             => 'POST',
 		'permission_callback' => '__return_true',
 		'args'                => array(
-			'domain' => array( 'required' => true, 'type' => 'string' ),
+			'domain'   => array( 'required' => true, 'type' => 'string' ),
+			'stage'    => array( 'required' => false, 'type' => 'string', 'default' => 'site' ),
+			'strategy' => array( 'required' => false, 'type' => 'string', 'default' => 'mobile' ),
 		),
 		'callback'            => 'azwc_audit_rest',
 	) );
@@ -759,7 +773,18 @@ function azwc_audit_rest( WP_REST_Request $request ) {
 		return new WP_REST_Response( array( 'error' => $url->get_error_message() ), 400 );
 	}
 
-	$cache_key = 'azwc_audit_' . md5( $url );
+	$stage    = $request->get_param( 'stage' );
+	$strategy = 'desktop' === $request->get_param( 'strategy' ) ? 'desktop' : 'mobile';
+
+	if ( 'psi' === $stage ) {
+		return azwc_audit_stage_psi( $url, $strategy );
+	}
+	return azwc_audit_stage_site( $url );
+}
+
+/** Everything measurable from the site itself. */
+function azwc_audit_stage_site( $url ) {
+	$cache_key = 'azwc_audit_site_' . md5( $url );
 	$cached    = get_transient( $cache_key );
 	if ( $cached ) {
 		$cached['cached'] = true;
@@ -789,26 +814,38 @@ function azwc_audit_rest( WP_REST_Request $request ) {
 
 	$chain  = azwc_audit_chain( $url );
 	$checks = azwc_audit_run_checks( $url, $page, $chain );
-	$score  = azwc_audit_score( $checks );
 
 	$result = array(
 		'url'       => $url,
 		'fetched'   => gmdate( 'c' ),
 		'status'    => $page['status'],
 		'ms'        => $page['ms'],
-		'score'     => $score,
+		'bytes'     => strlen( $page['body'] ),
+		'score'     => azwc_audit_score( $checks ),
 		'checks'    => $checks,
-		'psi'       => array(
-			'mobile'  => azwc_audit_psi( $url, 'mobile' ),
-			'desktop' => azwc_audit_psi( $url, 'desktop' ),
-		),
 		'authority' => azwc_audit_authority( $url ),
 		'cached'    => false,
 	);
 
 	set_transient( $cache_key, $result, AZWC_AUDIT_CACHE_HOURS * HOUR_IN_SECONDS );
-
 	return new WP_REST_Response( $result, 200 );
+}
+
+/** One PageSpeed strategy. Cached separately so a slow half does not block. */
+function azwc_audit_stage_psi( $url, $strategy ) {
+	$cache_key = 'azwc_audit_psi_' . $strategy . '_' . md5( $url );
+	$cached    = get_transient( $cache_key );
+	if ( false !== $cached ) {
+		return new WP_REST_Response( array( 'psi' => $cached, 'strategy' => $strategy, 'cached' => true ), 200 );
+	}
+
+	$psi = azwc_audit_psi( $url, $strategy );
+
+	// Cache the failure too, briefly. Without a key Google throttles hard, and
+	// retrying on every page load makes the throttling worse rather than better.
+	set_transient( $cache_key, $psi, $psi ? AZWC_AUDIT_CACHE_HOURS * HOUR_IN_SECONDS : 5 * MINUTE_IN_SECONDS );
+
+	return new WP_REST_Response( array( 'psi' => $psi, 'strategy' => $strategy, 'cached' => false ), 200 );
 }
 
 
@@ -833,6 +870,11 @@ function azwc_audit_shortcode() {
 		</form>
 
 		<div class="azwc-audit-status" role="status" aria-live="polite" hidden></div>
+		<div class="azwc-progress" hidden>
+			<h4>Running the audit</h4>
+			<p class="azwc-sub">Each step below finishes when that request actually returns.</p>
+			<ul class="azwc-steps"></ul>
+		</div>
 		<div class="azwc-audit-results" hidden></div>
 	</div>
 	<?php
@@ -857,6 +899,23 @@ function azwc_audit_styles() {
 	#azwc-audit .azwc-audit-note{margin:12px 0 0;color:var(--muted);font-size:13px}
 	#azwc-audit .azwc-audit-status{margin-top:18px;padding:16px 18px;background:#fffbe9;border:1px solid #f0e0a8;border-radius:10px;font-size:14px}
 	#azwc-audit .azwc-audit-status.error{background:#fdf0f0;border-color:#f2c9c9;color:#8a2b2b}
+	#azwc-audit .azwc-progress{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
+	#azwc-audit .azwc-progress h4{margin:0 0 4px;font-size:15px}
+	#azwc-audit .azwc-progress .azwc-sub{margin-bottom:16px}
+	#azwc-audit .azwc-steps{display:grid;gap:11px;margin:0;padding:0;list-style:none}
+	#azwc-audit .azwc-step{display:grid;grid-template-columns:20px 1fr;gap:11px;align-items:start;font-size:13.5px;color:#9aa3ad;transition:color .2s}
+	#azwc-audit .azwc-step.active{color:var(--ink);font-weight:650}
+	#azwc-audit .azwc-step.done{color:var(--ink)}
+	#azwc-audit .azwc-step small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+	#azwc-audit .azwc-mark{width:16px;height:16px;margin-top:3px;border-radius:50%;border:2px solid #d6dbe1;position:relative}
+	#azwc-audit .azwc-step.active .azwc-mark{border-color:var(--accent);border-top-color:transparent;animation:azwc-spin .7s linear infinite}
+	#azwc-audit .azwc-step.done .azwc-mark{border-color:var(--pass);background:var(--pass)}
+	#azwc-audit .azwc-step.done .azwc-mark:after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+	#azwc-audit .azwc-step.skip .azwc-mark{border-color:#d6dbe1;background:#eceff3}
+	@keyframes azwc-spin{to{transform:rotate(360deg)}}
+	@media(prefers-reduced-motion:reduce){#azwc-audit .azwc-step.active .azwc-mark{animation:none;border-top-color:var(--accent)}}
+	#azwc-audit .azwc-reveal{animation:azwc-fade .25s ease both}
+	@keyframes azwc-fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 	#azwc-audit .azwc-panel{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px}
 	#azwc-audit h3{margin:0 0 4px;font-size:19px;letter-spacing:-.01em}
 	#azwc-audit .azwc-sub{margin:0 0 20px;color:var(--muted);font-size:13px}
@@ -902,6 +961,7 @@ function azwc_audit_script() {
 		var button = form.querySelector('button');
 		var statusEl = root.querySelector('.azwc-audit-status');
 		var out = root.querySelector('.azwc-audit-results');
+		var progress = root.querySelector('.azwc-progress');
 
 		var COLOR = { pass: '#0f9d58', warn: '#e8a33d', fail: '#d64545', info: '#9aa3ad' };
 		var GROUPS = {
@@ -950,7 +1010,13 @@ function azwc_audit_script() {
 		}
 
 		function psiPanel(psi) {
+			var pending = psi && (psi.mobile === undefined || psi.desktop === undefined);
 			var have = ['mobile', 'desktop'].filter(function (k) { return psi && psi[k]; });
+			if (!have.length && pending) {
+				return '<section class="azwc-panel"><h3>Speed</h3>'
+					+ '<p class="azwc-sub">Google PageSpeed Insights</p>'
+					+ '<div class="azwc-empty">Waiting on Google&rsquo;s API&hellip;</div></section>';
+			}
 			if (!have.length) {
 				return '<section class="azwc-panel"><h3>Speed</h3>'
 					+ '<p class="azwc-sub">Google PageSpeed Insights</p>'
@@ -1045,41 +1111,137 @@ function azwc_audit_script() {
 
 			out.innerHTML = html;
 			out.hidden = false;
-			out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			// render() runs again as each speed stage returns. Scrolling every
+			// time would yank the page out from under someone already reading.
+			if (!out.dataset.scrolled) {
+				out.dataset.scrolled = '1';
+				out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}
+		}
+
+		/* ---- staged runner -------------------------------------------------
+		   Each entry is one real request. The tick appears when that request
+		   returns, so the progress reflects work in flight rather than a timer.
+		   Nothing here pads the clock — a fast stage reports fast.            */
+		var STEPS = [
+			{ key: 'site', label: 'Fetching the page', note: 'Following redirects, then reading robots.txt and the sitemap' },
+			{ key: 'checks', label: 'Checking indexability, structure and markup', note: '' },
+			{ key: 'psi_mobile', label: 'Asking Google for mobile speed data', note: 'PageSpeed Insights — this is the slow one' },
+			{ key: 'psi_desktop', label: 'Asking Google for desktop speed data', note: '' }
+		];
+
+		var stepEls = {};
+
+		function buildSteps() {
+			var ul = progress.querySelector('.azwc-steps');
+			ul.innerHTML = '';
+			stepEls = {};
+			STEPS.forEach(function (s) {
+				var li = document.createElement('li');
+				li.className = 'azwc-step';
+				li.innerHTML = '<span class="azwc-mark"></span><span>' + esc(s.label)
+					+ (s.note ? '<small>' + esc(s.note) + '</small>' : '') + '</span>';
+				ul.appendChild(li);
+				stepEls[s.key] = li;
+			});
+			progress.hidden = false;
+		}
+
+		function mark(key, state, note) {
+			var el = stepEls[key];
+			if (!el) { return; }
+			el.className = 'azwc-step ' + state;
+			if (note) {
+				var small = el.querySelector('small');
+				if (!small) {
+					small = document.createElement('small');
+					el.querySelector('span:last-child').appendChild(small);
+				}
+				small.textContent = note;
+			}
+		}
+
+		function post(body) {
+			return fetch(root.dataset.endpoint, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(body)
+			}).then(function (r) {
+				return r.json().then(function (j) { return { ok: r.ok, body: j }; });
+			});
+		}
+
+		function fail(message) {
+			progress.hidden = true;
+			statusEl.hidden = false;
+			statusEl.className = 'azwc-audit-status error';
+			statusEl.textContent = message;
+			button.disabled = false;
+		}
+
+		function run(domain) {
+			var t0 = Date.now();
+			var data = null;
+
+			buildSteps();
+            mark('site', 'active');
+
+			post({ domain: domain, stage: 'site' })
+				.then(function (res) {
+					if (!res.ok) {
+						throw new Error(res.body && res.body.error ? res.body.error : 'The audit could not run.');
+					}
+					data = res.body;
+					data.psi = { mobile: null, desktop: null };
+
+					mark('site', 'done', 'HTTP ' + data.status + ' in ' + data.ms + ' ms'
+						+ (data.cached ? ' (cached)' : ''));
+					mark('checks', 'done', data.checks.length + ' checks evaluated');
+
+					// Show the site results immediately; speed arrives after.
+					render(data);
+
+					mark('psi_mobile', 'active');
+					return post({ domain: domain, stage: 'psi', strategy: 'mobile' });
+				})
+				.then(function (res) {
+					var psi = res.ok ? res.body.psi : null;
+					data.psi.mobile = psi;
+					mark('psi_mobile', psi ? 'done' : 'skip',
+						psi ? (psi.score === null ? 'returned' : 'performance score ' + psi.score + '/100')
+						    : 'Google did not return data');
+					render(data);
+
+					mark('psi_desktop', 'active');
+					return post({ domain: domain, stage: 'psi', strategy: 'desktop' });
+				})
+				.then(function (res) {
+					var psi = res.ok ? res.body.psi : null;
+					data.psi.desktop = psi;
+					mark('psi_desktop', psi ? 'done' : 'skip',
+						psi ? (psi.score === null ? 'returned' : 'performance score ' + psi.score + '/100')
+						    : 'Google did not return data');
+					render(data);
+
+					var secs = ((Date.now() - t0) / 1000).toFixed(1);
+					progress.querySelector('.azwc-sub').textContent = 'Finished in ' + secs + ' seconds.';
+					button.disabled = false;
+				})
+				.catch(function (err) {
+					fail(err && err.message ? err.message : 'The audit could not complete. If the site is slow to respond it may have timed out — try again.');
+				});
 		}
 
 		form.addEventListener('submit', function (e) {
 			e.preventDefault();
 			var domain = input.value.trim();
 			if (!domain) { return; }
-
 			out.hidden = true;
-			statusEl.hidden = false;
-			statusEl.className = 'azwc-audit-status';
-			statusEl.textContent = 'Fetching ' + domain + ' and asking Google for its speed data. This takes about 30 seconds.';
+			out.innerHTML = '';
+			delete out.dataset.scrolled;
+			statusEl.hidden = true;
 			button.disabled = true;
-
-			fetch(root.dataset.endpoint, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ domain: domain })
-			})
-				.then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
-				.then(function (res) {
-					button.disabled = false;
-					if (!res.ok) {
-						statusEl.className = 'azwc-audit-status error';
-						statusEl.textContent = res.body && res.body.error ? res.body.error : 'Something went wrong running that audit.';
-						return;
-					}
-					statusEl.hidden = true;
-					render(res.body);
-				})
-				.catch(function () {
-					button.disabled = false;
-					statusEl.className = 'azwc-audit-status error';
-					statusEl.textContent = 'The audit could not complete. If the site is slow to respond it may have timed out — try again.';
-				});
+			run(domain);
 		});
 	})();
 	</script>
