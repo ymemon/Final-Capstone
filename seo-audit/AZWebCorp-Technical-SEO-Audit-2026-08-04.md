@@ -202,6 +202,32 @@ cache-control: public, max-age=2678400
 
 ---
 
+## 2.10 FIXED ✅ — Sitewide 1.3 MB Inline CSS Dump (Autoptimize Critical-CSS Fallback, 15 Aug 2026)
+
+Every page on azwebcorp.com was shipping a single unlabeled `<style media="all">` block accounting for **84–91% of total page weight** — home page 1.6 MB, `/arizona-seo-services/` 1.5 MB, of which 1.3–1.4 MB was this one block. This is a Core Web Vitals problem (render-blocking payload, LCP/FCP impact) on every page, not a one-off.
+
+**Root cause.** Autoptimize's Critical CSS power-up was enabled (`autoptimize_css_defer = on`) with **zero critical-CSS rules configured** and its free-tier credits exhausted (501/500 used). Its own fallback logic, `autoptimizeCriticalCSSCore.php:201-203`:
+
+```php
+// "No matching CCSS found, switching to inlining full CSS."
+add_filter( 'autoptimize_filter_css_inline', '__return_true' );
+```
+
+fires whenever no rule matches the requested URL — which was always, since no rules existed. Instead of degrading gracefully, it inlined the *entire* aggregated CSS bundle into every response. This wasn't a caching artifact (confirmed with cache-busted requests, an Autoptimize cache clear, and an object-cache flush) — it was live, on-demand behavior driven by current settings.
+
+**Fix applied.** Disabled the non-functional feature (`autoptimize_css_defer` → off) and cleared the Autoptimize cache. Verified via WP-CLI (`wp --path=/html eval-file`, see `scripts/azw-pageweight.php`, `scripts/azw-css-source.php`, `scripts/azw-verify-fix.php`):
+
+| Page | Before | After | Reduction |
+|---|---|---|---|
+| Home (`/`) | 1.6 MB | 240.2 KB | 85% |
+| `/arizona-seo-services/` | 1.5 MB | 130.0 KB | 91% |
+
+Both pages return HTTP 200 post-fix, and CSS now loads via normal cacheable `<link>` tags (e.g. `wp-content/cache/autoptimize/css/autoptimize_....css`) instead of the inline dump.
+
+**Follow-up:** the underlying Autoptimize Critical CSS service is unusable as configured (free credits exhausted, no paid subscription). Either leave CSS defer off permanently, or purchase/renew the criticalcss.com subscription and configure real per-template rules before re-enabling it.
+
+---
+
 ## 3. Unconfirmed / Carried Over (Needs a Live Crawl)
 
 Not independently verified this session because of the network/tooling limitations in §0. Treat as hypotheses, not findings, until confirmed:
