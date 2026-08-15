@@ -128,6 +128,32 @@ if ( $biggest ) {
 	WP_CLI::line( 'Largest single <style> block: ' . size_format( $biggest, 1 ) );
 }
 
+// Identify the source of any large inline block. Plugins and themes leave a
+// signature in the opening tag's id, or in the first rule, and knowing which
+// one is emitting the bytes is the difference between a fix and a guess.
+$offset = 0;
+$shown  = 0;
+while ( false !== ( $start = stripos( $html, '<style', $offset ) ) && $shown < 5 ) {
+	$close = stripos( $html, '</style', $start );
+	if ( false === $close ) {
+		break;
+	}
+	$len    = $close - $start;
+	$offset = $close + 1;
+	if ( $len < 51200 ) {
+		continue;
+	}
+	$head  = substr( $html, $start, 160 );
+	$open  = strpos( $head, '>' );
+	$tag   = false === $open ? $head : substr( $head, 0, $open + 1 );
+	$first = trim( preg_replace( '/\s+/', ' ', substr( $html, $start + strlen( $tag ), 220 ) ) );
+	WP_CLI::line( '' );
+	WP_CLI::line( sprintf( 'Inline block %s', size_format( $len, 1 ) ) );
+	WP_CLI::line( '  tag:   ' . trim( $tag ) );
+	WP_CLI::line( '  first: ' . $first );
+	$shown++;
+}
+
 if ( $style_b > $total * 0.3 ) {
 	WP_CLI::line( '' );
 	WP_CLI::warning( 'Inline CSS is over 30% of the document. Moving it to cached external files is the single largest available saving here.' );
