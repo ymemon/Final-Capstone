@@ -1,5 +1,29 @@
 # Bridge Landing Pages — Hosting, Domains & Website Products
 
+> **Four of these are stale. Do not republish them.**
+>
+> `hosting-domains`, `web-hosting`, `wordpress-hosting` and `vps-hosting` were
+> expanded directly in Elementor after these files were written. The live pages
+> now run several times longer than the copies here, so publishing these would
+> be a downgrade, not an update.
+>
+> | Page | Live | This file |
+> |---|---|---|
+> | `hosting-domains` (2286) | substantially expanded | 322 words |
+> | `web-hosting` (2287) | substantially expanded | 237 words |
+> | `wordpress-hosting` (2288) | substantially expanded | 195 words |
+> | `vps-hosting` (2309) | substantially expanded | 237 words |
+>
+> Pull the live content down and reconcile it into these files before treating
+> them as the source of truth again:
+>
+> ```bash
+> wp --path=/html eval-file azw-elementor.php dump <id> azwchtml
+> ```
+>
+> The other seven are current. `business-email-hosting` was published to
+> Elementor on 15 Aug 2026, replacing an embedded GoDaddy storefront block.
+
 ## Why these exist
 
 shopazwebcorp.com is a GoDaddy white-label reseller storefront (private-label ID `plid=550793`). It cannot be edited (no template/DOM access), and the technical audit found its content is actively being outranked/absorbed by a different reseller's domain (lootertech.com) using the same plid — see `../AZWebCorp-Technical-SEO-Audit-2026-08-04.md` §2.2. Trying to "SEO" that storefront is not viable.
