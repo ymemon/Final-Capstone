@@ -147,10 +147,19 @@ while ( false !== ( $start = stripos( $html, '<style', $offset ) ) && $shown < 5
 	$open  = strpos( $head, '>' );
 	$tag   = false === $open ? $head : substr( $head, 0, $open + 1 );
 	$first = trim( preg_replace( '/\s+/', ' ', substr( $html, $start + strlen( $tag ), 220 ) ) );
+
+	// What precedes the block is the real clue. Plugins bracket their output
+	// with comments, and the enqueued handle of the tag before it names the
+	// source far more reliably than guessing from the CSS itself.
+	$before = trim( preg_replace( '/\s+/', ' ', substr( $html, max( 0, $start - 300 ), min( 300, $start ) ) ) );
+	$after  = trim( preg_replace( '/\s+/', ' ', substr( $html, $close, 200 ) ) );
+
 	WP_CLI::line( '' );
 	WP_CLI::line( sprintf( 'Inline block %s', size_format( $len, 1 ) ) );
-	WP_CLI::line( '  tag:   ' . trim( $tag ) );
-	WP_CLI::line( '  first: ' . $first );
+	WP_CLI::line( '  before: ...' . $before );
+	WP_CLI::line( '  tag:    ' . trim( $tag ) );
+	WP_CLI::line( '  first:  ' . $first );
+	WP_CLI::line( '  after:  ' . $after );
 	$shown++;
 }
 
