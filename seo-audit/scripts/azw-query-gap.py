@@ -109,20 +109,56 @@ def tokens(text):
     return out
 
 
+def pick_column(fieldnames, want):
+    """Find the column holding `want`.
+
+    Search Console names columns differently depending on the report. A plain
+    export gives "Impressions"; switch on date comparison and the same column
+    becomes "Last 6 months Impressions" alongside a "Previous ..." twin. Match
+    on the substring and prefer the current period, so a comparison export does
+    not silently read as all zeroes.
+    """
+    lowered = [(f, f.lower()) for f in fieldnames if f]
+    hits = [f for f, low in lowered if want in low]
+    if not hits:
+        return None
+    for f in hits:
+        if "previous" not in f.lower():
+            return f
+    return hits[0]
+
+
+def number(text):
+    text = (text or "").replace(",", "").replace("%", "").strip()
+    try:
+        return float(text)
+    except ValueError:
+        return 0.0
+
+
 def read_gsc(path):
     rows = []
     with open_csv(path) as fh:
-        for row in csv.DictReader(fh):
-            key = {k.lower().strip(): k for k in row}
-            q = row[key.get("top queries") or key.get("query")].strip()
-            imp = row.get(key.get("impressions", ""), "0")
-            clicks = row.get(key.get("clicks", ""), "0")
-            pos = row.get(key.get("position", ""), "")
+        reader = csv.DictReader(fh)
+        fields = reader.fieldnames or []
+        c_query = pick_column(fields, "quer") or pick_column(fields, "top")
+        c_imp = pick_column(fields, "impression")
+        c_clk = pick_column(fields, "click")
+        c_pos = pick_column(fields, "position")
+        if not c_query or not c_imp:
+            raise SystemExit(
+                "Could not find query/impression columns in "
+                f"{path}.\nColumns present: {fields}"
+            )
+        for row in reader:
+            q = (row.get(c_query) or "").strip()
+            if not q:
+                continue
             rows.append({
                 "query": q,
-                "impressions": int(float(imp.replace(",", "") or 0)),
-                "clicks": int(float(clicks.replace(",", "") or 0)),
-                "position": float(pos.replace(",", "")) if pos.strip() else None,
+                "impressions": int(number(row.get(c_imp))),
+                "clicks": int(number(row.get(c_clk))) if c_clk else 0,
+                "position": number(row.get(c_pos)) if c_pos else None,
                 "tokens": tokens(q),
             })
     return rows
