@@ -78,6 +78,27 @@ CITIES = {
 }
 
 
+def open_csv(path):
+    """Open a CSV whatever encoding it arrived in.
+
+    PowerShell's `>` redirection writes UTF-16LE, so an inventory piped to a
+    file on Windows is not the UTF-8 everything else assumes. Sniff the BOM
+    rather than making the caller remember -Encoding utf8.
+    """
+    head = Path(path).open("rb").read(64)
+    if head.startswith((b"\xff\xfe", b"\xfe\xff")):
+        encoding = "utf-16"
+    elif head.startswith(b"\xef\xbb\xbf"):
+        encoding = "utf-8-sig"
+    elif head.count(b"\x00") > len(head) // 4:
+        # UTF-16 written without a BOM: ASCII text leaves a null in every other
+        # byte. Guess the endianness from where the nulls land.
+        encoding = "utf-16-le" if head[1:2] == b"\x00" else "utf-16-be"
+    else:
+        encoding = "utf-8"
+    return open(path, newline="", encoding=encoding)
+
+
 def tokens(text):
     words = re.findall(r"[a-z0-9]+", text.lower())
     out = set()
@@ -90,7 +111,7 @@ def tokens(text):
 
 def read_gsc(path):
     rows = []
-    with open(path, newline="", encoding="utf-8-sig") as fh:
+    with open_csv(path) as fh:
         for row in csv.DictReader(fh):
             key = {k.lower().strip(): k for k in row}
             q = row[key.get("top queries") or key.get("query")].strip()
@@ -109,7 +130,7 @@ def read_gsc(path):
 
 def read_pages(path):
     pages = []
-    with open(path, newline="", encoding="utf-8-sig") as fh:
+    with open_csv(path) as fh:
         for row in csv.DictReader(fh):
             slug = (row.get("post_name") or "").strip()
             if not slug:
