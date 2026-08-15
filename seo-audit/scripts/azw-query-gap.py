@@ -50,6 +50,19 @@ STOP = {
     "near", "me", "cost", "price", "pricing", "plans", "plan",
 }
 
+# Collapsed before tokenising, so a multi-word phrase and its abbreviation land
+# on the same page instead of two competing ones.
+PHRASE = {
+    "search engine optimization": "seo",
+    "search engine optimisation": "seo",
+    "search engine marketing": "sem",
+}
+
+# Queries shaped like spreadsheet rows — "keyword,10.00,low,29,approved" — are
+# keyword-tool exports that got indexed, not searches worth a page. They mean a
+# page is publishing raw research output and should be found and removed.
+JUNK = re.compile(r",\s*\d+\.\d{2}\s*,|,\s*(low|medium|high)\s*,|,\s*approved\b", re.I)
+
 SYNONYM = {
     "az": "arizona",
     "seo": "seo",
@@ -100,7 +113,10 @@ def open_csv(path):
 
 
 def tokens(text):
-    words = re.findall(r"[a-z0-9]+", text.lower())
+    text = text.lower()
+    for phrase, short in PHRASE.items():
+        text = text.replace(phrase, short)
+    words = re.findall(r"[a-z0-9]+", text)
     out = set()
     for w in words:
         w = SYNONYM.get(w, w)
@@ -213,6 +229,12 @@ def cluster(queries, min_overlap=0.6):
     Greedy agglomeration, seeded in impression order so the highest-demand
     phrasing names the cluster: that phrasing is the one to build the page
     around, since it is what most people actually type.
+
+    Membership is tested against the seed's tokens, which never change. Letting
+    the cluster's token set move as members join makes it drift — intersecting
+    erodes it toward one or two generic words, at which point the cluster
+    becomes a magnet and swallows everything ("seo" + "arizona" absorbed 198
+    unrelated queries). A fixed seed keeps each cluster about one thing.
     """
     clusters = []
     for q in sorted(queries, key=lambda r: -r["impressions"]):
@@ -220,14 +242,13 @@ def cluster(queries, min_overlap=0.6):
             continue
         for c in clusters:
             shared = len(q["tokens"] & c["tokens"])
+            # Two generic words in common is coincidence, not a shared subject.
+            if shared < 2 and min(len(q["tokens"]), len(c["tokens"])) > 1:
+                continue
             if shared / min(len(q["tokens"]), len(c["tokens"])) >= min_overlap:
                 c["queries"].append(q)
                 c["impressions"] += q["impressions"]
                 c["clicks"] += q["clicks"]
-                # Intersect rather than union: the tokens every member shares
-                # are the page's actual subject. Union drifts, absorbing
-                # unrelated queries one loose match at a time.
-                c["tokens"] &= q["tokens"]
                 break
         else:
             clusters.append({
@@ -312,6 +333,22 @@ def main(argv):
     # The NO PAGE bucket is the write-list, but as a flat list of hundreds of
     # queries it is unusable. Clustered, it becomes a page count.
     unmatched = [q for q, page, v, _ in rows if v == "NO PAGE"]
+
+    junk = [q for q in unmatched if JUNK.search(q["query"])]
+    if junk:
+        print("=" * 68)
+        print("INDEXED KEYWORD-TOOL OUTPUT — not searches, a leaked page")
+        print("=" * 68)
+        print()
+        print(f"{len(junk)} queries, {sum(q['impressions'] for q in junk):,} impressions, "
+              "shaped like spreadsheet rows rather than things people type.")
+        print("Something on the site is publishing raw keyword research and Google")
+        print("indexed it. Find and remove the page — these are not content gaps.\n")
+        for q in sorted(junk, key=lambda r: -r["impressions"])[:5]:
+            print(f"    {q['impressions']:>5,}  {q['query']}")
+        print()
+
+    unmatched = [q for q in unmatched if not JUNK.search(q["query"])]
     clusters = [c for c in cluster(unmatched) if c["impressions"] >= 50]
     if clusters:
         print("=" * 68)
