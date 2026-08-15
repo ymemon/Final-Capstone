@@ -32,7 +32,9 @@ $retire = array(
 );
 
 $noindex = array(
-	'web-design-gilbert-az',
+	// web-design-gilbert-az dropped from this list: it now carries 956 words of
+	// real content (published after this list was written), not the 44-word
+	// city-swap stub the rest of this batch is.
 	'web-design-phoenix-az',
 	'web-design-mesa-az',
 	'web-design-chandler-az',

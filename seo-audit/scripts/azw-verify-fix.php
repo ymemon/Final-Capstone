@@ -14,18 +14,24 @@ $url = $args[0] ?? home_url( '/' );
 $response = wp_remote_get( $url, array(
 	'timeout'    => 30,
 	'user-agent' => 'AZWebCorpVerifyFix/1.0',
+	'headers'    => array( 'Accept-Encoding' => 'identity' ),
 ) );
 
 if ( is_wp_error( $response ) ) {
 	WP_CLI::error( $response->get_error_message() );
 }
 
+$body = (string) wp_remote_retrieve_body( $response );
+
 WP_CLI::line( $url );
 WP_CLI::line( 'HTTP status: ' . wp_remote_retrieve_response_code( $response ) );
+WP_CLI::line( 'Total HTML: ' . size_format( strlen( $body ), 1 ) );
 
-$body = (string) wp_remote_retrieve_body( $response );
+preg_match_all( '~<style\b[^>]*>~i', $body, $styles, PREG_OFFSET_CAPTURE );
+WP_CLI::line( '<style> tags found: ' . count( $styles[0] ) );
+
 preg_match_all( '~<link[^>]*stylesheet[^>]*>~i', $body, $links );
 WP_CLI::line( 'Stylesheet <link> tags found: ' . count( $links[0] ) );
-foreach ( array_slice( $links[0], 0, 5 ) as $tag ) {
+foreach ( array_slice( $links[0], 0, 3 ) as $tag ) {
 	WP_CLI::line( '  ' . $tag );
 }
