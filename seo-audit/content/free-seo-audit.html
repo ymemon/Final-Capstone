@@ -1,0 +1,145 @@
+<!--
+  Target URL: https://azwebcorp.com/free-seo-audit/
+  NEW PAGE. Hosts the [azwc_seo_audit] tool from ../tools/azwc-seo-audit.php.
+
+  The mu-plugin must be installed before this page is published, or the
+  shortcode renders as literal text.
+
+  The copy deliberately states what the tool does not measure. That is the
+  differentiator: every competing free audit shows a Domain Authority figure,
+  and for a free tool that number is either bought from an API or invented.
+  Saying so is more persuasive than a fake gauge, and it is the same argument
+  the service pages make about guaranteed rankings.
+-->
+<title>Free SEO Audit Tool | AZWebCorp</title>
+<meta name="description" content="Run a free SEO audit on your website. Real measured results — indexability, speed from Google, on-page structure. No email required, no invented scores.">
+<link rel="canonical" href="https://azwebcorp.com/free-seo-audit/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://azwebcorp.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Arizona SEO Services", "item": "https://azwebcorp.com/arizona-seo-services/" },
+    { "@type": "ListItem", "position": 3, "name": "Free SEO Audit", "item": "https://azwebcorp.com/free-seo-audit/" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "AZWebCorp",
+  "description": "A free technical SEO audit tool that reports measured findings for any website, alongside SEO services for Arizona businesses.",
+  "url": "https://azwebcorp.com/free-seo-audit/",
+  "telephone": "+1-480-818-5761",
+  "email": "info@azwebcorp.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "4690 E Laurel Ave",
+    "addressLocality": "Gilbert",
+    "addressRegion": "AZ",
+    "postalCode": "85234",
+    "addressCountry": "US"
+  },
+  "areaServed": { "@type": "State", "name": "Arizona" }
+}
+</script>
+
+<!-- FAQPage schema: must stay byte-identical to the visible FAQ below. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is this really free, and do I have to give you my email?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes and no respectively. There is no form beyond the domain box, nothing is stored against your details, and the full report appears on screen. We built it because a person who can see exactly what is wrong with their site is a better conversation than a person who filled in a lead form."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does it not show my Domain Authority or backlink count?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because we cannot measure those by looking at your website. They come from a crawler index that costs money to maintain, and any free tool showing you a backlink number is either paying for that data or generating a plausible figure. We would rather leave the section empty than put a number in front of you that we invented."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do the speed numbers come from?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google's own PageSpeed Insights API, reported unchanged. Where Google has enough real Chrome traffic for your site it also returns field data — what actual visitors experienced rather than a simulation — and we show both, labelled separately, because they often disagree and the difference is informative."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "It only checked my home page. What about the rest of the site?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Correct — this checks one page, plus robots.txt and your sitemap. A full crawl of every URL is a different exercise and it is what we do as paid work. The home page is a reliable sample of sitewide template problems, which is most of what this finds."
+      }
+    }
+  ]
+}
+</script>
+
+<body>
+  <h1>Free SEO Audit</h1>
+
+  <p>Type in your website address and this will fetch it, measure what is actually there, and tell you what it found. It takes about thirty seconds. There is no email form and nothing is saved.</p>
+
+  [azwc_seo_audit]
+
+  <h2>What it checks</h2>
+
+  <p>Everything below is observed in the response your server sends. You can verify any of it yourself by viewing the page source:</p>
+
+  <ul>
+    <li><strong>Indexability</strong> — whether a noindex directive is quietly keeping the page out of Google, whether robots.txt blocks crawlers, whether an XML sitemap exists and how many URLs it lists, and whether a canonical URL is declared.</li>
+    <li><strong>Transport</strong> — HTTPS, the full redirect chain hop by hop, insecure resources loaded on a secure page, compression, document size and measured server response time.</li>
+    <li><strong>On-page structure</strong> — title and meta description with their real character counts, H1 headings, visible word count, images missing alt text, mobile viewport, declared language, and internal link count.</li>
+    <li><strong>Structured data</strong> — which schema.org types your JSON-LD actually declares, Open Graph tags for link sharing, and favicon.</li>
+    <li><strong>Speed</strong> — Google's PageSpeed Insights scores and Core Web Vitals for both mobile and desktop, including real-visitor field data where Google has enough traffic to report it.</li>
+  </ul>
+
+  <h2>What it does not check, and why that matters</h2>
+
+  <p>There is no Domain Authority score on this report, no backlink count, no keyword rankings, no traffic estimate.</p>
+
+  <p>Those numbers cannot be derived from looking at your website. They come from crawler indexes that cost hundreds of thousands of dollars a year to maintain, which is why Ahrefs and Semrush charge for access. A free tool that shows you "Domain Authority: 38" is either paying for that API or generating something that looks convincing.</p>
+
+  <p>We left the section empty instead. It is a worse-looking report and a more honest one, and you can check every other figure on it yourself — which is rather the point.</p>
+
+  <h2>How to read the score</h2>
+
+  <p>The number in the ring is a weighted pass rate across the checks that ran, with heavier weighting on things that stop a page ranking at all — a noindex tag, a missing mobile viewport — than on things that merely help, like a favicon.</p>
+
+  <p>It is our weighting, not an industry standard, and no such standard exists. Treat the individual findings as the real output; the score is a summary of them, and every check that produced it is listed on the page.</p>
+
+  <p>A low score is also not a catastrophe. Most sites we audit fail on three or four specific, fixable things — a missing meta description, images without alt text, a redirect chain nobody noticed. The value is knowing which three.</p>
+
+  <h2>FAQ</h2>
+
+  <h3>Is this really free, and do I have to give you my email?</h3>
+  <p>Yes and no respectively. There is no form beyond the domain box, nothing is stored against your details, and the full report appears on screen. We built it because a person who can see exactly what is wrong with their site is a better conversation than a person who filled in a lead form.</p>
+
+  <h3>Why does it not show my Domain Authority or backlink count?</h3>
+  <p>Because we cannot measure those by looking at your website. They come from a crawler index that costs money to maintain, and any free tool showing you a backlink number is either paying for that data or generating a plausible figure. We would rather leave the section empty than put a number in front of you that we invented.</p>
+
+  <h3>Where do the speed numbers come from?</h3>
+  <p>Google's own PageSpeed Insights API, reported unchanged. Where Google has enough real Chrome traffic for your site it also returns field data — what actual visitors experienced rather than a simulation — and we show both, labelled separately, because they often disagree and the difference is informative.</p>
+
+  <h3>It only checked my home page. What about the rest of the site?</h3>
+  <p>Correct — this checks one page, plus robots.txt and your sitemap. A full crawl of every URL is a different exercise and it is what we do as paid work. The home page is a reliable sample of sitewide template problems, which is most of what this finds.</p>
+
+  <h2>If you want the findings fixed</h2>
+
+  <p>Call <strong>(480) 818-5761</strong> or email <strong>info@azwebcorp.com</strong>. We are at 4690 E Laurel Ave, Gilbert, AZ 85234, and we will walk through your report with you at no charge — including which items genuinely matter for your situation and which are safe to leave alone.</p>
+
+  <p>Related: <a href="/arizona-seo-services/">SEO services across Arizona</a> &middot; <a href="/arizona-web-design/">Arizona web design</a></p>
+</body>
