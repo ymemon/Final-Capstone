@@ -198,6 +198,48 @@ def score(q_tokens, p_tokens):
     return len(q_tokens & p_tokens) / len(q_tokens)
 
 
+def slugify(text):
+    return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", text.lower())).strip("-")
+
+
+def cluster(queries, min_overlap=0.6):
+    """Group unmatched queries into the pages that would serve them.
+
+    A flat list of 600 missing queries is not a plan. Most of them are the same
+    search worded differently — "arizona web design", "web design arizona",
+    "az web design" all want one page, and writing three would be three doorway
+    pages competing with each other.
+
+    Greedy agglomeration, seeded in impression order so the highest-demand
+    phrasing names the cluster: that phrasing is the one to build the page
+    around, since it is what most people actually type.
+    """
+    clusters = []
+    for q in sorted(queries, key=lambda r: -r["impressions"]):
+        if not q["tokens"]:
+            continue
+        for c in clusters:
+            shared = len(q["tokens"] & c["tokens"])
+            if shared / min(len(q["tokens"]), len(c["tokens"])) >= min_overlap:
+                c["queries"].append(q)
+                c["impressions"] += q["impressions"]
+                c["clicks"] += q["clicks"]
+                # Intersect rather than union: the tokens every member shares
+                # are the page's actual subject. Union drifts, absorbing
+                # unrelated queries one loose match at a time.
+                c["tokens"] &= q["tokens"]
+                break
+        else:
+            clusters.append({
+                "seed": q["query"],
+                "tokens": set(q["tokens"]),
+                "queries": [q],
+                "impressions": q["impressions"],
+                "clicks": q["clicks"],
+            })
+    return sorted(clusters, key=lambda c: -c["impressions"])
+
+
 def verdict(page, matches):
     if page is None:
         return "NO PAGE"
@@ -266,6 +308,31 @@ def main(argv):
             pos = f"  pos {q['position']:.0f}" if q["position"] else ""
             print(f"      {q['impressions']:>5,}  {q['query']}{pos}")
         print()
+
+    # The NO PAGE bucket is the write-list, but as a flat list of hundreds of
+    # queries it is unusable. Clustered, it becomes a page count.
+    unmatched = [q for q, page, v, _ in rows if v == "NO PAGE"]
+    clusters = [c for c in cluster(unmatched) if c["impressions"] >= 50]
+    if clusters:
+        print("=" * 68)
+        print("PAGES TO WRITE — unmatched demand, grouped into one page each")
+        print("=" * 68)
+        print()
+        covered = sum(c["impressions"] for c in clusters)
+        print(f"{len(clusters)} pages would cover {covered:,} impressions "
+              f"({covered / total_imp * 100:.0f}% of all demand)\n")
+        for i, c in enumerate(clusters, 1):
+            # Name the page after the highest-demand phrasing, not the shared
+            # tokens: alphabetised tokens give /arizona-design-web/, while the
+            # seed gives /arizona-web-design/, which is what people type.
+            slug = slugify(c["seed"])
+            print(f"{i:>2}. {c['seed']}")
+            print(f"    {c['impressions']:,} impressions across {len(c['queries'])} queries"
+                  f"   suggested slug: /{slug}/")
+            for q in sorted(c["queries"], key=lambda r: -r["impressions"])[:4]:
+                pos = f"  pos {q['position']:.0f}" if q["position"] else ""
+                print(f"       {q['impressions']:>5,}  {q['query']}{pos}")
+            print()
 
     print("Priorities, in order:")
     print("  NO PAGE   — demand you are visible for with nothing behind it. Write these first.")
