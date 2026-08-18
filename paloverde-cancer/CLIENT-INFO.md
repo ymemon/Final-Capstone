@@ -90,7 +90,15 @@ session notes, not repeated here).
     opens these pages in the Elementor editor, it'll show the old
     structure until that's separately synced. Low priority since the
     editor doesn't appear to be the live workflow on this site.
-- **Full link audit: not started.** Client's step 3 — ready to start now
-  that steps 1 and 2 are both done.
+- **Full link audit: DONE** (2026-08-18, urgent same-day-launch pass).
+  Fixed a sitewide broken footer link, a duplicate copy of the same link
+  on `/about-us/`, a broken doctor-profile link on the homepage, and
+  substantially wrong doctor-location data in the homepage's doctor
+  filter (see SESSION-STATUS.md for full detail). Flagged but NOT fixed:
+  8 orphaned duplicate pages recommended for unpublishing (blocked by a
+  safety classifier on the WP-CLI status-change command — needs yasir or
+  an explicit re-auth to complete), and the `pvcancer.com` DNS cutover
+  (outside SSH access).
 - Duplicate-looking doctor bio pages (`dr-amol-rakkar` post 2092 vs
-  `dr-rakkar` post 2161) not yet reconciled.
+  `dr-rakkar` post 2161) — `dr-rakkar` (2161) confirmed as the stale/thinner
+  duplicate (older, shorter) and is in the "recommend unpublish" list above.
