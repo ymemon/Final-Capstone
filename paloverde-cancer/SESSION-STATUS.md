@@ -214,6 +214,31 @@ URLs now return 404 to real visitors.
   `_elementor_data`, same pattern as About Us) — verified round-trip
   byte-exact before upload, confirmed in DB, and confirmed live via
   screenshot.
+- **`<br />` tags injected inside `<style>` blocks — DONE, fixed same
+  session.** yasir pasted raw view-source of the Estrella page and asked
+  if this was broken code — it was: every single-line CSS declaration
+  inside every `<style>` block was getting a literal `<br />` appended
+  at render time (e.g. `padding: 80px 20px;<br />`). Confirmed via
+  `wp post get --field=post_content` that the **stored** content was
+  clean (zero `<br>`) — this is wpautop (WordPress's auto-paragraph
+  filter, see [[paloverde-wp-technique]]) converting every bare
+  single-newline to `<br />` at render time, including inside `<style>`
+  tags, which it doesn't understand as non-prose content. Same root
+  mechanism as the earlier stray-`<p>`-in-grid bug, different symptom.
+  Fixed by minifying every `<style>...</style>` block's CSS to a single
+  line (collapsing whitespace only, no other rewriting, to avoid
+  touching anything inside quoted string values) across all 4 location
+  pages — 9, 9, 9, and 8 style blocks respectively. Verified: 0 of 25
+  (Estrella/Glendale/Scottsdale) / 24 (East Valley) style blocks contain
+  `<br` post-fix. Checked Conditions We Treat and Clinical Trials too —
+  both already clean (their CSS was already effectively single-line from
+  earlier fixes), no action needed there.
+  Also investigated, while looking at this: the doctor photo `src` URLs
+  render as `c1b.872.myftpupload.com` when viewed via the
+  `459546.us16...` hostname alias instead of `875051.us16...` — this is
+  **not** a bug, confirmed via curl: it 301-redirects and serves the
+  image fine (200, image/jpeg). This is GoDaddy's own image CDN doing
+  per-hostname-alias rewriting; harmless, no fix needed.
 - Site is still on the temp domain (`875051.us16.myftpupload.com`) —
   `pvcancer.com` DNS not yet pointed at it. Outside SSH/WP-CLI access,
   needs the client's registrar/DNS action before "going live" is real to
