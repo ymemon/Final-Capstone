@@ -65,21 +65,32 @@ session notes, not repeated here).
   correct doctor subset, in a single unified `doctor-grid`/`doctor-card`
   HTML+CSS block (Scottsdale previously showed 4 completely unrelated
   placeholder doctors — Lauren D. Stegman, Kurt A. Wharton, Abhilash P.
-  Nambiar, John J. Kresl — leftover demo content, now replaced).
-- **Page uniformity: partially done, bigger gap found.** The doctor block is
-  now identical in markup/CSS across all 4 pages. But the pages' overall
-  *section inventory and order* is NOT uniform and this predates today's
-  work:
-  - Estrella has no "Find Us Here" map section.
-  - Glendale has no "Services at This Location" section.
-  - Scottsdale's doctors section sits near the bottom of the page (after
-    Directions & Parking), not right after "About" like the other 3.
-  - East Valley/Gilbert is the only page with the full section set in the
-    "About → Doctors → Services → Map → Insurance → Directions → Contact →
-    CTA" order.
-  - Not yet fixed — needs a decision on canonical section order/inventory
-    before touching it (see SESSION-STATUS.md).
-- **Full link audit: not started.** Client's step 3, blocked on step 2
-  being resolved/confirmed first.
+  Nambiar, John J. Kresl — leftover demo content, now replaced). Doctor
+  rosters are intentionally **not** identical across pages — each location
+  keeps only its own assigned doctors per Michael Bustard's roster; only
+  the section's markup/CSS and its position on the page were made uniform.
+- **Page uniformity: DONE.** All 4 pages now share the same section
+  inventory and order: About → Doctors → Services (4 cards, incl.
+  Radiation Therapy) → Find Us Here (map) → Insurance & Billing →
+  Directions & Parking → Contact Form → Bottom CTA. Fixed:
+  - Estrella: added the missing "Find Us Here" map section (9250 W.
+    Thomas Rd., Ste. 150, Phoenix, AZ 85037).
+  - Glendale: added the missing "Services at This Location" section
+    (same 4 cards/copy as the other pages).
+  - Scottsdale: moved the doctors section from the bottom of the page
+    (it was sitting after Directions & Parking) to right after "About",
+    matching the other 3 pages; also added the missing 4th service card
+    (Radiation Therapy — it only had 3).
+  - Verified live via fresh (non-cached) fetches of all 4 URLs and a
+    Playwright screenshot of Estrella showing the new map section in
+    place with no layout breakage.
+  - Note: these structural additions were only applied to `post_content`
+    (the actual render source, see technique memory) — `_elementor_data`
+    was NOT re-synced for the new Map/Services/reordering. If someone
+    opens these pages in the Elementor editor, it'll show the old
+    structure until that's separately synced. Low priority since the
+    editor doesn't appear to be the live workflow on this site.
+- **Full link audit: not started.** Client's step 3 — ready to start now
+  that steps 1 and 2 are both done.
 - Duplicate-looking doctor bio pages (`dr-amol-rakkar` post 2092 vs
   `dr-rakkar` post 2161) not yet reconciled.

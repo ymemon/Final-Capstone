@@ -34,16 +34,20 @@ Read this first when resuming. See `CLIENT-INFO.md` for site/business facts.
   doctor subset. Screenshot-verified Scottsdale renders cleanly (no layout
   breakage) via Playwright.
 
+**Step 2 (page uniformity) — also done, same session, after checking scope
+with yasir:**
+- Confirmed with yasir: doctor rosters should stay location-specific (not
+  made identical) — only the section's markup/position needed unifying.
+- Standardized all 4 pages to the same section order/inventory: About →
+  Doctors → Services (4 cards) → Map → Insurance → Directions → Contact →
+  CTA. Added Estrella's missing map section, Glendale's missing services
+  section, moved Scottsdale's doctor section up to match the others'
+  position, and added Scottsdale's missing 4th service card.
+- `_elementor_data` was NOT re-synced for these structural additions (only
+  for the doctors fix). Low priority — see `CLIENT-INFO.md`.
+
 **Open / blocked:**
-- **Step 2 (page uniformity) is bigger than just the doctor block.** The 4
-  pages' overall section inventory/order differs (Estrella has no map
-  section, Glendale has no services section, Scottsdale's doctor block is
-  positioned near the bottom instead of near the top like the other 3) —
-  see `CLIENT-INFO.md` "Known open items". This needs a decision (from the
-  client or yasir) on the canonical section order/inventory before it's
-  safe to restructure the other 3 pages to match — not something to guess
-  at unilaterally on a live client site.
-- **Step 3 (full link audit) not started** — waiting on step 2 being
-  resolved first, per the client's own sequencing.
+- **Step 3 (full link audit) not started** — both prerequisite steps are
+  now done, ready to start next session (or continue this one on request).
 - Two duplicate-looking bio pages for Dr. Rakkar (`dr-amol-rakkar` #2092 vs
   `dr-rakkar` #2161) — not reconciled, not blocking current work.
