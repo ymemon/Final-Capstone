@@ -159,6 +159,30 @@ URLs now return 404 to real visitors.
   fix — sitewide, affects every page's footer). `php -l` linted before
   and after deploy; backup of the original saved server-side at
   `/tmp/pvhomed-custom-footer.php.bak`. Verified live via screenshot.
+- **"Locations page messed up" — DONE, found and fixed two real bugs
+  same session.** yasir asked to re-check the location pages. Found:
+  1. The color-mismatch and photo-size fixes from earlier in this same
+     session had somehow reverted on all 4 pages (DB-confirmed: back to
+     `max-width: 180px` and `#2563eb`, revision history showed the length
+     matching the pre-fix version) — root cause not fully identified in
+     the time available; re-applied both fixes, verified immediately
+     after each write this time. Worth watching for recurrence.
+  2. The real "messed up" layout: wpautop (WordPress's auto-`<p>` filter,
+     which runs on this post_content-driven page — see
+     [[paloverde-wp-technique]]) was inserting stray empty `<p></p>`
+     elements as **direct children of `.doctor-grid`** between doctor
+     cards, because the HTML comment above each card sat on its own line
+     with a blank-ish separator between cards. Since `.doctor-grid` is
+     `display:grid`, those invisible paragraphs consumed real grid cells,
+     scattering the visible cards into odd positions (e.g. Estrella's 3
+     doctors rendering as 1-centered-on-top + 2-split-on-row-2 instead of
+     one clean row of 3). Fixed by moving each card's HTML comment inline
+     (`<div class="doctor-card"><!-- Name -->`) and joining cards with a
+     single `\n`, no blank lines — confirmed via `.doctor-grid`'s direct
+     children count now exactly matching each page's doctor count (3, 4,
+     3, 2). wpautop still adds harmless stray `<p>`/`<br>` *inside* each
+     card, which doesn't affect grid placement since those aren't direct
+     children of the grid container.
 - Site is still on the temp domain (`875051.us16.myftpupload.com`) —
   `pvcancer.com` DNS not yet pointed at it. Outside SSH/WP-CLI access,
   needs the client's registrar/DNS action before "going live" is real to
