@@ -194,6 +194,26 @@ URLs now return 404 to real visitors.
   only) to match About Us/Services: white `.pv-section` cards, `#0f0a2a`
   navy headings, `#4a5568` body text, `#f8f7ff` light-purple condition
   cards — verified in DB and via screenshot.
+- **Clinical Research and Trials page — DONE, fixed same session.**
+  yasir flagged a color issue here too. Found the whole page's CSS used
+  a wrong hex value, `#0d1b2a` (a dark navy) — for the hero background,
+  section headings, icons, and buttons — despite the page's own code
+  comments literally saying `/* DARK PURPLE (same as top) */` at each
+  usage. Whoever built this page (or a prior AI pass) used the wrong hex
+  for what was clearly always intended to be the site's purple. Also
+  found a real legibility bug this caused: the "Types of Clinical
+  Trials" heading sits directly on the page's black background (not on
+  a white card like every other place `#0d1b2a`/purple text was used),
+  so navy-on-black was nearly invisible. Fixed: globally replaced
+  `#0d1b2a` with the real purple `#2a1b4a` (20 occurrences), made the
+  hero a true two-stop gradient (`#0f0a2a → #2a1b4a`, matching every
+  other hero on the site) instead of a flat single-color fake gradient,
+  and set the one heading that sits on black to white text with a light
+  purple (`#c4a4ff`) accent underline instead of dark purple. This page
+  uses a native Elementor "Text Editor" widget (`"editor":"..."` key in
+  `_elementor_data`, same pattern as About Us) — verified round-trip
+  byte-exact before upload, confirmed in DB, and confirmed live via
+  screenshot.
 - Site is still on the temp domain (`875051.us16.myftpupload.com`) —
   `pvcancer.com` DNS not yet pointed at it. Outside SSH/WP-CLI access,
   needs the client's registrar/DNS action before "going live" is real to
