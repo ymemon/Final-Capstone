@@ -96,6 +96,20 @@ go-ahead and it went through cleanly). Verified live post-flush: all 8
 URLs now return 404 to real visitors.
 - `/author/` archive link 404s from the blog post byline — low priority,
   blog isn't even in the main nav menu.
+- **Color mismatch on the doctor cards — DONE, fixed same session.** yasir
+  flagged this after the link audit. The doctor-card "Board Certified
+  Oncologist" text used `#2563eb` (a generic off-brand blue) while the
+  same page's phone number link right above it used `#007BFF` — two
+  visibly different blues competing on the same page. Standardized all 4
+  location pages' doctor-card text to `#007BFF` to match the
+  already-established on-page accent color. (Note: the page's `_elementor_data`
+  still has the old `#2563eb` copy since it's inert for these 4 pages —
+  see [[paloverde-wp-technique]] — left as-is, not worth the edit since it
+  never renders.) Also spotted but NOT fixed: the "Palo Verde Cancer
+  Center – [Location]" heading in the summary box uses the true brand navy
+  `#002B5B`, which has very poor contrast on this page's black background
+  (nearly illegible) — pre-existing, not part of what was asked, flagged
+  for a future pass.
 - Site is still on the temp domain (`875051.us16.myftpupload.com`) —
   `pvcancer.com` DNS not yet pointed at it. Outside SSH/WP-CLI access,
   needs the client's registrar/DNS action before "going live" is real to
