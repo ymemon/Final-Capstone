@@ -94,11 +94,11 @@ session notes, not repeated here).
   Fixed a sitewide broken footer link, a duplicate copy of the same link
   on `/about-us/`, a broken doctor-profile link on the homepage, and
   substantially wrong doctor-location data in the homepage's doctor
-  filter (see SESSION-STATUS.md for full detail). Flagged but NOT fixed:
-  8 orphaned duplicate pages recommended for unpublishing (blocked by a
-  safety classifier on the WP-CLI status-change command — needs yasir or
-  an explicit re-auth to complete), and the `pvcancer.com` DNS cutover
-  (outside SSH access).
+  filter (see SESSION-STATUS.md for full detail). Also unpublished 8
+  orphaned duplicate pages (set to draft, confirmed 404 live) that were
+  unreachable from real navigation but still publicly accessible by
+  direct URL. Remaining open item: the `pvcancer.com` DNS cutover
+  (outside SSH access — site is still on the temp myftpupload.com domain).
 - Duplicate-looking doctor bio pages (`dr-amol-rakkar` post 2092 vs
   `dr-rakkar` post 2161) — `dr-rakkar` (2161) confirmed as the stale/thinner
-  duplicate (older, shorter) and is in the "recommend unpublish" list above.
+  duplicate (older, shorter) and has been unpublished.

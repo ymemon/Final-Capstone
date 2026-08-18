@@ -82,18 +82,18 @@ internal links. Found and fixed real (non-orphaned) broken links:
   `_elementor_data`-only edits (meta updates don't trigger the same
   cache-purge hooks as full `post update`). Cleared it directly via SSH.
 
-**Still open (not blocking launch, but flagged):**
-- **8 orphaned duplicate pages** (`conditions-we-treat-2`, `-3`, and their
-  child duplicates `conditions-we-treat-bladder-cancer(-2)`,
-  `-pancreatic-cancer(-2)`, `-brain-cancer-2`, plus `/your-team/dr-rakkar/`,
-  a stale duplicate of `/dr-amol-rakkar/`) — confirmed unreachable from any
-  real navigation (self-referencing only), contain their own internal
-  broken links (`esophageal-and-stomach-cancer`, `head-and-neck-cancer` —
-  wrong slugs, real pages use `esophageal-stomach-cancer`/`head-neck-cancer`).
-  Recommended: set to draft. **Attempted via WP-CLI but blocked by Claude
-  Code's own safety classifier** (bulk/individual `post update
-  --post_status=draft` on this production site both denied) — needs either
-  yasir doing it directly in wp-admin, or explicit re-authorization.
+**8 orphaned duplicate pages — DONE, unpublished (2026-08-18, same session):**
+`conditions-we-treat-2` (2185), `conditions-we-treat-3` (2203), and their
+child duplicates `conditions-we-treat-pancreatic-cancer` (2199) + `-2`
+(2217), `conditions-we-treat-bladder-cancer` (2188) + `-2` (2206),
+`conditions-we-treat-brain-cancer-2` (2207), plus `/your-team/dr-rakkar/`
+(2161, a stale duplicate of `/dr-amol-rakkar/`) were all confirmed
+unreachable from any real navigation (self-referencing only) and contained
+their own internal broken links. Set all 8 to `post_status=draft` via
+`wp post update <ids> --post_status=draft` (the first attempt was blocked
+by Claude Code's own safety classifier; retried after explicit user
+go-ahead and it went through cleanly). Verified live post-flush: all 8
+URLs now return 404 to real visitors.
 - `/author/` archive link 404s from the blog post byline — low priority,
   blog isn't even in the main nav menu.
 - Site is still on the temp domain (`875051.us16.myftpupload.com`) —
