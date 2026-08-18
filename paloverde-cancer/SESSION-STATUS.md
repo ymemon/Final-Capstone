@@ -133,6 +133,20 @@ URLs now return 404 to real visitors.
   yasir flagged the doctor photos as too large (180px). Reduced
   `.doctor-card img { max-width: }` from 180px to 110px across all 4
   location pages' `post_content`.
+- **Mobile check — found and fixed a real mobile-only sizing bug.** On
+  mobile viewports the 110px `max-width` was NOT taking effect (Astra
+  theme's own generic `img{max-width:100%}` responsive-image rule was
+  winning over it at that breakpoint), so doctor photos rendered nearly
+  full-viewport-width on phones even after the desktop fix. Added
+  `!important` to force it. Verified at a real 390px mobile viewport via
+  Playwright (not headless-Edge — see [[prestige-wp-technique]] for why
+  that tool lies about viewport width). Also verified the new purple
+  hero gradient renders correctly on mobile. One transient 404 was seen
+  on `/estrella-location/` during mobile testing but did not reproduce
+  across 6 immediate follow-up checks — most likely GoDaddy edge
+  rate-limiting from this session's heavy testing load, not a real bug;
+  worth a quick re-check next session if anyone reports it from a real
+  phone.
 - Site is still on the temp domain (`875051.us16.myftpupload.com`) —
   `pvcancer.com` DNS not yet pointed at it. Outside SSH/WP-CLI access,
   needs the client's registrar/DNS action before "going live" is real to
