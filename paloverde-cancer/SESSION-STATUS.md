@@ -183,6 +183,17 @@ URLs now return 404 to real visitors.
      3, 2). wpautop still adds harmless stray `<p>`/`<br>` *inside* each
      card, which doesn't affect grid placement since those aren't direct
      children of the grid container.
+- **Conditions We Treat page's lighter-blue body — DONE, fully unified
+  same session.** yasir flagged this (from the `459546.us16...` domain
+  alias — confirmed same site/DB as `875051.us16...`, just a second
+  hostname pointing at the same install, both work). After the earlier
+  hero-only fix, the rest of the page (`.pv-section`/`.pv-card` etc.)
+  still used its own separate slate-blue theme (`#34344A` page bg,
+  `#3f3f57` card bg), which now clashed even more with the purple hero
+  above it. Recolored the entire page's CSS (same class names, values
+  only) to match About Us/Services: white `.pv-section` cards, `#0f0a2a`
+  navy headings, `#4a5568` body text, `#f8f7ff` light-purple condition
+  cards — verified in DB and via screenshot.
 - Site is still on the temp domain (`875051.us16.myftpupload.com`) —
   `pvcancer.com` DNS not yet pointed at it. Outside SSH/WP-CLI access,
   needs the client's registrar/DNS action before "going live" is real to
