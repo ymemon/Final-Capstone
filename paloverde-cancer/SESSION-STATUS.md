@@ -110,6 +110,29 @@ URLs now return 404 to real visitors.
   `#002B5B`, which has very poor contrast on this page's black background
   (nearly illegible) — pre-existing, not part of what was asked, flagged
   for a future pass.
+- **Hero background color mismatch — DONE, fixed same session.** yasir
+  flagged that the homepage hero was black, About Us/Services use a dark
+  purple gradient rounded card (`linear-gradient(135deg, #0f0a2a 0%,
+  #2a1b4a 100%)`), and Conditions We Treat used yet another color (a
+  slate `#3f3f57`). Root cause on the homepage: its hero is a native
+  Elementor container with a `background_image` setting whose `url`/`id`
+  were both empty strings — a broken/never-finished background, not an
+  intentional black design — so it fell through to the black body
+  background. Fixed by giving it the same purple gradient (via
+  `background_background:"gradient"` + matching color-stop settings in
+  `_elementor_data`, not `post_content` — this container is built from
+  native Elementor widgets, not a raw HTML/editor blob, see
+  [[paloverde-wp-technique]]). Fixed Conditions We Treat's `.pv-hero` CSS
+  the same way (simple color-value edit in `post_content`, that page IS
+  post_content-driven). Left the *rest* of the Conditions We Treat page
+  (its own slate `#34344A` body / `.pv-section` card theme) as-is — fully
+  unifying that page's whole color scheme with About/Services' white-page
+  design would be a much bigger redesign than what was asked; flagging
+  here in case yasir wants that as a separate follow-up.
+- **Doctor photos on location pages — DONE, made smaller same session.**
+  yasir flagged the doctor photos as too large (180px). Reduced
+  `.doctor-card img { max-width: }` from 180px to 110px across all 4
+  location pages' `post_content`.
 - Site is still on the temp domain (`875051.us16.myftpupload.com`) —
   `pvcancer.com` DNS not yet pointed at it. Outside SSH/WP-CLI access,
   needs the client's registrar/DNS action before "going live" is real to
