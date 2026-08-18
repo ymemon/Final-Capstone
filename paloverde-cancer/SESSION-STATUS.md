@@ -147,6 +147,18 @@ URLs now return 404 to real visitors.
   rate-limiting from this session's heavy testing load, not a real bug;
   worth a quick re-check next session if anyone reports it from a real
   phone.
+- **Footer "Website by AZWebCorp" credit — DONE, restyled to match Everything IT's London pages same session.** yasir wanted the exact
+  animated 3D-globe credit style used on everythingit.ie's London
+  pages (`.eit-footer__credit` / `.eit-footer__globe3d`, orbiting-dot
+  animation, "Website by AZWebCorp" wording) instead of PaloVerde's
+  plain static SVG globe + "Powered by AZWebCorp" wording. Pulled the
+  exact CSS/markup live from `https://1249683.eu13.myftpupload.com/central-london/`
+  and replicated it verbatim into
+  `wp-content/plugins/pvhomed-custom-footer/pvhomed-custom-footer.php`
+  (same file already touched earlier for the `/our-physicians/` link
+  fix — sitewide, affects every page's footer). `php -l` linted before
+  and after deploy; backup of the original saved server-side at
+  `/tmp/pvhomed-custom-footer.php.bak`. Verified live via screenshot.
 - Site is still on the temp domain (`875051.us16.myftpupload.com`) —
   `pvcancer.com` DNS not yet pointed at it. Outside SSH/WP-CLI access,
   needs the client's registrar/DNS action before "going live" is real to
