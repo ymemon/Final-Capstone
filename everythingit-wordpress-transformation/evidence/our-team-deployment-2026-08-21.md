@@ -14,5 +14,12 @@
 - Rollback snapshot: `_eit_our_team_before_rebuild_20260821`
 - Cache verification: ordinary and cache-busted requests both returned the new page
 
-Server credentials and the temporary generated PHP payload are intentionally excluded from Git.
+## Hero hierarchy refinement
 
+- Restored the full Everything IT team photograph as the single hero image.
+- Removed the repeated three-person portrait wall from the hero.
+- Retained five individual leadership profiles beneath the introductory content.
+- Final public verification: one `.eit-hero-photo`, zero `.eit-portrait-wall` elements and five `.eit-member` cards.
+- Added a targeted managed-host purge for the canonical Team URL so the ordinary URL and origin remain aligned.
+
+Server credentials and the temporary generated PHP payload are intentionally excluded from Git.
