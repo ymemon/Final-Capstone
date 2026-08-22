@@ -68,6 +68,16 @@ delete_post_meta($id,'_elementor_element_cache');
 delete_post_meta($id,'_elementor_css');
 clean_post_cache($id);
 wp_cache_flush();
+$page_cache_purged=null;
+$cdn_invalidation_id=null;
+if(isset($GLOBALS['wpaas_cache_class'])){{
+  if(method_exists($GLOBALS['wpaas_cache_class'],'do_ban')){{
+    $page_cache_purged=$GLOBALS['wpaas_cache_class']->do_ban();
+  }}
+  if(method_exists($GLOBALS['wpaas_cache_class'],'flush_cdn')){{
+    $cdn_invalidation_id=$GLOBALS['wpaas_cache_class']->flush_cdn();
+  }}
+}}
 echo wp_json_encode([
   'id'=>$id,
   'status'=>get_post_status($id),
@@ -76,6 +86,8 @@ echo wp_json_encode([
   'h1'=>substr_count(get_post_field('post_content',$id),'<h1'),
   'canonical'=>get_post_meta($id,'_yoast_wpseo_canonical',true),
   'backup'=>metadata_exists('post',$id,$backup),
+  'page_cache_purged'=>$page_cache_purged,
+  'cdn_invalidation_id'=>$cdn_invalidation_id,
 ]);
 '''
 
