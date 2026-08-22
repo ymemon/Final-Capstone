@@ -71,6 +71,11 @@ wp_cache_flush();
 $page_cache_purged=null;
 $cdn_invalidation_id=null;
 if(isset($GLOBALS['wpaas_cache_class'])){{
+  if(method_exists($GLOBALS['wpaas_cache_class'],'purge')){{
+    add_action('shutdown',static function(){{
+      $GLOBALS['wpaas_cache_class']->purge(['{CANONICAL}']);
+    }},PHP_INT_MAX-1);
+  }}
   if(method_exists($GLOBALS['wpaas_cache_class'],'do_ban')){{
     $page_cache_purged=$GLOBALS['wpaas_cache_class']->do_ban();
   }}
