@@ -24,6 +24,7 @@ The work was performed against a production WordPress installation with explicit
 - [MDM Services Dublin](https://everythingit.ie/mdm-services-dublin/)
 - [Cyber Security](https://everythingit.ie/cybersecurity-dublin/)
 - [Managed IT Services](https://everythingit.ie/managed-it-services/)
+- [Our Team](https://everythingit.ie/our-team/)
 - [IT Support Cork](https://everythingit.ie/cork/)
 
 Live pages may continue to evolve after the snapshot represented in this repository.
@@ -53,4 +54,3 @@ WordPress, Elementor, WP-CLI, PHP, Python, HTML5, CSS, JavaScript, JSON-LD, Apac
 6. Verify canonical URLs, redirects, navigation, response codes and rendered content.
 
 See the full [case study](docs/CASE_STUDY.md) and [architecture notes](docs/ARCHITECTURE.md).
-
