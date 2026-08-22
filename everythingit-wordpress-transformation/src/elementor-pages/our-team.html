@@ -1,0 +1,556 @@
+<!--
+EVERYTHINGIT.IE — PREMIUM OUR TEAM PAGE
+
+CANONICAL PAGE:
+https://everythingit.ie/our-team/
+
+ELEMENTOR INSTALLATION:
+1. Edit the existing Our Team page with Elementor. Do not create a duplicate page.
+2. Hide the normal WordPress page title to prevent a duplicate H1.
+3. Use Elementor Full Width and add ONE full-width HTML widget.
+4. Replace only the old page-body content with this complete document.
+5. Keep the existing global header and footer.
+6. Update/publish, clear Elementor and website caches, then test desktop and mobile.
+
+RECOMMENDED SEO:
+SEO title: Meet Our IT Leadership Team Dublin | Everything IT
+Meta description: Meet the Everything IT leadership team delivering managed services,
+cloud, cybersecurity, procurement and information-security expertise from Dublin.
+Canonical: https://everythingit.ie/our-team/
+
+MANDATORY LOCATION RULE:
+Dublin remains the main location. Besides Dublin, only Cork, Galway, Limerick and
+Waterford may be showcased. Do not add any other location card, menu link, landing
+page, footer entry or primary-location structured data.
+
+The comments above are not visible on the published page and may remain in the widget.
+-->
+
+<style>
+#eit-team-page,
+#eit-team-page *{box-sizing:border-box}
+#eit-team-page{
+  --eit-ink:#101318;
+  --eit-ink-2:#191e25;
+  --eit-ink-3:#242b35;
+  --eit-paper:#ffffff;
+  --eit-mist:#f4f6f8;
+  --eit-line:#e2e6ea;
+  --eit-copy:#616a75;
+  --eit-orange:#ef8b36;
+  --eit-orange-2:#ffb36a;
+  --eit-orange-soft:#fff0e2;
+  --eit-green:#72d29d;
+  --eit-max:1240px;
+  width:100%;
+  max-width:100%;
+  overflow:hidden;
+  background:var(--eit-paper);
+  color:var(--eit-ink);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  font-size:16px;
+  line-height:1.7;
+}
+#eit-team-page a{color:inherit;text-decoration:none}
+#eit-team-page img{display:block;width:100%;max-width:100%}
+#eit-team-page button,
+#eit-team-page input{font:inherit}
+#eit-team-page .eit-shell{width:min(var(--eit-max),calc(100% - 44px));margin:0 auto}
+#eit-team-page .eit-section{padding:110px 0}
+#eit-team-page .eit-eyebrow{display:inline-flex;align-items:center;gap:10px;margin:0 0 17px;color:var(--eit-orange);font-size:.75rem;font-weight:800;letter-spacing:.12em;line-height:1.4;text-transform:uppercase}
+#eit-team-page .eit-eyebrow:before{width:29px;height:2px;content:"";border-radius:20px;background:linear-gradient(90deg,var(--eit-orange),var(--eit-orange-2))}
+#eit-team-page .eit-title{max-width:900px;margin:0;font-size:clamp(2.15rem,4.4vw,4rem);font-weight:700;letter-spacing:-.038em;line-height:1.06;text-wrap:balance}
+#eit-team-page .eit-title em{color:var(--eit-orange);font-style:normal}
+#eit-team-page .eit-lead{max-width:790px;margin:23px 0 0;color:var(--eit-copy);font-size:clamp(1.02rem,1.55vw,1.16rem);line-height:1.8}
+#eit-team-page .eit-actions{display:flex;flex-wrap:wrap;gap:13px;margin-top:34px}
+#eit-team-page .eit-btn{display:inline-flex;min-height:54px;align-items:center;justify-content:center;gap:10px;padding:14px 24px;border:1px solid transparent;border-radius:999px;background:linear-gradient(135deg,var(--eit-orange),var(--eit-orange-2));box-shadow:0 16px 36px rgba(239,139,54,.25);color:#171717!important;font-size:.92rem;font-weight:800;transition:transform .24s ease,box-shadow .24s ease,background .24s ease}
+#eit-team-page .eit-btn:hover{transform:translateY(-3px);box-shadow:0 22px 48px rgba(239,139,54,.34)}
+#eit-team-page .eit-btn--dark{background:#171a20;box-shadow:0 16px 34px rgba(17,19,24,.18);color:#fff!important}
+#eit-team-page .eit-btn--ghost{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.06);box-shadow:none;color:#fff!important;backdrop-filter:blur(12px)}
+
+#eit-team-page .eit-hero{position:relative;min-height:760px;display:flex;align-items:center;isolation:isolate;background:linear-gradient(125deg,#0e1116 0%,#171b22 55%,#242a33 100%)}
+#eit-team-page .eit-hero:before{position:absolute;inset:-20%;z-index:-3;content:"";background:radial-gradient(circle at 18% 32%,rgba(239,139,54,.24),transparent 28%),radial-gradient(circle at 88% 12%,rgba(255,179,106,.13),transparent 25%),radial-gradient(circle at 72% 92%,rgba(239,139,54,.08),transparent 30%);animation:eitTeamAurora 15s ease-in-out infinite alternate}
+#eit-team-page .eit-hero:after{position:absolute;inset:0;z-index:-2;content:"";opacity:.16;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:62px 62px;mask-image:linear-gradient(#000 20%,transparent 100%)}
+#eit-team-page .eit-hero-orbit{position:absolute;right:-240px;top:50%;z-index:-1;width:720px;height:720px;transform:translateY(-50%);border:1px solid rgba(255,255,255,.08);border-radius:50%}
+#eit-team-page .eit-hero-orbit:before,
+#eit-team-page .eit-hero-orbit:after{position:absolute;inset:16%;content:"";border:1px solid rgba(255,255,255,.065);border-radius:50%}
+#eit-team-page .eit-hero-orbit:after{inset:33%}
+#eit-team-page .eit-hero-orbit i{position:absolute;top:15%;left:14%;width:15px;height:15px;border-radius:50%;background:var(--eit-orange);box-shadow:0 0 0 10px rgba(239,139,54,.11),0 0 46px rgba(239,139,54,.6);animation:eitTeamFloat 5s ease-in-out infinite}
+#eit-team-page .eit-hero-grid{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(480px,.98fr);gap:70px;align-items:center;padding:112px 0 96px}
+#eit-team-page .eit-hero-copy .eit-eyebrow{color:#f2aa68}
+#eit-team-page .eit-hero h1{max-width:800px;margin:0;color:#f6f7f9;font-size:clamp(2.65rem,5.25vw,5.25rem);font-weight:700;letter-spacing:-.052em;line-height:.99;text-wrap:balance}
+#eit-team-page .eit-hero h1 span{color:#f2a05a}
+#eit-team-page .eit-hero-copy>p{max-width:730px;margin:26px 0 0;color:#c7cdd5;font-size:1.04rem;line-height:1.78}
+#eit-team-page .eit-proof{display:flex;flex-wrap:wrap;gap:13px 24px;margin-top:29px;color:#b9c0c9;font-size:.84rem}
+#eit-team-page .eit-proof span{display:flex;align-items:center;gap:8px}
+#eit-team-page .eit-proof i{display:grid;width:22px;height:22px;place-items:center;border-radius:50%;background:rgba(239,139,54,.13);color:var(--eit-orange-2);font-style:normal;font-size:.72rem}
+
+#eit-team-page .eit-portrait-wall{position:relative;display:grid;grid-template-columns:1.1fr .9fr;grid-template-rows:repeat(2,minmax(210px,1fr));gap:13px;min-height:540px;padding:14px;border:1px solid rgba(255,255,255,.11);border-radius:31px;background:rgba(255,255,255,.055);box-shadow:0 38px 100px rgba(0,0,0,.36);backdrop-filter:blur(18px)}
+#eit-team-page .eit-portrait{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.09);border-radius:21px;background:#e9edf1}
+#eit-team-page .eit-portrait:first-child{grid-row:1/-1}
+#eit-team-page .eit-portrait img{height:100%;object-fit:cover;object-position:center top;filter:saturate(.88) contrast(1.02);transition:transform .55s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+#eit-team-page .eit-portrait:hover img{transform:scale(1.035);filter:saturate(1) contrast(1.02)}
+#eit-team-page .eit-portrait:after{position:absolute;inset:35% 0 0;content:"";background:linear-gradient(transparent,rgba(10,12,16,.88))}
+#eit-team-page .eit-portrait-meta{position:absolute;right:18px;bottom:17px;left:18px;z-index:2;color:#fff}
+#eit-team-page .eit-portrait-meta strong{display:block;font-size:1rem}
+#eit-team-page .eit-portrait-meta span{display:block;margin-top:3px;color:#ced3da;font-size:.72rem;line-height:1.35}
+#eit-team-page .eit-portrait-badge{position:absolute;top:26px;right:26px;z-index:3;display:flex;align-items:center;gap:8px;padding:8px 11px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(12,14,18,.54);color:#f1f3f5;font-size:.68rem;font-weight:750;backdrop-filter:blur(12px)}
+#eit-team-page .eit-portrait-badge i{width:7px;height:7px;border-radius:50%;background:var(--eit-green);box-shadow:0 0 0 6px rgba(114,210,157,.1)}
+
+#eit-team-page .eit-trust{position:relative;z-index:5;margin-top:-48px}
+#eit-team-page .eit-trust-grid{display:grid;grid-template-columns:1.35fr repeat(4,1fr);overflow:hidden;border:1px solid rgba(17,19,24,.08);border-radius:23px;background:#fff;box-shadow:0 26px 75px rgba(17,19,24,.13)}
+#eit-team-page .eit-trust-lead,
+#eit-team-page .eit-trust-item{padding:23px 24px}
+#eit-team-page .eit-trust-lead{background:linear-gradient(135deg,var(--eit-orange),#ffb36a)}
+#eit-team-page .eit-trust-lead strong{display:block}
+#eit-team-page .eit-trust-lead small{display:block;margin-top:5px;color:rgba(17,19,24,.7)}
+#eit-team-page .eit-trust-item{display:flex;align-items:center;gap:11px;border-left:1px solid var(--eit-line);color:#343a43;font-size:.82rem;font-weight:750}
+#eit-team-page .eit-trust-item b{color:var(--eit-orange);font-size:1.12rem}
+
+#eit-team-page .eit-intro-grid{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:75px;align-items:center}
+#eit-team-page .eit-intro-panel{position:relative;min-height:540px;overflow:hidden;padding:43px;border-radius:31px;background:radial-gradient(circle at 84% 14%,rgba(239,139,54,.2),transparent 29%),linear-gradient(145deg,#15191f,#252c36);box-shadow:0 30px 80px rgba(17,19,24,.2);color:#fff}
+#eit-team-page .eit-intro-panel:after{position:absolute;inset:0;content:"";opacity:.13;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:42px 42px}
+#eit-team-page .eit-intro-panel>*{position:relative;z-index:2}
+#eit-team-page .eit-intro-panel .eit-eyebrow{color:var(--eit-orange-2)}
+#eit-team-page .eit-intro-panel h2{max-width:530px;margin:0;color:#f5f6f8;font-size:clamp(2rem,3.6vw,3.45rem);font-weight:700;letter-spacing:-.04em;line-height:1.08}
+#eit-team-page .eit-intro-panel p{max-width:590px;margin:21px 0 0;color:#c6cdd5;line-height:1.8}
+#eit-team-page .eit-principles{display:grid;gap:11px;margin-top:31px}
+#eit-team-page .eit-principle{display:grid;grid-template-columns:43px 1fr;gap:14px;align-items:center;padding:15px;border:1px solid rgba(255,255,255,.09);border-radius:16px;background:rgba(255,255,255,.05)}
+#eit-team-page .eit-principle span{display:grid;width:43px;height:43px;place-items:center;border-radius:13px;background:rgba(239,139,54,.13);color:var(--eit-orange-2);font-size:.78rem;font-weight:850}
+#eit-team-page .eit-principle strong{display:block;color:#f1f3f5;font-size:.9rem}
+#eit-team-page .eit-principle small{display:block;margin-top:3px;color:#aeb6c0;line-height:1.5}
+#eit-team-page .eit-intro-copy p{margin:19px 0 0;color:var(--eit-copy);line-height:1.82}
+#eit-team-page .eit-intro-quote{margin-top:29px;padding:23px 25px;border-left:3px solid var(--eit-orange);border-radius:0 17px 17px 0;background:var(--eit-orange-soft);color:#353b43;font-size:1.03rem;line-height:1.7}
+
+#eit-team-page .eit-team-section{border-top:1px solid #edf0f2;border-bottom:1px solid #edf0f2;background:linear-gradient(180deg,#f6f7f9,#fff)}
+#eit-team-page .eit-team-head{display:flex;justify-content:space-between;gap:38px;align-items:end}
+#eit-team-page .eit-team-note{flex:none;max-width:300px;padding:17px 19px;border:1px solid var(--eit-line);border-radius:17px;background:#fff;box-shadow:0 13px 34px rgba(17,19,24,.06);color:var(--eit-copy);font-size:.82rem;line-height:1.55}
+#eit-team-page .eit-team-note strong{display:block;margin-bottom:4px;color:var(--eit-ink);font-size:.9rem}
+#eit-team-page .eit-team-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:19px;margin-top:50px}
+#eit-team-page .eit-member{--x:50%;--y:50%;position:relative;grid-column:span 4;overflow:hidden;border:1px solid var(--eit-line);border-radius:25px;background:radial-gradient(circle at var(--x) var(--y),rgba(239,139,54,.12),transparent 35%),#fff;box-shadow:0 12px 32px rgba(17,19,24,.06);transition:transform .27s ease,border-color .27s ease,box-shadow .27s ease}
+#eit-team-page .eit-member:nth-child(1){grid-column:span 7}
+#eit-team-page .eit-member:nth-child(2){grid-column:span 5}
+#eit-team-page .eit-member:hover{transform:translateY(-7px);border-color:rgba(239,139,54,.38);box-shadow:0 26px 58px rgba(17,19,24,.12)}
+#eit-team-page .eit-member-media{position:relative;height:315px;overflow:hidden;background:#e7ebef}
+#eit-team-page .eit-member:nth-child(1) .eit-member-media{height:390px}
+#eit-team-page .eit-member:nth-child(2) .eit-member-media{height:390px}
+#eit-team-page .eit-member-media img{height:100%;object-fit:cover;object-position:center top;filter:saturate(.9);transition:transform .55s cubic-bezier(.2,.7,.2,1),filter .35s ease}
+#eit-team-page .eit-member:hover .eit-member-media img{transform:scale(1.035);filter:saturate(1)}
+#eit-team-page .eit-member-number{position:absolute;top:18px;right:18px;display:grid;width:39px;height:39px;place-items:center;border:1px solid rgba(255,255,255,.42);border-radius:50%;background:rgba(15,17,21,.57);color:#fff;font-size:.7rem;font-weight:800;backdrop-filter:blur(12px)}
+#eit-team-page .eit-member-info{padding:25px}
+#eit-team-page .eit-member-role{color:var(--eit-orange);font-size:.68rem;font-weight:850;letter-spacing:.1em;line-height:1.45;text-transform:uppercase}
+#eit-team-page .eit-member h3{margin:9px 0 0;font-size:clamp(1.3rem,2.1vw,1.75rem);letter-spacing:-.025em;line-height:1.15}
+#eit-team-page .eit-member-summary{margin:12px 0 0;color:var(--eit-copy);font-size:.88rem;line-height:1.72}
+#eit-team-page .eit-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+#eit-team-page .eit-tags span{padding:7px 9px;border:1px solid #e5e8eb;border-radius:999px;background:#f7f8fa;color:#58616b;font-size:.67rem;font-weight:750;line-height:1.2}
+#eit-team-page .eit-member details{margin-top:19px;border-top:1px solid var(--eit-line)}
+#eit-team-page .eit-member summary{position:relative;padding:17px 39px 0 0;color:var(--eit-ink);font-size:.82rem;font-weight:800;cursor:pointer;list-style:none}
+#eit-team-page .eit-member summary::-webkit-details-marker{display:none}
+#eit-team-page .eit-member summary:after{position:absolute;top:13px;right:0;display:grid;width:29px;height:29px;place-items:center;content:"+";border-radius:50%;background:var(--eit-orange-soft);color:var(--eit-orange);font-size:1rem}
+#eit-team-page .eit-member details[open] summary:after{content:"−"}
+#eit-team-page .eit-member details p{margin:14px 0 0;color:var(--eit-copy);font-size:.84rem;line-height:1.72}
+
+#eit-team-page .eit-map{position:relative;overflow:hidden;background:radial-gradient(circle at 86% 18%,rgba(239,139,54,.21),transparent 28%),linear-gradient(135deg,#111419,#242a34);color:#fff}
+#eit-team-page .eit-map:after{position:absolute;inset:0;content:"";opacity:.12;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:55px 55px}
+#eit-team-page .eit-map-inner{position:relative;z-index:2}
+#eit-team-page .eit-map .eit-eyebrow{color:var(--eit-orange-2)}
+#eit-team-page .eit-map .eit-title{color:#f4f6f8}
+#eit-team-page .eit-map .eit-lead{color:#c4cbd4}
+#eit-team-page .eit-map-grid{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:51px}
+#eit-team-page .eit-map-grid:before{position:absolute;top:34px;right:8%;left:8%;height:1px;content:"";background:linear-gradient(90deg,transparent,rgba(239,139,54,.55),rgba(239,139,54,.55),transparent)}
+#eit-team-page .eit-map-step{position:relative;z-index:2;padding:0 12px;text-align:center}
+#eit-team-page .eit-map-step>span{display:grid;width:68px;height:68px;margin:0 auto;place-items:center;border:1px solid rgba(255,255,255,.12);border-radius:20px;background:#1e242c;box-shadow:0 15px 35px rgba(0,0,0,.2);color:var(--eit-orange-2);font-size:.9rem;font-weight:850}
+#eit-team-page .eit-map-step h3{margin:18px 0 0;color:#f2f4f6;font-size:.98rem}
+#eit-team-page .eit-map-step p{margin:7px 0 0;color:#9fa8b3;font-size:.75rem;line-height:1.55}
+#eit-team-page .eit-map-step small{display:block;margin-top:8px;color:var(--eit-orange-2);font-size:.67rem;font-weight:750;letter-spacing:.05em;text-transform:uppercase}
+
+#eit-team-page .eit-culture-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:70px;align-items:center}
+#eit-team-page .eit-culture-photo{position:relative;min-height:560px;overflow:hidden;border-radius:31px;box-shadow:0 30px 80px rgba(17,19,24,.17)}
+#eit-team-page .eit-culture-photo img{position:absolute;inset:0;height:100%;object-fit:cover}
+#eit-team-page .eit-culture-photo:after{position:absolute;inset:35% 0 0;content:"";background:linear-gradient(transparent,rgba(12,14,18,.82))}
+#eit-team-page .eit-culture-caption{position:absolute;right:28px;bottom:25px;left:28px;z-index:2;color:#fff}
+#eit-team-page .eit-culture-caption strong{display:block;font-size:1.05rem}
+#eit-team-page .eit-culture-caption span{display:block;margin-top:5px;color:#cfd4db;font-size:.78rem}
+#eit-team-page .eit-culture-copy p{margin:19px 0 0;color:var(--eit-copy);line-height:1.82}
+#eit-team-page .eit-culture-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:28px}
+#eit-team-page .eit-culture-item{padding:18px;border:1px solid var(--eit-line);border-radius:17px;background:#fff;box-shadow:0 9px 24px rgba(17,19,24,.045)}
+#eit-team-page .eit-culture-item b{display:grid;width:38px;height:38px;place-items:center;border-radius:12px;background:var(--eit-orange-soft);color:var(--eit-orange);font-size:.78rem}
+#eit-team-page .eit-culture-item strong{display:block;margin-top:12px;font-size:.88rem}
+#eit-team-page .eit-culture-item span{display:block;margin-top:5px;color:var(--eit-copy);font-size:.74rem;line-height:1.5}
+
+#eit-team-page .eit-cta-wrap{padding:0 0 110px}
+#eit-team-page .eit-cta{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:42px;align-items:center;padding:55px 58px;border-radius:32px;background:radial-gradient(circle at 88% 15%,rgba(255,255,255,.21),transparent 27%),linear-gradient(135deg,#ec8930,#ffb36a);box-shadow:0 30px 80px rgba(239,139,54,.27)}
+#eit-team-page .eit-cta:after{position:absolute;right:-95px;bottom:-150px;width:380px;height:380px;content:"";border:1px solid rgba(255,255,255,.22);border-radius:50%;box-shadow:0 0 0 48px rgba(255,255,255,.05),0 0 0 96px rgba(255,255,255,.035)}
+#eit-team-page .eit-cta-copy,
+#eit-team-page .eit-cta-actions{position:relative;z-index:2}
+#eit-team-page .eit-cta h2{max-width:780px;margin:0;font-size:clamp(2rem,3.8vw,3.45rem);font-weight:700;letter-spacing:-.04em;line-height:1.07;text-wrap:balance}
+#eit-team-page .eit-cta p{max-width:700px;margin:16px 0 0;color:rgba(17,19,24,.73);line-height:1.7}
+#eit-team-page .eit-cta-actions{display:flex;flex-direction:column;gap:10px}
+#eit-team-page .eit-cta .eit-btn{min-width:225px}
+#eit-team-page .eit-phone{color:#202020!important;font-size:.84rem;font-weight:800;text-align:center}
+
+#eit-team-page .eit-reveal{opacity:0;transform:translateY(22px);transition:opacity .72s cubic-bezier(.2,.7,.2,1),transform .72s cubic-bezier(.2,.7,.2,1)}
+#eit-team-page .eit-reveal.is-visible{opacity:1;transform:none}
+@keyframes eitTeamAurora{to{transform:translate3d(2%,-2%,0) scale(1.06)}}
+@keyframes eitTeamFloat{50%{transform:translateY(14px)}}
+
+@media(max-width:1100px){
+  #eit-team-page .eit-hero-grid,
+  #eit-team-page .eit-intro-grid,
+  #eit-team-page .eit-culture-grid{grid-template-columns:1fr}
+  #eit-team-page .eit-portrait-wall,
+  #eit-team-page .eit-intro-panel,
+  #eit-team-page .eit-culture-photo{max-width:820px}
+  #eit-team-page .eit-trust-grid{grid-template-columns:repeat(2,1fr)}
+  #eit-team-page .eit-trust-lead{grid-column:1/-1}
+  #eit-team-page .eit-trust-item:nth-child(odd){border-left:0}
+  #eit-team-page .eit-member,
+  #eit-team-page .eit-member:nth-child(1),
+  #eit-team-page .eit-member:nth-child(2){grid-column:span 6}
+  #eit-team-page .eit-member:nth-child(5){grid-column:3/span 8}
+  #eit-team-page .eit-map-grid{grid-template-columns:repeat(3,1fr);gap:28px 12px}
+  #eit-team-page .eit-map-grid:before{display:none}
+}
+@media(max-width:760px){
+  #eit-team-page .eit-shell{width:calc(100% - 26px)}
+  #eit-team-page .eit-section{padding:76px 0}
+  #eit-team-page .eit-hero{min-height:auto}
+  #eit-team-page .eit-hero-grid{padding:100px 0 86px}
+  #eit-team-page .eit-hero h1{font-size:clamp(2.35rem,11vw,3.55rem);line-height:1.02}
+  #eit-team-page .eit-hero-orbit{right:-520px}
+  #eit-team-page .eit-portrait-wall{grid-template-columns:1fr 1fr;grid-template-rows:320px 210px;min-height:0;padding:10px;border-radius:24px}
+  #eit-team-page .eit-portrait:first-child{grid-column:1/-1;grid-row:auto}
+  #eit-team-page .eit-portrait-meta{right:13px;bottom:12px;left:13px}
+  #eit-team-page .eit-portrait-badge{top:20px;right:20px}
+  #eit-team-page .eit-trust{margin-top:-30px}
+  #eit-team-page .eit-trust-grid{grid-template-columns:1fr}
+  #eit-team-page .eit-trust-item{border-top:1px solid var(--eit-line);border-left:0}
+  #eit-team-page .eit-intro-panel{min-height:0;padding:31px 24px;border-radius:24px}
+  #eit-team-page .eit-team-head{display:block}
+  #eit-team-page .eit-team-note{margin-top:23px}
+  #eit-team-page .eit-team-grid{grid-template-columns:1fr}
+  #eit-team-page .eit-member,
+  #eit-team-page .eit-member:nth-child(1),
+  #eit-team-page .eit-member:nth-child(2),
+  #eit-team-page .eit-member:nth-child(5){grid-column:auto}
+  #eit-team-page .eit-member-media,
+  #eit-team-page .eit-member:nth-child(1) .eit-member-media,
+  #eit-team-page .eit-member:nth-child(2) .eit-member-media{height:320px}
+  #eit-team-page .eit-map-grid{grid-template-columns:1fr 1fr}
+  #eit-team-page .eit-map-step:last-child{grid-column:1/-1}
+  #eit-team-page .eit-culture-photo{min-height:420px;border-radius:24px}
+  #eit-team-page .eit-culture-list{grid-template-columns:1fr}
+  #eit-team-page .eit-cta{grid-template-columns:1fr;padding:39px 27px}
+  #eit-team-page .eit-cta .eit-btn{width:100%;min-width:0}
+  #eit-team-page .eit-phone{text-align:left}
+}
+@media(max-width:430px){
+  #eit-team-page .eit-portrait-wall{grid-template-columns:1fr;grid-template-rows:310px 225px 225px}
+  #eit-team-page .eit-map-grid{grid-template-columns:1fr}
+  #eit-team-page .eit-map-step:last-child{grid-column:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  #eit-team-page *,
+  #eit-team-page *:before,
+  #eit-team-page *:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  #eit-team-page .eit-reveal{opacity:1;transform:none}
+}
+</style>
+
+<main id="eit-team-page">
+  <section class="eit-hero" aria-labelledby="eit-team-title">
+    <div class="eit-hero-orbit" aria-hidden="true"><i></i></div>
+    <div class="eit-shell eit-hero-grid">
+      <div class="eit-hero-copy eit-reveal">
+        <div class="eit-eyebrow">The people behind Everything IT</div>
+        <h1 id="eit-team-title">Meet the team behind technology that <span>performs under pressure.</span></h1>
+        <p>Everything IT combines leadership, engineering, information security, commercial and quality expertise in one accountable Dublin-based team. The result is technology advice that stays connected to implementation, operations and measurable business outcomes.</p>
+        <div class="eit-actions">
+          <a class="eit-btn" href="https://everythingit.ie/contact/">Start a conversation <b>→</b></a>
+          <a class="eit-btn eit-btn--ghost" href="https://everythingit.ie/our-services/">Explore our services <b>↗</b></a>
+        </div>
+        <div class="eit-proof" aria-label="Everything IT leadership capabilities">
+          <span><i>✓</i>Technical leadership</span>
+          <span><i>✓</i>Security governance</span>
+          <span><i>✓</i>Commercial accountability</span>
+        </div>
+      </div>
+
+      <div class="eit-portrait-wall eit-reveal" aria-label="Everything IT leadership team">
+        <div class="eit-portrait">
+          <img src="https://everythingit.ie/wp-content/uploads/2024/03/Denis-scaled.jpg" alt="Denis Mc Auliffe, Managing Director at Everything IT" loading="eager">
+          <div class="eit-portrait-meta"><strong>Denis Mc Auliffe</strong><span>Managing Director</span></div>
+        </div>
+        <div class="eit-portrait">
+          <img src="https://everythingit.ie/wp-content/uploads/2024/03/Casey--scaled.jpg" alt="Casey Sirchia, R&amp;D and Technical Director at Everything IT" loading="eager">
+          <div class="eit-portrait-meta"><strong>Casey Sirchia</strong><span>R&amp;D and Technical Director</span></div>
+        </div>
+        <div class="eit-portrait">
+          <img src="https://everythingit.ie/wp-content/uploads/2024/03/Clara-scaled.jpg" alt="Clara Mc Auliffe, Quality, Infosec and Business Development at Everything IT" loading="eager">
+          <div class="eit-portrait-meta"><strong>Clara Mc Auliffe</strong><span>Quality, Infosec &amp; Business Development</span></div>
+        </div>
+        <div class="eit-portrait-badge"><i></i>Dublin-based leadership</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-trust" aria-label="Everything IT team principles">
+    <div class="eit-shell">
+      <div class="eit-trust-grid eit-reveal">
+        <div class="eit-trust-lead"><strong>Expertise with ownership.</strong><small>Senior people remain connected to delivery.</small></div>
+        <div class="eit-trust-item"><b>◈</b>Security-led thinking</div>
+        <div class="eit-trust-item"><b>⌁</b>Deep technical experience</div>
+        <div class="eit-trust-item"><b>↗</b>Commercial clarity</div>
+        <div class="eit-trust-item"><b>✓</b>Quality assurance</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-section">
+    <div class="eit-shell eit-intro-grid">
+      <div class="eit-intro-panel eit-reveal">
+        <div class="eit-eyebrow">Leadership close to delivery</div>
+        <h2>Accountability should not disappear after the proposal is signed.</h2>
+        <p>Everything IT’s leadership team remains involved from strategy and architecture through implementation, service quality and continual improvement.</p>
+        <div class="eit-principles">
+          <div class="eit-principle"><span>01</span><div><strong>Understand the operating reality</strong><small>Business requirements, dependencies and risk come before technology selection.</small></div></div>
+          <div class="eit-principle"><span>02</span><div><strong>Connect strategy to engineering</strong><small>Recommendations are shaped by the people responsible for making them work.</small></div></div>
+          <div class="eit-principle"><span>03</span><div><strong>Improve after implementation</strong><small>Quality, security and performance remain active responsibilities.</small></div></div>
+        </div>
+      </div>
+
+      <div class="eit-intro-copy eit-reveal">
+        <div class="eit-eyebrow">More than a directory</div>
+        <h2 class="eit-title">Expertise is valuable. <em>Joined-up expertise</em> changes outcomes.</h2>
+        <p>Complex technology decisions rarely belong to one discipline. Infrastructure affects security. Procurement affects supportability. Cloud architecture affects identity, mobility and continuity. Quality processes affect every client interaction.</p>
+        <p>Everything IT brings those perspectives together. Clients gain access to senior expertise without having to coordinate separate advisers, vendors and technical teams around every decision.</p>
+        <div class="eit-intro-quote">One leadership team connects the commercial decision, the technical design, the security position and the operational result.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-section eit-team-section" id="leadership-team">
+    <div class="eit-shell">
+      <div class="eit-team-head eit-reveal">
+        <div>
+          <div class="eit-eyebrow">Meet our leadership team</div>
+          <h2 class="eit-title">Different disciplines. One standard of <em>accountability.</em></h2>
+          <p class="eit-lead">Explore the experience behind Everything IT’s strategy, engineering, operations, procurement and information-security governance.</p>
+        </div>
+        <div class="eit-team-note"><strong>Read beyond the job title</strong>Select “View full profile” on any card to explore that leader’s experience and responsibilities.</div>
+      </div>
+
+      <div class="eit-team-grid">
+        <article class="eit-member eit-reveal">
+          <div class="eit-member-media">
+            <img src="https://everythingit.ie/wp-content/uploads/2024/03/Denis-scaled.jpg" alt="Portrait of Denis Mc Auliffe" loading="lazy">
+            <span class="eit-member-number">01</span>
+          </div>
+          <div class="eit-member-info">
+            <div class="eit-member-role">Managing Director</div>
+            <h3>Denis Mc Auliffe</h3>
+            <p class="eit-member-summary">Denis connects enterprise strategy with cloud, security and modern-work architecture, helping clients translate complex requirements into practical technology programmes.</p>
+            <div class="eit-tags"><span>Enterprise strategy</span><span>Cloud architecture</span><span>Identity &amp; access</span><span>Application security</span></div>
+            <details>
+              <summary>View full profile</summary>
+              <p>With more than 20 years in the IT industry, Denis focuses on innovation, enterprise strategy and business architecture. His experience spans enterprise and security architecture, cloud design, identity and access management, application security and mobility.</p>
+              <p>He provides implementation oversight and leads the team in helping clients modernise carefully, using architecture that supports real operational and business requirements.</p>
+            </details>
+          </div>
+        </article>
+
+        <article class="eit-member eit-reveal">
+          <div class="eit-member-media">
+            <img src="https://everythingit.ie/wp-content/uploads/2024/03/Casey--scaled.jpg" alt="Portrait of Casey Sirchia" loading="lazy">
+            <span class="eit-member-number">02</span>
+          </div>
+          <div class="eit-member-info">
+            <div class="eit-member-role">R&amp;D and Technical Director</div>
+            <h3>Casey Sirchia</h3>
+            <p class="eit-member-summary">Casey specialises in resilient infrastructure, data-centre technology, storage, networks and continuity planning designed to reduce complexity and disruption.</p>
+            <div class="eit-tags"><span>Data centres</span><span>Resilient networks</span><span>Virtualisation</span><span>Business continuity</span></div>
+            <details>
+              <summary>View full profile</summary>
+              <p>With more than 20 years of experience, Casey works across large distributed storage, cloud and on-premises servers, resilient networks, virtualisation and business continuity and disaster recovery.</p>
+              <p>He advocates non-disruptive support and oversees capacity management so client systems can deliver consistent performance as demand grows.</p>
+            </details>
+          </div>
+        </article>
+
+        <article class="eit-member eit-reveal">
+          <div class="eit-member-media">
+            <img src="https://everythingit.ie/wp-content/uploads/2024/03/Ahson-scaled.jpg" alt="Portrait of Ahson Pasha" loading="lazy">
+            <span class="eit-member-number">03</span>
+          </div>
+          <div class="eit-member-info">
+            <div class="eit-member-role">Operations &amp; Technical Director</div>
+            <h3>Ahson Pasha</h3>
+            <p class="eit-member-summary">Ahson leads operational and technical delivery across networking, cloud telephony, mobile device management, privacy and continuity planning.</p>
+            <div class="eit-tags"><span>Switching &amp; routing</span><span>Cloud telephony</span><span>MDM</span><span>Operations</span></div>
+            <details>
+              <summary>View full profile</summary>
+              <p>Ahson brings more than 18 years of industry experience across LAN, WLAN and storage-area network design, distributed computing, next-generation firewall management and WAN connectivity.</p>
+              <p>He also advises on continuity strategies and network redundancy while supporting talent acquisition and employee development as the organisation’s HR lead.</p>
+            </details>
+          </div>
+        </article>
+
+        <article class="eit-member eit-reveal">
+          <div class="eit-member-media">
+            <img src="https://everythingit.ie/wp-content/uploads/2024/03/Faraz-scaled.jpg" alt="Portrait of Faraz Irfan" loading="lazy">
+            <span class="eit-member-number">04</span>
+          </div>
+          <div class="eit-member-info">
+            <div class="eit-member-role">Chief Financial Officer &amp; Sales Director</div>
+            <h3>Faraz Irfan</h3>
+            <p class="eit-member-summary">Faraz leads commercial strategy, vendor relationships and supply-chain coordination, connecting technology investment to operational value.</p>
+            <div class="eit-tags"><span>Vendor strategy</span><span>Supply chain</span><span>Procurement</span><span>Commercial planning</span></div>
+            <details>
+              <summary>View full profile</summary>
+              <p>With more than 20 years in the IT product industry, Faraz manages vendor partnerships and supply-chain logistics while continually evaluating supplier quality and information-security expectations.</p>
+              <p>His distribution knowledge, industry network and negotiation experience help clients strengthen business cases and secure suitable business-grade technology.</p>
+            </details>
+          </div>
+        </article>
+
+        <article class="eit-member eit-reveal">
+          <div class="eit-member-media">
+            <img src="https://everythingit.ie/wp-content/uploads/2024/03/Clara-scaled.jpg" alt="Portrait of Clara Mc Auliffe" loading="lazy">
+            <span class="eit-member-number">05</span>
+          </div>
+          <div class="eit-member-info">
+            <div class="eit-member-role">Quality, Infosec &amp; Business Development</div>
+            <h3>Clara Mc Auliffe</h3>
+            <p class="eit-member-summary">Clara connects service quality, information-security governance, data protection and business development around a stronger client experience.</p>
+            <div class="eit-tags"><span>ISO 27001</span><span>Data protection</span><span>Internal audit</span><span>Service quality</span></div>
+            <details>
+              <summary>View full profile</summary>
+              <p>Clara has more than 15 years of cross-industry quality experience. As Everything IT’s DPO, she advises on information-security and data-protection policy and oversees the controls supporting ISO 27001 certification.</p>
+              <p>Her work spans internal audit, regulatory and GDPR alignment, process improvement, organisational development and customer experience.</p>
+            </details>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-section eit-map">
+    <div class="eit-shell eit-map-inner">
+      <div class="eit-reveal">
+        <div class="eit-eyebrow">How leadership connects</div>
+        <h2 class="eit-title">One decision travels through every discipline that <em>makes it succeed.</em></h2>
+        <p class="eit-lead">The leadership model keeps strategy, engineering, operations, commercial control and assurance aligned instead of working in isolation.</p>
+      </div>
+      <div class="eit-map-grid">
+        <div class="eit-map-step eit-reveal"><span>01</span><h3>Strategy</h3><p>Business priorities become a clear technology direction.</p><small>Denis</small></div>
+        <div class="eit-map-step eit-reveal"><span>02</span><h3>Architecture &amp; R&amp;D</h3><p>The direction becomes a resilient technical design.</p><small>Casey</small></div>
+        <div class="eit-map-step eit-reveal"><span>03</span><h3>Operations</h3><p>The design becomes a practical, supported environment.</p><small>Ahson</small></div>
+        <div class="eit-map-step eit-reveal"><span>04</span><h3>Commercial</h3><p>Investment, vendors and supply remain controlled.</p><small>Faraz</small></div>
+        <div class="eit-map-step eit-reveal"><span>05</span><h3>Assurance</h3><p>Security, quality and improvement remain visible.</p><small>Clara</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-section">
+    <div class="eit-shell eit-culture-grid">
+      <div class="eit-culture-photo eit-reveal">
+        <img src="https://everythingit.ie/wp-content/uploads/2024/03/2746453-scaled.jpg" alt="Everything IT Dublin office and service vehicles" loading="lazy">
+        <div class="eit-culture-caption"><strong>Everything IT · Dublin</strong><span>Leadership, engineering and service delivery connected from one accountable organisation.</span></div>
+      </div>
+      <div class="eit-culture-copy eit-reveal">
+        <div class="eit-eyebrow">How we show up</div>
+        <h2 class="eit-title">Close to the work. Clear with clients. <em>Responsible for outcomes.</em></h2>
+        <p>Strong technology partnerships are built through consistent decisions and honest communication. Everything IT’s leadership team sets that standard across strategy, support, security and project delivery.</p>
+        <div class="eit-culture-list">
+          <div class="eit-culture-item"><b>01</b><strong>Clear communication</strong><span>Decisions, ownership and next steps remain understandable.</span></div>
+          <div class="eit-culture-item"><b>02</b><strong>Practical judgement</strong><span>Technology is evaluated against the real operating environment.</span></div>
+          <div class="eit-culture-item"><b>03</b><strong>Security by design</strong><span>Information security is considered throughout the work.</span></div>
+          <div class="eit-culture-item"><b>04</b><strong>Continual improvement</strong><span>Processes and services evolve as requirements change.</span></div>
+        </div>
+        <div class="eit-actions">
+          <a class="eit-btn eit-btn--dark" href="https://everythingit.ie/about-us/">About Everything IT <b>→</b></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-cta-wrap">
+    <div class="eit-shell">
+      <div class="eit-cta eit-reveal">
+        <div class="eit-cta-copy">
+          <h2>Ready to put an accountable technology team behind your organisation?</h2>
+          <p>Tell us what needs to improve, what must remain protected and what a successful outcome looks like.</p>
+        </div>
+        <div class="eit-cta-actions">
+          <a class="eit-btn eit-btn--dark" href="https://everythingit.ie/contact/">Schedule a consultation <b>→</b></a>
+          <a class="eit-phone" href="tel:+35315240755">or call +353 1 524 0755</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var page=document.getElementById("eit-team-page");
+  if(!page){return;}
+
+  var cards=[].slice.call(page.querySelectorAll(".eit-member"));
+  cards.forEach(function(card){
+    card.addEventListener("pointermove",function(event){
+      var rect=card.getBoundingClientRect();
+      card.style.setProperty("--x",((event.clientX-rect.left)/rect.width*100)+"%");
+      card.style.setProperty("--y",((event.clientY-rect.top)/rect.height*100)+"%");
+    });
+  });
+
+  var details=[].slice.call(page.querySelectorAll(".eit-member details"));
+  details.forEach(function(item){
+    item.addEventListener("toggle",function(){
+      if(!item.open){return;}
+      details.forEach(function(other){if(other!==item){other.open=false;}});
+    });
+  });
+
+  var reveals=[].slice.call(page.querySelectorAll(".eit-reveal"));
+  if("IntersectionObserver" in window){
+    var observer=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },{threshold:.1,rootMargin:"0px 0px -28px 0px"});
+    reveals.forEach(function(element,index){
+      element.style.transitionDelay=Math.min(index%5,4)*55+"ms";
+      observer.observe(element);
+    });
+  }else{
+    reveals.forEach(function(element){element.classList.add("is-visible");});
+  }
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"AboutPage",
+  "name":"Our Team",
+  "url":"https://everythingit.ie/our-team/",
+  "description":"Meet the Everything IT leadership team delivering managed services, cloud, cybersecurity, procurement and information-security expertise from Dublin.",
+  "mainEntity":{
+    "@type":"Organization",
+    "name":"Everything IT Computer Systems",
+    "url":"https://everythingit.ie/",
+    "employee":[
+      {"@type":"Person","name":"Denis Mc Auliffe","jobTitle":"Managing Director","image":"https://everythingit.ie/wp-content/uploads/2024/03/Denis-scaled.jpg"},
+      {"@type":"Person","name":"Casey Sirchia","jobTitle":"R&D and Technical Director","image":"https://everythingit.ie/wp-content/uploads/2024/03/Casey--scaled.jpg"},
+      {"@type":"Person","name":"Ahson Pasha","jobTitle":"Operations & Technical Director","image":"https://everythingit.ie/wp-content/uploads/2024/03/Ahson-scaled.jpg"},
+      {"@type":"Person","name":"Faraz Irfan","jobTitle":"Chief Financial Officer & Sales Director","image":"https://everythingit.ie/wp-content/uploads/2024/03/Faraz-scaled.jpg"},
+      {"@type":"Person","name":"Clara Mc Auliffe","jobTitle":"Quality, Infosec & Business Development","image":"https://everythingit.ie/wp-content/uploads/2024/03/Clara-scaled.jpg"}
+    ]
+  }
+}
+</script>

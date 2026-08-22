@@ -18,6 +18,7 @@ This is a portfolio-level reconstruction of the major workstreams. It intentiona
 ## Frontend and Elementor
 
 - Created responsive managed-services, MDM, consultancy, cybersecurity, services and Cork/location experiences.
+- Added a premium Our Team experience with leadership profiles, responsive imagery and descriptive image alternatives.
 - Added reusable footer/header and homepage component source.
 - Applied semantic HTML, scoped CSS, responsive behaviour and accessible SVG treatment.
 
@@ -35,4 +36,3 @@ This is a portfolio-level reconstruction of the major workstreams. It intentiona
 - Removed the unwanted Cork hero implementation.
 - Diagnosed stale Elementor and Cloudflare output using origin-versus-edge testing.
 - Added rollback snapshots and removed temporary deployment payloads after verification.
-
