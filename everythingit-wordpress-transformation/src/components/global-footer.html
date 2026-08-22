@@ -1,0 +1,913 @@
+<style>
+.eit-footer{
+  --eit-footer-bg:#0d0f12;
+  --eit-footer-bg-soft:#13161b;
+  --eit-footer-panel:#171a20;
+  --eit-footer-ivory:#f4efe7;
+  --eit-footer-white:#ffffff;
+  --eit-footer-text:#b7bcc4;
+  --eit-footer-muted:#838a94;
+  --eit-footer-line:rgba(255,255,255,.11);
+  --eit-footer-accent:#ee8b2d;
+  --eit-footer-accent-soft:#f3ad68;
+  --eit-footer-max:1720px;
+  position:relative;
+  left:50%;
+  width:100vw;
+  max-width:none;
+  margin-left:-50vw;
+  margin-right:-50vw;
+  overflow:hidden;
+  isolation:isolate;
+  background:var(--eit-footer-bg);
+  color:var(--eit-footer-text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  font-size:16px;
+  line-height:1.65;
+}
+
+.eit-footer *,
+.eit-footer *::before,
+.eit-footer *::after{
+  box-sizing:border-box;
+}
+
+/* Elementor full-width breakout: the footer background spans the browser,
+   while .eit-footer__shell keeps the content elegantly contained. */
+.elementor-widget-html:has(.eit-footer),
+.elementor-widget-html:has(.eit-footer) > .elementor-widget-container{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+
+.e-con:has(.eit-footer),
+.elementor-section:has(.eit-footer),
+.elementor-container:has(.eit-footer),
+.elementor-column:has(.eit-footer),
+.elementor-widget-wrap:has(.eit-footer){
+  overflow:visible!important;
+}
+
+.eit-footer a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.eit-footer button{
+  font:inherit;
+}
+
+.eit-footer__shell{
+  width:min(var(--eit-footer-max),calc(100% - 56px));
+  margin:0 auto;
+}
+
+/* TOP INVITATION */
+.eit-footer__invitation{
+  position:relative;
+  overflow:hidden;
+  padding:82px 0 76px;
+  border-top:1px solid rgba(238,139,45,.28);
+  background:
+    radial-gradient(circle at 84% 10%,rgba(238,139,45,.13),transparent 27%),
+    radial-gradient(circle at 15% 90%,rgba(255,255,255,.035),transparent 25%),
+    linear-gradient(135deg,#171a20,#101216 68%);
+}
+
+.eit-footer__invitation::before{
+  position:absolute;
+  top:-130px;
+  right:-110px;
+  width:360px;
+  height:360px;
+  content:"";
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:50%;
+  box-shadow:
+    0 0 0 55px rgba(255,255,255,.025),
+    0 0 0 110px rgba(255,255,255,.018);
+}
+
+.eit-footer__invite-grid{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:54px;
+  align-items:end;
+}
+
+.eit-footer__eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:11px;
+  margin:0 0 18px;
+  color:var(--eit-footer-accent-soft)!important;
+  font-size:.72rem;
+  font-weight:750;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+
+.eit-footer__eyebrow::before{
+  width:32px;
+  height:1px;
+  content:"";
+  background:var(--eit-footer-accent);
+}
+
+.eit-footer__invitation h2{
+  max-width:980px;
+  margin:0;
+  color:var(--eit-footer-ivory)!important;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(2.2rem,4.4vw,4.55rem);
+  font-weight:400;
+  letter-spacing:-.045em;
+  line-height:1.02;
+}
+
+.eit-footer__invitation h2 em{
+  color:var(--eit-footer-accent-soft)!important;
+  font-style:italic;
+  font-weight:400;
+}
+
+.eit-footer__invitation p{
+  max-width:720px;
+  margin:23px 0 0;
+  color:#d0d4da!important;
+  font-size:1rem;
+  line-height:1.75;
+}
+
+.eit-footer__invite-actions{
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+  align-items:stretch;
+  min-width:238px;
+}
+
+.eit-footer__button{
+  min-height:52px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:14px 24px;
+  border:1px solid transparent;
+  border-radius:999px;
+  background:var(--eit-footer-accent);
+  color:#fff!important;
+  box-shadow:0 14px 32px rgba(238,139,45,.2);
+  font-size:.9rem;
+  font-weight:750;
+  transition:transform .2s ease,background .2s ease,box-shadow .2s ease;
+}
+
+.eit-footer__button:hover{
+  transform:translateY(-2px);
+  background:#da7a20;
+  box-shadow:0 18px 38px rgba(238,139,45,.27);
+}
+
+.eit-footer__button--quiet{
+  border-color:rgba(255,255,255,.2);
+  background:transparent;
+  box-shadow:none;
+  color:#e7e9ec!important;
+}
+
+.eit-footer__button--quiet:hover{
+  background:rgba(255,255,255,.07);
+}
+
+/* MAIN FOOTER */
+.eit-footer__main{
+  padding:76px 0 60px;
+  background:var(--eit-footer-bg);
+}
+
+.eit-footer__grid{
+  display:grid;
+  grid-template-columns:minmax(300px,1.25fr) minmax(190px,.78fr) minmax(210px,.86fr) minmax(310px,1.04fr);
+  gap:48px;
+}
+
+.eit-footer__brand-link{
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  max-width:100%;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  transition:opacity .2s ease,transform .2s ease;
+}
+
+.eit-footer__brand-link:hover{
+  transform:translateY(-2px);
+  opacity:.92;
+}
+
+.eit-footer__brand-logo{
+  display:block;
+  width:220px;
+  max-width:100%;
+  height:auto;
+  object-fit:contain;
+  object-position:left center;
+}
+
+.eit-footer__brand-copy{
+  max-width:330px;
+  margin:25px 0 0;
+  color:#9ca3ad;
+  font-size:.88rem;
+  line-height:1.75;
+}
+
+.eit-footer__assurance{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  margin-top:24px;
+  padding:9px 13px;
+  border:1px solid var(--eit-footer-line);
+  border-radius:999px;
+  color:#c9cdd3;
+  font-size:.73rem;
+  letter-spacing:.04em;
+}
+
+.eit-footer__assurance i{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--eit-footer-accent);
+  box-shadow:0 0 0 5px rgba(238,139,45,.09);
+}
+
+.eit-footer__heading{
+  margin:0 0 22px;
+  color:#f6f2ec!important;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:1.16rem;
+  font-weight:400;
+  letter-spacing:.01em;
+}
+
+.eit-footer__links{
+  display:grid;
+  gap:11px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.eit-footer__links a{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  max-width:100%;
+  color:#d0d4da!important;
+  font-size:.88rem;
+  transition:color .2s ease,transform .2s ease;
+}
+
+.eit-footer__links a::before{
+  width:0;
+  height:1px;
+  margin-right:0;
+  content:"";
+  background:var(--eit-footer-accent);
+  transition:width .2s ease,margin-right .2s ease;
+}
+
+.eit-footer__links a:hover{
+  transform:translateX(2px);
+  color:#f0f1f2;
+}
+
+.eit-footer__links a:hover::before{
+  width:15px;
+  margin-right:8px;
+}
+
+.eit-footer__contact{
+  padding:25px;
+  border:1px solid var(--eit-footer-line);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 90% 8%,rgba(238,139,45,.11),transparent 30%),
+    var(--eit-footer-panel);
+}
+
+.eit-footer__contact .eit-footer__heading{
+  margin-bottom:17px;
+}
+
+.eit-footer__contact-list{
+  display:grid;
+  gap:14px;
+}
+
+.eit-footer__contact-row{
+  display:grid;
+  grid-template-columns:31px minmax(0,1fr);
+  gap:11px;
+  align-items:start;
+}
+
+.eit-footer__contact-icon{
+  width:31px;
+  height:31px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:10px;
+  background:rgba(255,255,255,.035);
+  color:var(--eit-footer-accent-soft);
+  font-size:.78rem;
+}
+
+.eit-footer .eit-footer__contact-label{
+  display:block;
+  color:#aeb5bf!important;
+  font-size:.69rem!important;
+  font-weight:750!important;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  opacity:1!important;
+}
+
+.eit-footer .eit-footer__contact-value,
+.eit-footer .eit-footer__contact-value a{
+  display:block;
+  margin-top:3px;
+  color:#e4e7eb!important;
+  font-size:.84rem!important;
+  font-weight:500!important;
+  line-height:1.55!important;
+  opacity:1!important;
+}
+
+.eit-footer .eit-footer__contact-value a:hover{
+  color:var(--eit-footer-accent-soft)!important;
+}
+
+/* LOCATIONS */
+.eit-footer__locations{
+  padding:0 0 55px;
+}
+
+.eit-footer__locations-inner{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:28px;
+  align-items:center;
+  padding:23px 0;
+  border-top:1px solid var(--eit-footer-line);
+  border-bottom:1px solid var(--eit-footer-line);
+}
+
+.eit-footer__locations-title{
+  color:#f6f2ec!important;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:.96rem;
+  white-space:nowrap;
+}
+
+.eit-footer__location-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 9px;
+}
+
+.eit-footer__location-links a{
+  padding:7px 11px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:999px;
+  color:#e1e4e8!important;
+  font-size:.78rem!important;
+  transition:border-color .2s ease,background .2s ease,color .2s ease;
+}
+
+.eit-footer__location-links a:hover{
+  border-color:rgba(238,139,45,.34);
+  background:rgba(238,139,45,.07);
+  color:#ffffff!important;
+}
+
+/* BOTTOM */
+.eit-footer__bottom{
+  padding:0 0 28px;
+}
+
+.eit-footer__bottom-grid{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:28px;
+  align-items:center;
+  min-height:64px;
+  padding:17px 20px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:15px;
+  background:rgba(255,255,255,.025);
+}
+
+.eit-footer .eit-footer__copyright{
+  color:#d5d9df!important;
+  font-size:.79rem!important;
+  font-weight:500!important;
+  line-height:1.45!important;
+  opacity:1!important;
+}
+
+.eit-footer__legal{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:9px 22px;
+}
+
+.eit-footer .eit-footer__legal a{
+  color:#e0e3e7!important;
+  font-size:.79rem!important;
+  font-weight:600!important;
+  line-height:1.45!important;
+  opacity:1!important;
+  transition:color .2s ease;
+}
+
+.eit-footer .eit-footer__legal a:hover{
+  color:var(--eit-footer-accent-soft)!important;
+}
+
+.eit-footer .eit-footer__credit{
+  justify-self:end;
+  padding-right:64px;
+  color:#d5d9df!important;
+  font-size:.78rem!important;
+  font-weight:500!important;
+  line-height:1.45!important;
+  opacity:1!important;
+}
+
+.eit-footer .eit-footer__credit a{
+  color:#f0f2f4!important;
+  font-weight:700!important;
+  opacity:1!important;
+}
+
+.eit-footer .eit-footer__credit a:hover{
+  color:var(--eit-footer-accent-soft)!important;
+}
+
+.eit-footer__credit-wrap{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+}
+
+.eit-footer__globe3d{
+  position:relative;
+  width:11px;
+  height:11px;
+  display:inline-block;
+  flex:0 0 11px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.95) 0 12%, rgba(255,255,255,.15) 13% 22%, transparent 23%),
+    radial-gradient(circle at 35% 35%, #7fd3ff 0, #3889d9 38%, #174278 72%, #0d1e39 100%);
+  box-shadow:
+    inset -2px -3px 5px rgba(0,0,0,.35),
+    inset 2px 2px 4px rgba(255,255,255,.12),
+    0 0 0 1px rgba(255,255,255,.08);
+  overflow:visible;
+  animation: eit-footer-globe-spin 8s linear infinite;
+}
+
+.eit-footer__globe3d::before,
+.eit-footer__globe3d::after{
+  position:absolute;
+  inset:0;
+  content:"";
+  border-radius:50%;
+}
+
+.eit-footer__globe3d::before{
+  inset:1px 3px;
+  border-left:1px solid rgba(255,255,255,.5);
+  border-right:1px solid rgba(255,255,255,.25);
+  transform:rotate(18deg);
+  opacity:.7;
+}
+
+.eit-footer__globe3d::after{
+  inset:3px 1px;
+  border-top:1px solid rgba(255,255,255,.38);
+  border-bottom:1px solid rgba(255,255,255,.2);
+  opacity:.75;
+}
+
+.eit-footer__globe3d-orbit{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:16px;
+  height:6px;
+  margin-left:-8px;
+  margin-top:-3px;
+  border:1px solid rgba(238,139,45,.55);
+  border-radius:50%;
+  transform:rotate(-25deg);
+  opacity:.9;
+  animation: eit-footer-orbit-tilt 3s linear infinite;
+}
+
+.eit-footer__globe3d-orbit::before{
+  position:absolute;
+  top:50%;
+  left:-1px;
+  width:2.5px;
+  height:2.5px;
+  margin-top:-1.25px;
+  content:"";
+  border-radius:50%;
+  background:var(--eit-footer-accent-soft);
+  box-shadow:0 0 8px rgba(238,139,45,.45);
+  animation: eit-footer-orbit-dot 3s linear infinite;
+}
+
+@keyframes eit-footer-globe-spin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
+@keyframes eit-footer-orbit-tilt{
+  from{transform:rotate(-25deg) rotateY(0deg)}
+  to{transform:rotate(-25deg) rotateY(360deg)}
+}
+
+@keyframes eit-footer-orbit-dot{
+  0%{left:-1.25px; opacity:.95; transform:scale(1)}
+  25%{left:calc(50% - 1.25px); opacity:.7; transform:scale(.8)}
+  50%{left:calc(100% - 1.25px); opacity:.95; transform:scale(1)}
+  75%{left:calc(50% - 1.25px); opacity:.4; transform:scale(.65)}
+  100%{left:-1.25px; opacity:.95; transform:scale(1)}
+}
+
+.eit-footer__top{
+  position:absolute;
+  right:27px;
+  bottom:27px;
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:50%;
+  background:#15181d;
+  color:#d7dbe0;
+  cursor:pointer;
+  transition:transform .2s ease,border-color .2s ease,background .2s ease;
+}
+
+.eit-footer__top:hover{
+  transform:translateY(-3px);
+  border-color:rgba(238,139,45,.45);
+  background:#1b1f25;
+}
+
+.eit-footer a:focus-visible,
+.eit-footer button:focus-visible{
+  outline:3px solid rgba(238,139,45,.45);
+  outline-offset:4px;
+}
+
+/* STRONG CONTRAST AGAINST THEME TYPOGRAPHY OVERRIDES */
+.eit-footer .eit-footer__invitation h2{
+  color:#f7f1e8!important;
+}
+
+.eit-footer .eit-footer__invitation h2 em{
+  color:#f3ad68!important;
+}
+
+.eit-footer .eit-footer__heading,
+.eit-footer .eit-footer__locations-title{
+  color:#f7f3ed!important;
+}
+
+.eit-footer .eit-footer__links a,
+.eit-footer .eit-footer__location-links a{
+  color:#d5d9df!important;
+}
+
+.eit-footer .eit-footer__links a:hover,
+.eit-footer .eit-footer__location-links a:hover{
+  color:#ffffff!important;
+}
+
+/* RESPONSIVE */
+@supports(width:100dvw){
+  .eit-footer{
+    width:100dvw;
+    margin-left:-50dvw;
+    margin-right:-50dvw;
+  }
+}
+
+@media(max-width:1080px){
+  .eit-footer__grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .eit-footer__brand{
+    max-width:500px;
+  }
+
+  .eit-footer__bottom-grid{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .eit-footer .eit-footer__credit{
+    justify-self:center;
+    padding-right:0;
+  }
+}
+
+@media(max-width:760px){
+  .eit-footer__shell{
+    width:calc(100% - 28px);
+  }
+
+  .eit-footer__bottom-grid{
+    padding:18px 15px;
+  }
+
+  .eit-footer__invitation{
+    padding:58px 0 54px;
+  }
+
+  .eit-footer__invite-grid{
+    grid-template-columns:1fr;
+    gap:31px;
+  }
+
+  .eit-footer__invite-actions{
+    min-width:0;
+    align-items:stretch;
+  }
+
+  .eit-footer__button{
+    width:100%;
+  }
+
+  .eit-footer__main{
+    padding:58px 0 44px;
+  }
+
+  .eit-footer__grid{
+    grid-template-columns:1fr;
+    gap:42px;
+  }
+
+  .eit-footer__brand-logo{
+    width:190px;
+  }
+
+  .eit-footer__contact{
+    padding:22px;
+  }
+
+  .eit-footer__locations-inner{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+
+  .eit-footer__locations-title{
+    white-space:normal;
+  }
+
+  .eit-footer__top{
+    position:static;
+    margin:0 auto 27px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .eit-footer *,
+  .eit-footer *::before,
+  .eit-footer *::after{
+    scroll-behavior:auto!important;
+    transition-duration:.001ms!important;
+  }
+}
+</style>
+
+<footer class="eit-footer" aria-label="Everything IT website footer">
+
+  <section class="eit-footer__invitation" aria-labelledby="eit-footer-invite-title">
+    <div class="eit-footer__shell eit-footer__invite-grid">
+
+      <div>
+        <div class="eit-footer__eyebrow">Everything IT · Dublin, Ireland</div>
+        <h2 id="eit-footer-invite-title">
+          Technology should feel <em>considered, secure and effortless.</em>
+        </h2>
+        <p>
+          Speak with Everything IT about managed services, information security,
+          cloud, procurement and technology projects built around your organisation.
+        </p>
+      </div>
+
+      <div class="eit-footer__invite-actions">
+        <a class="eit-footer__button" href="/contact/">Schedule a Consultation <span>→</span></a>
+        <a class="eit-footer__button eit-footer__button--quiet" href="tel:+35315240755">Call +353 1 524 0755</a>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="eit-footer__main">
+    <div class="eit-footer__shell eit-footer__grid">
+
+      <div class="eit-footer__brand">
+        <a class="eit-footer__brand-link" href="/" aria-label="Everything IT home">
+          <img
+            class="eit-footer__brand-logo"
+            src="https://everythingit.ie/wp-content/uploads/2024/03/eit-logo.png"
+            alt="Everything IT Computer Systems"
+            width="358"
+            height="64"
+            loading="lazy">
+        </a>
+
+        <p class="eit-footer__brand-copy">
+          Managed IT services and technology solutions designed to protect
+          operations, simplify complexity and support sustainable growth.
+        </p>
+
+        <span class="eit-footer__assurance">
+          <i aria-hidden="true"></i>
+          ISO 27001 information security
+        </span>
+      </div>
+
+      <nav aria-labelledby="eit-footer-services-title">
+        <h3 class="eit-footer__heading" id="eit-footer-services-title">Services</h3>
+        <ul class="eit-footer__links">
+          <li><a href="/business-continuity-services/managed-services/">Managed Services</a></li>
+          <li><a href="/business-continuity-services/information-security-services/">Information Security</a></li>
+          <li><a href="/business-continuity-services/procurement/">IT Procurement</a></li>
+          <li><a href="/business-continuity-services/cloud-computing/">Cloud Computing</a></li>
+          <li><a href="/business-continuity-services/professional-services/">Professional Services</a></li>
+          <li><a href="/business-continuity-services/third-party-services/">Third-Party Services</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="eit-footer-expertise-title">
+        <h3 class="eit-footer__heading" id="eit-footer-expertise-title">Expertise</h3>
+        <ul class="eit-footer__links">
+          <li><a href="/business-continuity-services/information-security-services/iso27001-information-security-data-privacy/">ISO 27001 &amp; Data Privacy</a></li>
+          <li><a href="/business-continuity-services/information-security-services/cybersecurity-solutions-dublin/">Cybersecurity Solutions</a></li>
+          <li><a href="/disaster-recovery-planning-testing/">Disaster Recovery</a></li>
+          <li><a href="/business-continuity-services/cloud-computing/modern-cloud-working/">Modern Cloud Working</a></li>
+          <li><a href="/business-continuity-services/third-party-services/software-acquisition/">Software Acquisition</a></li>
+          <li><a href="/about-us/">About Everything IT</a></li>
+        </ul>
+      </nav>
+
+      <div class="eit-footer__contact">
+        <h3 class="eit-footer__heading">Contact</h3>
+
+        <div class="eit-footer__contact-list">
+          <div class="eit-footer__contact-row">
+            <span class="eit-footer__contact-icon" aria-hidden="true">⌖</span>
+            <span>
+              <span class="eit-footer__contact-label">Dublin office</span>
+              <span class="eit-footer__contact-value">
+                Unit 3C, Avonbeg Industrial Estate<br>
+                Longmile Road, Dublin, D12 C596
+              </span>
+            </span>
+          </div>
+
+          <div class="eit-footer__contact-row">
+            <span class="eit-footer__contact-icon" aria-hidden="true">☎</span>
+            <span>
+              <span class="eit-footer__contact-label">Telephone</span>
+              <span class="eit-footer__contact-value">
+                <a href="tel:+35315240755">+353 1 524 0755</a>
+              </span>
+            </span>
+          </div>
+
+          <div class="eit-footer__contact-row">
+            <span class="eit-footer__contact-icon" aria-hidden="true">✉</span>
+            <span>
+              <span class="eit-footer__contact-label">Email</span>
+              <span class="eit-footer__contact-value">
+                <a href="mailto:info@everythingit.ie">info@everythingit.ie</a>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="eit-footer__locations" aria-labelledby="eit-footer-locations-title">
+    <div class="eit-footer__shell eit-footer__locations-inner">
+
+      <div class="eit-footer__locations-title" id="eit-footer-locations-title">
+        IT support across Ireland
+      </div>
+
+      <nav class="eit-footer__location-links" aria-label="Everything IT service locations">
+        <a href="/it-support-dublin-city-centre/">Dublin City</a>
+        <a href="/it-support-south-dublin/">South Dublin</a>
+        <a href="/cork/">Cork</a>
+        <a href="/galway/">Galway</a>
+        <a href="/limerick/">Limerick</a>
+        <a href="/kildare/">Kildare</a>
+        <a href="/kilkenny/">Kilkenny</a>
+        <a href="/louth/">Louth</a>
+        <a href="/belfast/">Belfast</a>
+        <a href="/antrim/">Antrim</a>
+        <a href="/armagh/">Armagh</a>
+        <a href="/bangor/">Bangor</a>
+        <a href="/derry/">Derry</a>
+        <a href="/down/">Down</a>
+        <a href="/it-support-ireland-nationwide/">Nationwide</a>
+      </nav>
+
+    </div>
+  </section>
+
+  <section class="eit-footer__bottom">
+    <div class="eit-footer__shell eit-footer__bottom-grid">
+
+      <div class="eit-footer__copyright">
+        © <span data-eit-footer-year>2026</span> Everything IT Computer Systems. All rights reserved.
+      </div>
+
+      <nav class="eit-footer__legal" aria-label="Legal links">
+        <a href="/contact/">Contact Us</a>
+        <a href="/privacy-notice/">Privacy Notice</a>
+        <a href="/wp-content/uploads/2024/03/true.pdf" target="_blank" rel="noopener">Information Security Policy</a>
+      </nav>
+
+      <div class="eit-footer__credit">
+        <span class="eit-footer__credit-wrap">
+          <span>Website by <a href="https://azwebcorp.com/" target="_blank" rel="noopener">AZWebCorp</a></span>
+          <span class="eit-footer__globe3d" aria-hidden="true"><span class="eit-footer__globe3d-orbit"></span></span>
+        </span>
+      </div>
+
+    </div>
+  </section>
+
+  <button class="eit-footer__top" type="button" data-eit-footer-top aria-label="Return to the top of the page">↑</button>
+
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var footer=document.querySelector(".eit-footer");
+  if(!footer){return;}
+
+  footer.querySelectorAll("[data-eit-footer-year]").forEach(function(year){
+    year.textContent=String(new Date().getFullYear());
+  });
+
+  var topButton=footer.querySelector("[data-eit-footer-top]");
+  if(topButton){
+    topButton.addEventListener("click",function(){
+      window.scrollTo({
+        top:0,
+        behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"
+      });
+    });
+  }
+
+  document.querySelectorAll(
+    "a.custom-logo-link,.site-logo a,.logo a,.vamtam-logo a,.elementor-widget-theme-site-logo a,.elementor-location-header a[rel='home'],header a[rel='home']"
+  ).forEach(function(link){
+    link.setAttribute("href","/");
+    link.style.pointerEvents="auto";
+  });
+})();
+</script>

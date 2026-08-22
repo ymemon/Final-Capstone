@@ -1,0 +1,82 @@
+﻿Fetching sitemap from https://everythingit.ie ...
+Crawling 84 pages from the sitemap...
+
+
+Found 67 unique internal links across 84 pages. Testing each...
+
+=== BROKEN LINKS (4xx/5xx) (1) ===
+  https://everythingit.ie/voip-phone-systems/  [404]
+      appears on 1 page(s): https://everythingit.ie/business-broadband/
+
+=== LEGACY LINKS (redirect instead of direct) (34) ===
+  https://everythingit.ie/business-continuity/information-security-services/  [301 -> 200, final: https://everythingit.ie/cybersecurity-dublin/]
+      appears on 84 page(s): https://everythingit.ie/, https://everythingit.ie/2025/12/07/cost-of-it-downtime-irish-smes/, https://everythingit.ie/2025/12/07/cybersecurity-tips-dublin-businesses-2025/, https://everythingit.ie/2025/12/07/in-house-it-vs-outsourced-it-support-dublin/, https://everythingit.ie/2025/12/07/it-support-cost-dublin-pricing-guide-2025/ ...
+  https://everythingit.ie/business-continuity/information-security-services/cybersecurity-solutions-dublin/  [301 -> 200, final: https://everythingit.ie/cybersecurity-dublin/]
+      appears on 84 page(s): https://everythingit.ie/, https://everythingit.ie/2025/12/07/cost-of-it-downtime-irish-smes/, https://everythingit.ie/2025/12/07/cybersecurity-tips-dublin-businesses-2025/, https://everythingit.ie/2025/12/07/in-house-it-vs-outsourced-it-support-dublin/, https://everythingit.ie/2025/12/07/it-support-cost-dublin-pricing-guide-2025/ ...
+  https://everythingit.ie/business-continuity/information-security-services/business-continuity-solutions/  [301 -> 200, final: https://everythingit.ie/cybersecurity-dublin/]
+      appears on 84 page(s): https://everythingit.ie/, https://everythingit.ie/2025/12/07/cost-of-it-downtime-irish-smes/, https://everythingit.ie/2025/12/07/cybersecurity-tips-dublin-businesses-2025/, https://everythingit.ie/2025/12/07/in-house-it-vs-outsourced-it-support-dublin/, https://everythingit.ie/2025/12/07/it-support-cost-dublin-pricing-guide-2025/ ...
+  https://everythingit.ie/business-continuity/managed-services/service-level-agreements/  [301 -> 200, final: https://everythingit.ie/managed-it-services/]
+      appears on 84 page(s): https://everythingit.ie/, https://everythingit.ie/2025/12/07/cost-of-it-downtime-irish-smes/, https://everythingit.ie/2025/12/07/cybersecurity-tips-dublin-businesses-2025/, https://everythingit.ie/2025/12/07/in-house-it-vs-outsourced-it-support-dublin/, https://everythingit.ie/2025/12/07/it-support-cost-dublin-pricing-guide-2025/ ...
+  https://everythingit.ie/business-continuity/managed-services/dedicated-it-support-helpdesk/  [301 -> 200, final: https://everythingit.ie/managed-it-services/]
+      appears on 84 page(s): https://everythingit.ie/, https://everythingit.ie/2025/12/07/cost-of-it-downtime-irish-smes/, https://everythingit.ie/2025/12/07/cybersecurity-tips-dublin-businesses-2025/, https://everythingit.ie/2025/12/07/in-house-it-vs-outsourced-it-support-dublin/, https://everythingit.ie/2025/12/07/it-support-cost-dublin-pricing-guide-2025/ ...
+  https://everythingit.ie/contact  [301 -> 200, final: https://everythingit.ie/contact/]
+      appears on 9 page(s): https://everythingit.ie/antrim/, https://everythingit.ie/armagh/, https://everythingit.ie/bangor/, https://everythingit.ie/belfast/, https://everythingit.ie/derry/ ...
+  https://everythingit.ie/cybersecurity-solutions/  [301 -> 301 -> 200, final: https://everythingit.ie/cybersecurity-dublin/]
+      appears on 7 page(s): https://everythingit.ie/asset-management/, https://everythingit.ie/business-broadband/, https://everythingit.ie/business-continuity-solutions/, https://everythingit.ie/business-continuity/information-security-services/, https://everythingit.ie/business-continuity/information-security-services/business-continuity-solutions/ ...
+  https://everythingit.ie/business-continuity-services/managed-services/dedicated-it-support-helpdesk/  [301 -> 200, final: https://everythingit.ie/managed-it-services/]
+      appears on 4 page(s): https://everythingit.ie/business-continuity/managed-services/dedicated-it-support-helpdesk/, https://everythingit.ie/business-continuity/managed-services/service-level-agreements/, https://everythingit.ie/managed-it-services/, https://everythingit.ie/third-party-services/
+  https://everythingit.ie/business-continuity-services/managed-services/service-level-agreements/  [301 -> 200, final: https://everythingit.ie/managed-it-services/]
+      appears on 3 page(s): https://everythingit.ie/business-continuity/managed-services/dedicated-it-support-helpdesk/, https://everythingit.ie/business-continuity/managed-services/service-level-agreements/, https://everythingit.ie/managed-it-services/
+  https://everythingit.ie/business-continuity-services/managed-services/network-security-monitoring/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 3 page(s): https://everythingit.ie/business-continuity/managed-services/dedicated-it-support-helpdesk/, https://everythingit.ie/business-continuity/managed-services/service-level-agreements/, https://everythingit.ie/managed-it-services/
+  https://everythingit.ie/business-continuity-services/managed-services/hosted-data-centre-services/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 3 page(s): https://everythingit.ie/business-continuity/managed-services/dedicated-it-support-helpdesk/, https://everythingit.ie/business-continuity/managed-services/service-level-agreements/, https://everythingit.ie/managed-it-services/
+  https://everythingit.ie/business-continuity-services/managed-services/voip-cloud-pbx-technology/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 3 page(s): https://everythingit.ie/business-continuity/managed-services/dedicated-it-support-helpdesk/, https://everythingit.ie/business-continuity/managed-services/service-level-agreements/, https://everythingit.ie/managed-it-services/
+  https://everythingit.ie/business-continuity-services/managed-services/  [301 -> 200, final: https://everythingit.ie/managed-it-services/]
+      appears on 2 page(s): https://everythingit.ie/, https://everythingit.ie/elementor-hf/header-for-all/
+  https://everythingit.ie/business-continuity-services/information-security-services/  [301 -> 200, final: https://everythingit.ie/cybersecurity-dublin/]
+      appears on 2 page(s): https://everythingit.ie/, https://everythingit.ie/elementor-hf/header-for-all/
+  https://everythingit.ie/business-continuity-services/procurement/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/, https://everythingit.ie/elementor-hf/header-for-all/
+  https://everythingit.ie/business-continuity-services/professional-services/  [301 -> 200, final: https://everythingit.ie/managed-it-services/]
+      appears on 2 page(s): https://everythingit.ie/, https://everythingit.ie/elementor-hf/header-for-all/
+  https://everythingit.ie/business-continuity-services/third-party-services/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/, https://everythingit.ie/elementor-hf/header-for-all/
+  https://everythingit.ie/about/  [301 -> 200, final: https://everythingit.ie/about-us/]
+      appears on 2 page(s): https://everythingit.ie/, https://everythingit.ie/elementor-hf/header-for-all/
+  https://everythingit.ie/business-continuity-services/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/, https://everythingit.ie/elementor-hf/header-for-all/
+  https://everythingit.ie/business-continuity-services/procurement/supply-chain-logistics-amp-quality-control/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/business-continuity/, https://everythingit.ie/procurement/
+  https://everythingit.ie/business-continuity-services/procurement/strategic-procurement/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/business-continuity/, https://everythingit.ie/procurement/
+  https://everythingit.ie/business-continuity-services/procurement/software-license-management/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/business-continuity/, https://everythingit.ie/procurement/
+  https://everythingit.ie/business-continuity-services/procurement/on-demand-structured-it-procurement/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/business-continuity/, https://everythingit.ie/procurement/
+  https://everythingit.ie/business-continuity-services/procurement/inventory-rotation-warehousing-services/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/business-continuity/, https://everythingit.ie/procurement/
+  https://everythingit.ie/business-continuity-services/professional-services/it-management-consultancy/  [301 -> 200, final: https://everythingit.ie/it-management-consultancy/]
+      appears on 2 page(s): https://everythingit.ie/business-continuity/, https://everythingit.ie/professional-services/
+  https://everythingit.ie/business-continuity-services/professional-services/secure-scalable-network-design/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/business-continuity/, https://everythingit.ie/professional-services/
+  https://everythingit.ie/business-continuity-services/professional-services/it-migration-services/  [301 -> 200, final: https://everythingit.ie/it-migration-services/]
+      appears on 2 page(s): https://everythingit.ie/business-continuity/, https://everythingit.ie/professional-services/
+  https://everythingit.ie/business-continuity-services/professional-services/company-relocation/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/business-continuity/, https://everythingit.ie/professional-services/
+  https://everythingit.ie/business-continuity-services/professional-services/virtualization-services/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/business-continuity/, https://everythingit.ie/professional-services/
+  https://everythingit.ie/business-continuity-services/third-party-services/business-broadband/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 2 page(s): https://everythingit.ie/business-continuity/, https://everythingit.ie/third-party-services/
+  https://everythingit.ie/business-continuity-services/cloud-computing/modern-cloud-working/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 1 page(s): https://everythingit.ie/business-continuity/
+  https://everythingit.ie/business-continuity-services/cloud-computing/mobile-device-management/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 1 page(s): https://everythingit.ie/business-continuity/
+  https://everythingit.ie/business-continuity-services/cloud-computing/cloud-infrastructure-deployment/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 1 page(s): https://everythingit.ie/business-continuity/
+  https://everythingit.ie/business-continuity-services/third-party-services/managed-print-services/  [301 -> 200, final: https://everythingit.ie/business-continuity/]
+      appears on 1 page(s): https://everythingit.ie/third-party-services/
+
+=== OK, direct 200 (32) === (not printed, no action needed)
+

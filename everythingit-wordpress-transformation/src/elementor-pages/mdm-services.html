@@ -1,0 +1,2098 @@
+<!--
+NEW MDM PAGE — ELEMENTOR INSTALLATION
+
+Canonical page to update:
+https://everythingit.ie/mdm-services-dublin/
+
+1. Edit the existing MDM Services Dublin page with Elementor. Do not create a duplicate page.
+2. Remove the old page-body content, then add one full-width Elementor HTML widget.
+3. Paste this entire document into that one HTML widget. The opening comments may remain;
+   they are not visible. The working code runs from the <style> tag through the final </script> tag.
+4. Hide the default WordPress page title and use an Elementor Full Width layout.
+5. Update/publish, clear Elementor and caching layers, then test desktop and mobile.
+6. Redirect the legacy nested MDM URL to /mdm-services-dublin/ with a permanent 301:
+   /business-continuity-services/cloud-computing/mobile-device-management/
+
+RECOMMENDED SEO SETTINGS
+
+SEO title:
+Microsoft Intune & MDM Services Dublin | Everything IT
+
+Meta description:
+Secure company and BYOD phones, tablets and laptops with Microsoft Intune MDM services in Dublin, Cork, Galway, Limerick and Waterford.
+
+Primary keyphrase:
+mobile device management Dublin
+
+Secondary topics:
+MDM services Dublin
+Microsoft Intune Dublin
+endpoint management Dublin
+Microsoft Intune services Dublin
+BYOD security
+mobile application management
+device compliance
+Windows Autopilot
+Apple Business Manager
+Android Enterprise
+
+IMPORTANT LOCATION RULE:
+Besides Dublin, this website showcases only Cork, Galway, Limerick and Waterford.
+Do not add any other city, county or regional location to this code.
+-->
+
+<style>
+/* ==========================================================
+   EVERYTHING IT — MOBILE DEVICE MANAGEMENT DUBLIN
+   Full-width, responsive and Elementor-friendly
+   ========================================================== */
+
+#eit-mdm,
+#eit-mdm * {
+  box-sizing: border-box;
+}
+
+#eit-mdm {
+  --eit-orange: #f06f43;
+  --eit-orange-dark: #d95731;
+  --eit-orange-soft: #fff1eb;
+  --eit-charcoal: #111418;
+  --eit-charcoal-2: #1b2026;
+  --eit-ink: #282d34;
+  --eit-muted: #68727e;
+  --eit-line: #e5e8ec;
+  --eit-light: #f6f7f8;
+  --eit-white: #ffffff;
+  --eit-green: #35c891;
+  --eit-blue: #5aa8ff;
+  --eit-max: 1180px;
+  --eit-shadow: 0 20px 58px rgba(17,20,24,.11);
+
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  color: var(--eit-ink);
+  background: var(--eit-white);
+  font-family: inherit;
+  line-height: 1.65;
+}
+
+#eit-mdm img,
+#eit-mdm svg {
+  display: block;
+  max-width: 100%;
+}
+
+#eit-mdm a {
+  color: inherit;
+}
+
+#eit-mdm .eit-container {
+  width: min(calc(100% - 96px), var(--eit-max));
+  margin-inline: auto;
+}
+
+#eit-mdm .eit-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 18px;
+  color: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+#eit-mdm .eit-kicker::before {
+  content: "";
+  width: 28px;
+  height: 3px;
+  border-radius: 99px;
+  background: currentColor;
+}
+
+#eit-mdm h1,
+#eit-mdm h2,
+#eit-mdm h3,
+#eit-mdm p {
+  margin-top: 0;
+}
+
+#eit-mdm h1,
+#eit-mdm h2,
+#eit-mdm h3 {
+  color: var(--eit-charcoal);
+  line-height: 1.12;
+  letter-spacing: -.027em;
+}
+
+#eit-mdm h1 {
+  max-width: 850px;
+  margin-bottom: 24px;
+  color: var(--eit-white);
+  font-size: clamp(43px, 6vw, 75px);
+}
+
+#eit-mdm h2 {
+  margin-bottom: 18px;
+  font-size: clamp(31px, 4vw, 48px);
+}
+
+#eit-mdm h3 {
+  margin-bottom: 10px;
+  font-size: 21px;
+}
+
+#eit-mdm p {
+  color: var(--eit-muted);
+  font-size: 17px;
+}
+
+#eit-mdm .eit-lead {
+  max-width: 760px;
+  font-size: clamp(18px, 2vw, 21px);
+  line-height: 1.72;
+}
+
+#eit-mdm .eit-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+#eit-mdm .eit-button {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 23px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 850;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+#eit-mdm .eit-button:hover {
+  transform: translateY(-2px);
+}
+
+#eit-mdm .eit-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+#eit-mdm .eit-button--primary {
+  color: var(--eit-white);
+  background: linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 12px 30px rgba(240,111,67,.29);
+}
+
+#eit-mdm .eit-button--ghost {
+  color: var(--eit-white);
+  border-color: rgba(255,255,255,.28);
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(9px);
+}
+
+/* HERO */
+#eit-mdm .eit-hero {
+  position: relative;
+  min-height: 745px;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 75% 36%, rgba(240,111,67,.22), transparent 29%),
+    radial-gradient(circle at 16% 12%, rgba(255,255,255,.06), transparent 24%),
+    linear-gradient(135deg, #0b0d10 0%, #171c22 55%, #0b0e11 100%);
+}
+
+#eit-mdm .eit-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: .18;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, #000 12%, transparent 95%);
+}
+
+#eit-mdm .eit-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 86px;
+  z-index: -1;
+  background: var(--eit-white);
+  clip-path: polygon(0 84%, 100% 0, 100% 100%, 0 100%);
+}
+
+#eit-mdm .eit-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0,1.06fr) minmax(390px,.94fr);
+  gap: 62px;
+  align-items: center;
+  padding: 112px 0 145px;
+}
+
+#eit-mdm .eit-hero .eit-kicker {
+  color: #ff9874;
+}
+
+#eit-mdm .eit-hero p {
+  max-width: 730px;
+  color: rgba(255,255,255,.77);
+}
+
+#eit-mdm .eit-proof-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-mdm .eit-proof-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255,255,255,.85);
+  font-size: 14px;
+  font-weight: 750;
+}
+
+#eit-mdm .eit-proof-list li::before {
+  content: "✓";
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+  color: var(--eit-green);
+  background: rgba(53,200,145,.08);
+}
+
+/* HERO DEVICE GRAPHIC */
+#eit-mdm .eit-visual {
+  position: relative;
+  min-height: 530px;
+}
+
+#eit-mdm .eit-glow {
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,111,67,.24), transparent 62%);
+  filter: blur(14px);
+}
+
+#eit-mdm .eit-orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(455px,100%);
+  aspect-ratio: 1;
+  transform: translate(-50%,-50%);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 50%;
+}
+
+#eit-mdm .eit-orbit::before,
+#eit-mdm .eit-orbit::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: inherit;
+}
+
+#eit-mdm .eit-orbit::before { inset: 14%; }
+#eit-mdm .eit-orbit::after { inset: 30%; }
+
+#eit-mdm .eit-phone {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 205px;
+  height: 390px;
+  transform: translate(-50%,-50%);
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,.19);
+  border-radius: 38px;
+  background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.055));
+  box-shadow: 0 28px 85px rgba(0,0,0,.42);
+  backdrop-filter: blur(16px);
+}
+
+#eit-mdm .eit-phone-screen {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  padding: 32px 17px 18px;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 65% 15%, rgba(240,111,67,.18), transparent 28%),
+    linear-gradient(180deg,#202730,#101419);
+}
+
+#eit-mdm .eit-phone-notch {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  width: 74px;
+  height: 19px;
+  transform: translateX(-50%);
+  border-radius: 0 0 12px 12px;
+  background: #090b0e;
+}
+
+#eit-mdm .eit-phone-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 7px 0 25px;
+}
+
+#eit-mdm .eit-phone-status strong {
+  color: var(--eit-white);
+  font-size: 11px;
+}
+
+#eit-mdm .eit-compliant {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 1px solid rgba(53,200,145,.25);
+  border-radius: 99px;
+  color: #96edcc;
+  background: rgba(53,200,145,.08);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+#eit-mdm .eit-compliant::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--eit-green);
+}
+
+#eit-mdm .eit-screen-shield {
+  display: grid;
+  width: 92px;
+  height: 108px;
+  place-items: center;
+  margin: 0 auto 22px;
+  color: var(--eit-white);
+  filter: drop-shadow(0 15px 25px rgba(240,111,67,.25));
+}
+
+#eit-mdm .eit-screen-shield svg {
+  width: 92px;
+  height: 108px;
+}
+
+#eit-mdm .eit-screen-title {
+  margin-bottom: 18px;
+  color: var(--eit-white);
+  text-align: center;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+#eit-mdm .eit-device-row {
+  display: grid;
+  grid-template-columns: 35px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 12px;
+  background: rgba(255,255,255,.045);
+}
+
+#eit-mdm .eit-device-row + .eit-device-row {
+  margin-top: 8px;
+}
+
+#eit-mdm .eit-device-icon {
+  display: grid;
+  width: 35px;
+  height: 35px;
+  place-items: center;
+  border-radius: 10px;
+  color: #ff9874;
+  background: rgba(240,111,67,.11);
+}
+
+#eit-mdm .eit-device-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+#eit-mdm .eit-device-name strong {
+  display: block;
+  color: var(--eit-white);
+  font-size: 9px;
+  line-height: 1.2;
+}
+
+#eit-mdm .eit-device-name span {
+  display: block;
+  margin-top: 3px;
+  color: rgba(255,255,255,.45);
+  font-size: 7px;
+}
+
+#eit-mdm .eit-device-check {
+  color: var(--eit-green);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+#eit-mdm .eit-floating-badge {
+  position: absolute;
+  display: flex;
+  min-width: 142px;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 14px;
+  color: var(--eit-white);
+  background: rgba(20,24,29,.84);
+  box-shadow: 0 14px 35px rgba(0,0,0,.28);
+  backdrop-filter: blur(12px);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+#eit-mdm .eit-floating-badge svg {
+  width: 22px;
+  height: 22px;
+  color: #ff956f;
+}
+
+#eit-mdm .eit-floating-badge--1 { top: 10%; left: 0; }
+#eit-mdm .eit-floating-badge--2 { top: 18%; right: -1%; }
+#eit-mdm .eit-floating-badge--3 { bottom: 10%; left: 0; }
+
+/* TRUST STRIP */
+#eit-mdm .eit-strip {
+  position: relative;
+  z-index: 3;
+  margin-top: -54px;
+}
+
+#eit-mdm .eit-strip-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  overflow: hidden;
+  border: 1px solid var(--eit-line);
+  border-radius: 18px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-mdm .eit-strip-item {
+  position: relative;
+  padding: 25px 22px;
+  text-align: center;
+}
+
+#eit-mdm .eit-strip-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 22%;
+  right: 0;
+  width: 1px;
+  height: 56%;
+  background: var(--eit-line);
+}
+
+#eit-mdm .eit-strip-item strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--eit-charcoal);
+  font-size: 18px;
+}
+
+#eit-mdm .eit-strip-item span {
+  color: var(--eit-muted);
+  font-size: 13px;
+}
+
+/* GENERAL */
+#eit-mdm .eit-section {
+  padding: 106px 0;
+}
+
+#eit-mdm .eit-section--light {
+  background: var(--eit-light);
+}
+
+#eit-mdm .eit-section--dark {
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 85% 18%, rgba(240,111,67,.15), transparent 27%),
+    var(--eit-charcoal);
+}
+
+#eit-mdm .eit-section--dark h2,
+#eit-mdm .eit-section--dark h3 {
+  color: var(--eit-white);
+}
+
+#eit-mdm .eit-section--dark p {
+  color: rgba(255,255,255,.69);
+}
+
+#eit-mdm .eit-two-col {
+  display: grid;
+  grid-template-columns: minmax(0,.96fr) minmax(0,1.04fr);
+  gap: 78px;
+  align-items: center;
+}
+
+#eit-mdm .eit-copy-box {
+  max-width: 585px;
+}
+
+#eit-mdm .eit-section-heading {
+  max-width: 830px;
+  margin-bottom: 50px;
+}
+
+#eit-mdm .eit-check-list {
+  display: grid;
+  gap: 15px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-mdm .eit-check-list li {
+  position: relative;
+  padding-left: 34px;
+  color: var(--eit-ink);
+  font-weight: 670;
+}
+
+#eit-mdm .eit-check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--eit-white);
+  background: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+/* PROBLEM PANEL */
+#eit-mdm .eit-risk-panel {
+  overflow: hidden;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-mdm .eit-risk-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 24px 26px;
+  border-bottom: 1px solid var(--eit-line);
+}
+
+#eit-mdm .eit-risk-head strong {
+  color: var(--eit-charcoal);
+  font-size: 16px;
+}
+
+#eit-mdm .eit-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #248b67;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+#eit-mdm .eit-live::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--eit-green);
+  box-shadow: 0 0 0 5px rgba(53,200,145,.12);
+}
+
+#eit-mdm .eit-risk-body {
+  padding: 25px;
+}
+
+#eit-mdm .eit-risk-item {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 15px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid var(--eit-line);
+  border-radius: 15px;
+}
+
+#eit-mdm .eit-risk-item + .eit-risk-item {
+  margin-top: 12px;
+}
+
+#eit-mdm .eit-risk-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 13px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-mdm .eit-risk-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+#eit-mdm .eit-risk-copy strong {
+  display: block;
+  color: var(--eit-charcoal);
+  font-size: 14px;
+}
+
+#eit-mdm .eit-risk-copy span {
+  display: block;
+  margin-top: 3px;
+  color: var(--eit-muted);
+  font-size: 12px;
+}
+
+#eit-mdm .eit-risk-pill {
+  padding: 6px 10px;
+  border-radius: 99px;
+  color: #ac4827;
+  background: var(--eit-orange-soft);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+/* SERVICES */
+#eit-mdm .eit-services {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 21px;
+}
+
+#eit-mdm .eit-service-card {
+  position: relative;
+  min-height: 310px;
+  overflow: hidden;
+  padding: 30px;
+  border: 1px solid var(--eit-line);
+  border-radius: 21px;
+  background: var(--eit-white);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+#eit-mdm .eit-service-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(240,111,67,.35);
+  box-shadow: 0 20px 48px rgba(17,20,24,.1);
+}
+
+#eit-mdm .eit-service-card::after {
+  content: "";
+  position: absolute;
+  right: -42px;
+  bottom: -42px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--eit-orange-soft);
+  transition: transform .25s ease;
+}
+
+#eit-mdm .eit-service-card:hover::after {
+  transform: scale(1.4);
+}
+
+#eit-mdm .eit-icon-box {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 55px;
+  height: 55px;
+  place-items: center;
+  margin-bottom: 23px;
+  border-radius: 15px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-mdm .eit-icon-box svg {
+  width: 28px;
+  height: 28px;
+}
+
+#eit-mdm .eit-service-card h3,
+#eit-mdm .eit-service-card p {
+  position: relative;
+  z-index: 2;
+}
+
+#eit-mdm .eit-service-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* INTUNE SECTION */
+#eit-mdm .eit-intune-panel {
+  overflow: hidden;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-mdm .eit-intune-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+  padding: 28px;
+  border-bottom: 1px solid var(--eit-line);
+}
+
+#eit-mdm .eit-intune-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+#eit-mdm .eit-intune-title .eit-icon-box {
+  margin: 0;
+}
+
+#eit-mdm .eit-intune-title strong {
+  display: block;
+  color: var(--eit-charcoal);
+  font-size: 16px;
+}
+
+#eit-mdm .eit-intune-title span {
+  color: var(--eit-muted);
+  font-size: 12px;
+}
+
+#eit-mdm .eit-secure-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border-radius: 99px;
+  color: #208760;
+  background: rgba(53,200,145,.12);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+#eit-mdm .eit-intune-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 14px;
+  padding: 24px;
+}
+
+#eit-mdm .eit-intune-item {
+  padding: 18px;
+  border: 1px solid var(--eit-line);
+  border-radius: 15px;
+  background: var(--eit-light);
+}
+
+#eit-mdm .eit-intune-item strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--eit-charcoal);
+  font-size: 13px;
+}
+
+#eit-mdm .eit-intune-item p {
+  margin-bottom: 0;
+  font-size: 12px;
+}
+
+/* OWNERSHIP MODELS */
+#eit-mdm .eit-models {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 21px;
+}
+
+#eit-mdm .eit-model {
+  padding: 30px;
+  border: 1px solid var(--eit-line);
+  border-radius: 20px;
+  background: var(--eit-white);
+}
+
+#eit-mdm .eit-model .eit-icon-box {
+  margin-bottom: 22px;
+}
+
+#eit-mdm .eit-model p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* PROCESS */
+#eit-mdm .eit-process {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 22px;
+  counter-reset: mdm-step;
+}
+
+#eit-mdm .eit-process-item {
+  position: relative;
+  counter-increment: mdm-step;
+}
+
+#eit-mdm .eit-process-item::before {
+  content: "0" counter(mdm-step);
+  display: block;
+  margin-bottom: 21px;
+  color: var(--eit-orange);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+#eit-mdm .eit-process-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 45px;
+  right: -2px;
+  top: 12px;
+  height: 1px;
+  background: rgba(255,255,255,.14);
+}
+
+#eit-mdm .eit-process-item h3 {
+  font-size: 18px;
+}
+
+#eit-mdm .eit-process-item p {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+/* LOCAL SEO SECTION */
+#eit-mdm .eit-local-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
+}
+
+#eit-mdm .eit-local-card {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 18px;
+  align-items: start;
+  padding: 27px;
+  border: 1px solid var(--eit-line);
+  border-radius: 19px;
+  background: var(--eit-white);
+}
+
+#eit-mdm .eit-local-card .eit-icon-box {
+  margin: 0;
+}
+
+#eit-mdm .eit-local-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* FAQ */
+#eit-mdm .eit-faq {
+  display: grid;
+  gap: 14px;
+  max-width: 920px;
+  margin-inline: auto;
+}
+
+#eit-mdm .eit-faq details {
+  overflow: hidden;
+  border: 1px solid var(--eit-line);
+  border-radius: 16px;
+  background: var(--eit-white);
+}
+
+#eit-mdm .eit-faq summary {
+  position: relative;
+  padding: 22px 58px 22px 24px;
+  color: var(--eit-charcoal);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 800;
+  list-style: none;
+}
+
+#eit-mdm .eit-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+#eit-mdm .eit-faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  border-radius: 9px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+#eit-mdm .eit-faq details[open] summary::after {
+  content: "−";
+}
+
+#eit-mdm .eit-faq-answer {
+  padding: 0 24px 23px;
+}
+
+#eit-mdm .eit-faq-answer p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* CTA */
+#eit-mdm .eit-cta {
+  padding: 0 0 106px;
+  background: var(--eit-light);
+}
+
+#eit-mdm .eit-cta-box {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding: 60px;
+  border-radius: 28px;
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 88% 20%, rgba(255,255,255,.14), transparent 23%),
+    linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 22px 60px rgba(217,86,47,.27);
+}
+
+#eit-mdm .eit-cta-box::before,
+#eit-mdm .eit-cta-box::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 50%;
+}
+
+#eit-mdm .eit-cta-box::before {
+  width: 240px;
+  height: 240px;
+  right: -80px;
+  top: -120px;
+}
+
+#eit-mdm .eit-cta-box::after {
+  width: 170px;
+  height: 170px;
+  right: 90px;
+  bottom: -120px;
+}
+
+#eit-mdm .eit-cta-copy,
+#eit-mdm .eit-cta-actions {
+  position: relative;
+  z-index: 2;
+}
+
+#eit-mdm .eit-cta h2 {
+  margin-bottom: 14px;
+  color: var(--eit-white);
+}
+
+#eit-mdm .eit-cta p {
+  margin-bottom: 0;
+  color: rgba(255,255,255,.83);
+}
+
+#eit-mdm .eit-cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+#eit-mdm .eit-button--white {
+  color: var(--eit-charcoal);
+  background: var(--eit-white);
+  box-shadow: 0 12px 28px rgba(0,0,0,.13);
+}
+
+#eit-mdm .eit-cta-phone {
+  color: rgba(255,255,255,.9);
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+#eit-mdm a:focus-visible,
+#eit-mdm summary:focus-visible {
+  outline: 3px solid rgba(240,111,67,.42);
+  outline-offset: 4px;
+}
+
+@media (max-width:1060px) {
+  #eit-mdm .eit-hero-grid,
+  #eit-mdm .eit-two-col {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-mdm .eit-visual {
+    width: min(650px,100%);
+    margin-inline: auto;
+  }
+
+  #eit-mdm .eit-services {
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  #eit-mdm .eit-models {
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  #eit-mdm .eit-process {
+    grid-template-columns: repeat(3,1fr);
+    gap: 40px 24px;
+  }
+
+  #eit-mdm .eit-process-item:nth-child(3)::after {
+    display: none;
+  }
+}
+
+@media (max-width:760px) {
+  #eit-mdm .eit-container {
+    width: calc(100% - 34px);
+  }
+
+  #eit-mdm .eit-hero {
+    min-height: auto;
+  }
+
+  #eit-mdm .eit-hero-grid {
+    gap: 34px;
+    padding: 84px 0 125px;
+  }
+
+  #eit-mdm .eit-visual {
+    min-height: 455px;
+  }
+
+  #eit-mdm .eit-orbit {
+    width: 345px;
+  }
+
+  #eit-mdm .eit-phone {
+    width: 180px;
+    height: 350px;
+  }
+
+  #eit-mdm .eit-floating-badge {
+    min-width: auto;
+    padding: 10px;
+  }
+
+  #eit-mdm .eit-floating-badge span {
+    display: none;
+  }
+
+  #eit-mdm .eit-floating-badge--1 { left: 2%; }
+  #eit-mdm .eit-floating-badge--2 { right: 2%; }
+  #eit-mdm .eit-floating-badge--3 { left: 2%; }
+
+  #eit-mdm .eit-strip-grid,
+  #eit-mdm .eit-services,
+  #eit-mdm .eit-models,
+  #eit-mdm .eit-process,
+  #eit-mdm .eit-local-grid,
+  #eit-mdm .eit-intune-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-mdm .eit-strip-item:not(:last-child)::after {
+    top: auto;
+    left: 8%;
+    right: 8%;
+    bottom: 0;
+    width: auto;
+    height: 1px;
+  }
+
+  #eit-mdm .eit-section {
+    padding: 76px 0;
+  }
+
+  #eit-mdm .eit-process-item::after {
+    display: none;
+  }
+
+  #eit-mdm .eit-cta {
+    padding-bottom: 76px;
+  }
+
+  #eit-mdm .eit-cta-box {
+    grid-template-columns: 1fr;
+    padding: 38px 26px;
+  }
+
+  #eit-mdm .eit-cta-actions {
+    align-items: flex-start;
+  }
+
+  #eit-mdm .eit-risk-item {
+    grid-template-columns: 44px 1fr;
+  }
+
+  #eit-mdm .eit-risk-pill {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  #eit-mdm *,
+  #eit-mdm *::before,
+  #eit-mdm *::after {
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+</style>
+
+<main id="eit-mdm">
+
+  <!-- HERO -->
+  <header class="eit-hero">
+    <div class="eit-container eit-hero-grid">
+
+      <div>
+        <div class="eit-kicker">Mobile device management Dublin</div>
+
+        <h1>Secure every work device with managed MDM and Microsoft Intune.</h1>
+
+        <p class="eit-lead">
+          Everything IT provides mobile device management services for organisations in
+          Dublin, Cork, Galway, Limerick and Waterford. We design, deploy and manage
+          Microsoft Intune environments that give your business clearer control over
+          company-owned and personal devices, applications, access and company data.
+        </p>
+
+        <div class="eit-button-row">
+          <a class="eit-button eit-button--primary" href="https://everythingit.ie/contact/">
+            Request an MDM assessment
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+
+          <a class="eit-button eit-button--ghost" href="tel:+35315240755">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M8.7 3.5 10.4 8l-2.1 1.3c1 2.2 2.7 3.9 4.9 4.9l1.3-2.1 4.5 1.7v3.1c0 1.1-.9 2-2 2C9.8 18.9 4 13.1 4 6c0-1.1.9-2 2-2h2.7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+            +353 1 524 0755
+          </a>
+        </div>
+
+        <ul class="eit-proof-list">
+          <li>Microsoft Intune deployment</li>
+          <li>Company-owned and BYOD</li>
+          <li>Dublin, Cork, Galway, Limerick &amp; Waterford</li>
+        </ul>
+      </div>
+
+      <div class="eit-visual" aria-hidden="true">
+        <div class="eit-glow"></div>
+        <div class="eit-orbit"></div>
+
+        <div class="eit-phone">
+          <div class="eit-phone-screen">
+            <div class="eit-phone-notch"></div>
+
+            <div class="eit-phone-status">
+              <strong>Device security</strong>
+              <span class="eit-compliant">Compliant</span>
+            </div>
+
+            <div class="eit-screen-shield">
+              <svg viewBox="0 0 100 118" fill="none">
+                <defs>
+                  <linearGradient id="mdmShieldGradient" x1="20" y1="5" x2="82" y2="112">
+                    <stop stop-color="#ff9a74"/>
+                    <stop offset="1" stop-color="#d95731"/>
+                  </linearGradient>
+                </defs>
+                <path d="M50 5 90 20v31c0 29-16 52-40 65C26 103 10 80 10 51V20L50 5Z" fill="url(#mdmShieldGradient)" opacity=".18"/>
+                <path d="M50 10 84 23v28c0 24-13 45-34 57-21-12-34-33-34-57V23L50 10Z" stroke="url(#mdmShieldGradient)" stroke-width="6" stroke-linejoin="round"/>
+                <path d="m34 57 11 11 22-27" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <div class="eit-screen-title">Managed from one secure platform</div>
+
+            <div class="eit-device-row">
+              <div class="eit-device-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <rect x="7" y="2.5" width="10" height="19" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                  <path d="M10 5h4M11 18.5h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="eit-device-name">
+                <strong>iPhone</strong>
+                <span>Policy applied</span>
+              </div>
+              <span class="eit-device-check">✓</span>
+            </div>
+
+            <div class="eit-device-row">
+              <div class="eit-device-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <rect x="4" y="5" width="16" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                  <path d="M9 20h6M12 16v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="eit-device-name">
+                <strong>Windows laptop</strong>
+                <span>Access approved</span>
+              </div>
+              <span class="eit-device-check">✓</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="eit-floating-badge eit-floating-badge--1">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M7 10V8a5 5 0 0 1 10 0v2" stroke="currentColor" stroke-width="1.8"/>
+            <rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/>
+          </svg>
+          <span>Data protected</span>
+        </div>
+
+        <div class="eit-floating-badge eit-floating-badge--2">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 19V5m4 14v-7m4 7V9m4 10V4m4 15v-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <span>Compliance visible</span>
+        </div>
+
+        <div class="eit-floating-badge eit-floating-badge--3">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M5 18a8 8 0 1 1 14-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M19 7v6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Remote control</span>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- TRUST STRIP -->
+  <section class="eit-strip" aria-label="Everything IT MDM credentials">
+    <div class="eit-container">
+      <div class="eit-strip-grid">
+        <div class="eit-strip-item">
+          <strong>Dublin based</strong>
+          <span>Local engineering and consultancy</span>
+        </div>
+        <div class="eit-strip-item">
+          <strong>Microsoft Partner</strong>
+          <span>Microsoft 365 and Intune expertise</span>
+        </div>
+        <div class="eit-strip-item">
+          <strong>ISO 27001 certified</strong>
+          <span>Information-security-led delivery</span>
+        </div>
+        <div class="eit-strip-item">
+          <strong>Structured rollout</strong>
+          <span>Assessment, pilot, deployment and management</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY MDM -->
+  <section class="eit-section">
+    <div class="eit-container eit-two-col">
+
+      <div class="eit-copy-box">
+        <div class="eit-kicker">Why mobile device management matters</div>
+
+        <h2>Every device that opens business email is part of your security boundary.</h2>
+
+        <p>
+          A lost phone, an outdated laptop or an unmanaged personal tablet can create a
+          route into company email, files and applications. The challenge is not simply
+          knowing who owns each device. It is knowing whether that device is encrypted,
+          updated, protected and permitted to access business data.
+        </p>
+
+        <p>
+          Mobile device management gives Dublin organisations a central way to enrol,
+          configure, monitor and secure endpoints. It helps IT teams apply consistent
+          settings, deploy approved applications and act quickly when a device is lost,
+          replaced or no longer trusted.
+        </p>
+
+        <ul class="eit-check-list">
+          <li>See which devices are accessing company resources</li>
+          <li>Require suitable security settings before granting access</li>
+          <li>Separate business data from personal information where appropriate</li>
+          <li>Remove work access when an employee leaves or a device is lost</li>
+        </ul>
+      </div>
+
+      <div class="eit-risk-panel" aria-label="Common unmanaged device risks">
+        <div class="eit-risk-head">
+          <strong>Common device-management gaps</strong>
+          <span class="eit-live">Review active</span>
+        </div>
+
+        <div class="eit-risk-body">
+          <div class="eit-risk-item">
+            <div class="eit-risk-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M7 10V8a5 5 0 0 1 10 0v2" stroke="currentColor" stroke-width="1.8"/>
+                <rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <div class="eit-risk-copy">
+              <strong>Unknown security posture</strong>
+              <span>No reliable view of encryption, updates or device health</span>
+            </div>
+            <span class="eit-risk-pill">Exposure</span>
+          </div>
+
+          <div class="eit-risk-item">
+            <div class="eit-risk-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="7" y="2.5" width="10" height="19" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M9 8h6M9 12h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="eit-risk-copy">
+              <strong>Business data on personal devices</strong>
+              <span>Work information can remain after access should have ended</span>
+            </div>
+            <span class="eit-risk-pill">Control gap</span>
+          </div>
+
+          <div class="eit-risk-item">
+            <div class="eit-risk-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M5 18a8 8 0 1 1 14-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M19 7v6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="eit-risk-copy">
+              <strong>Manual onboarding and replacement</strong>
+              <span>Every device is configured differently and takes longer to support</span>
+            </div>
+            <span class="eit-risk-pill">Inefficiency</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="eit-section eit-section--light">
+    <div class="eit-container">
+
+      <div class="eit-section-heading">
+        <div class="eit-kicker">MDM services for modern organisations</div>
+
+        <h2>From first assessment to ongoing device and application management.</h2>
+
+        <p class="eit-lead">
+          We help organisations implement practical mobile device management policies,
+          enrol devices correctly and maintain a secure environment as users, platforms
+          and business requirements change.
+        </p>
+      </div>
+
+      <div class="eit-services">
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.8"/>
+              <path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>MDM assessment and design</h3>
+          <p>
+            Review devices, ownership models, Microsoft 365 licensing, business risks and
+            user requirements before selecting policies or enrolment methods.
+          </p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M4 5h16v14H4V5Z" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Microsoft Intune deployment</h3>
+          <p>
+            Tenant configuration, device enrolment, security baselines, configuration
+            profiles and structured rollout for users in Dublin, Cork, Galway, Limerick
+            and Waterford.
+          </p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3 20 6v6c0 4.6-2.7 7.7-8 9-5.3-1.3-8-4.4-8-9V6l8-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="m8.8 12.2 2.1 2.1 4.5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Device compliance and Conditional Access</h3>
+          <p>
+            Define the minimum security requirements a device must meet before Microsoft
+            Entra Conditional Access permits access to company resources.
+          </p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <rect x="7" y="2.5" width="10" height="19" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M10 5h4M11 18.5h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Apple and Android management</h3>
+          <p>
+            Apple Business Manager, automated Apple enrolment, Android Enterprise work
+            profiles and management options for corporate-owned mobile devices.
+          </p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M4 6h16v12H4V6Z" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Mobile application management</h3>
+          <p>
+            Deploy approved applications, configure app settings and use app protection
+            policies to help keep organisational data inside managed applications.
+          </p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M5 18a8 8 0 1 1 14-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M19 7v6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Managed MDM support</h3>
+          <p>
+            Ongoing policy review, device monitoring, enrolment support, application
+            updates and assistance when users replace, lose or change devices.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- INTUNE -->
+  <section class="eit-section">
+    <div class="eit-container eit-two-col">
+
+      <div class="eit-copy-box">
+        <div class="eit-kicker">Microsoft Intune services Dublin</div>
+
+        <h2>One platform for devices, applications, compliance and access.</h2>
+
+        <p>
+          Microsoft Intune is a cloud-based endpoint management service for securing and
+          managing devices and applications. It can enrol and configure endpoints, deploy
+          apps, evaluate compliance and work with Microsoft Entra Conditional Access to
+          control access to organisational resources.
+        </p>
+
+        <p>
+          For organisations already using Microsoft 365, Intune can provide a practical
+          route to unified endpoint management without introducing a disconnected device
+          platform. Microsoft 365 Business Premium includes Intune Plan 1, although the
+          correct licensing and feature set should always be checked against your tenant
+          and requirements.
+        </p>
+
+        <ul class="eit-check-list">
+          <li>Windows Autopilot and zero-touch Windows provisioning</li>
+          <li>Microsoft Entra ID and Conditional Access integration</li>
+          <li>Compliance policies and actions for noncompliant devices</li>
+          <li>Application protection for suitable enrolled and unenrolled scenarios</li>
+        </ul>
+      </div>
+
+      <div class="eit-intune-panel">
+        <div class="eit-intune-top">
+          <div class="eit-intune-title">
+            <div class="eit-icon-box">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="8" height="8" stroke="currentColor" stroke-width="1.8"/>
+                <rect x="13" y="3" width="8" height="8" stroke="currentColor" stroke-width="1.8"/>
+                <rect x="3" y="13" width="8" height="8" stroke="currentColor" stroke-width="1.8"/>
+                <rect x="13" y="13" width="8" height="8" stroke="currentColor" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Microsoft Intune environment</strong>
+              <span>Illustrative management overview</span>
+            </div>
+          </div>
+
+          <span class="eit-secure-badge">Policies active</span>
+        </div>
+
+        <div class="eit-intune-grid">
+          <div class="eit-intune-item">
+            <strong>Device enrolment</strong>
+            <p>Windows, macOS, iOS, iPadOS and Android management methods.</p>
+          </div>
+
+          <div class="eit-intune-item">
+            <strong>Compliance</strong>
+            <p>Platform-specific rules for security posture and access decisions.</p>
+          </div>
+
+          <div class="eit-intune-item">
+            <strong>Configuration</strong>
+            <p>Settings, restrictions, certificates, Wi-Fi and security profiles.</p>
+          </div>
+
+          <div class="eit-intune-item">
+            <strong>Applications</strong>
+            <p>App deployment, updates, configuration and data-protection policies.</p>
+          </div>
+
+          <div class="eit-intune-item">
+            <strong>Conditional Access</strong>
+            <p>Use device and app signals when deciding whether access is allowed.</p>
+          </div>
+
+          <div class="eit-intune-item">
+            <strong>Reporting</strong>
+            <p>Visibility into enrolled devices, policy status and compliance results.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- OWNERSHIP MODELS -->
+  <section class="eit-section eit-section--light">
+    <div class="eit-container">
+
+      <div class="eit-section-heading">
+        <div class="eit-kicker">Company devices, BYOD and shared endpoints</div>
+
+        <h2>Different ownership models need different levels of control.</h2>
+
+        <p class="eit-lead">
+          A corporate laptop, a personal phone and a shared warehouse tablet should not
+          all be managed in the same way. We choose the enrolment and protection model
+          according to ownership, privacy, usage and risk.
+        </p>
+      </div>
+
+      <div class="eit-models">
+
+        <article class="eit-model">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <rect x="4" y="5" width="16" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M9 20h6M12 16v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Corporate-owned devices</h3>
+          <p>
+            Apply fuller device configuration, security policies, application deployment
+            and lifecycle controls to equipment owned by the organisation.
+          </p>
+        </article>
+
+        <article class="eit-model">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M3.5 19c.7-3.7 2.5-5.5 5.5-5.5 1.4 0 2.6.4 3.5 1.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <rect x="13" y="12" width="8" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <h3>BYOD and personal devices</h3>
+          <p>
+            Protect business applications and data using a proportionate approach that
+            respects the employee’s personal device and privacy.
+          </p>
+        </article>
+
+        <article class="eit-model">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <rect x="6" y="3" width="12" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Shared, kiosk and frontline devices</h3>
+          <p>
+            Configure dedicated or shared devices for a defined business purpose, with
+            restricted applications and a consistent user experience.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="eit-section eit-section--dark">
+    <div class="eit-container">
+
+      <div class="eit-section-heading">
+        <div class="eit-kicker">Our MDM implementation process</div>
+
+        <h2>A controlled rollout that protects users from unnecessary disruption.</h2>
+
+        <p class="eit-lead">
+          Good mobile device management is not a collection of aggressive restrictions.
+          It is a planned balance between business access, user experience and risk.
+        </p>
+      </div>
+
+      <div class="eit-process">
+        <article class="eit-process-item">
+          <h3>Discover</h3>
+          <p>Review devices, users, applications, data, licences and current access methods.</p>
+        </article>
+
+        <article class="eit-process-item">
+          <h3>Design</h3>
+          <p>Choose ownership models, enrolment routes, compliance rules and access policies.</p>
+        </article>
+
+        <article class="eit-process-item">
+          <h3>Pilot</h3>
+          <p>Test policies with a controlled user group before wider deployment.</p>
+        </article>
+
+        <article class="eit-process-item">
+          <h3>Deploy</h3>
+          <p>Enrol devices, communicate with users and monitor the rollout carefully.</p>
+        </article>
+
+        <article class="eit-process-item">
+          <h3>Manage</h3>
+          <p>Review compliance, support users and adjust policies as requirements change.</p>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LOCAL -->
+  <section class="eit-section">
+    <div class="eit-container eit-two-col">
+
+      <div class="eit-copy-box">
+        <div class="eit-kicker">MDM support from Dublin</div>
+
+        <h2>Dublin-based consultancy for secure device management.</h2>
+
+        <p>
+          Everything IT supports organisations from its Dublin office. Most Microsoft
+          Intune and mobile device management work can be designed, deployed and supported
+          remotely, while planned on-site assistance remains available when the project
+          requires it.
+        </p>
+
+        <p>
+          For approved regional coverage, Everything IT also supports organisations in
+          Cork, Galway, Limerick and Waterford, including multi-site and distributed teams
+          that need consistent device, application and access standards.
+        </p>
+
+        <div class="eit-button-row">
+          <a class="eit-button eit-button--primary" href="https://everythingit.ie/contact/">
+            Discuss your MDM requirements
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="eit-local-grid">
+        <article class="eit-local-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Dublin MDM consultancy</h3>
+            <p>Assessment, planning, rollout and managed support from a Dublin-based IT team.</p>
+          </div>
+        </article>
+
+        <article class="eit-local-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <circle cx="5" cy="12" r="2" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="5" r="2" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="19" cy="12" r="2" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="19" r="2" stroke="currentColor" stroke-width="1.8"/>
+              <path d="m6.6 10.7 3.8-4.1m3.2 0 3.8 4.1m0 2.6-3.8 4.1m-3.2 0-3.8-4.1" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Multi-site consistency</h3>
+            <p>Apply common device and access standards across offices and remote teams.</p>
+          </div>
+        </article>
+
+        <article class="eit-local-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 8.5 4.8 4.8 0 0 0 7 18Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Microsoft 365 integration</h3>
+            <p>Connect device management with Microsoft Entra ID, apps and cloud access.</p>
+          </div>
+        </article>
+
+        <article class="eit-local-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3 20 6v6c0 4.6-2.7 7.7-8 9-5.3-1.3-8-4.4-8-9V6l8-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Security-led delivery</h3>
+            <p>MDM implemented as part of the wider identity, endpoint and data strategy.</p>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RELATED SECURITY -->
+  <section class="eit-section eit-section--light">
+    <div class="eit-container">
+      <div class="eit-section-heading">
+        <div class="eit-kicker">MDM is one part of endpoint security</div>
+
+        <h2>Connect device management with identity, cybersecurity and cloud governance.</h2>
+
+        <p class="eit-lead">
+          MDM is most effective when it works alongside strong identity controls,
+          security monitoring, Microsoft 365 governance and tested incident processes.
+        </p>
+      </div>
+
+      <div class="eit-models">
+        <article class="eit-model">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3 20 6v6c0 4.6-2.7 7.7-8 9-5.3-1.3-8-4.4-8-9V6l8-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3><a href="https://everythingit.ie/cybersecurity-dublin/">Cybersecurity services</a></h3>
+          <p>Strengthen identity, endpoint, email and network protection around managed devices.</p>
+        </article>
+
+        <article class="eit-model">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 8.5 4.8 4.8 0 0 0 7 18Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3><a href="https://everythingit.ie/cloud-computing/">Cloud and Microsoft 365</a></h3>
+          <p>Align MDM with cloud identity, collaboration, migration and modern-work services.</p>
+        </article>
+
+        <article class="eit-model">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M5 4h14v16H5V4Z" stroke="currentColor" stroke-width="1.8"/>
+              <path d="m8 12 2.2 2.2 5-5.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3><a href="https://everythingit.ie/iso-27001-compliance/">ISO 27001 support</a></h3>
+          <p>Connect device controls with policies, risk treatment, evidence and security governance.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="eit-section">
+    <div class="eit-container">
+      <div class="eit-section-heading" style="margin-inline:auto;text-align:center;">
+        <div class="eit-kicker">Mobile device management FAQs</div>
+
+        <h2>Questions Dublin businesses ask about MDM and Microsoft Intune.</h2>
+      </div>
+
+      <div class="eit-faq">
+
+        <details>
+          <summary>What is mobile device management?</summary>
+          <div class="eit-faq-answer">
+            <p>
+              Mobile device management, usually shortened to MDM, is the central
+              administration of work devices such as phones, tablets and laptops. It can
+              be used to enrol devices, apply settings, deploy applications, check
+              compliance and protect access to company data.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>What devices can Microsoft Intune manage?</summary>
+          <div class="eit-faq-answer">
+            <p>
+              Microsoft Intune supports management options for Windows, macOS, iOS,
+              iPadOS and Android devices. The available controls depend on the operating
+              system, ownership model and enrolment method.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Can MDM secure personal devices without viewing private information?</summary>
+          <div class="eit-faq-answer">
+            <p>
+              Yes, in suitable BYOD scenarios. Microsoft Intune mobile application
+              management can protect organisational data inside supported work apps
+              without requiring full management of the whole device. The correct approach
+              depends on the apps, platform and level of business risk.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Does Microsoft 365 Business Premium include Intune?</summary>
+          <div class="eit-faq-answer">
+            <p>
+              Microsoft 365 Business Premium includes Microsoft Intune Plan 1. Other
+              Microsoft suites and standalone licensing options may also include Intune.
+              We review the tenant and licence position before recommending additional
+              subscriptions.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Can Intune block an unsafe device from company email and files?</summary>
+          <div class="eit-faq-answer">
+            <p>
+              Intune compliance results can be used with Microsoft Entra Conditional
+              Access to allow or block access based on defined device or application
+              requirements. These policies must be designed and tested carefully to avoid
+              unnecessary disruption.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>How long does an MDM implementation take?</summary>
+          <div class="eit-faq-answer">
+            <p>
+              The timeline depends on the number and type of devices, ownership models,
+              licensing, existing Microsoft 365 configuration and policy complexity. A
+              controlled pilot is normally completed before wider rollout so user impact
+              can be measured and corrected.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Do you provide MDM support outside Dublin?</summary>
+          <div class="eit-faq-answer">
+            <p>
+              Yes. Everything IT is based in Dublin and supports approved service
+              locations in Cork, Galway, Limerick and Waterford. Most design, deployment
+              and ongoing management can be delivered remotely, with planned on-site
+              assistance where required.
+            </p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="eit-cta">
+    <div class="eit-container">
+      <div class="eit-cta-box">
+
+        <div class="eit-cta-copy">
+          <h2>Ready to bring company devices and BYOD under control?</h2>
+          <p>
+            Book an MDM assessment with our Dublin team. We will review your devices,
+            Microsoft 365 environment, current access risks and the most practical route
+            to Microsoft Intune.
+          </p>
+        </div>
+
+        <div class="eit-cta-actions">
+          <a class="eit-button eit-button--white" href="https://everythingit.ie/contact/">
+            Book an MDM assessment
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+
+          <a class="eit-cta-phone" href="tel:+35315240755">
+            Call +353 1 524 0755
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is mobile device management?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mobile device management, usually shortened to MDM, is the central administration of work devices such as phones, tablets and laptops. It can be used to enrol devices, apply settings, deploy applications, check compliance and protect access to company data."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What devices can Microsoft Intune manage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Microsoft Intune supports management options for Windows, macOS, iOS, iPadOS and Android devices. The available controls depend on the operating system, ownership model and enrolment method."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can MDM secure personal devices without viewing private information?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In suitable BYOD scenarios, Microsoft Intune mobile application management can protect organisational data inside supported work apps without requiring full management of the whole device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Microsoft 365 Business Premium include Intune?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Microsoft 365 Business Premium includes Microsoft Intune Plan 1. Other Microsoft suites and standalone licensing options may also include Intune."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Intune block an unsafe device from company email and files?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Intune compliance results can be used with Microsoft Entra Conditional Access to allow or block access based on defined device or application requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you provide MDM support outside Dublin?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Everything IT is based in Dublin and supports approved service locations in Cork, Galway, Limerick and Waterford. Most design, deployment and ongoing management can be delivered remotely, with planned on-site assistance where required."
+      }
+    }
+  ]
+}
+</script>

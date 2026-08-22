@@ -1,0 +1,434 @@
+<style>
+.eit-loc,
+.eit-loc *{
+  box-sizing:border-box;
+}
+
+.eit-loc{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:#4a4a4a;
+  line-height:1.7;
+  font-size:17px;
+  background:#ffffff;
+}
+
+.eit-loc .lhero{
+  background:
+    radial-gradient(circle at 88% 18%,rgba(238,139,45,.12),transparent 30%),
+    linear-gradient(145deg,#292a2f 0%,#23252a 55%,#202227 100%);
+  color:#fff;
+  padding:56px 44px;
+  margin:0;
+}
+
+.eit-loc .lhero h1{
+  max-width:880px;
+  color:#f5f5f5 !important;
+  -webkit-text-fill-color:#f5f5f5 !important;
+  font-size:clamp(2.05rem,4vw,3.35rem);
+  line-height:1.12;
+  margin:0 0 20px;
+  font-weight:700;
+  letter-spacing:-.025em;
+  text-shadow:none;
+}
+
+.eit-loc .lhero h1 .a{
+  color:#ee8b2d !important;
+  -webkit-text-fill-color:#ee8b2d !important;
+}
+
+.eit-loc .lhero p{
+  color:#d6d6d6 !important;
+  -webkit-text-fill-color:#d6d6d6 !important;
+  font-size:1.04rem;
+  line-height:1.72;
+  margin:0 0 16px;
+  max-width:54em;
+}
+
+.eit-loc .lhero p:last-of-type{
+  margin-bottom:28px;
+}
+
+.eit-loc .lbtn{
+  display:inline-block;
+  background:#ee8b2d;
+  color:#fff !important;
+  -webkit-text-fill-color:#fff !important;
+  padding:14px 32px;
+  font-weight:600;
+  border:none !important;
+  border-radius:50px;
+  margin:0 10px 8px 0;
+  text-decoration:none !important;
+}
+
+.eit-loc .lbtn:hover{
+  background:#d97a1e;
+  color:#fff !important;
+}
+
+.eit-loc .lbtn-o{
+  display:inline-block;
+  background:transparent;
+  color:#fff !important;
+  -webkit-text-fill-color:#fff !important;
+  padding:13px 30px;
+  border:2px solid #ee8b2d !important;
+  border-radius:50px;
+  font-weight:600;
+  margin:0 0 8px;
+  text-decoration:none !important;
+}
+
+.eit-loc .lbtn-o:hover{
+  background:#ee8b2d;
+  color:#fff !important;
+}
+
+.eit-loc .lbody{
+  max-width:1140px;
+  margin:0 auto;
+  padding:48px 24px 56px;
+  background:#ffffff !important;
+  color:#3f3f3f !important;
+}
+
+.eit-loc h2{
+  color:#1c1c1c !important;
+  font-size:1.5rem;
+  line-height:1.3;
+  font-weight:700;
+  margin:40px 0 14px;
+  letter-spacing:-.01em;
+}
+
+.eit-loc h2:first-child{
+  margin-top:0;
+}
+
+.eit-loc h3{
+  color:#1c1c1c !important;
+  font-size:1.12rem;
+  line-height:1.4;
+  font-weight:700;
+  margin:24px 0 8px;
+}
+
+.eit-loc p{
+  color:#3f3f3f !important;
+  margin:0 0 16px;
+  max-width:62em;
+}
+
+.eit-loc ul{
+  margin:0 0 22px;
+  padding-left:22px;
+  max-width:62em;
+}
+
+.eit-loc li{
+  margin-bottom:9px;
+}
+
+.eit-loc strong{
+  color:#1c1c1c !important;
+  font-weight:600;
+}
+
+.eit-loc a{
+  color:#e8830c;
+  text-decoration:none;
+  border-bottom:1px solid rgba(232,131,12,.35);
+}
+
+.eit-loc a:hover{
+  color:#c96f08;
+}
+
+.eit-loc .lcard{
+  background:#f5f5f5;
+  border-left:3px solid #ee8b2d;
+  padding:26px 28px;
+  margin:30px 0;
+}
+
+.eit-loc .lcard h2{
+  margin-top:0;
+}
+
+.eit-loc .lgrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+  margin:26px 0;
+}
+
+.eit-loc .lg{
+  background:#fff;
+  border:1px solid #e5e5e5;
+  padding:24px;
+}
+
+.eit-loc .lg h3{
+  margin-top:0;
+}
+
+.eit-loc .lg p{
+  font-size:.97rem;
+  margin:0;
+}
+
+.eit-loc .lcta{
+  background:#1c1c1c;
+  color:#fff;
+  padding:40px 34px;
+  text-align:center;
+  margin-top:44px;
+}
+
+.eit-loc .lcta h2{
+  color:#fff !important;
+  margin:0 0 12px;
+}
+
+.eit-loc .lcta p{
+  color:#d8d8d8 !important;
+  margin:0 auto 22px;
+  max-width:46em;
+}
+
+.eit-loc .lcta .lbtn{
+  border-bottom:none !important;
+}
+
+.eit-loc .lrel{
+  font-size:.94rem;
+  color:#777 !important;
+  border-top:1px solid #e5e5e5;
+  padding-top:20px;
+  margin-top:38px;
+}
+
+@media(max-width:768px){
+  .eit-loc{
+    font-size:16px;
+  }
+
+  .eit-loc .lhero{
+    padding:38px 22px;
+  }
+
+  .eit-loc .lhero h1{
+    max-width:100%;
+    font-size:clamp(1.82rem,8vw,2.25rem);
+    line-height:1.17;
+    letter-spacing:-.018em;
+    margin-bottom:18px;
+  }
+
+  .eit-loc .lhero p{
+    font-size:.98rem;
+    line-height:1.68;
+  }
+
+  .eit-loc .lbody{
+    padding:30px 18px 40px;
+  }
+
+  .eit-loc h2{
+    font-size:1.28rem;
+    margin-top:32px;
+  }
+
+  .eit-loc .lgrid{
+    grid-template-columns:1fr;
+  }
+
+  .eit-loc .lcta{
+    padding:30px 20px;
+  }
+
+  .eit-loc .lbtn,
+  .eit-loc .lbtn-o{
+    width:100%;
+    text-align:center;
+    margin-right:0;
+  }
+}
+</style>
+
+<div class="eit-loc">
+
+  <div class="lhero">
+    <h1>
+      <span class="a">IT Support Cork</span>
+      for businesses that can't afford downtime
+    </h1>
+
+    <p>
+      Cork runs on regulated industry. Between the pharma and medtech cluster
+      around Ringaskiddy and Carrigtwohill, the multinationals at Cork Airport
+      Business Park, and the financial services firms in the city, a large share
+      of Cork businesses operate under audit conditions where IT failure is a
+      compliance problem, not just an inconvenience.
+    </p>
+
+    <p>
+      We provide managed IT support, cybersecurity, and cloud services to
+      businesses across Cork city and county — built for environments where
+      documentation, access control, and uptime actually matter.
+    </p>
+
+    <a class="lbtn" href="/contact/">Book a free IT audit</a>
+    <a class="lbtn-o" href="tel:+35315240755">+353 1 524 0755</a>
+  </div>
+
+  <div class="lbody">
+
+    <h2>Cork businesses we're built for</h2>
+
+    <p>
+      Cork's economy is unusually concentrated in sectors with real IT compliance
+      obligations. Life sciences employers across the harbour area and
+      Carrigtwohill work to validated-system standards. The financial services
+      firms in the city centre answer to regulators. The technology operations at
+      Cork Airport Business Park and Little Island run to international group IT
+      policy.
+    </p>
+
+    <p>
+      What those businesses need from an IT partner is not just a helpdesk number.
+      It's controlled change, documented access, tested recovery, and a provider
+      whose own security practices stand up to a client audit — which is why our
+      information security management system is certified to
+      <a href="/iso-27001-compliance/">ISO 27001:2022</a>.
+    </p>
+
+    <h2>Areas we serve across Cork</h2>
+
+    <p>
+      We support businesses in <strong>Cork city centre</strong>, and across
+      <strong>Little Island</strong>, <strong>Carrigtwohill</strong>,
+      <strong>Ringaskiddy</strong>, <strong>Blackpool</strong> and Northpoint,
+      <strong>Cork Airport Business Park</strong>, <strong>Ballincollig</strong>,
+      <strong>Mahon</strong> and Mahon Point, <strong>Douglas</strong>,
+      <strong>Carrigaline</strong>, <strong>Midleton</strong> and
+      <strong>Kinsale</strong>.
+    </p>
+
+    <p>
+      Remote support handles most of what goes wrong, and it handles it faster
+      than a site visit. When something genuinely needs hands on hardware — a
+      failed switch, a server migration, or a new office fit-out — we travel.
+    </p>
+
+    <h2>What we cover</h2>
+
+    <div class="lgrid">
+
+      <div class="lg">
+        <h3><a href="/managed-it-services/">Managed IT support</a></h3>
+        <p>
+          Continuous monitoring, patching, and a helpdesk that answers. Most
+          issues are resolved remotely, with an engineer on site when they
+          cannot be.
+        </p>
+      </div>
+
+      <div class="lg">
+        <h3><a href="/cybersecurity-dublin/">Cybersecurity</a></h3>
+        <p>
+          Endpoint protection, email security, and access control under an
+          ISO 27001:2022 certified framework.
+        </p>
+      </div>
+
+      <div class="lg">
+        <h3><a href="/cloud-computing/">Cloud &amp; Microsoft 365</a></h3>
+        <p>
+          As a Microsoft Partner, we design, migrate, and manage Microsoft 365
+          and Azure environments.
+        </p>
+      </div>
+
+      <div class="lg">
+        <h3><a href="/mdm-services-dublin/">Device management</a></h3>
+        <p>
+          Company and staff-owned phones, laptops, and tablets secured from one
+          place.
+        </p>
+      </div>
+
+      <div class="lg">
+        <h3><a href="/business-continuity/">Backup &amp; continuity</a></h3>
+        <p>
+          Backups that are tested, and a recovery plan decided before you need it.
+        </p>
+      </div>
+
+      <div class="lg">
+        <h3><a href="/procurement/">IT procurement</a></h3>
+        <p>
+          Hardware and licensing sourced through direct manufacturer
+          relationships, configured and deployed ready to use.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="lcard">
+      <h2>Moving premises in Cork?</h2>
+
+      <p>
+        Office moves are where IT most often goes wrong: connectivity ordered too
+        late, cabling underspecified, and a first Monday where nobody can work. We
+        handle <a href="/company-relocation/">IT relocation</a> end to end —
+        surveying the new site, ordering circuits with realistic lead times,
+        moving equipment, and being there on the first morning.
+      </p>
+    </div>
+
+    <h2>Why Cork businesses work with us</h2>
+
+    <p>
+      <strong>We're a Microsoft Partner.</strong> Certified across Microsoft 365
+      and Azure, which matters when your group IT standard is Microsoft-first and
+      you need someone who knows conditional access from a licence SKU.
+    </p>
+
+    <p>
+      <strong>Our security is audited, not asserted.</strong> ISO 27001:2022
+      certification means the way we handle your data and access has been
+      independently examined — useful when your own customers run due diligence
+      on your suppliers.
+    </p>
+
+    <p>
+      <strong>We're honest about scope.</strong> If you have capable internal IT
+      and need us for specific systems or projects only, we'll say so rather than
+      selling you a full outsource you don't need.
+    </p>
+
+    <div class="lcta">
+      <h2>Talk to us about IT support in Cork</h2>
+
+      <p>
+        Book a free IT audit. We'll review your systems, security posture, and
+        spend, and give you a prioritised list of what's worth fixing first.
+      </p>
+
+      <a class="lbtn" href="/contact/">Book a free IT audit</a>
+    </div>
+
+    <p class="lrel">
+      <a href="/managed-it-services/">Managed IT</a> ·
+      <a href="/cybersecurity-dublin/">Cybersecurity</a> ·
+      <a href="/cloud-computing/">Cloud</a> ·
+      <a href="/it-support-ireland-nationwide/">Nationwide coverage</a> ·
+      <a href="/case-studies/">Case studies</a>
+    </p>
+
+  </div>
+</div>

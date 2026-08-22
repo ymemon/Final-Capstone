@@ -1,0 +1,27 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.*
+
+# WordPress/server exports and backups
+*.sql
+*.sql.gz
+*.bak
+*.db
+*.zip
+wp-config.php
+remote-file-backups/
+
+# Generated/runtime files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+Thumbs.db
+

@@ -1,0 +1,5958 @@
+================================================================================
+EVERYTHINGIT.IE — MANAGED SERVICES MEGA ELEMENTOR HTML DOCUMENT
+================================================================================
+
+INSTRUCTIONS FOR CODEX — READ THIS ENTIRE NOTE BEFORE CHANGING OR DEPLOYING CODE
+
+This single Notepad document contains five complete Elementor HTML page sections:
+
+1. SERVICE LEVEL AGREEMENTS
+2. IT SUPPORT HELPDESK
+3. NETWORK SECURITY MONITORING
+4. HOSTED DATA CENTRE SERVICES
+5. VOIP PHONE SYSTEMS
+
+Split the document at the PAGE START / PAGE END markers. Each page section must be
+handled separately and placed into ONE Elementor HTML widget on the correct WordPress
+page. Do NOT paste the entire mega document into one Elementor widget.
+
+================================================================================
+MANDATORY PAGE-IDENTITY AND REDIRECT CHECK
+================================================================================
+
+Do not create duplicate WordPress pages. Resolve and preserve the existing WordPress
+page ID, Elementor data, canonical URL and menu item before deployment.
+
+The Managed Services submenu has used legacy nested URLs. Some of those URLs currently
+redirect to consolidated pages. Codex must inspect the live redirect/canonical setup
+before applying code and must not remove or change a production redirect blindly.
+
+Requested submenu labels and intended service identities:
+
+- Service Level Agreements
+  Legacy menu path:
+  /business-continuity/managed-services/service-level-agreements/
+  Currently redirects to /managed-it-services/ and requires verification before a
+  standalone page is restored.
+
+- IT Support Helpdesk
+  Legacy menu path:
+  /business-continuity/managed-services/dedicated-it-support-helpdesk/
+  Currently redirects to /managed-it-services/ and requires verification before a
+  standalone page is restored.
+
+- Network Security Monitoring
+  Current canonical page: /network-security-monitoring/
+
+- Hosted Data Centre Services
+  Current canonical page: /hosted-data-centre-services/
+
+- VoIP Phone Systems
+  Current canonical page: /voip-cloud-pbx-technology/
+
+If Service Level Agreements and IT Support Helpdesk are intentionally consolidated into
+/managed-it-services/, preserve that SEO decision and use their supplied HTML as clearly
+separated service sections rather than creating competing pages. If the existing page
+identities are intended to be restored, update the correct existing pages and then adjust
+the redirects and menu links only after verification.
+
+================================================================================
+MANDATORY LOCATION RULE — STILL APPLIES TO ALL CODE
+================================================================================
+
+Dublin remains the main location. Besides Dublin, EverythingIT.ie will showcase only:
+
+1. Cork
+2. Galway
+3. Limerick
+4. Waterford
+
+Do not add any other primary location card, slider item, menu entry, navigation link,
+footer entry, landing page or showcased service location. Local towns may appear only
+inside approved location-page body copy and must not become separate showcased pages.
+
+================================================================================
+DEPLOYMENT AND CONTENT RULES
+================================================================================
+
+1. Use one Elementor HTML widget per page or approved consolidated service section.
+2. Hide the normal WordPress title when the supplied code provides the H1.
+3. Do not remove existing site-wide custom CSS. Add required site-wide CSS below it.
+4. Preserve responsive desktop, tablet and mobile behaviour.
+5. Preserve the Everything IT orange, charcoal, white and light-grey design system.
+6. Preserve real phone, contact and service links.
+7. Do not insert placeholders, fake testimonials, invented performance statistics,
+   unsupported response times or claims not verified from Everything IT records.
+8. Do not claim that an SLA guarantees uptime or resolution unless the signed agreement
+   genuinely contains that commitment.
+9. Verify all links, calls to action, JSON-LD, H1 headings, title tags, canonical URLs,
+   redirects, Elementor rendering and mobile layout after deployment.
+10. Purge relevant caches only after the correct page has been updated and verified.
+
+================================================================================
+END OF MASTER INSTRUCTIONS
+================================================================================
+
+================================================================================
+PAGE START: PAGE 1 — SERVICE LEVEL AGREEMENTS
+================================================================================
+CODEX NOTE: Verify the existing redirect to /managed-it-services/ before restoring or consolidating this section.
+================================================================================
+<style>
+/* ==========================================================
+   EVERYTHING IT — MANAGED SERVICES PAGE DESIGN
+   Paste this style block and the matching page section into one Elementor HTML widget.
+   ========================================================== */
+
+#eit-ms-page,
+#eit-ms-page * {
+  box-sizing: border-box;
+}
+
+#eit-ms-page {
+  --eit-orange: #f06f43;
+  --eit-orange-dark: #d9562f;
+  --eit-orange-soft: #fff1eb;
+  --eit-charcoal: #111418;
+  --eit-charcoal-2: #1b2026;
+  --eit-ink: #252a31;
+  --eit-muted: #66707c;
+  --eit-line: #e5e8ec;
+  --eit-light: #f6f7f8;
+  --eit-white: #ffffff;
+  --eit-success: #34c98f;
+  --eit-max: 1180px;
+  --eit-radius: 22px;
+  --eit-shadow: 0 18px 55px rgba(17, 20, 24, 0.10);
+
+  width: 100%;
+  overflow: hidden;
+  color: var(--eit-ink);
+  background: var(--eit-white);
+  font-family: inherit;
+  line-height: 1.65;
+}
+
+#eit-ms-page img,
+#eit-ms-page svg {
+  display: block;
+  max-width: 100%;
+}
+
+#eit-ms-page a {
+  color: inherit;
+}
+
+#eit-ms-page .eit-container {
+  width: min(calc(100% - 40px), var(--eit-max));
+  margin-inline: auto;
+}
+
+#eit-ms-page .eit-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 18px;
+  color: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-kicker::before {
+  content: "";
+  width: 28px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+#eit-ms-page h1,
+#eit-ms-page h2,
+#eit-ms-page h3,
+#eit-ms-page p {
+  margin-top: 0;
+}
+
+#eit-ms-page h1,
+#eit-ms-page h2,
+#eit-ms-page h3 {
+  color: var(--eit-charcoal);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+#eit-ms-page h1 {
+  max-width: 760px;
+  margin-bottom: 22px;
+  font-size: clamp(42px, 6.2vw, 76px);
+  color: var(--eit-white);
+}
+
+#eit-ms-page h2 {
+  margin-bottom: 18px;
+  font-size: clamp(30px, 4vw, 48px);
+}
+
+#eit-ms-page h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+#eit-ms-page p {
+  color: var(--eit-muted);
+  font-size: 17px;
+}
+
+#eit-ms-page .eit-lead {
+  max-width: 710px;
+  font-size: clamp(18px, 2vw, 21px);
+  line-height: 1.7;
+}
+
+#eit-ms-page .eit-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+#eit-ms-page .eit-button {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 23px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 800;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+#eit-ms-page .eit-button:hover {
+  transform: translateY(-2px);
+}
+
+#eit-ms-page .eit-button--primary {
+  color: var(--eit-white);
+  background: linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 12px 30px rgba(240, 111, 67, .28);
+}
+
+#eit-ms-page .eit-button--primary:hover {
+  box-shadow: 0 16px 38px rgba(240, 111, 67, .38);
+}
+
+#eit-ms-page .eit-button--ghost {
+  color: var(--eit-white);
+  border-color: rgba(255,255,255,.28);
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(8px);
+}
+
+#eit-ms-page .eit-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* HERO */
+#eit-ms-page .eit-hero {
+  position: relative;
+  min-height: 720px;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 72% 42%, rgba(240,111,67,.20), transparent 29%),
+    radial-gradient(circle at 18% 10%, rgba(255,255,255,.06), transparent 24%),
+    linear-gradient(135deg, #0b0d10 0%, #161b20 54%, #0c0f12 100%);
+}
+
+#eit-ms-page .eit-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: .19;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, #000 10%, transparent 95%);
+}
+
+#eit-ms-page .eit-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 85px;
+  z-index: -1;
+  background: var(--eit-white);
+  clip-path: polygon(0 84%, 100% 0, 100% 100%, 0 100%);
+}
+
+#eit-ms-page .eit-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(380px, .95fr);
+  gap: 64px;
+  align-items: center;
+  padding: 110px 0 145px;
+}
+
+#eit-ms-page .eit-hero-copy .eit-kicker {
+  color: #ff906a;
+}
+
+#eit-ms-page .eit-hero-copy p {
+  max-width: 690px;
+  color: rgba(255,255,255,.74);
+}
+
+#eit-ms-page .eit-hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  margin-top: 27px;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-ms-page .eit-hero-proof li {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255,255,255,.83);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#eit-ms-page .eit-hero-proof li::before {
+  content: "✓";
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+  color: var(--eit-success);
+  background: rgba(52,201,143,.08);
+}
+
+#eit-ms-page .eit-visual {
+  position: relative;
+  min-height: 520px;
+}
+
+#eit-ms-page .eit-visual-glow {
+  position: absolute;
+  inset: 8% 3% 5%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,111,67,.23), transparent 63%);
+  filter: blur(10px);
+}
+
+#eit-ms-page .eit-network-orbit {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: min(460px, 100%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 50%;
+}
+
+#eit-ms-page .eit-network-orbit::before,
+#eit-ms-page .eit-network-orbit::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: inherit;
+}
+
+#eit-ms-page .eit-network-orbit::before {
+  inset: 13%;
+}
+
+#eit-ms-page .eit-network-orbit::after {
+  inset: 29%;
+}
+
+#eit-ms-page .eit-shield-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 245px;
+  min-height: 285px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 34px;
+  background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.045));
+  box-shadow: 0 25px 80px rgba(0,0,0,.36);
+  backdrop-filter: blur(16px);
+}
+
+#eit-ms-page .eit-shield-card::after {
+  content: "Protected";
+  position: absolute;
+  bottom: 26px;
+  padding: 7px 14px;
+  border: 1px solid rgba(52,201,143,.25);
+  border-radius: 999px;
+  color: #8ff0c9;
+  background: rgba(52,201,143,.08);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-shield-icon {
+  width: 150px;
+  height: 170px;
+  filter: drop-shadow(0 14px 22px rgba(240,111,67,.25));
+}
+
+#eit-ms-page .eit-node {
+  position: absolute;
+  display: flex;
+  width: 64px;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 18px;
+  color: var(--eit-white);
+  background: rgba(20,24,29,.82);
+  box-shadow: 0 14px 35px rgba(0,0,0,.28);
+  backdrop-filter: blur(12px);
+}
+
+#eit-ms-page .eit-node svg {
+  width: 28px;
+  height: 28px;
+}
+
+#eit-ms-page .eit-node--1 { top: 8%; left: 8%; }
+#eit-ms-page .eit-node--2 { top: 14%; right: 5%; }
+#eit-ms-page .eit-node--3 { bottom: 15%; left: 3%; }
+#eit-ms-page .eit-node--4 { right: 3%; bottom: 8%; }
+
+#eit-ms-page .eit-node::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  right: -3px;
+  top: -3px;
+  border: 2px solid var(--eit-charcoal);
+  border-radius: 50%;
+  background: var(--eit-success);
+  box-shadow: 0 0 0 5px rgba(52,201,143,.12);
+}
+
+#eit-ms-page .eit-scan-line {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 16%;
+  height: 2px;
+  opacity: .8;
+  background: linear-gradient(90deg, transparent, var(--eit-orange), transparent);
+  box-shadow: 0 0 14px var(--eit-orange);
+  animation: eit-scan 4.6s ease-in-out infinite;
+}
+
+@keyframes eit-scan {
+  0%, 100% { transform: translateY(0); opacity: .2; }
+  50% { transform: translateY(345px); opacity: 1; }
+}
+
+/* TRUST STRIP */
+#eit-ms-page .eit-trust {
+  position: relative;
+  z-index: 3;
+  margin-top: -54px;
+}
+
+#eit-ms-page .eit-trust-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--eit-line);
+  border-radius: 18px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-trust-item {
+  position: relative;
+  padding: 25px 24px;
+  text-align: center;
+}
+
+#eit-ms-page .eit-trust-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 22%;
+  right: 0;
+  width: 1px;
+  height: 56%;
+  background: var(--eit-line);
+}
+
+#eit-ms-page .eit-trust-item strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--eit-charcoal);
+  font-size: 18px;
+}
+
+#eit-ms-page .eit-trust-item span {
+  color: var(--eit-muted);
+  font-size: 13px;
+}
+
+/* GENERIC SECTIONS */
+#eit-ms-page .eit-section {
+  padding: 105px 0;
+}
+
+#eit-ms-page .eit-section--light {
+  background: var(--eit-light);
+}
+
+#eit-ms-page .eit-section--dark {
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 85% 20%, rgba(240,111,67,.15), transparent 27%),
+    var(--eit-charcoal);
+}
+
+#eit-ms-page .eit-section--dark h2,
+#eit-ms-page .eit-section--dark h3 {
+  color: var(--eit-white);
+}
+
+#eit-ms-page .eit-section--dark p {
+  color: rgba(255,255,255,.68);
+}
+
+#eit-ms-page .eit-two-col {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  gap: 80px;
+  align-items: center;
+}
+
+#eit-ms-page .eit-copy-box {
+  max-width: 560px;
+}
+
+#eit-ms-page .eit-check-list {
+  display: grid;
+  gap: 16px;
+  margin: 29px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-ms-page .eit-check-list li {
+  position: relative;
+  padding-left: 34px;
+  color: var(--eit-ink);
+  font-weight: 650;
+}
+
+#eit-ms-page .eit-check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--eit-white);
+  background: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+/* DASHBOARD GRAPHIC */
+#eit-ms-page .eit-dashboard {
+  position: relative;
+  padding: 22px;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-dashboard-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+#eit-ms-page .eit-dashboard-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--eit-charcoal);
+  font-weight: 800;
+}
+
+#eit-ms-page .eit-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #208b64;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+#eit-ms-page .eit-live::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--eit-success);
+  box-shadow: 0 0 0 5px rgba(52,201,143,.12);
+}
+
+#eit-ms-page .eit-chart {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(rgba(17,20,24,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17,20,24,.055) 1px, transparent 1px),
+    linear-gradient(180deg, #fbfcfd, #f5f6f8);
+  background-size: 42px 42px, 42px 42px, auto;
+}
+
+#eit-ms-page .eit-chart svg {
+  position: absolute;
+  inset: 22px 16px 12px;
+  width: calc(100% - 32px);
+  height: calc(100% - 34px);
+}
+
+#eit-ms-page .eit-alert-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+
+#eit-ms-page .eit-alert {
+  padding: 14px;
+  border: 1px solid var(--eit-line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+#eit-ms-page .eit-alert-label {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--eit-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-alert-value {
+  color: var(--eit-charcoal);
+  font-size: 19px;
+  font-weight: 850;
+}
+
+/* SERVICES */
+#eit-ms-page .eit-section-heading {
+  max-width: 780px;
+  margin-bottom: 50px;
+}
+
+#eit-ms-page .eit-services {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+#eit-ms-page .eit-service-card {
+  position: relative;
+  min-height: 285px;
+  overflow: hidden;
+  padding: 28px;
+  border: 1px solid var(--eit-line);
+  border-radius: 20px;
+  background: var(--eit-white);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+#eit-ms-page .eit-service-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(240,111,67,.35);
+  box-shadow: 0 20px 45px rgba(17,20,24,.10);
+}
+
+#eit-ms-page .eit-service-card::after {
+  content: "";
+  position: absolute;
+  right: -38px;
+  bottom: -38px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--eit-orange-soft);
+  transition: transform .25s ease;
+}
+
+#eit-ms-page .eit-service-card:hover::after {
+  transform: scale(1.35);
+}
+
+#eit-ms-page .eit-icon-box {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  margin-bottom: 23px;
+  border-radius: 15px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-ms-page .eit-icon-box svg {
+  width: 27px;
+  height: 27px;
+}
+
+#eit-ms-page .eit-service-card h3,
+#eit-ms-page .eit-service-card p {
+  position: relative;
+  z-index: 2;
+}
+
+#eit-ms-page .eit-service-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* PROCESS */
+#eit-ms-page .eit-process {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  counter-reset: eit-step;
+}
+
+#eit-ms-page .eit-process-item {
+  position: relative;
+  counter-increment: eit-step;
+}
+
+#eit-ms-page .eit-process-item::before {
+  content: "0" counter(eit-step);
+  display: block;
+  margin-bottom: 21px;
+  color: var(--eit-orange);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+#eit-ms-page .eit-process-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 45px;
+  right: -2px;
+  top: 12px;
+  height: 1px;
+  background: rgba(255,255,255,.14);
+}
+
+#eit-ms-page .eit-process-item h3 {
+  font-size: 19px;
+}
+
+#eit-ms-page .eit-process-item p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* PARTNERS */
+#eit-ms-page .eit-partners-box {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 58px;
+  align-items: center;
+  padding: 58px;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-partner-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+#eit-ms-page .eit-partner {
+  display: flex;
+  min-height: 86px;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  border: 1px solid var(--eit-line);
+  border-radius: 16px;
+  color: var(--eit-charcoal);
+  background: #fbfbfc;
+  font-size: 17px;
+  font-weight: 850;
+  letter-spacing: -.01em;
+}
+
+#eit-ms-page .eit-partner::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--eit-orange);
+  box-shadow: 0 0 0 5px var(--eit-orange-soft);
+}
+
+/* QUALITY */
+#eit-ms-page .eit-quality-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+#eit-ms-page .eit-quality-card {
+  padding: 30px;
+  border: 1px solid var(--eit-line);
+  border-radius: 20px;
+  background: var(--eit-white);
+}
+
+#eit-ms-page .eit-quality-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#eit-ms-page .eit-quality-card h3 span {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-ms-page .eit-quality-card h3 svg {
+  width: 20px;
+  height: 20px;
+}
+
+#eit-ms-page .eit-quality-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* CTA */
+#eit-ms-page .eit-cta {
+  padding: 0 0 105px;
+  background: var(--eit-light);
+}
+
+#eit-ms-page .eit-cta-box {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding: 60px;
+  border-radius: 28px;
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 88% 20%, rgba(255,255,255,.14), transparent 23%),
+    linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 22px 60px rgba(217,86,47,.26);
+}
+
+#eit-ms-page .eit-cta-box::before,
+#eit-ms-page .eit-cta-box::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 50%;
+}
+
+#eit-ms-page .eit-cta-box::before {
+  width: 240px;
+  height: 240px;
+  right: -80px;
+  top: -120px;
+}
+
+#eit-ms-page .eit-cta-box::after {
+  width: 170px;
+  height: 170px;
+  right: 90px;
+  bottom: -120px;
+}
+
+#eit-ms-page .eit-cta-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+#eit-ms-page .eit-cta h2 {
+  margin-bottom: 14px;
+  color: var(--eit-white);
+}
+
+#eit-ms-page .eit-cta p {
+  margin-bottom: 0;
+  color: rgba(255,255,255,.82);
+}
+
+#eit-ms-page .eit-cta-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+#eit-ms-page .eit-cta .eit-button--white {
+  color: var(--eit-charcoal);
+  background: var(--eit-white);
+  box-shadow: 0 12px 28px rgba(0,0,0,.13);
+}
+
+#eit-ms-page .eit-cta-phone {
+  color: rgba(255,255,255,.88);
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+/* ACCESSIBILITY */
+#eit-ms-page .eit-button:focus-visible,
+#eit-ms-page a:focus-visible {
+  outline: 3px solid rgba(240,111,67,.42);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1060px) {
+  #eit-ms-page .eit-hero-grid,
+  #eit-ms-page .eit-two-col,
+  #eit-ms-page .eit-partners-box {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-ms-page .eit-hero-copy {
+    max-width: 780px;
+  }
+
+  #eit-ms-page .eit-visual {
+    width: min(620px, 100%);
+    margin-inline: auto;
+  }
+
+  #eit-ms-page .eit-services {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #eit-ms-page .eit-process {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 25px;
+  }
+
+  #eit-ms-page .eit-process-item:nth-child(2)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  #eit-ms-page .eit-container {
+    width: min(calc(100% - 28px), var(--eit-max));
+  }
+
+  #eit-ms-page .eit-hero {
+    min-height: auto;
+  }
+
+  #eit-ms-page .eit-hero-grid {
+    gap: 30px;
+    padding: 84px 0 125px;
+  }
+
+  #eit-ms-page .eit-visual {
+    min-height: 410px;
+  }
+
+  #eit-ms-page .eit-network-orbit {
+    width: 355px;
+  }
+
+  #eit-ms-page .eit-shield-card {
+    width: 190px;
+    min-height: 225px;
+    border-radius: 26px;
+  }
+
+  #eit-ms-page .eit-shield-icon {
+    width: 112px;
+    height: 130px;
+  }
+
+  #eit-ms-page .eit-node {
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+  }
+
+  #eit-ms-page .eit-node svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  #eit-ms-page .eit-node--1 { left: 1%; }
+  #eit-ms-page .eit-node--2 { right: 0; }
+  #eit-ms-page .eit-node--3 { left: 0; }
+  #eit-ms-page .eit-node--4 { right: 0; }
+
+  @keyframes eit-scan {
+    0%, 100% { transform: translateY(0); opacity: .2; }
+    50% { transform: translateY(265px); opacity: 1; }
+  }
+
+  #eit-ms-page .eit-trust-inner,
+  #eit-ms-page .eit-services,
+  #eit-ms-page .eit-process,
+  #eit-ms-page .eit-quality-grid,
+  #eit-ms-page .eit-partner-grid,
+  #eit-ms-page .eit-alert-list {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-ms-page .eit-trust-item:not(:last-child)::after {
+    top: auto;
+    left: 8%;
+    right: 8%;
+    bottom: 0;
+    width: auto;
+    height: 1px;
+  }
+
+  #eit-ms-page .eit-section {
+    padding: 76px 0;
+  }
+
+  #eit-ms-page .eit-partners-box {
+    gap: 38px;
+    padding: 32px 24px;
+  }
+
+  #eit-ms-page .eit-cta {
+    padding-bottom: 76px;
+  }
+
+  #eit-ms-page .eit-cta-box {
+    grid-template-columns: 1fr;
+    padding: 38px 26px;
+  }
+
+  #eit-ms-page .eit-cta-actions {
+    align-items: flex-start;
+  }
+
+  #eit-ms-page .eit-process-item::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #eit-ms-page *,
+  #eit-ms-page *::before,
+  #eit-ms-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+<section id="eit-ms-page">
+
+  <header class="eit-hero">
+    <div class="eit-container eit-hero-grid">
+      <div class="eit-hero-copy">
+        <div class="eit-kicker">Managed Services</div>
+        <h1>Service levels agreed before you need them.</h1>
+        <p class="eit-lead">
+          Everything IT defines response targets, priority levels, escalation paths and
+          reporting in writing, so everyone understands how support will operate before
+          a fault, outage or urgent request occurs.
+        </p>
+        <div class="eit-button-row">
+          <a class="eit-button eit-button--primary" href="https://everythingit.ie/contact/">Discuss your SLA
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="eit-button eit-button--ghost" href="tel:+35315240755">Call +353 1 524 0755</a>
+        </div>
+        <ul class="eit-hero-proof">
+          <li>Priorities defined in writing</li>
+          <li>Clear escalation paths</li>
+          <li>ISO 27001:2022 certified provider</li>
+        </ul>
+      </div>
+
+      <div class="eit-visual" aria-hidden="true">
+        <div class="eit-visual-glow"></div><div class="eit-network-orbit"></div><div class="eit-scan-line"></div>
+        <div class="eit-shield-card">
+          <svg class="eit-shield-icon" viewBox="0 0 180 205" fill="none">
+            <defs><linearGradient id="eitSlaGradient" x1="35" y1="20" x2="142" y2="190"><stop stop-color="#ff9a74"/><stop offset="1" stop-color="#e45832"/></linearGradient></defs>
+            <path d="M90 18 148 40v47c0 41-23 76-58 96-35-20-58-55-58-96V40L90 18Z" stroke="url(#eitSlaGradient)" stroke-width="8" stroke-linejoin="round"/>
+            <path d="m64 98 18 18 36-42" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="eit-trust">
+    <div class="eit-container"><div class="eit-trust-inner">
+      <div class="eit-trust-item"><strong>Response</strong><span>When work starts</span></div>
+      <div class="eit-trust-item"><strong>Resolution</strong><span>How progress is managed</span></div>
+      <div class="eit-trust-item"><strong>Escalation</strong><span>Who becomes involved</span></div>
+      <div class="eit-trust-item"><strong>Review</strong><span>How performance improves</span></div>
+    </div></div>
+  </div>
+
+  <section class="eit-section">
+    <div class="eit-container eit-two-col">
+      <div class="eit-copy-box">
+        <div class="eit-kicker">Clarity before urgency</div>
+        <h2>A service agreement should remove uncertainty—not create more of it.</h2>
+        <p>An effective SLA translates business impact into practical support priorities. A company-wide outage should not enter the same queue as a routine access request, and neither party should have to negotiate urgency during an incident.</p>
+        <p>We agree coverage, contacts, priority definitions, response objectives, escalation and reporting during onboarding. The result becomes part of the operating model and is reviewed as your environment changes.</p>
+        <ul class="eit-check-list">
+          <li>Scope and exclusions documented clearly</li>
+          <li>Priority based on impact and urgency</li>
+          <li>Named escalation and communication routes</li>
+        </ul>
+      </div>
+      <div class="eit-dashboard" aria-label="Illustrative SLA performance dashboard">
+        <div class="eit-dashboard-top"><div class="eit-dashboard-title">Service performance</div><span class="eit-live">Active agreement</span></div>
+        <div class="eit-chart"><svg viewBox="0 0 600 190" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="eitSlaChart" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f06f43" stop-opacity=".32"/><stop offset="1" stop-color="#f06f43" stop-opacity="0"/></linearGradient></defs><path d="M0 144 C70 130 105 145 160 112 S250 120 320 88 430 108 600 50 V190 H0Z" fill="url(#eitSlaChart)"/><path d="M0 144 C70 130 105 145 160 112 S250 120 320 88 430 108 600 50" fill="none" stroke="#f06f43" stroke-width="5" stroke-linecap="round"/></svg></div>
+        <div class="eit-alert-list">
+          <div class="eit-alert"><span class="eit-alert-label">Priority model</span><span class="eit-alert-value">Defined</span></div>
+          <div class="eit-alert"><span class="eit-alert-label">Escalation</span><span class="eit-alert-value">Documented</span></div>
+          <div class="eit-alert"><span class="eit-alert-label">Service review</span><span class="eit-alert-value">Scheduled</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-section eit-section--light">
+    <div class="eit-container">
+      <div class="eit-section-heading"><div class="eit-kicker">What the agreement covers</div><h2>Practical commitments built around the systems your business depends on.</h2><p class="eit-lead">The final scope is tailored to your users, technology, opening hours, risk and internal capability.</p></div>
+      <div class="eit-services">
+        <article class="eit-service-card"><h3>Priority definitions</h3><p>Incidents are classified by business impact and urgency using criteria agreed before onboarding.</p></article>
+        <article class="eit-service-card"><h3>Response objectives</h3><p>Targets establish when an engineer begins work and how acknowledgement is communicated.</p></article>
+        <article class="eit-service-card"><h3>Resolution management</h3><p>Complex incidents remain actively owned, progressed and communicated even where a supplier is involved.</p></article>
+        <article class="eit-service-card"><h3>Escalation paths</h3><p>Operational and management contacts are defined for urgent, stalled or high-impact incidents.</p></article>
+        <article class="eit-service-card"><h3>Coverage windows</h3><p>Standard hours, out-of-hours arrangements and planned maintenance responsibilities are documented.</p></article>
+        <article class="eit-service-card"><h3>Service reporting</h3><p>Performance, recurring issues, risks and improvement actions are reviewed using understandable reports.</p></article>
+        <article class="eit-service-card"><h3>Change control</h3><p>Planned technical work follows an agreed approval, communication and rollback process.</p></article>
+        <article class="eit-service-card"><h3>Ownership and documentation</h3><p>Responsibilities, assets, dependencies and recovery procedures are recorded and kept current.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-section eit-section--dark">
+    <div class="eit-container">
+      <div class="eit-section-heading"><div class="eit-kicker">How it works</div><h2>From infrastructure review to measurable service.</h2></div>
+      <div class="eit-process">
+        <article class="eit-process-item"><h3>Assess</h3><p>Review users, systems, business hours, dependencies and risk.</p></article>
+        <article class="eit-process-item"><h3>Define</h3><p>Agree scope, priorities, targets, contacts and escalation paths.</p></article>
+        <article class="eit-process-item"><h3>Onboard</h3><p>Document the environment and introduce the helpdesk and monitoring model.</p></article>
+        <article class="eit-process-item"><h3>Review</h3><p>Measure performance, address recurring issues and update the agreement.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-section eit-section--light">
+    <div class="eit-container eit-two-col">
+      <div class="eit-copy-box"><div class="eit-kicker">Service quality management</div><h2>Targets matter, but ownership and communication matter just as much.</h2><p>A response target is not useful if a ticket is acknowledged and then forgotten. Everything IT combines measurable objectives with active ownership, clear updates and management escalation when required.</p><p>Service reviews examine trends, repeated faults, documentation gaps and improvement actions—not only headline percentages.</p></div>
+      <div class="eit-quality-grid">
+        <article class="eit-quality-card"><h3>Clear updates</h3><p>Users and stakeholders receive understandable progress information.</p></article>
+        <article class="eit-quality-card"><h3>Named ownership</h3><p>Every active incident has an accountable route through the support team.</p></article>
+        <article class="eit-quality-card"><h3>Quality review</h3><p>Recurring issues and missed expectations are examined and corrected.</p></article>
+        <article class="eit-quality-card"><h3>Continuous improvement</h3><p>The agreement evolves with business and technology changes.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-cta"><div class="eit-container"><div class="eit-cta-box">
+    <div class="eit-cta-copy"><h2>Need a service agreement your team can actually understand?</h2><p>Talk to Everything IT about a managed support scope with clear priorities, ownership and reporting.</p></div>
+    <div class="eit-cta-actions"><a class="eit-button eit-button--white" href="https://everythingit.ie/contact/">Request a consultation</a><a class="eit-cta-phone" href="tel:+35315240755">Call +353 1 524 0755</a></div>
+  </div></div></section>
+
+</section>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"Service Level Agreements","serviceType":"Managed IT service level agreements","provider":{"@type":"Organization","name":"Everything IT","url":"https://everythingit.ie/","telephone":"+35315240755"},"areaServed":{"@type":"Country","name":"Ireland"}}
+</script>
+================================================================================
+PAGE END: PAGE 1 — SERVICE LEVEL AGREEMENTS
+================================================================================
+
+================================================================================
+PAGE START: PAGE 2 — IT SUPPORT HELPDESK
+================================================================================
+CODEX NOTE: Verify the existing redirect to /managed-it-services/ before restoring or consolidating this section.
+================================================================================
+<style>
+/* ==========================================================
+   EVERYTHING IT — MANAGED SERVICES PAGE DESIGN
+   Paste this style block and the matching page section into one Elementor HTML widget.
+   ========================================================== */
+
+#eit-ms-page,
+#eit-ms-page * {
+  box-sizing: border-box;
+}
+
+#eit-ms-page {
+  --eit-orange: #f06f43;
+  --eit-orange-dark: #d9562f;
+  --eit-orange-soft: #fff1eb;
+  --eit-charcoal: #111418;
+  --eit-charcoal-2: #1b2026;
+  --eit-ink: #252a31;
+  --eit-muted: #66707c;
+  --eit-line: #e5e8ec;
+  --eit-light: #f6f7f8;
+  --eit-white: #ffffff;
+  --eit-success: #34c98f;
+  --eit-max: 1180px;
+  --eit-radius: 22px;
+  --eit-shadow: 0 18px 55px rgba(17, 20, 24, 0.10);
+
+  width: 100%;
+  overflow: hidden;
+  color: var(--eit-ink);
+  background: var(--eit-white);
+  font-family: inherit;
+  line-height: 1.65;
+}
+
+#eit-ms-page img,
+#eit-ms-page svg {
+  display: block;
+  max-width: 100%;
+}
+
+#eit-ms-page a {
+  color: inherit;
+}
+
+#eit-ms-page .eit-container {
+  width: min(calc(100% - 40px), var(--eit-max));
+  margin-inline: auto;
+}
+
+#eit-ms-page .eit-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 18px;
+  color: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-kicker::before {
+  content: "";
+  width: 28px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+#eit-ms-page h1,
+#eit-ms-page h2,
+#eit-ms-page h3,
+#eit-ms-page p {
+  margin-top: 0;
+}
+
+#eit-ms-page h1,
+#eit-ms-page h2,
+#eit-ms-page h3 {
+  color: var(--eit-charcoal);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+#eit-ms-page h1 {
+  max-width: 760px;
+  margin-bottom: 22px;
+  font-size: clamp(42px, 6.2vw, 76px);
+  color: var(--eit-white);
+}
+
+#eit-ms-page h2 {
+  margin-bottom: 18px;
+  font-size: clamp(30px, 4vw, 48px);
+}
+
+#eit-ms-page h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+#eit-ms-page p {
+  color: var(--eit-muted);
+  font-size: 17px;
+}
+
+#eit-ms-page .eit-lead {
+  max-width: 710px;
+  font-size: clamp(18px, 2vw, 21px);
+  line-height: 1.7;
+}
+
+#eit-ms-page .eit-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+#eit-ms-page .eit-button {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 23px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 800;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+#eit-ms-page .eit-button:hover {
+  transform: translateY(-2px);
+}
+
+#eit-ms-page .eit-button--primary {
+  color: var(--eit-white);
+  background: linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 12px 30px rgba(240, 111, 67, .28);
+}
+
+#eit-ms-page .eit-button--primary:hover {
+  box-shadow: 0 16px 38px rgba(240, 111, 67, .38);
+}
+
+#eit-ms-page .eit-button--ghost {
+  color: var(--eit-white);
+  border-color: rgba(255,255,255,.28);
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(8px);
+}
+
+#eit-ms-page .eit-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* HERO */
+#eit-ms-page .eit-hero {
+  position: relative;
+  min-height: 720px;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 72% 42%, rgba(240,111,67,.20), transparent 29%),
+    radial-gradient(circle at 18% 10%, rgba(255,255,255,.06), transparent 24%),
+    linear-gradient(135deg, #0b0d10 0%, #161b20 54%, #0c0f12 100%);
+}
+
+#eit-ms-page .eit-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: .19;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, #000 10%, transparent 95%);
+}
+
+#eit-ms-page .eit-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 85px;
+  z-index: -1;
+  background: var(--eit-white);
+  clip-path: polygon(0 84%, 100% 0, 100% 100%, 0 100%);
+}
+
+#eit-ms-page .eit-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(380px, .95fr);
+  gap: 64px;
+  align-items: center;
+  padding: 110px 0 145px;
+}
+
+#eit-ms-page .eit-hero-copy .eit-kicker {
+  color: #ff906a;
+}
+
+#eit-ms-page .eit-hero-copy p {
+  max-width: 690px;
+  color: rgba(255,255,255,.74);
+}
+
+#eit-ms-page .eit-hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  margin-top: 27px;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-ms-page .eit-hero-proof li {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255,255,255,.83);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#eit-ms-page .eit-hero-proof li::before {
+  content: "✓";
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+  color: var(--eit-success);
+  background: rgba(52,201,143,.08);
+}
+
+#eit-ms-page .eit-visual {
+  position: relative;
+  min-height: 520px;
+}
+
+#eit-ms-page .eit-visual-glow {
+  position: absolute;
+  inset: 8% 3% 5%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,111,67,.23), transparent 63%);
+  filter: blur(10px);
+}
+
+#eit-ms-page .eit-network-orbit {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: min(460px, 100%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 50%;
+}
+
+#eit-ms-page .eit-network-orbit::before,
+#eit-ms-page .eit-network-orbit::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: inherit;
+}
+
+#eit-ms-page .eit-network-orbit::before {
+  inset: 13%;
+}
+
+#eit-ms-page .eit-network-orbit::after {
+  inset: 29%;
+}
+
+#eit-ms-page .eit-shield-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 245px;
+  min-height: 285px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 34px;
+  background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.045));
+  box-shadow: 0 25px 80px rgba(0,0,0,.36);
+  backdrop-filter: blur(16px);
+}
+
+#eit-ms-page .eit-shield-card::after {
+  content: "Protected";
+  position: absolute;
+  bottom: 26px;
+  padding: 7px 14px;
+  border: 1px solid rgba(52,201,143,.25);
+  border-radius: 999px;
+  color: #8ff0c9;
+  background: rgba(52,201,143,.08);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-shield-icon {
+  width: 150px;
+  height: 170px;
+  filter: drop-shadow(0 14px 22px rgba(240,111,67,.25));
+}
+
+#eit-ms-page .eit-node {
+  position: absolute;
+  display: flex;
+  width: 64px;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 18px;
+  color: var(--eit-white);
+  background: rgba(20,24,29,.82);
+  box-shadow: 0 14px 35px rgba(0,0,0,.28);
+  backdrop-filter: blur(12px);
+}
+
+#eit-ms-page .eit-node svg {
+  width: 28px;
+  height: 28px;
+}
+
+#eit-ms-page .eit-node--1 { top: 8%; left: 8%; }
+#eit-ms-page .eit-node--2 { top: 14%; right: 5%; }
+#eit-ms-page .eit-node--3 { bottom: 15%; left: 3%; }
+#eit-ms-page .eit-node--4 { right: 3%; bottom: 8%; }
+
+#eit-ms-page .eit-node::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  right: -3px;
+  top: -3px;
+  border: 2px solid var(--eit-charcoal);
+  border-radius: 50%;
+  background: var(--eit-success);
+  box-shadow: 0 0 0 5px rgba(52,201,143,.12);
+}
+
+#eit-ms-page .eit-scan-line {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 16%;
+  height: 2px;
+  opacity: .8;
+  background: linear-gradient(90deg, transparent, var(--eit-orange), transparent);
+  box-shadow: 0 0 14px var(--eit-orange);
+  animation: eit-scan 4.6s ease-in-out infinite;
+}
+
+@keyframes eit-scan {
+  0%, 100% { transform: translateY(0); opacity: .2; }
+  50% { transform: translateY(345px); opacity: 1; }
+}
+
+/* TRUST STRIP */
+#eit-ms-page .eit-trust {
+  position: relative;
+  z-index: 3;
+  margin-top: -54px;
+}
+
+#eit-ms-page .eit-trust-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--eit-line);
+  border-radius: 18px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-trust-item {
+  position: relative;
+  padding: 25px 24px;
+  text-align: center;
+}
+
+#eit-ms-page .eit-trust-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 22%;
+  right: 0;
+  width: 1px;
+  height: 56%;
+  background: var(--eit-line);
+}
+
+#eit-ms-page .eit-trust-item strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--eit-charcoal);
+  font-size: 18px;
+}
+
+#eit-ms-page .eit-trust-item span {
+  color: var(--eit-muted);
+  font-size: 13px;
+}
+
+/* GENERIC SECTIONS */
+#eit-ms-page .eit-section {
+  padding: 105px 0;
+}
+
+#eit-ms-page .eit-section--light {
+  background: var(--eit-light);
+}
+
+#eit-ms-page .eit-section--dark {
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 85% 20%, rgba(240,111,67,.15), transparent 27%),
+    var(--eit-charcoal);
+}
+
+#eit-ms-page .eit-section--dark h2,
+#eit-ms-page .eit-section--dark h3 {
+  color: var(--eit-white);
+}
+
+#eit-ms-page .eit-section--dark p {
+  color: rgba(255,255,255,.68);
+}
+
+#eit-ms-page .eit-two-col {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  gap: 80px;
+  align-items: center;
+}
+
+#eit-ms-page .eit-copy-box {
+  max-width: 560px;
+}
+
+#eit-ms-page .eit-check-list {
+  display: grid;
+  gap: 16px;
+  margin: 29px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-ms-page .eit-check-list li {
+  position: relative;
+  padding-left: 34px;
+  color: var(--eit-ink);
+  font-weight: 650;
+}
+
+#eit-ms-page .eit-check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--eit-white);
+  background: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+/* DASHBOARD GRAPHIC */
+#eit-ms-page .eit-dashboard {
+  position: relative;
+  padding: 22px;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-dashboard-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+#eit-ms-page .eit-dashboard-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--eit-charcoal);
+  font-weight: 800;
+}
+
+#eit-ms-page .eit-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #208b64;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+#eit-ms-page .eit-live::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--eit-success);
+  box-shadow: 0 0 0 5px rgba(52,201,143,.12);
+}
+
+#eit-ms-page .eit-chart {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(rgba(17,20,24,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17,20,24,.055) 1px, transparent 1px),
+    linear-gradient(180deg, #fbfcfd, #f5f6f8);
+  background-size: 42px 42px, 42px 42px, auto;
+}
+
+#eit-ms-page .eit-chart svg {
+  position: absolute;
+  inset: 22px 16px 12px;
+  width: calc(100% - 32px);
+  height: calc(100% - 34px);
+}
+
+#eit-ms-page .eit-alert-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+
+#eit-ms-page .eit-alert {
+  padding: 14px;
+  border: 1px solid var(--eit-line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+#eit-ms-page .eit-alert-label {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--eit-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-alert-value {
+  color: var(--eit-charcoal);
+  font-size: 19px;
+  font-weight: 850;
+}
+
+/* SERVICES */
+#eit-ms-page .eit-section-heading {
+  max-width: 780px;
+  margin-bottom: 50px;
+}
+
+#eit-ms-page .eit-services {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+#eit-ms-page .eit-service-card {
+  position: relative;
+  min-height: 285px;
+  overflow: hidden;
+  padding: 28px;
+  border: 1px solid var(--eit-line);
+  border-radius: 20px;
+  background: var(--eit-white);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+#eit-ms-page .eit-service-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(240,111,67,.35);
+  box-shadow: 0 20px 45px rgba(17,20,24,.10);
+}
+
+#eit-ms-page .eit-service-card::after {
+  content: "";
+  position: absolute;
+  right: -38px;
+  bottom: -38px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--eit-orange-soft);
+  transition: transform .25s ease;
+}
+
+#eit-ms-page .eit-service-card:hover::after {
+  transform: scale(1.35);
+}
+
+#eit-ms-page .eit-icon-box {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  margin-bottom: 23px;
+  border-radius: 15px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-ms-page .eit-icon-box svg {
+  width: 27px;
+  height: 27px;
+}
+
+#eit-ms-page .eit-service-card h3,
+#eit-ms-page .eit-service-card p {
+  position: relative;
+  z-index: 2;
+}
+
+#eit-ms-page .eit-service-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* PROCESS */
+#eit-ms-page .eit-process {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  counter-reset: eit-step;
+}
+
+#eit-ms-page .eit-process-item {
+  position: relative;
+  counter-increment: eit-step;
+}
+
+#eit-ms-page .eit-process-item::before {
+  content: "0" counter(eit-step);
+  display: block;
+  margin-bottom: 21px;
+  color: var(--eit-orange);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+#eit-ms-page .eit-process-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 45px;
+  right: -2px;
+  top: 12px;
+  height: 1px;
+  background: rgba(255,255,255,.14);
+}
+
+#eit-ms-page .eit-process-item h3 {
+  font-size: 19px;
+}
+
+#eit-ms-page .eit-process-item p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* PARTNERS */
+#eit-ms-page .eit-partners-box {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 58px;
+  align-items: center;
+  padding: 58px;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-partner-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+#eit-ms-page .eit-partner {
+  display: flex;
+  min-height: 86px;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  border: 1px solid var(--eit-line);
+  border-radius: 16px;
+  color: var(--eit-charcoal);
+  background: #fbfbfc;
+  font-size: 17px;
+  font-weight: 850;
+  letter-spacing: -.01em;
+}
+
+#eit-ms-page .eit-partner::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--eit-orange);
+  box-shadow: 0 0 0 5px var(--eit-orange-soft);
+}
+
+/* QUALITY */
+#eit-ms-page .eit-quality-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+#eit-ms-page .eit-quality-card {
+  padding: 30px;
+  border: 1px solid var(--eit-line);
+  border-radius: 20px;
+  background: var(--eit-white);
+}
+
+#eit-ms-page .eit-quality-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#eit-ms-page .eit-quality-card h3 span {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-ms-page .eit-quality-card h3 svg {
+  width: 20px;
+  height: 20px;
+}
+
+#eit-ms-page .eit-quality-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* CTA */
+#eit-ms-page .eit-cta {
+  padding: 0 0 105px;
+  background: var(--eit-light);
+}
+
+#eit-ms-page .eit-cta-box {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding: 60px;
+  border-radius: 28px;
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 88% 20%, rgba(255,255,255,.14), transparent 23%),
+    linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 22px 60px rgba(217,86,47,.26);
+}
+
+#eit-ms-page .eit-cta-box::before,
+#eit-ms-page .eit-cta-box::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 50%;
+}
+
+#eit-ms-page .eit-cta-box::before {
+  width: 240px;
+  height: 240px;
+  right: -80px;
+  top: -120px;
+}
+
+#eit-ms-page .eit-cta-box::after {
+  width: 170px;
+  height: 170px;
+  right: 90px;
+  bottom: -120px;
+}
+
+#eit-ms-page .eit-cta-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+#eit-ms-page .eit-cta h2 {
+  margin-bottom: 14px;
+  color: var(--eit-white);
+}
+
+#eit-ms-page .eit-cta p {
+  margin-bottom: 0;
+  color: rgba(255,255,255,.82);
+}
+
+#eit-ms-page .eit-cta-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+#eit-ms-page .eit-cta .eit-button--white {
+  color: var(--eit-charcoal);
+  background: var(--eit-white);
+  box-shadow: 0 12px 28px rgba(0,0,0,.13);
+}
+
+#eit-ms-page .eit-cta-phone {
+  color: rgba(255,255,255,.88);
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+/* ACCESSIBILITY */
+#eit-ms-page .eit-button:focus-visible,
+#eit-ms-page a:focus-visible {
+  outline: 3px solid rgba(240,111,67,.42);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1060px) {
+  #eit-ms-page .eit-hero-grid,
+  #eit-ms-page .eit-two-col,
+  #eit-ms-page .eit-partners-box {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-ms-page .eit-hero-copy {
+    max-width: 780px;
+  }
+
+  #eit-ms-page .eit-visual {
+    width: min(620px, 100%);
+    margin-inline: auto;
+  }
+
+  #eit-ms-page .eit-services {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #eit-ms-page .eit-process {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 25px;
+  }
+
+  #eit-ms-page .eit-process-item:nth-child(2)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  #eit-ms-page .eit-container {
+    width: min(calc(100% - 28px), var(--eit-max));
+  }
+
+  #eit-ms-page .eit-hero {
+    min-height: auto;
+  }
+
+  #eit-ms-page .eit-hero-grid {
+    gap: 30px;
+    padding: 84px 0 125px;
+  }
+
+  #eit-ms-page .eit-visual {
+    min-height: 410px;
+  }
+
+  #eit-ms-page .eit-network-orbit {
+    width: 355px;
+  }
+
+  #eit-ms-page .eit-shield-card {
+    width: 190px;
+    min-height: 225px;
+    border-radius: 26px;
+  }
+
+  #eit-ms-page .eit-shield-icon {
+    width: 112px;
+    height: 130px;
+  }
+
+  #eit-ms-page .eit-node {
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+  }
+
+  #eit-ms-page .eit-node svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  #eit-ms-page .eit-node--1 { left: 1%; }
+  #eit-ms-page .eit-node--2 { right: 0; }
+  #eit-ms-page .eit-node--3 { left: 0; }
+  #eit-ms-page .eit-node--4 { right: 0; }
+
+  @keyframes eit-scan {
+    0%, 100% { transform: translateY(0); opacity: .2; }
+    50% { transform: translateY(265px); opacity: 1; }
+  }
+
+  #eit-ms-page .eit-trust-inner,
+  #eit-ms-page .eit-services,
+  #eit-ms-page .eit-process,
+  #eit-ms-page .eit-quality-grid,
+  #eit-ms-page .eit-partner-grid,
+  #eit-ms-page .eit-alert-list {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-ms-page .eit-trust-item:not(:last-child)::after {
+    top: auto;
+    left: 8%;
+    right: 8%;
+    bottom: 0;
+    width: auto;
+    height: 1px;
+  }
+
+  #eit-ms-page .eit-section {
+    padding: 76px 0;
+  }
+
+  #eit-ms-page .eit-partners-box {
+    gap: 38px;
+    padding: 32px 24px;
+  }
+
+  #eit-ms-page .eit-cta {
+    padding-bottom: 76px;
+  }
+
+  #eit-ms-page .eit-cta-box {
+    grid-template-columns: 1fr;
+    padding: 38px 26px;
+  }
+
+  #eit-ms-page .eit-cta-actions {
+    align-items: flex-start;
+  }
+
+  #eit-ms-page .eit-process-item::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #eit-ms-page *,
+  #eit-ms-page *::before,
+  #eit-ms-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+<section id="eit-ms-page">
+
+  <header class="eit-hero">
+    <div class="eit-container eit-hero-grid">
+      <div class="eit-hero-copy">
+        <div class="eit-kicker">Managed IT Support</div>
+        <h1>An IT helpdesk that already knows your environment.</h1>
+        <p class="eit-lead">Everything IT gives your users a clear route to practical support by phone, email or portal, backed by engineers who understand your systems, users and agreed service priorities.</p>
+        <div class="eit-button-row">
+          <a class="eit-button eit-button--primary" href="https://everythingit.ie/contact/">Discuss helpdesk support <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="eit-button eit-button--ghost" href="tel:+35315240755">Call +353 1 524 0755</a>
+        </div>
+        <ul class="eit-hero-proof"><li>Phone, email and portal access</li><li>Escalation to experienced engineers</li><li>ISO 27001:2022 certified provider</li></ul>
+      </div>
+      <div class="eit-visual" aria-hidden="true">
+        <div class="eit-visual-glow"></div><div class="eit-network-orbit"></div><div class="eit-scan-line"></div>
+        <div class="eit-shield-card"><svg class="eit-shield-icon" viewBox="0 0 180 205" fill="none"><defs><linearGradient id="eitHelpGradient" x1="35" y1="20" x2="142" y2="190"><stop stop-color="#ff9a74"/><stop offset="1" stop-color="#e45832"/></linearGradient></defs><path d="M38 46h104v82H82l-35 28v-28h-9V46Z" stroke="url(#eitHelpGradient)" stroke-width="8" stroke-linejoin="round"/><path d="M65 75h50M65 98h36" stroke="#fff" stroke-width="9" stroke-linecap="round"/></svg></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="eit-trust"><div class="eit-container"><div class="eit-trust-inner">
+    <div class="eit-trust-item"><strong>One contact point</strong><span>Simple support access</span></div>
+    <div class="eit-trust-item"><strong>Known environment</strong><span>Less re-explaining</span></div>
+    <div class="eit-trust-item"><strong>Clear ownership</strong><span>Tickets actively managed</span></div>
+    <div class="eit-trust-item"><strong>Human updates</strong><span>Plain-language communication</span></div>
+  </div></div></div>
+
+  <section class="eit-section">
+    <div class="eit-container eit-two-col">
+      <div class="eit-copy-box">
+        <div class="eit-kicker">Support without the runaround</div>
+        <h2>Your staff should know exactly where to go when technology gets in the way.</h2>
+        <p>Unclear support routes waste time. Users ask colleagues, contact the wrong supplier or repeatedly explain an environment that should already be documented.</p>
+        <p>Our managed helpdesk becomes the accountable first point of contact. Requests are recorded, prioritised, progressed and escalated using the service model agreed with your organisation.</p>
+        <ul class="eit-check-list"><li>Support for users, devices, Microsoft 365 and core applications</li><li>Established knowledge of your environment and suppliers</li><li>Escalation based on impact, urgency and technical complexity</li></ul>
+      </div>
+      <div class="eit-dashboard" aria-label="Illustrative helpdesk dashboard">
+        <div class="eit-dashboard-top"><div class="eit-dashboard-title">Support queue</div><span class="eit-live">Team online</span></div>
+        <div class="eit-chart"><svg viewBox="0 0 600 190" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="eitHelpChart" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f06f43" stop-opacity=".32"/><stop offset="1" stop-color="#f06f43" stop-opacity="0"/></linearGradient></defs><path d="M0 130 C80 118 120 145 180 103 S290 126 360 77 490 88 600 48 V190 H0Z" fill="url(#eitHelpChart)"/><path d="M0 130 C80 118 120 145 180 103 S290 126 360 77 490 88 600 48" fill="none" stroke="#f06f43" stroke-width="5" stroke-linecap="round"/></svg></div>
+        <div class="eit-alert-list"><div class="eit-alert"><span class="eit-alert-label">New requests</span><span class="eit-alert-value">Triaged</span></div><div class="eit-alert"><span class="eit-alert-label">Ownership</span><span class="eit-alert-value">Assigned</span></div><div class="eit-alert"><span class="eit-alert-label">Escalation</span><span class="eit-alert-value">Available</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-section eit-section--light">
+    <div class="eit-container">
+      <div class="eit-section-heading"><div class="eit-kicker">What the helpdesk covers</div><h2>Day-to-day support connected to the wider managed service.</h2><p class="eit-lead">Scope is tailored to your environment and documented during onboarding.</p></div>
+      <div class="eit-services">
+        <article class="eit-service-card"><h3>User support</h3><p>Practical assistance when staff cannot access, use or understand the technology required for their work.</p></article>
+        <article class="eit-service-card"><h3>Microsoft 365</h3><p>Support for accounts, Outlook, Teams, SharePoint, OneDrive, permissions and common productivity issues.</p></article>
+        <article class="eit-service-card"><h3>Device support</h3><p>Troubleshooting for managed laptops, desktops, phones, tablets and approved peripherals.</p></article>
+        <article class="eit-service-card"><h3>Access and identity</h3><p>Joiners, movers, leavers, password issues, multifactor authentication and approved permission changes.</p></article>
+        <article class="eit-service-card"><h3>Application coordination</h3><p>First-line investigation and escalation to specialist software vendors where required.</p></article>
+        <article class="eit-service-card"><h3>Remote troubleshooting</h3><p>Secure remote assistance for issues that can be resolved without waiting for an onsite visit.</p></article>
+        <article class="eit-service-card"><h3>Onsite escalation</h3><p>Planned engineering attendance when equipment, cabling or infrastructure needs physical access.</p></article>
+        <article class="eit-service-card"><h3>Recurring issue analysis</h3><p>Patterns are reviewed so repeated faults become improvement work rather than accepted disruption.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="eit-section eit-section--dark"><div class="eit-container">
+    <div class="eit-section-heading"><div class="eit-kicker">How support flows</div><h2>Every request has a route from contact to resolution.</h2></div>
+    <div class="eit-process"><article class="eit-process-item"><h3>Contact</h3><p>The user reaches the team by the agreed phone, email or portal route.</p></article><article class="eit-process-item"><h3>Triage</h3><p>Impact, urgency, scope and available information are assessed.</p></article><article class="eit-process-item"><h3>Resolve or escalate</h3><p>The issue is handled directly or moved to the right specialist.</p></article><article class="eit-process-item"><h3>Close and improve</h3><p>The outcome is documented and recurring patterns are reviewed.</p></article></div>
+  </div></section>
+
+  <section class="eit-section eit-section--light"><div class="eit-container eit-two-col">
+    <div class="eit-copy-box"><div class="eit-kicker">A better user experience</div><h2>Responsive support is technical service and communication together.</h2><p>Users need to know that someone owns the issue, what is happening next and when they will hear again. Our engineers focus on clear updates alongside practical troubleshooting.</p><p>Documentation, monitoring and service history help the helpdesk move beyond one-off fixes and support the environment as a whole.</p></div>
+    <div class="eit-quality-grid"><article class="eit-quality-card"><h3>Clear intake</h3><p>Simple routes for users to request support.</p></article><article class="eit-quality-card"><h3>Active ownership</h3><p>Requests remain visible until resolved or handed over clearly.</p></article><article class="eit-quality-card"><h3>Knowledge retention</h3><p>Useful outcomes become part of the support record.</p></article><article class="eit-quality-card"><h3>Service feedback</h3><p>User experience helps identify where delivery should improve.</p></article></div>
+  </div></section>
+
+  <section class="eit-cta"><div class="eit-container"><div class="eit-cta-box"><div class="eit-cta-copy"><h2>Give your team one dependable place to ask for help.</h2><p>Speak with Everything IT about a managed helpdesk aligned with your systems, users and service priorities.</p></div><div class="eit-cta-actions"><a class="eit-button eit-button--white" href="https://everythingit.ie/contact/">Request a consultation</a><a class="eit-cta-phone" href="tel:+35315240755">Call +353 1 524 0755</a></div></div></div></section>
+
+</section>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"IT Support Helpdesk","serviceType":"Managed IT helpdesk support","provider":{"@type":"Organization","name":"Everything IT","url":"https://everythingit.ie/","telephone":"+35315240755"},"areaServed":{"@type":"Country","name":"Ireland"}}
+</script>
+================================================================================
+PAGE END: PAGE 2 — IT SUPPORT HELPDESK
+================================================================================
+
+================================================================================
+PAGE START: PAGE 3 — NETWORK SECURITY MONITORING | /network-security-monitoring/
+================================================================================
+CODEX NOTE: This is the exact saved Network Security Monitoring Elementor redesign.
+================================================================================
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network Security Monitoring | Everything IT</title>
+  <meta name="description" content="Proactive network security monitoring, event logging, identity management and 24/7 security operations support from Everything IT.">
+</head>
+<body>
+
+<style>
+/* ==========================================================
+   EVERYTHING IT — NETWORK SECURITY MONITORING DEMO
+   Paste everything from <section id="eit-nsm"> to </section>
+   plus this <style> block into one Elementor HTML widget.
+   ========================================================== */
+
+#eit-nsm,
+#eit-nsm * {
+  box-sizing: border-box;
+}
+
+#eit-nsm {
+  --eit-orange: #f06f43;
+  --eit-orange-dark: #d9562f;
+  --eit-orange-soft: #fff1eb;
+  --eit-charcoal: #111418;
+  --eit-charcoal-2: #1b2026;
+  --eit-ink: #252a31;
+  --eit-muted: #66707c;
+  --eit-line: #e5e8ec;
+  --eit-light: #f6f7f8;
+  --eit-white: #ffffff;
+  --eit-success: #34c98f;
+  --eit-max: 1180px;
+  --eit-radius: 22px;
+  --eit-shadow: 0 18px 55px rgba(17, 20, 24, 0.10);
+
+  width: 100%;
+  overflow: hidden;
+  color: var(--eit-ink);
+  background: var(--eit-white);
+  font-family: inherit;
+  line-height: 1.65;
+}
+
+#eit-nsm img,
+#eit-nsm svg {
+  display: block;
+  max-width: 100%;
+}
+
+#eit-nsm a {
+  color: inherit;
+}
+
+#eit-nsm .eit-container {
+  width: min(calc(100% - 40px), var(--eit-max));
+  margin-inline: auto;
+}
+
+#eit-nsm .eit-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 18px;
+  color: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#eit-nsm .eit-kicker::before {
+  content: "";
+  width: 28px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+#eit-nsm h1,
+#eit-nsm h2,
+#eit-nsm h3,
+#eit-nsm p {
+  margin-top: 0;
+}
+
+#eit-nsm h1,
+#eit-nsm h2,
+#eit-nsm h3 {
+  color: var(--eit-charcoal);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+#eit-nsm h1 {
+  max-width: 760px;
+  margin-bottom: 22px;
+  font-size: clamp(42px, 6.2vw, 76px);
+  color: var(--eit-white);
+}
+
+#eit-nsm h2 {
+  margin-bottom: 18px;
+  font-size: clamp(30px, 4vw, 48px);
+}
+
+#eit-nsm h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+#eit-nsm p {
+  color: var(--eit-muted);
+  font-size: 17px;
+}
+
+#eit-nsm .eit-lead {
+  max-width: 710px;
+  font-size: clamp(18px, 2vw, 21px);
+  line-height: 1.7;
+}
+
+#eit-nsm .eit-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+#eit-nsm .eit-button {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 23px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 800;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+#eit-nsm .eit-button:hover {
+  transform: translateY(-2px);
+}
+
+#eit-nsm .eit-button--primary {
+  color: var(--eit-white);
+  background: linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 12px 30px rgba(240, 111, 67, .28);
+}
+
+#eit-nsm .eit-button--primary:hover {
+  box-shadow: 0 16px 38px rgba(240, 111, 67, .38);
+}
+
+#eit-nsm .eit-button--ghost {
+  color: var(--eit-white);
+  border-color: rgba(255,255,255,.28);
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(8px);
+}
+
+#eit-nsm .eit-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* HERO */
+#eit-nsm .eit-hero {
+  position: relative;
+  min-height: 720px;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 72% 42%, rgba(240,111,67,.20), transparent 29%),
+    radial-gradient(circle at 18% 10%, rgba(255,255,255,.06), transparent 24%),
+    linear-gradient(135deg, #0b0d10 0%, #161b20 54%, #0c0f12 100%);
+}
+
+#eit-nsm .eit-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: .19;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, #000 10%, transparent 95%);
+}
+
+#eit-nsm .eit-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 85px;
+  z-index: -1;
+  background: var(--eit-white);
+  clip-path: polygon(0 84%, 100% 0, 100% 100%, 0 100%);
+}
+
+#eit-nsm .eit-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(380px, .95fr);
+  gap: 64px;
+  align-items: center;
+  padding: 110px 0 145px;
+}
+
+#eit-nsm .eit-hero-copy .eit-kicker {
+  color: #ff906a;
+}
+
+#eit-nsm .eit-hero-copy p {
+  max-width: 690px;
+  color: rgba(255,255,255,.74);
+}
+
+#eit-nsm .eit-hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  margin-top: 27px;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-nsm .eit-hero-proof li {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255,255,255,.83);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#eit-nsm .eit-hero-proof li::before {
+  content: "✓";
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+  color: var(--eit-success);
+  background: rgba(52,201,143,.08);
+}
+
+#eit-nsm .eit-visual {
+  position: relative;
+  min-height: 520px;
+}
+
+#eit-nsm .eit-visual-glow {
+  position: absolute;
+  inset: 8% 3% 5%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,111,67,.23), transparent 63%);
+  filter: blur(10px);
+}
+
+#eit-nsm .eit-network-orbit {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: min(460px, 100%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 50%;
+}
+
+#eit-nsm .eit-network-orbit::before,
+#eit-nsm .eit-network-orbit::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: inherit;
+}
+
+#eit-nsm .eit-network-orbit::before {
+  inset: 13%;
+}
+
+#eit-nsm .eit-network-orbit::after {
+  inset: 29%;
+}
+
+#eit-nsm .eit-shield-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 245px;
+  min-height: 285px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 34px;
+  background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.045));
+  box-shadow: 0 25px 80px rgba(0,0,0,.36);
+  backdrop-filter: blur(16px);
+}
+
+#eit-nsm .eit-shield-card::after {
+  content: "Protected";
+  position: absolute;
+  bottom: 26px;
+  padding: 7px 14px;
+  border: 1px solid rgba(52,201,143,.25);
+  border-radius: 999px;
+  color: #8ff0c9;
+  background: rgba(52,201,143,.08);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#eit-nsm .eit-shield-icon {
+  width: 150px;
+  height: 170px;
+  filter: drop-shadow(0 14px 22px rgba(240,111,67,.25));
+}
+
+#eit-nsm .eit-node {
+  position: absolute;
+  display: flex;
+  width: 64px;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 18px;
+  color: var(--eit-white);
+  background: rgba(20,24,29,.82);
+  box-shadow: 0 14px 35px rgba(0,0,0,.28);
+  backdrop-filter: blur(12px);
+}
+
+#eit-nsm .eit-node svg {
+  width: 28px;
+  height: 28px;
+}
+
+#eit-nsm .eit-node--1 { top: 8%; left: 8%; }
+#eit-nsm .eit-node--2 { top: 14%; right: 5%; }
+#eit-nsm .eit-node--3 { bottom: 15%; left: 3%; }
+#eit-nsm .eit-node--4 { right: 3%; bottom: 8%; }
+
+#eit-nsm .eit-node::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  right: -3px;
+  top: -3px;
+  border: 2px solid var(--eit-charcoal);
+  border-radius: 50%;
+  background: var(--eit-success);
+  box-shadow: 0 0 0 5px rgba(52,201,143,.12);
+}
+
+#eit-nsm .eit-scan-line {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 16%;
+  height: 2px;
+  opacity: .8;
+  background: linear-gradient(90deg, transparent, var(--eit-orange), transparent);
+  box-shadow: 0 0 14px var(--eit-orange);
+  animation: eit-scan 4.6s ease-in-out infinite;
+}
+
+@keyframes eit-scan {
+  0%, 100% { transform: translateY(0); opacity: .2; }
+  50% { transform: translateY(345px); opacity: 1; }
+}
+
+/* TRUST STRIP */
+#eit-nsm .eit-trust {
+  position: relative;
+  z-index: 3;
+  margin-top: -54px;
+}
+
+#eit-nsm .eit-trust-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--eit-line);
+  border-radius: 18px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-nsm .eit-trust-item {
+  position: relative;
+  padding: 25px 24px;
+  text-align: center;
+}
+
+#eit-nsm .eit-trust-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 22%;
+  right: 0;
+  width: 1px;
+  height: 56%;
+  background: var(--eit-line);
+}
+
+#eit-nsm .eit-trust-item strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--eit-charcoal);
+  font-size: 18px;
+}
+
+#eit-nsm .eit-trust-item span {
+  color: var(--eit-muted);
+  font-size: 13px;
+}
+
+/* GENERIC SECTIONS */
+#eit-nsm .eit-section {
+  padding: 105px 0;
+}
+
+#eit-nsm .eit-section--light {
+  background: var(--eit-light);
+}
+
+#eit-nsm .eit-section--dark {
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 85% 20%, rgba(240,111,67,.15), transparent 27%),
+    var(--eit-charcoal);
+}
+
+#eit-nsm .eit-section--dark h2,
+#eit-nsm .eit-section--dark h3 {
+  color: var(--eit-white);
+}
+
+#eit-nsm .eit-section--dark p {
+  color: rgba(255,255,255,.68);
+}
+
+#eit-nsm .eit-two-col {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  gap: 80px;
+  align-items: center;
+}
+
+#eit-nsm .eit-copy-box {
+  max-width: 560px;
+}
+
+#eit-nsm .eit-check-list {
+  display: grid;
+  gap: 16px;
+  margin: 29px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-nsm .eit-check-list li {
+  position: relative;
+  padding-left: 34px;
+  color: var(--eit-ink);
+  font-weight: 650;
+}
+
+#eit-nsm .eit-check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--eit-white);
+  background: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+/* DASHBOARD GRAPHIC */
+#eit-nsm .eit-dashboard {
+  position: relative;
+  padding: 22px;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-nsm .eit-dashboard-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+#eit-nsm .eit-dashboard-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--eit-charcoal);
+  font-weight: 800;
+}
+
+#eit-nsm .eit-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #208b64;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+#eit-nsm .eit-live::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--eit-success);
+  box-shadow: 0 0 0 5px rgba(52,201,143,.12);
+}
+
+#eit-nsm .eit-chart {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(rgba(17,20,24,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17,20,24,.055) 1px, transparent 1px),
+    linear-gradient(180deg, #fbfcfd, #f5f6f8);
+  background-size: 42px 42px, 42px 42px, auto;
+}
+
+#eit-nsm .eit-chart svg {
+  position: absolute;
+  inset: 22px 16px 12px;
+  width: calc(100% - 32px);
+  height: calc(100% - 34px);
+}
+
+#eit-nsm .eit-alert-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+
+#eit-nsm .eit-alert {
+  padding: 14px;
+  border: 1px solid var(--eit-line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+#eit-nsm .eit-alert-label {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--eit-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#eit-nsm .eit-alert-value {
+  color: var(--eit-charcoal);
+  font-size: 19px;
+  font-weight: 850;
+}
+
+/* SERVICES */
+#eit-nsm .eit-section-heading {
+  max-width: 780px;
+  margin-bottom: 50px;
+}
+
+#eit-nsm .eit-services {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+#eit-nsm .eit-service-card {
+  position: relative;
+  min-height: 285px;
+  overflow: hidden;
+  padding: 28px;
+  border: 1px solid var(--eit-line);
+  border-radius: 20px;
+  background: var(--eit-white);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+#eit-nsm .eit-service-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(240,111,67,.35);
+  box-shadow: 0 20px 45px rgba(17,20,24,.10);
+}
+
+#eit-nsm .eit-service-card::after {
+  content: "";
+  position: absolute;
+  right: -38px;
+  bottom: -38px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--eit-orange-soft);
+  transition: transform .25s ease;
+}
+
+#eit-nsm .eit-service-card:hover::after {
+  transform: scale(1.35);
+}
+
+#eit-nsm .eit-icon-box {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  margin-bottom: 23px;
+  border-radius: 15px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-nsm .eit-icon-box svg {
+  width: 27px;
+  height: 27px;
+}
+
+#eit-nsm .eit-service-card h3,
+#eit-nsm .eit-service-card p {
+  position: relative;
+  z-index: 2;
+}
+
+#eit-nsm .eit-service-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* PROCESS */
+#eit-nsm .eit-process {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  counter-reset: eit-step;
+}
+
+#eit-nsm .eit-process-item {
+  position: relative;
+  counter-increment: eit-step;
+}
+
+#eit-nsm .eit-process-item::before {
+  content: "0" counter(eit-step);
+  display: block;
+  margin-bottom: 21px;
+  color: var(--eit-orange);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+#eit-nsm .eit-process-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 45px;
+  right: -2px;
+  top: 12px;
+  height: 1px;
+  background: rgba(255,255,255,.14);
+}
+
+#eit-nsm .eit-process-item h3 {
+  font-size: 19px;
+}
+
+#eit-nsm .eit-process-item p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* PARTNERS */
+#eit-nsm .eit-partners-box {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 58px;
+  align-items: center;
+  padding: 58px;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-nsm .eit-partner-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+#eit-nsm .eit-partner {
+  display: flex;
+  min-height: 86px;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  border: 1px solid var(--eit-line);
+  border-radius: 16px;
+  color: var(--eit-charcoal);
+  background: #fbfbfc;
+  font-size: 17px;
+  font-weight: 850;
+  letter-spacing: -.01em;
+}
+
+#eit-nsm .eit-partner::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--eit-orange);
+  box-shadow: 0 0 0 5px var(--eit-orange-soft);
+}
+
+/* QUALITY */
+#eit-nsm .eit-quality-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+#eit-nsm .eit-quality-card {
+  padding: 30px;
+  border: 1px solid var(--eit-line);
+  border-radius: 20px;
+  background: var(--eit-white);
+}
+
+#eit-nsm .eit-quality-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#eit-nsm .eit-quality-card h3 span {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-nsm .eit-quality-card h3 svg {
+  width: 20px;
+  height: 20px;
+}
+
+#eit-nsm .eit-quality-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* CTA */
+#eit-nsm .eit-cta {
+  padding: 0 0 105px;
+  background: var(--eit-light);
+}
+
+#eit-nsm .eit-cta-box {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding: 60px;
+  border-radius: 28px;
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 88% 20%, rgba(255,255,255,.14), transparent 23%),
+    linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 22px 60px rgba(217,86,47,.26);
+}
+
+#eit-nsm .eit-cta-box::before,
+#eit-nsm .eit-cta-box::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 50%;
+}
+
+#eit-nsm .eit-cta-box::before {
+  width: 240px;
+  height: 240px;
+  right: -80px;
+  top: -120px;
+}
+
+#eit-nsm .eit-cta-box::after {
+  width: 170px;
+  height: 170px;
+  right: 90px;
+  bottom: -120px;
+}
+
+#eit-nsm .eit-cta-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+#eit-nsm .eit-cta h2 {
+  margin-bottom: 14px;
+  color: var(--eit-white);
+}
+
+#eit-nsm .eit-cta p {
+  margin-bottom: 0;
+  color: rgba(255,255,255,.82);
+}
+
+#eit-nsm .eit-cta-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+#eit-nsm .eit-cta .eit-button--white {
+  color: var(--eit-charcoal);
+  background: var(--eit-white);
+  box-shadow: 0 12px 28px rgba(0,0,0,.13);
+}
+
+#eit-nsm .eit-cta-phone {
+  color: rgba(255,255,255,.88);
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+/* ACCESSIBILITY */
+#eit-nsm .eit-button:focus-visible,
+#eit-nsm a:focus-visible {
+  outline: 3px solid rgba(240,111,67,.42);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1060px) {
+  #eit-nsm .eit-hero-grid,
+  #eit-nsm .eit-two-col,
+  #eit-nsm .eit-partners-box {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-nsm .eit-hero-copy {
+    max-width: 780px;
+  }
+
+  #eit-nsm .eit-visual {
+    width: min(620px, 100%);
+    margin-inline: auto;
+  }
+
+  #eit-nsm .eit-services {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #eit-nsm .eit-process {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 25px;
+  }
+
+  #eit-nsm .eit-process-item:nth-child(2)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  #eit-nsm .eit-container {
+    width: min(calc(100% - 28px), var(--eit-max));
+  }
+
+  #eit-nsm .eit-hero {
+    min-height: auto;
+  }
+
+  #eit-nsm .eit-hero-grid {
+    gap: 30px;
+    padding: 84px 0 125px;
+  }
+
+  #eit-nsm .eit-visual {
+    min-height: 410px;
+  }
+
+  #eit-nsm .eit-network-orbit {
+    width: 355px;
+  }
+
+  #eit-nsm .eit-shield-card {
+    width: 190px;
+    min-height: 225px;
+    border-radius: 26px;
+  }
+
+  #eit-nsm .eit-shield-icon {
+    width: 112px;
+    height: 130px;
+  }
+
+  #eit-nsm .eit-node {
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+  }
+
+  #eit-nsm .eit-node svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  #eit-nsm .eit-node--1 { left: 1%; }
+  #eit-nsm .eit-node--2 { right: 0; }
+  #eit-nsm .eit-node--3 { left: 0; }
+  #eit-nsm .eit-node--4 { right: 0; }
+
+  @keyframes eit-scan {
+    0%, 100% { transform: translateY(0); opacity: .2; }
+    50% { transform: translateY(265px); opacity: 1; }
+  }
+
+  #eit-nsm .eit-trust-inner,
+  #eit-nsm .eit-services,
+  #eit-nsm .eit-process,
+  #eit-nsm .eit-quality-grid,
+  #eit-nsm .eit-partner-grid,
+  #eit-nsm .eit-alert-list {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-nsm .eit-trust-item:not(:last-child)::after {
+    top: auto;
+    left: 8%;
+    right: 8%;
+    bottom: 0;
+    width: auto;
+    height: 1px;
+  }
+
+  #eit-nsm .eit-section {
+    padding: 76px 0;
+  }
+
+  #eit-nsm .eit-partners-box {
+    gap: 38px;
+    padding: 32px 24px;
+  }
+
+  #eit-nsm .eit-cta {
+    padding-bottom: 76px;
+  }
+
+  #eit-nsm .eit-cta-box {
+    grid-template-columns: 1fr;
+    padding: 38px 26px;
+  }
+
+  #eit-nsm .eit-cta-actions {
+    align-items: flex-start;
+  }
+
+  #eit-nsm .eit-process-item::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #eit-nsm *,
+  #eit-nsm *::before,
+  #eit-nsm *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+
+<section id="eit-nsm">
+
+  <!-- HERO -->
+  <header class="eit-hero">
+    <div class="eit-container eit-hero-grid">
+      <div class="eit-hero-copy">
+        <div class="eit-kicker">Managed Security Services</div>
+        <h1>See threats sooner. Keep your business moving.</h1>
+        <p class="eit-lead">
+          Your network connects your people, systems, applications and customers.
+          Everything IT helps protect that connection with proactive monitoring,
+          practical security controls and an experienced team ready to respond.
+        </p>
+
+        <div class="eit-button-row">
+          <a class="eit-button eit-button--primary" href="https://everythingit.ie/contact/">
+            Schedule a free consultation
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+
+          <a class="eit-button eit-button--ghost" href="tel:+35315240755">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M8.7 3.5 10.4 8l-2.1 1.3c1 2.2 2.7 3.9 4.9 4.9l1.3-2.1 4.5 1.7v3.1c0 1.1-.9 2-2 2C9.8 18.9 4 13.1 4 6c0-1.1.9-2 2-2h2.7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+            +353 1 524 0755
+          </a>
+        </div>
+
+        <ul class="eit-hero-proof">
+          <li>24/7 monitoring capability</li>
+          <li>ISO 27001:2022 certified</li>
+          <li>Dublin-based support team</li>
+        </ul>
+      </div>
+
+      <div class="eit-visual" aria-hidden="true">
+        <div class="eit-visual-glow"></div>
+        <div class="eit-network-orbit"></div>
+        <div class="eit-scan-line"></div>
+
+        <div class="eit-shield-card">
+          <svg class="eit-shield-icon" viewBox="0 0 180 205" fill="none">
+            <defs>
+              <linearGradient id="eitShieldGradient" x1="35" y1="20" x2="142" y2="190" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#ff9a74"/>
+                <stop offset="1" stop-color="#e45832"/>
+              </linearGradient>
+            </defs>
+            <path d="M90 9 157 34v52c0 48-27 87-67 108C50 173 23 134 23 86V34L90 9Z" fill="url(#eitShieldGradient)" opacity=".18"/>
+            <path d="M90 18 148 40v47c0 41-23 76-58 96-35-20-58-55-58-96V40L90 18Z" stroke="url(#eitShieldGradient)" stroke-width="8" stroke-linejoin="round"/>
+            <path d="m64 98 18 18 36-42" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="eit-node eit-node--1">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="5" width="16" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M9 20h6M12 16v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="eit-node eit-node--2">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M7 10V8a5 5 0 0 1 10 0v2" stroke="currentColor" stroke-width="1.8"/>
+            <rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M12 14v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="eit-node eit-node--3">
+          <svg viewBox="0 0 24 24" fill="none">
+            <ellipse cx="12" cy="6" rx="7" ry="3" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" stroke="currentColor" stroke-width="1.8"/>
+          </svg>
+        </div>
+
+        <div class="eit-node eit-node--4">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M4.5 20c.8-4 3.3-6 7.5-6s6.7 2 7.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- TRUST STRIP -->
+  <div class="eit-trust">
+    <div class="eit-container">
+      <div class="eit-trust-inner">
+        <div class="eit-trust-item">
+          <strong>Confidentiality</strong>
+          <span>Protect sensitive information</span>
+        </div>
+        <div class="eit-trust-item">
+          <strong>Availability</strong>
+          <span>Keep essential systems accessible</span>
+        </div>
+        <div class="eit-trust-item">
+          <strong>Visibility</strong>
+          <span>Understand activity across the network</span>
+        </div>
+        <div class="eit-trust-item">
+          <strong>Control</strong>
+          <span>Give access to the right people</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <section class="eit-section">
+    <div class="eit-container eit-two-col">
+      <div class="eit-copy-box">
+        <div class="eit-kicker">Proactive protection</div>
+        <h2>Your network should not have to fail before someone pays attention.</h2>
+        <p>
+          Security incidents rarely arrive with a clear warning. They can begin as an
+          unusual login, a change to a critical file, an unfamiliar device or a subtle
+          shift in network behaviour.
+        </p>
+        <p>
+          Everything IT combines continuous monitoring, event visibility and practical
+          engineering support to help identify concerns earlier—before they become
+          costly downtime, data loss or disruption for your team.
+        </p>
+
+        <ul class="eit-check-list">
+          <li>Monitoring shaped around your actual infrastructure and risk</li>
+          <li>Clear escalation when activity requires investigation</li>
+          <li>Support from engineers who understand day-to-day business operations</li>
+        </ul>
+      </div>
+
+      <div class="eit-dashboard" aria-label="Illustrative network monitoring dashboard">
+        <div class="eit-dashboard-top">
+          <div class="eit-dashboard-title">
+            <span class="eit-icon-box" style="width:42px;height:42px;margin:0;border-radius:12px;">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M4 18V9m5 9V5m5 13v-7m5 7V3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            Network activity
+          </div>
+          <span class="eit-live">Live monitoring</span>
+        </div>
+
+        <div class="eit-chart">
+          <svg viewBox="0 0 600 190" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="eitChartFill" x1="0" y1="0" x2="0" y2="1">
+                <stop stop-color="#f06f43" stop-opacity=".32"/>
+                <stop offset="1" stop-color="#f06f43" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 144 C38 140 52 130 82 134 S132 151 164 120 218 80 250 101 294 134 326 105 373 42 409 72 448 122 482 99 527 37 600 57 V190 H0Z" fill="url(#eitChartFill)"/>
+            <path d="M0 144 C38 140 52 130 82 134 S132 151 164 120 218 80 250 101 294 134 326 105 373 42 409 72 448 122 482 99 527 37 600 57" fill="none" stroke="#f06f43" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="409" cy="72" r="7" fill="#fff" stroke="#f06f43" stroke-width="4"/>
+            <circle cx="600" cy="57" r="7" fill="#fff" stroke="#34c98f" stroke-width="4"/>
+          </svg>
+        </div>
+
+        <div class="eit-alert-list">
+          <div class="eit-alert">
+            <span class="eit-alert-label">Network status</span>
+            <span class="eit-alert-value">Stable</span>
+          </div>
+          <div class="eit-alert">
+            <span class="eit-alert-label">Monitoring</span>
+            <span class="eit-alert-value">24/7</span>
+          </div>
+          <div class="eit-alert">
+            <span class="eit-alert-label">Access review</span>
+            <span class="eit-alert-value">Active</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="eit-section eit-section--light">
+    <div class="eit-container">
+      <div class="eit-section-heading">
+        <div class="eit-kicker">What we help protect</div>
+        <h2>Network security services built around the way your business works.</h2>
+        <p class="eit-lead">
+          From network design and infrastructure support to event monitoring and identity
+          controls, we help create a more resilient and manageable IT environment.
+        </p>
+      </div>
+
+      <div class="eit-services">
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <circle cx="5" cy="12" r="2" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="5" r="2" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="19" cy="12" r="2" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="19" r="2" stroke="currentColor" stroke-width="1.8"/>
+              <path d="m6.6 10.7 3.8-4.1m3.2 0 3.8 4.1m0 2.6-3.8 4.1m-3.2 0-3.8-4.1" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <h3>Secure network design</h3>
+          <p>Engineering, design and implementation aligned with your operational needs, security risks and growth plans.</p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="4" width="18" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <rect x="3" y="14" width="18" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M7 7h.01M7 17h.01M11 7h6M11 17h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Infrastructure support</h3>
+          <p>Hands-on assistance for connectivity, network equipment, troubleshooting, maintenance and planned improvements.</p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <ellipse cx="12" cy="6" rx="8" ry="3" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <h3>Capacity and storage</h3>
+          <p>Greater visibility into network and storage use so capacity concerns can be addressed before performance suffers.</p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M5 18a8 8 0 1 1 14-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M19 7v6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 18h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Availability and continuity</h3>
+          <p>Resilience planning and practical safeguards designed to reduce downtime and support continued business operations.</p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3 20 6v6c0 4.6-2.7 7.7-8 9-5.3-1.3-8-4.4-8-9V6l8-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M9 12h6M12 9v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>24/7 security operations</h3>
+          <p>Continuous monitoring that helps surface suspicious activity, unusual traffic and potential security incidents.</p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M4 19V5m4 14v-7m4 7V9m4 10V4m4 15v-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Event logging and monitoring</h3>
+          <p>Collection and review of important system and network events to improve detection, investigation and accountability.</p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M4 5h6l2 2h8v12H4V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="m9 14 2 2 4-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>File server auditing</h3>
+          <p>Understand who accessed, changed, moved or deleted important business files and when the activity occurred.</p>
+        </article>
+
+        <article class="eit-service-card">
+          <div class="eit-icon-box">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M3.5 19c.7-3.7 2.5-5.5 5.5-5.5 1.4 0 2.6.4 3.5 1.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <rect x="13" y="12" width="8" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M15 12v-1a2 2 0 0 1 4 0v1" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <h3>Identity and access management</h3>
+          <p>Help ensure employees, contractors and third parties receive appropriate access—and that obsolete access is removed.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="eit-section eit-section--dark">
+    <div class="eit-container">
+      <div class="eit-section-heading">
+        <div class="eit-kicker">How it works</div>
+        <h2>Clear visibility. Practical action. Less uncertainty.</h2>
+        <p class="eit-lead">
+          Monitoring is most valuable when it leads to an understandable response.
+          Our process is designed to turn technical signals into clear priorities.
+        </p>
+      </div>
+
+      <div class="eit-process">
+        <article class="eit-process-item">
+          <h3>Understand the environment</h3>
+          <p>We review your infrastructure, users, business priorities and areas of risk.</p>
+        </article>
+        <article class="eit-process-item">
+          <h3>Establish visibility</h3>
+          <p>Appropriate monitoring and logging are configured across the agreed systems.</p>
+        </article>
+        <article class="eit-process-item">
+          <h3>Identify and investigate</h3>
+          <p>Unusual activity is assessed so genuine concerns can be separated from routine noise.</p>
+        </article>
+        <article class="eit-process-item">
+          <h3>Respond and improve</h3>
+          <p>We support remediation, document outcomes and use lessons learned to strengthen protection.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS -->
+  <section class="eit-section">
+    <div class="eit-container">
+      <div class="eit-partners-box">
+        <div>
+          <div class="eit-kicker">Technology partnerships</div>
+          <h2>Supported by trusted security and IT platforms.</h2>
+          <p>
+            Everything IT works with established technology providers to deliver flexible
+            levels of monitoring, management and security protection.
+          </p>
+          <p>
+            Recommendations are shaped around your requirements rather than forcing every
+            organisation into the same package.
+          </p>
+        </div>
+
+        <div class="eit-partner-grid" aria-label="Technology providers">
+          <div class="eit-partner">Kaseya</div>
+          <div class="eit-partner">ArmorPoint</div>
+          <div class="eit-partner">KnowBe4</div>
+          <div class="eit-partner">Microsoft</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUALITY -->
+  <section class="eit-section eit-section--light">
+    <div class="eit-container eit-two-col">
+      <div class="eit-copy-box">
+        <div class="eit-kicker">Service quality management</div>
+        <h2>Security technology backed by dependable human support.</h2>
+        <p>
+          Strong tools matter, but so does the experience of the person asking for help.
+          We focus on responsive service, understandable communication and consistent
+          follow-through.
+        </p>
+        <p>
+          Feedback and internal quality reviews help us identify recurring issues,
+          improve procedures and maintain service-level performance.
+        </p>
+      </div>
+
+      <div class="eit-quality-grid">
+        <article class="eit-quality-card">
+          <h3>
+            <span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M4 5h16v11H9l-5 4V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            Direct feedback
+          </h3>
+          <p>End users have the opportunity to share feedback following service interactions.</p>
+        </article>
+
+        <article class="eit-quality-card">
+          <h3>
+            <span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </span>
+            Responsive service
+          </h3>
+          <p>Engineers work within agreed service levels while keeping users informed.</p>
+        </article>
+
+        <article class="eit-quality-card">
+          <h3>
+            <span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            Quality reviews
+          </h3>
+          <p>Internal checks review service performance, response standards and recurring concerns.</p>
+        </article>
+
+        <article class="eit-quality-card">
+          <h3>
+            <span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M4 18 10 12l4 3 6-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15 7h5v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            Continuous improvement
+          </h3>
+          <p>Lessons from feedback and service trends are used to strengthen processes and delivery.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="eit-cta">
+    <div class="eit-container">
+      <div class="eit-cta-box">
+        <div class="eit-cta-copy">
+          <h2>Ready for better visibility across your network?</h2>
+          <p>
+            Speak with Everything IT about a practical monitoring and security approach
+            built around your infrastructure, risks and business priorities.
+          </p>
+        </div>
+
+        <div class="eit-cta-actions">
+          <a class="eit-button eit-button--white" href="https://everythingit.ie/contact/">
+            Request a consultation
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a class="eit-cta-phone" href="tel:+35315240755">Call +353 1 524 0755</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</section>
+</body>
+</html>
+================================================================================
+PAGE END: PAGE 3 — NETWORK SECURITY MONITORING | /network-security-monitoring/
+================================================================================
+
+================================================================================
+PAGE START: PAGE 4 — HOSTED DATA CENTRE SERVICES | /hosted-data-centre-services/
+================================================================================
+CODEX TARGET: Preserve the existing /hosted-data-centre-services/ page identity.
+================================================================================
+<style>
+/* ==========================================================
+   EVERYTHING IT — MANAGED SERVICES PAGE DESIGN
+   Paste this style block and the matching page section into one Elementor HTML widget.
+   ========================================================== */
+
+#eit-ms-page,
+#eit-ms-page * {
+  box-sizing: border-box;
+}
+
+#eit-ms-page {
+  --eit-orange: #f06f43;
+  --eit-orange-dark: #d9562f;
+  --eit-orange-soft: #fff1eb;
+  --eit-charcoal: #111418;
+  --eit-charcoal-2: #1b2026;
+  --eit-ink: #252a31;
+  --eit-muted: #66707c;
+  --eit-line: #e5e8ec;
+  --eit-light: #f6f7f8;
+  --eit-white: #ffffff;
+  --eit-success: #34c98f;
+  --eit-max: 1180px;
+  --eit-radius: 22px;
+  --eit-shadow: 0 18px 55px rgba(17, 20, 24, 0.10);
+
+  width: 100%;
+  overflow: hidden;
+  color: var(--eit-ink);
+  background: var(--eit-white);
+  font-family: inherit;
+  line-height: 1.65;
+}
+
+#eit-ms-page img,
+#eit-ms-page svg {
+  display: block;
+  max-width: 100%;
+}
+
+#eit-ms-page a {
+  color: inherit;
+}
+
+#eit-ms-page .eit-container {
+  width: min(calc(100% - 40px), var(--eit-max));
+  margin-inline: auto;
+}
+
+#eit-ms-page .eit-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 18px;
+  color: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-kicker::before {
+  content: "";
+  width: 28px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+#eit-ms-page h1,
+#eit-ms-page h2,
+#eit-ms-page h3,
+#eit-ms-page p {
+  margin-top: 0;
+}
+
+#eit-ms-page h1,
+#eit-ms-page h2,
+#eit-ms-page h3 {
+  color: var(--eit-charcoal);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+#eit-ms-page h1 {
+  max-width: 760px;
+  margin-bottom: 22px;
+  font-size: clamp(42px, 6.2vw, 76px);
+  color: var(--eit-white);
+}
+
+#eit-ms-page h2 {
+  margin-bottom: 18px;
+  font-size: clamp(30px, 4vw, 48px);
+}
+
+#eit-ms-page h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+#eit-ms-page p {
+  color: var(--eit-muted);
+  font-size: 17px;
+}
+
+#eit-ms-page .eit-lead {
+  max-width: 710px;
+  font-size: clamp(18px, 2vw, 21px);
+  line-height: 1.7;
+}
+
+#eit-ms-page .eit-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+#eit-ms-page .eit-button {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 23px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 800;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+#eit-ms-page .eit-button:hover {
+  transform: translateY(-2px);
+}
+
+#eit-ms-page .eit-button--primary {
+  color: var(--eit-white);
+  background: linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 12px 30px rgba(240, 111, 67, .28);
+}
+
+#eit-ms-page .eit-button--primary:hover {
+  box-shadow: 0 16px 38px rgba(240, 111, 67, .38);
+}
+
+#eit-ms-page .eit-button--ghost {
+  color: var(--eit-white);
+  border-color: rgba(255,255,255,.28);
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(8px);
+}
+
+#eit-ms-page .eit-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* HERO */
+#eit-ms-page .eit-hero {
+  position: relative;
+  min-height: 720px;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 72% 42%, rgba(240,111,67,.20), transparent 29%),
+    radial-gradient(circle at 18% 10%, rgba(255,255,255,.06), transparent 24%),
+    linear-gradient(135deg, #0b0d10 0%, #161b20 54%, #0c0f12 100%);
+}
+
+#eit-ms-page .eit-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: .19;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, #000 10%, transparent 95%);
+}
+
+#eit-ms-page .eit-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 85px;
+  z-index: -1;
+  background: var(--eit-white);
+  clip-path: polygon(0 84%, 100% 0, 100% 100%, 0 100%);
+}
+
+#eit-ms-page .eit-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(380px, .95fr);
+  gap: 64px;
+  align-items: center;
+  padding: 110px 0 145px;
+}
+
+#eit-ms-page .eit-hero-copy .eit-kicker {
+  color: #ff906a;
+}
+
+#eit-ms-page .eit-hero-copy p {
+  max-width: 690px;
+  color: rgba(255,255,255,.74);
+}
+
+#eit-ms-page .eit-hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  margin-top: 27px;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-ms-page .eit-hero-proof li {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255,255,255,.83);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#eit-ms-page .eit-hero-proof li::before {
+  content: "✓";
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+  color: var(--eit-success);
+  background: rgba(52,201,143,.08);
+}
+
+#eit-ms-page .eit-visual {
+  position: relative;
+  min-height: 520px;
+}
+
+#eit-ms-page .eit-visual-glow {
+  position: absolute;
+  inset: 8% 3% 5%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,111,67,.23), transparent 63%);
+  filter: blur(10px);
+}
+
+#eit-ms-page .eit-network-orbit {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: min(460px, 100%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 50%;
+}
+
+#eit-ms-page .eit-network-orbit::before,
+#eit-ms-page .eit-network-orbit::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: inherit;
+}
+
+#eit-ms-page .eit-network-orbit::before {
+  inset: 13%;
+}
+
+#eit-ms-page .eit-network-orbit::after {
+  inset: 29%;
+}
+
+#eit-ms-page .eit-shield-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 245px;
+  min-height: 285px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 34px;
+  background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.045));
+  box-shadow: 0 25px 80px rgba(0,0,0,.36);
+  backdrop-filter: blur(16px);
+}
+
+#eit-ms-page .eit-shield-card::after {
+  content: "Protected";
+  position: absolute;
+  bottom: 26px;
+  padding: 7px 14px;
+  border: 1px solid rgba(52,201,143,.25);
+  border-radius: 999px;
+  color: #8ff0c9;
+  background: rgba(52,201,143,.08);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-shield-icon {
+  width: 150px;
+  height: 170px;
+  filter: drop-shadow(0 14px 22px rgba(240,111,67,.25));
+}
+
+#eit-ms-page .eit-node {
+  position: absolute;
+  display: flex;
+  width: 64px;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 18px;
+  color: var(--eit-white);
+  background: rgba(20,24,29,.82);
+  box-shadow: 0 14px 35px rgba(0,0,0,.28);
+  backdrop-filter: blur(12px);
+}
+
+#eit-ms-page .eit-node svg {
+  width: 28px;
+  height: 28px;
+}
+
+#eit-ms-page .eit-node--1 { top: 8%; left: 8%; }
+#eit-ms-page .eit-node--2 { top: 14%; right: 5%; }
+#eit-ms-page .eit-node--3 { bottom: 15%; left: 3%; }
+#eit-ms-page .eit-node--4 { right: 3%; bottom: 8%; }
+
+#eit-ms-page .eit-node::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  right: -3px;
+  top: -3px;
+  border: 2px solid var(--eit-charcoal);
+  border-radius: 50%;
+  background: var(--eit-success);
+  box-shadow: 0 0 0 5px rgba(52,201,143,.12);
+}
+
+#eit-ms-page .eit-scan-line {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 16%;
+  height: 2px;
+  opacity: .8;
+  background: linear-gradient(90deg, transparent, var(--eit-orange), transparent);
+  box-shadow: 0 0 14px var(--eit-orange);
+  animation: eit-scan 4.6s ease-in-out infinite;
+}
+
+@keyframes eit-scan {
+  0%, 100% { transform: translateY(0); opacity: .2; }
+  50% { transform: translateY(345px); opacity: 1; }
+}
+
+/* TRUST STRIP */
+#eit-ms-page .eit-trust {
+  position: relative;
+  z-index: 3;
+  margin-top: -54px;
+}
+
+#eit-ms-page .eit-trust-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--eit-line);
+  border-radius: 18px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-trust-item {
+  position: relative;
+  padding: 25px 24px;
+  text-align: center;
+}
+
+#eit-ms-page .eit-trust-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 22%;
+  right: 0;
+  width: 1px;
+  height: 56%;
+  background: var(--eit-line);
+}
+
+#eit-ms-page .eit-trust-item strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--eit-charcoal);
+  font-size: 18px;
+}
+
+#eit-ms-page .eit-trust-item span {
+  color: var(--eit-muted);
+  font-size: 13px;
+}
+
+/* GENERIC SECTIONS */
+#eit-ms-page .eit-section {
+  padding: 105px 0;
+}
+
+#eit-ms-page .eit-section--light {
+  background: var(--eit-light);
+}
+
+#eit-ms-page .eit-section--dark {
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 85% 20%, rgba(240,111,67,.15), transparent 27%),
+    var(--eit-charcoal);
+}
+
+#eit-ms-page .eit-section--dark h2,
+#eit-ms-page .eit-section--dark h3 {
+  color: var(--eit-white);
+}
+
+#eit-ms-page .eit-section--dark p {
+  color: rgba(255,255,255,.68);
+}
+
+#eit-ms-page .eit-two-col {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  gap: 80px;
+  align-items: center;
+}
+
+#eit-ms-page .eit-copy-box {
+  max-width: 560px;
+}
+
+#eit-ms-page .eit-check-list {
+  display: grid;
+  gap: 16px;
+  margin: 29px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-ms-page .eit-check-list li {
+  position: relative;
+  padding-left: 34px;
+  color: var(--eit-ink);
+  font-weight: 650;
+}
+
+#eit-ms-page .eit-check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--eit-white);
+  background: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+/* DASHBOARD GRAPHIC */
+#eit-ms-page .eit-dashboard {
+  position: relative;
+  padding: 22px;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-dashboard-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+#eit-ms-page .eit-dashboard-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--eit-charcoal);
+  font-weight: 800;
+}
+
+#eit-ms-page .eit-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #208b64;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+#eit-ms-page .eit-live::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--eit-success);
+  box-shadow: 0 0 0 5px rgba(52,201,143,.12);
+}
+
+#eit-ms-page .eit-chart {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(rgba(17,20,24,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17,20,24,.055) 1px, transparent 1px),
+    linear-gradient(180deg, #fbfcfd, #f5f6f8);
+  background-size: 42px 42px, 42px 42px, auto;
+}
+
+#eit-ms-page .eit-chart svg {
+  position: absolute;
+  inset: 22px 16px 12px;
+  width: calc(100% - 32px);
+  height: calc(100% - 34px);
+}
+
+#eit-ms-page .eit-alert-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+
+#eit-ms-page .eit-alert {
+  padding: 14px;
+  border: 1px solid var(--eit-line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+#eit-ms-page .eit-alert-label {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--eit-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-alert-value {
+  color: var(--eit-charcoal);
+  font-size: 19px;
+  font-weight: 850;
+}
+
+/* SERVICES */
+#eit-ms-page .eit-section-heading {
+  max-width: 780px;
+  margin-bottom: 50px;
+}
+
+#eit-ms-page .eit-services {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+#eit-ms-page .eit-service-card {
+  position: relative;
+  min-height: 285px;
+  overflow: hidden;
+  padding: 28px;
+  border: 1px solid var(--eit-line);
+  border-radius: 20px;
+  background: var(--eit-white);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+#eit-ms-page .eit-service-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(240,111,67,.35);
+  box-shadow: 0 20px 45px rgba(17,20,24,.10);
+}
+
+#eit-ms-page .eit-service-card::after {
+  content: "";
+  position: absolute;
+  right: -38px;
+  bottom: -38px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--eit-orange-soft);
+  transition: transform .25s ease;
+}
+
+#eit-ms-page .eit-service-card:hover::after {
+  transform: scale(1.35);
+}
+
+#eit-ms-page .eit-icon-box {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  margin-bottom: 23px;
+  border-radius: 15px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-ms-page .eit-icon-box svg {
+  width: 27px;
+  height: 27px;
+}
+
+#eit-ms-page .eit-service-card h3,
+#eit-ms-page .eit-service-card p {
+  position: relative;
+  z-index: 2;
+}
+
+#eit-ms-page .eit-service-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* PROCESS */
+#eit-ms-page .eit-process {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  counter-reset: eit-step;
+}
+
+#eit-ms-page .eit-process-item {
+  position: relative;
+  counter-increment: eit-step;
+}
+
+#eit-ms-page .eit-process-item::before {
+  content: "0" counter(eit-step);
+  display: block;
+  margin-bottom: 21px;
+  color: var(--eit-orange);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+#eit-ms-page .eit-process-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 45px;
+  right: -2px;
+  top: 12px;
+  height: 1px;
+  background: rgba(255,255,255,.14);
+}
+
+#eit-ms-page .eit-process-item h3 {
+  font-size: 19px;
+}
+
+#eit-ms-page .eit-process-item p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* PARTNERS */
+#eit-ms-page .eit-partners-box {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 58px;
+  align-items: center;
+  padding: 58px;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-partner-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+#eit-ms-page .eit-partner {
+  display: flex;
+  min-height: 86px;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  border: 1px solid var(--eit-line);
+  border-radius: 16px;
+  color: var(--eit-charcoal);
+  background: #fbfbfc;
+  font-size: 17px;
+  font-weight: 850;
+  letter-spacing: -.01em;
+}
+
+#eit-ms-page .eit-partner::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--eit-orange);
+  box-shadow: 0 0 0 5px var(--eit-orange-soft);
+}
+
+/* QUALITY */
+#eit-ms-page .eit-quality-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+#eit-ms-page .eit-quality-card {
+  padding: 30px;
+  border: 1px solid var(--eit-line);
+  border-radius: 20px;
+  background: var(--eit-white);
+}
+
+#eit-ms-page .eit-quality-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#eit-ms-page .eit-quality-card h3 span {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-ms-page .eit-quality-card h3 svg {
+  width: 20px;
+  height: 20px;
+}
+
+#eit-ms-page .eit-quality-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* CTA */
+#eit-ms-page .eit-cta {
+  padding: 0 0 105px;
+  background: var(--eit-light);
+}
+
+#eit-ms-page .eit-cta-box {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding: 60px;
+  border-radius: 28px;
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 88% 20%, rgba(255,255,255,.14), transparent 23%),
+    linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 22px 60px rgba(217,86,47,.26);
+}
+
+#eit-ms-page .eit-cta-box::before,
+#eit-ms-page .eit-cta-box::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 50%;
+}
+
+#eit-ms-page .eit-cta-box::before {
+  width: 240px;
+  height: 240px;
+  right: -80px;
+  top: -120px;
+}
+
+#eit-ms-page .eit-cta-box::after {
+  width: 170px;
+  height: 170px;
+  right: 90px;
+  bottom: -120px;
+}
+
+#eit-ms-page .eit-cta-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+#eit-ms-page .eit-cta h2 {
+  margin-bottom: 14px;
+  color: var(--eit-white);
+}
+
+#eit-ms-page .eit-cta p {
+  margin-bottom: 0;
+  color: rgba(255,255,255,.82);
+}
+
+#eit-ms-page .eit-cta-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+#eit-ms-page .eit-cta .eit-button--white {
+  color: var(--eit-charcoal);
+  background: var(--eit-white);
+  box-shadow: 0 12px 28px rgba(0,0,0,.13);
+}
+
+#eit-ms-page .eit-cta-phone {
+  color: rgba(255,255,255,.88);
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+/* ACCESSIBILITY */
+#eit-ms-page .eit-button:focus-visible,
+#eit-ms-page a:focus-visible {
+  outline: 3px solid rgba(240,111,67,.42);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1060px) {
+  #eit-ms-page .eit-hero-grid,
+  #eit-ms-page .eit-two-col,
+  #eit-ms-page .eit-partners-box {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-ms-page .eit-hero-copy {
+    max-width: 780px;
+  }
+
+  #eit-ms-page .eit-visual {
+    width: min(620px, 100%);
+    margin-inline: auto;
+  }
+
+  #eit-ms-page .eit-services {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #eit-ms-page .eit-process {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 25px;
+  }
+
+  #eit-ms-page .eit-process-item:nth-child(2)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  #eit-ms-page .eit-container {
+    width: min(calc(100% - 28px), var(--eit-max));
+  }
+
+  #eit-ms-page .eit-hero {
+    min-height: auto;
+  }
+
+  #eit-ms-page .eit-hero-grid {
+    gap: 30px;
+    padding: 84px 0 125px;
+  }
+
+  #eit-ms-page .eit-visual {
+    min-height: 410px;
+  }
+
+  #eit-ms-page .eit-network-orbit {
+    width: 355px;
+  }
+
+  #eit-ms-page .eit-shield-card {
+    width: 190px;
+    min-height: 225px;
+    border-radius: 26px;
+  }
+
+  #eit-ms-page .eit-shield-icon {
+    width: 112px;
+    height: 130px;
+  }
+
+  #eit-ms-page .eit-node {
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+  }
+
+  #eit-ms-page .eit-node svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  #eit-ms-page .eit-node--1 { left: 1%; }
+  #eit-ms-page .eit-node--2 { right: 0; }
+  #eit-ms-page .eit-node--3 { left: 0; }
+  #eit-ms-page .eit-node--4 { right: 0; }
+
+  @keyframes eit-scan {
+    0%, 100% { transform: translateY(0); opacity: .2; }
+    50% { transform: translateY(265px); opacity: 1; }
+  }
+
+  #eit-ms-page .eit-trust-inner,
+  #eit-ms-page .eit-services,
+  #eit-ms-page .eit-process,
+  #eit-ms-page .eit-quality-grid,
+  #eit-ms-page .eit-partner-grid,
+  #eit-ms-page .eit-alert-list {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-ms-page .eit-trust-item:not(:last-child)::after {
+    top: auto;
+    left: 8%;
+    right: 8%;
+    bottom: 0;
+    width: auto;
+    height: 1px;
+  }
+
+  #eit-ms-page .eit-section {
+    padding: 76px 0;
+  }
+
+  #eit-ms-page .eit-partners-box {
+    gap: 38px;
+    padding: 32px 24px;
+  }
+
+  #eit-ms-page .eit-cta {
+    padding-bottom: 76px;
+  }
+
+  #eit-ms-page .eit-cta-box {
+    grid-template-columns: 1fr;
+    padding: 38px 26px;
+  }
+
+  #eit-ms-page .eit-cta-actions {
+    align-items: flex-start;
+  }
+
+  #eit-ms-page .eit-process-item::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #eit-ms-page *,
+  #eit-ms-page *::before,
+  #eit-ms-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+<section id="eit-ms-page">
+
+  <header class="eit-hero">
+    <div class="eit-container eit-hero-grid">
+      <div class="eit-hero-copy">
+        <div class="eit-kicker">Managed Infrastructure</div>
+        <h1>Hosted infrastructure with a defined recovery position.</h1>
+        <p class="eit-lead">Everything IT helps organisations move suitable workloads away from constrained onsite infrastructure into secure, scalable hosted environments with documented backup, access and support responsibilities.</p>
+        <div class="eit-button-row"><a class="eit-button eit-button--primary" href="https://everythingit.ie/contact/">Review hosting options <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="eit-button eit-button--ghost" href="tel:+35315240755">Call +353 1 524 0755</a></div>
+        <ul class="eit-hero-proof"><li>Scalable hosted capacity</li><li>Backup and recovery planning</li><li>ISO 27001-aligned provider selection</li></ul>
+      </div>
+      <div class="eit-visual" aria-hidden="true"><div class="eit-visual-glow"></div><div class="eit-network-orbit"></div><div class="eit-scan-line"></div><div class="eit-shield-card"><svg class="eit-shield-icon" viewBox="0 0 180 205" fill="none"><defs><linearGradient id="eitHostGradient" x1="35" y1="20" x2="142" y2="190"><stop stop-color="#ff9a74"/><stop offset="1" stop-color="#e45832"/></linearGradient></defs><rect x="34" y="38" width="112" height="42" rx="10" stroke="url(#eitHostGradient)" stroke-width="8"/><rect x="34" y="96" width="112" height="42" rx="10" stroke="url(#eitHostGradient)" stroke-width="8"/><path d="M55 59h2M55 117h2M78 59h45M78 117h45" stroke="#fff" stroke-width="9" stroke-linecap="round"/></svg></div></div>
+    </div>
+  </header>
+
+  <div class="eit-trust"><div class="eit-container"><div class="eit-trust-inner"><div class="eit-trust-item"><strong>Capacity</strong><span>Scale without buying a server room</span></div><div class="eit-trust-item"><strong>Availability</strong><span>Resilience designed in</span></div><div class="eit-trust-item"><strong>Recovery</strong><span>Backups with a purpose</span></div><div class="eit-trust-item"><strong>Control</strong><span>Documented access and ownership</span></div></div></div></div>
+
+  <section class="eit-section"><div class="eit-container eit-two-col">
+    <div class="eit-copy-box"><div class="eit-kicker">Infrastructure without the physical constraint</div><h2>Hosting should solve operational problems—not simply move them elsewhere.</h2><p>Onsite data-centre infrastructure requires space, power, cooling, hardware investment, maintenance and a realistic recovery plan. For many organisations, specialist hosted services provide a more flexible way to run suitable workloads.</p><p>Everything IT assesses the workload, dependencies, security requirements, performance needs and recovery objectives before recommending an approach. We then document who manages the platform, operating system, application, backup and access.</p><ul class="eit-check-list"><li>Requirements and dependencies assessed before migration</li><li>Predictable operating model and support responsibilities</li><li>Recovery objectives agreed and documented</li></ul></div>
+    <div class="eit-dashboard" aria-label="Illustrative hosted infrastructure dashboard"><div class="eit-dashboard-top"><div class="eit-dashboard-title">Hosted environment</div><span class="eit-live">Monitored</span></div><div class="eit-chart"><svg viewBox="0 0 600 190" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="eitHostChart" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f06f43" stop-opacity=".32"/><stop offset="1" stop-color="#f06f43" stop-opacity="0"/></linearGradient></defs><path d="M0 140 C90 124 120 137 185 105 S300 123 370 79 500 96 600 54 V190 H0Z" fill="url(#eitHostChart)"/><path d="M0 140 C90 124 120 137 185 105 S300 123 370 79 500 96 600 54" fill="none" stroke="#f06f43" stroke-width="5" stroke-linecap="round"/></svg></div><div class="eit-alert-list"><div class="eit-alert"><span class="eit-alert-label">Platform</span><span class="eit-alert-value">Available</span></div><div class="eit-alert"><span class="eit-alert-label">Backup</span><span class="eit-alert-value">Verified</span></div><div class="eit-alert"><span class="eit-alert-label">Capacity</span><span class="eit-alert-value">Managed</span></div></div></div>
+  </div></section>
+
+  <section class="eit-section eit-section--light"><div class="eit-container">
+    <div class="eit-section-heading"><div class="eit-kicker">What we help manage</div><h2>Hosted services designed around workload, security and continuity.</h2><p class="eit-lead">The right model may include private hosting, colocation, cloud platforms or a hybrid combination.</p></div>
+    <div class="eit-services"><article class="eit-service-card"><h3>Workload assessment</h3><p>Applications, servers, databases, dependencies and performance requirements are reviewed before placement.</p></article><article class="eit-service-card"><h3>Hosting architecture</h3><p>Compute, storage, connectivity and resilience are designed around operational needs.</p></article><article class="eit-service-card"><h3>Migration planning</h3><p>Workloads move using a defined sequence, testing plan, communication route and rollback position.</p></article><article class="eit-service-card"><h3>Backup management</h3><p>Backup schedules, retention, encryption and verification are aligned with business recovery needs.</p></article><article class="eit-service-card"><h3>Disaster recovery</h3><p>Recovery priorities, dependencies and responsibilities are decided before an outage occurs.</p></article><article class="eit-service-card"><h3>Monitoring and alerting</h3><p>Infrastructure health, capacity and availability are monitored using agreed escalation paths.</p></article><article class="eit-service-card"><h3>Access control</h3><p>Administrative access is restricted, reviewed and supported by appropriate identity safeguards.</p></article><article class="eit-service-card"><h3>Supplier coordination</h3><p>Everything IT provides one technical route across hosting, connectivity, licensing and support partners.</p></article></div>
+  </div></section>
+
+  <section class="eit-section eit-section--dark"><div class="eit-container"><div class="eit-section-heading"><div class="eit-kicker">A controlled transition</div><h2>Plan, migrate, verify and operate.</h2></div><div class="eit-process"><article class="eit-process-item"><h3>Discover</h3><p>Map workloads, dependencies, risks, capacity and recovery requirements.</p></article><article class="eit-process-item"><h3>Design</h3><p>Select the appropriate hosted or hybrid architecture and responsibilities.</p></article><article class="eit-process-item"><h3>Migrate</h3><p>Move and test in controlled stages with a rollback position.</p></article><article class="eit-process-item"><h3>Manage</h3><p>Monitor, maintain, report and improve the production environment.</p></article></div></div></section>
+
+  <section class="eit-section"><div class="eit-container"><div class="eit-partners-box"><div><div class="eit-kicker">Specialist facilities</div><h2>Provider selection based on the workload—not a preferred logo.</h2><p>Everything IT works with established hosting and data-centre providers, including Irish and international operators, where their facilities, certifications, connectivity and service model match the client requirement.</p><p>Provider accreditation does not replace solution design. We still define backup, access, monitoring, support and recovery responsibilities for the specific service.</p></div><div class="eit-partner-grid"><div class="eit-partner">Irish hosting</div><div class="eit-partner">Colocation</div><div class="eit-partner">Cloud</div><div class="eit-partner">Hybrid</div></div></div></div></section>
+
+  <section class="eit-section eit-section--light"><div class="eit-container eit-two-col"><div class="eit-copy-box"><div class="eit-kicker">Operational ownership</div><h2>Know exactly who is responsible at every layer.</h2><p>A hosted platform can still fail if ownership is assumed rather than agreed. We document the boundaries between facility, platform, operating system, application, backup, network and user support.</p><p>That clarity shortens investigation during incidents and prevents gaps between suppliers.</p></div><div class="eit-quality-grid"><article class="eit-quality-card"><h3>Documented scope</h3><p>Responsibilities and exclusions are visible.</p></article><article class="eit-quality-card"><h3>Capacity review</h3><p>Growth is planned before performance suffers.</p></article><article class="eit-quality-card"><h3>Recovery testing</h3><p>Restore procedures are verified, not assumed.</p></article><article class="eit-quality-card"><h3>Change control</h3><p>Production changes follow an agreed process.</p></article></div></div></section>
+
+  <section class="eit-cta"><div class="eit-container"><div class="eit-cta-box"><div class="eit-cta-copy"><h2>Need a clearer hosting and recovery strategy?</h2><p>Speak with Everything IT about a secure, scalable hosted environment built around your applications and business priorities.</p></div><div class="eit-cta-actions"><a class="eit-button eit-button--white" href="https://everythingit.ie/contact/">Request a consultation</a><a class="eit-cta-phone" href="tel:+35315240755">Call +353 1 524 0755</a></div></div></div></section>
+
+</section>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"Hosted Data Centre Services","serviceType":"Hosted infrastructure and data centre services","url":"https://everythingit.ie/hosted-data-centre-services/","provider":{"@type":"Organization","name":"Everything IT","url":"https://everythingit.ie/","telephone":"+35315240755"},"areaServed":{"@type":"Country","name":"Ireland"}}
+</script>
+================================================================================
+PAGE END: PAGE 4 — HOSTED DATA CENTRE SERVICES | /hosted-data-centre-services/
+================================================================================
+
+================================================================================
+PAGE START: PAGE 5 — VOIP PHONE SYSTEMS | /voip-cloud-pbx-technology/
+================================================================================
+CODEX TARGET: Preserve the existing /voip-cloud-pbx-technology/ page identity.
+================================================================================
+<style>
+/* ==========================================================
+   EVERYTHING IT — MANAGED SERVICES PAGE DESIGN
+   Paste this style block and the matching page section into one Elementor HTML widget.
+   ========================================================== */
+
+#eit-ms-page,
+#eit-ms-page * {
+  box-sizing: border-box;
+}
+
+#eit-ms-page {
+  --eit-orange: #f06f43;
+  --eit-orange-dark: #d9562f;
+  --eit-orange-soft: #fff1eb;
+  --eit-charcoal: #111418;
+  --eit-charcoal-2: #1b2026;
+  --eit-ink: #252a31;
+  --eit-muted: #66707c;
+  --eit-line: #e5e8ec;
+  --eit-light: #f6f7f8;
+  --eit-white: #ffffff;
+  --eit-success: #34c98f;
+  --eit-max: 1180px;
+  --eit-radius: 22px;
+  --eit-shadow: 0 18px 55px rgba(17, 20, 24, 0.10);
+
+  width: 100%;
+  overflow: hidden;
+  color: var(--eit-ink);
+  background: var(--eit-white);
+  font-family: inherit;
+  line-height: 1.65;
+}
+
+#eit-ms-page img,
+#eit-ms-page svg {
+  display: block;
+  max-width: 100%;
+}
+
+#eit-ms-page a {
+  color: inherit;
+}
+
+#eit-ms-page .eit-container {
+  width: min(calc(100% - 40px), var(--eit-max));
+  margin-inline: auto;
+}
+
+#eit-ms-page .eit-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 18px;
+  color: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-kicker::before {
+  content: "";
+  width: 28px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+#eit-ms-page h1,
+#eit-ms-page h2,
+#eit-ms-page h3,
+#eit-ms-page p {
+  margin-top: 0;
+}
+
+#eit-ms-page h1,
+#eit-ms-page h2,
+#eit-ms-page h3 {
+  color: var(--eit-charcoal);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+#eit-ms-page h1 {
+  max-width: 760px;
+  margin-bottom: 22px;
+  font-size: clamp(42px, 6.2vw, 76px);
+  color: var(--eit-white);
+}
+
+#eit-ms-page h2 {
+  margin-bottom: 18px;
+  font-size: clamp(30px, 4vw, 48px);
+}
+
+#eit-ms-page h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+#eit-ms-page p {
+  color: var(--eit-muted);
+  font-size: 17px;
+}
+
+#eit-ms-page .eit-lead {
+  max-width: 710px;
+  font-size: clamp(18px, 2vw, 21px);
+  line-height: 1.7;
+}
+
+#eit-ms-page .eit-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+#eit-ms-page .eit-button {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 23px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 800;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+#eit-ms-page .eit-button:hover {
+  transform: translateY(-2px);
+}
+
+#eit-ms-page .eit-button--primary {
+  color: var(--eit-white);
+  background: linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 12px 30px rgba(240, 111, 67, .28);
+}
+
+#eit-ms-page .eit-button--primary:hover {
+  box-shadow: 0 16px 38px rgba(240, 111, 67, .38);
+}
+
+#eit-ms-page .eit-button--ghost {
+  color: var(--eit-white);
+  border-color: rgba(255,255,255,.28);
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(8px);
+}
+
+#eit-ms-page .eit-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* HERO */
+#eit-ms-page .eit-hero {
+  position: relative;
+  min-height: 720px;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 72% 42%, rgba(240,111,67,.20), transparent 29%),
+    radial-gradient(circle at 18% 10%, rgba(255,255,255,.06), transparent 24%),
+    linear-gradient(135deg, #0b0d10 0%, #161b20 54%, #0c0f12 100%);
+}
+
+#eit-ms-page .eit-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: .19;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, #000 10%, transparent 95%);
+}
+
+#eit-ms-page .eit-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 85px;
+  z-index: -1;
+  background: var(--eit-white);
+  clip-path: polygon(0 84%, 100% 0, 100% 100%, 0 100%);
+}
+
+#eit-ms-page .eit-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(380px, .95fr);
+  gap: 64px;
+  align-items: center;
+  padding: 110px 0 145px;
+}
+
+#eit-ms-page .eit-hero-copy .eit-kicker {
+  color: #ff906a;
+}
+
+#eit-ms-page .eit-hero-copy p {
+  max-width: 690px;
+  color: rgba(255,255,255,.74);
+}
+
+#eit-ms-page .eit-hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  margin-top: 27px;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-ms-page .eit-hero-proof li {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255,255,255,.83);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#eit-ms-page .eit-hero-proof li::before {
+  content: "✓";
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+  color: var(--eit-success);
+  background: rgba(52,201,143,.08);
+}
+
+#eit-ms-page .eit-visual {
+  position: relative;
+  min-height: 520px;
+}
+
+#eit-ms-page .eit-visual-glow {
+  position: absolute;
+  inset: 8% 3% 5%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,111,67,.23), transparent 63%);
+  filter: blur(10px);
+}
+
+#eit-ms-page .eit-network-orbit {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: min(460px, 100%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 50%;
+}
+
+#eit-ms-page .eit-network-orbit::before,
+#eit-ms-page .eit-network-orbit::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: inherit;
+}
+
+#eit-ms-page .eit-network-orbit::before {
+  inset: 13%;
+}
+
+#eit-ms-page .eit-network-orbit::after {
+  inset: 29%;
+}
+
+#eit-ms-page .eit-shield-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 245px;
+  min-height: 285px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 34px;
+  background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.045));
+  box-shadow: 0 25px 80px rgba(0,0,0,.36);
+  backdrop-filter: blur(16px);
+}
+
+#eit-ms-page .eit-shield-card::after {
+  content: "Protected";
+  position: absolute;
+  bottom: 26px;
+  padding: 7px 14px;
+  border: 1px solid rgba(52,201,143,.25);
+  border-radius: 999px;
+  color: #8ff0c9;
+  background: rgba(52,201,143,.08);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-shield-icon {
+  width: 150px;
+  height: 170px;
+  filter: drop-shadow(0 14px 22px rgba(240,111,67,.25));
+}
+
+#eit-ms-page .eit-node {
+  position: absolute;
+  display: flex;
+  width: 64px;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 18px;
+  color: var(--eit-white);
+  background: rgba(20,24,29,.82);
+  box-shadow: 0 14px 35px rgba(0,0,0,.28);
+  backdrop-filter: blur(12px);
+}
+
+#eit-ms-page .eit-node svg {
+  width: 28px;
+  height: 28px;
+}
+
+#eit-ms-page .eit-node--1 { top: 8%; left: 8%; }
+#eit-ms-page .eit-node--2 { top: 14%; right: 5%; }
+#eit-ms-page .eit-node--3 { bottom: 15%; left: 3%; }
+#eit-ms-page .eit-node--4 { right: 3%; bottom: 8%; }
+
+#eit-ms-page .eit-node::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  right: -3px;
+  top: -3px;
+  border: 2px solid var(--eit-charcoal);
+  border-radius: 50%;
+  background: var(--eit-success);
+  box-shadow: 0 0 0 5px rgba(52,201,143,.12);
+}
+
+#eit-ms-page .eit-scan-line {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 16%;
+  height: 2px;
+  opacity: .8;
+  background: linear-gradient(90deg, transparent, var(--eit-orange), transparent);
+  box-shadow: 0 0 14px var(--eit-orange);
+  animation: eit-scan 4.6s ease-in-out infinite;
+}
+
+@keyframes eit-scan {
+  0%, 100% { transform: translateY(0); opacity: .2; }
+  50% { transform: translateY(345px); opacity: 1; }
+}
+
+/* TRUST STRIP */
+#eit-ms-page .eit-trust {
+  position: relative;
+  z-index: 3;
+  margin-top: -54px;
+}
+
+#eit-ms-page .eit-trust-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--eit-line);
+  border-radius: 18px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-trust-item {
+  position: relative;
+  padding: 25px 24px;
+  text-align: center;
+}
+
+#eit-ms-page .eit-trust-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 22%;
+  right: 0;
+  width: 1px;
+  height: 56%;
+  background: var(--eit-line);
+}
+
+#eit-ms-page .eit-trust-item strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--eit-charcoal);
+  font-size: 18px;
+}
+
+#eit-ms-page .eit-trust-item span {
+  color: var(--eit-muted);
+  font-size: 13px;
+}
+
+/* GENERIC SECTIONS */
+#eit-ms-page .eit-section {
+  padding: 105px 0;
+}
+
+#eit-ms-page .eit-section--light {
+  background: var(--eit-light);
+}
+
+#eit-ms-page .eit-section--dark {
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 85% 20%, rgba(240,111,67,.15), transparent 27%),
+    var(--eit-charcoal);
+}
+
+#eit-ms-page .eit-section--dark h2,
+#eit-ms-page .eit-section--dark h3 {
+  color: var(--eit-white);
+}
+
+#eit-ms-page .eit-section--dark p {
+  color: rgba(255,255,255,.68);
+}
+
+#eit-ms-page .eit-two-col {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  gap: 80px;
+  align-items: center;
+}
+
+#eit-ms-page .eit-copy-box {
+  max-width: 560px;
+}
+
+#eit-ms-page .eit-check-list {
+  display: grid;
+  gap: 16px;
+  margin: 29px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+#eit-ms-page .eit-check-list li {
+  position: relative;
+  padding-left: 34px;
+  color: var(--eit-ink);
+  font-weight: 650;
+}
+
+#eit-ms-page .eit-check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--eit-white);
+  background: var(--eit-orange);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+/* DASHBOARD GRAPHIC */
+#eit-ms-page .eit-dashboard {
+  position: relative;
+  padding: 22px;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-dashboard-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+#eit-ms-page .eit-dashboard-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--eit-charcoal);
+  font-weight: 800;
+}
+
+#eit-ms-page .eit-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #208b64;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+#eit-ms-page .eit-live::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--eit-success);
+  box-shadow: 0 0 0 5px rgba(52,201,143,.12);
+}
+
+#eit-ms-page .eit-chart {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(rgba(17,20,24,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17,20,24,.055) 1px, transparent 1px),
+    linear-gradient(180deg, #fbfcfd, #f5f6f8);
+  background-size: 42px 42px, 42px 42px, auto;
+}
+
+#eit-ms-page .eit-chart svg {
+  position: absolute;
+  inset: 22px 16px 12px;
+  width: calc(100% - 32px);
+  height: calc(100% - 34px);
+}
+
+#eit-ms-page .eit-alert-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+
+#eit-ms-page .eit-alert {
+  padding: 14px;
+  border: 1px solid var(--eit-line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+#eit-ms-page .eit-alert-label {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--eit-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#eit-ms-page .eit-alert-value {
+  color: var(--eit-charcoal);
+  font-size: 19px;
+  font-weight: 850;
+}
+
+/* SERVICES */
+#eit-ms-page .eit-section-heading {
+  max-width: 780px;
+  margin-bottom: 50px;
+}
+
+#eit-ms-page .eit-services {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+#eit-ms-page .eit-service-card {
+  position: relative;
+  min-height: 285px;
+  overflow: hidden;
+  padding: 28px;
+  border: 1px solid var(--eit-line);
+  border-radius: 20px;
+  background: var(--eit-white);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+#eit-ms-page .eit-service-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(240,111,67,.35);
+  box-shadow: 0 20px 45px rgba(17,20,24,.10);
+}
+
+#eit-ms-page .eit-service-card::after {
+  content: "";
+  position: absolute;
+  right: -38px;
+  bottom: -38px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--eit-orange-soft);
+  transition: transform .25s ease;
+}
+
+#eit-ms-page .eit-service-card:hover::after {
+  transform: scale(1.35);
+}
+
+#eit-ms-page .eit-icon-box {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  margin-bottom: 23px;
+  border-radius: 15px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-ms-page .eit-icon-box svg {
+  width: 27px;
+  height: 27px;
+}
+
+#eit-ms-page .eit-service-card h3,
+#eit-ms-page .eit-service-card p {
+  position: relative;
+  z-index: 2;
+}
+
+#eit-ms-page .eit-service-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* PROCESS */
+#eit-ms-page .eit-process {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  counter-reset: eit-step;
+}
+
+#eit-ms-page .eit-process-item {
+  position: relative;
+  counter-increment: eit-step;
+}
+
+#eit-ms-page .eit-process-item::before {
+  content: "0" counter(eit-step);
+  display: block;
+  margin-bottom: 21px;
+  color: var(--eit-orange);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+#eit-ms-page .eit-process-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 45px;
+  right: -2px;
+  top: 12px;
+  height: 1px;
+  background: rgba(255,255,255,.14);
+}
+
+#eit-ms-page .eit-process-item h3 {
+  font-size: 19px;
+}
+
+#eit-ms-page .eit-process-item p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* PARTNERS */
+#eit-ms-page .eit-partners-box {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 58px;
+  align-items: center;
+  padding: 58px;
+  border: 1px solid var(--eit-line);
+  border-radius: 28px;
+  background: var(--eit-white);
+  box-shadow: var(--eit-shadow);
+}
+
+#eit-ms-page .eit-partner-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+#eit-ms-page .eit-partner {
+  display: flex;
+  min-height: 86px;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  border: 1px solid var(--eit-line);
+  border-radius: 16px;
+  color: var(--eit-charcoal);
+  background: #fbfbfc;
+  font-size: 17px;
+  font-weight: 850;
+  letter-spacing: -.01em;
+}
+
+#eit-ms-page .eit-partner::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--eit-orange);
+  box-shadow: 0 0 0 5px var(--eit-orange-soft);
+}
+
+/* QUALITY */
+#eit-ms-page .eit-quality-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+#eit-ms-page .eit-quality-card {
+  padding: 30px;
+  border: 1px solid var(--eit-line);
+  border-radius: 20px;
+  background: var(--eit-white);
+}
+
+#eit-ms-page .eit-quality-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#eit-ms-page .eit-quality-card h3 span {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--eit-orange);
+  background: var(--eit-orange-soft);
+}
+
+#eit-ms-page .eit-quality-card h3 svg {
+  width: 20px;
+  height: 20px;
+}
+
+#eit-ms-page .eit-quality-card p {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* CTA */
+#eit-ms-page .eit-cta {
+  padding: 0 0 105px;
+  background: var(--eit-light);
+}
+
+#eit-ms-page .eit-cta-box {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding: 60px;
+  border-radius: 28px;
+  color: var(--eit-white);
+  background:
+    radial-gradient(circle at 88% 20%, rgba(255,255,255,.14), transparent 23%),
+    linear-gradient(135deg, var(--eit-orange), var(--eit-orange-dark));
+  box-shadow: 0 22px 60px rgba(217,86,47,.26);
+}
+
+#eit-ms-page .eit-cta-box::before,
+#eit-ms-page .eit-cta-box::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 50%;
+}
+
+#eit-ms-page .eit-cta-box::before {
+  width: 240px;
+  height: 240px;
+  right: -80px;
+  top: -120px;
+}
+
+#eit-ms-page .eit-cta-box::after {
+  width: 170px;
+  height: 170px;
+  right: 90px;
+  bottom: -120px;
+}
+
+#eit-ms-page .eit-cta-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+#eit-ms-page .eit-cta h2 {
+  margin-bottom: 14px;
+  color: var(--eit-white);
+}
+
+#eit-ms-page .eit-cta p {
+  margin-bottom: 0;
+  color: rgba(255,255,255,.82);
+}
+
+#eit-ms-page .eit-cta-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+#eit-ms-page .eit-cta .eit-button--white {
+  color: var(--eit-charcoal);
+  background: var(--eit-white);
+  box-shadow: 0 12px 28px rgba(0,0,0,.13);
+}
+
+#eit-ms-page .eit-cta-phone {
+  color: rgba(255,255,255,.88);
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+/* ACCESSIBILITY */
+#eit-ms-page .eit-button:focus-visible,
+#eit-ms-page a:focus-visible {
+  outline: 3px solid rgba(240,111,67,.42);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1060px) {
+  #eit-ms-page .eit-hero-grid,
+  #eit-ms-page .eit-two-col,
+  #eit-ms-page .eit-partners-box {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-ms-page .eit-hero-copy {
+    max-width: 780px;
+  }
+
+  #eit-ms-page .eit-visual {
+    width: min(620px, 100%);
+    margin-inline: auto;
+  }
+
+  #eit-ms-page .eit-services {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #eit-ms-page .eit-process {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 25px;
+  }
+
+  #eit-ms-page .eit-process-item:nth-child(2)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  #eit-ms-page .eit-container {
+    width: min(calc(100% - 28px), var(--eit-max));
+  }
+
+  #eit-ms-page .eit-hero {
+    min-height: auto;
+  }
+
+  #eit-ms-page .eit-hero-grid {
+    gap: 30px;
+    padding: 84px 0 125px;
+  }
+
+  #eit-ms-page .eit-visual {
+    min-height: 410px;
+  }
+
+  #eit-ms-page .eit-network-orbit {
+    width: 355px;
+  }
+
+  #eit-ms-page .eit-shield-card {
+    width: 190px;
+    min-height: 225px;
+    border-radius: 26px;
+  }
+
+  #eit-ms-page .eit-shield-icon {
+    width: 112px;
+    height: 130px;
+  }
+
+  #eit-ms-page .eit-node {
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+  }
+
+  #eit-ms-page .eit-node svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  #eit-ms-page .eit-node--1 { left: 1%; }
+  #eit-ms-page .eit-node--2 { right: 0; }
+  #eit-ms-page .eit-node--3 { left: 0; }
+  #eit-ms-page .eit-node--4 { right: 0; }
+
+  @keyframes eit-scan {
+    0%, 100% { transform: translateY(0); opacity: .2; }
+    50% { transform: translateY(265px); opacity: 1; }
+  }
+
+  #eit-ms-page .eit-trust-inner,
+  #eit-ms-page .eit-services,
+  #eit-ms-page .eit-process,
+  #eit-ms-page .eit-quality-grid,
+  #eit-ms-page .eit-partner-grid,
+  #eit-ms-page .eit-alert-list {
+    grid-template-columns: 1fr;
+  }
+
+  #eit-ms-page .eit-trust-item:not(:last-child)::after {
+    top: auto;
+    left: 8%;
+    right: 8%;
+    bottom: 0;
+    width: auto;
+    height: 1px;
+  }
+
+  #eit-ms-page .eit-section {
+    padding: 76px 0;
+  }
+
+  #eit-ms-page .eit-partners-box {
+    gap: 38px;
+    padding: 32px 24px;
+  }
+
+  #eit-ms-page .eit-cta {
+    padding-bottom: 76px;
+  }
+
+  #eit-ms-page .eit-cta-box {
+    grid-template-columns: 1fr;
+    padding: 38px 26px;
+  }
+
+  #eit-ms-page .eit-cta-actions {
+    align-items: flex-start;
+  }
+
+  #eit-ms-page .eit-process-item::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #eit-ms-page *,
+  #eit-ms-page *::before,
+  #eit-ms-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+<section id="eit-ms-page">
+
+  <header class="eit-hero">
+    <div class="eit-container eit-hero-grid">
+      <div class="eit-hero-copy">
+        <div class="eit-kicker">Business Communications</div>
+        <h1>Business phone systems that follow the way your team works.</h1>
+        <p class="eit-lead">Everything IT designs and supports VoIP and cloud PBX services for office, hybrid and mobile teams, including number porting, call routing, handsets, softphones and ongoing technical support.</p>
+        <div class="eit-button-row"><a class="eit-button eit-button--primary" href="https://everythingit.ie/contact/">Plan your phone system <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="eit-button eit-button--ghost" href="tel:+35315240755">Call +353 1 524 0755</a></div>
+        <ul class="eit-hero-proof"><li>Desk phone and softphone options</li><li>Flexible routing and number porting</li><li>One support route for voice and IT</li></ul>
+      </div>
+      <div class="eit-visual" aria-hidden="true"><div class="eit-visual-glow"></div><div class="eit-network-orbit"></div><div class="eit-scan-line"></div><div class="eit-shield-card"><svg class="eit-shield-icon" viewBox="0 0 180 205" fill="none"><defs><linearGradient id="eitVoipGradient" x1="35" y1="20" x2="142" y2="190"><stop stop-color="#ff9a74"/><stop offset="1" stop-color="#e45832"/></linearGradient></defs><path d="M54 39 72 86 51 99c12 27 31 46 58 58l13-21 47 18v32c0 11-9 20-20 20C74 206 13 145 13 70c0-11 9-20 20-20h21Z" stroke="url(#eitVoipGradient)" stroke-width="8" stroke-linejoin="round" transform="scale(.82) translate(20 6)"/><path d="M103 45c22 6 39 23 45 45M103 72c8 3 15 10 18 18" stroke="#fff" stroke-width="9" stroke-linecap="round"/></svg></div></div>
+    </div>
+  </header>
+
+  <div class="eit-trust"><div class="eit-container"><div class="eit-trust-inner"><div class="eit-trust-item"><strong>Work anywhere</strong><span>Office, home or mobile</span></div><div class="eit-trust-item"><strong>Keep your numbers</strong><span>Planned number porting</span></div><div class="eit-trust-item"><strong>Route intelligently</strong><span>Calls reach the right team</span></div><div class="eit-trust-item"><strong>Scale simply</strong><span>Add users without a PBX room</span></div></div></div></div>
+
+  <section class="eit-section"><div class="eit-container eit-two-col">
+    <div class="eit-copy-box"><div class="eit-kicker">Cloud-based business telephony</div><h2>Communication should not depend on one building or one handset.</h2><p>A cloud PBX moves the core phone system from onsite hardware into a managed cloud service. Staff can make and receive business calls using approved desk phones, laptops, desktops or smartphones.</p><p>The technology is only part of the project. Number porting, broadband readiness, call flows, emergency routes, devices, user training and support all need to be planned together.</p><ul class="eit-check-list"><li>Call flows designed around real business teams</li><li>Office, hybrid and mobile working supported</li><li>Resilience and support responsibilities agreed</li></ul></div>
+    <div class="eit-dashboard" aria-label="Illustrative cloud phone dashboard"><div class="eit-dashboard-top"><div class="eit-dashboard-title">Cloud PBX</div><span class="eit-live">Connected</span></div><div class="eit-chart"><svg viewBox="0 0 600 190" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="eitVoipChart" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f06f43" stop-opacity=".32"/><stop offset="1" stop-color="#f06f43" stop-opacity="0"/></linearGradient></defs><path d="M0 146 C72 126 110 142 178 104 S286 122 355 82 478 102 600 55 V190 H0Z" fill="url(#eitVoipChart)"/><path d="M0 146 C72 126 110 142 178 104 S286 122 355 82 478 102 600 55" fill="none" stroke="#f06f43" stroke-width="5" stroke-linecap="round"/></svg></div><div class="eit-alert-list"><div class="eit-alert"><span class="eit-alert-label">Users</span><span class="eit-alert-value">Connected</span></div><div class="eit-alert"><span class="eit-alert-label">Call routing</span><span class="eit-alert-value">Active</span></div><div class="eit-alert"><span class="eit-alert-label">Service</span><span class="eit-alert-value">Monitored</span></div></div></div>
+  </div></section>
+
+  <section class="eit-section eit-section--light"><div class="eit-container"><div class="eit-section-heading"><div class="eit-kicker">Capabilities</div><h2>Flexible telephony without the limitations of a traditional onsite PBX.</h2><p class="eit-lead">Features are selected around the way calls enter, move through and leave your organisation.</p></div>
+    <div class="eit-services"><article class="eit-service-card"><h3>Number porting</h3><p>Existing business numbers are transferred through a planned process designed to minimise disruption.</p></article><article class="eit-service-card"><h3>Desk phones and softphones</h3><p>Users can work from supported handsets, computers or smartphones according to role.</p></article><article class="eit-service-card"><h3>Call routing</h3><p>Menus, queues, ring groups, schedules and overflow routes direct calls appropriately.</p></article><article class="eit-service-card"><h3>Voicemail to email</h3><p>Messages can follow users beyond a physical desk and become easier to manage.</p></article><article class="eit-service-card"><h3>Multi-site working</h3><p>Offices and remote users operate through one managed communications environment.</p></article><article class="eit-service-card"><h3>Business application integration</h3><p>Suitable platforms can support click-to-call and integration with approved business systems.</p></article><article class="eit-service-card"><h3>Reporting and control</h3><p>Authorised administrators gain clearer visibility into users, routing and service activity.</p></article><article class="eit-service-card"><h3>Ongoing support</h3><p>Voice issues follow the same accountable technical support route as the wider IT environment.</p></article></div>
+  </div></section>
+
+  <section class="eit-section eit-section--dark"><div class="eit-container"><div class="eit-section-heading"><div class="eit-kicker">Implementation</div><h2>Design the call flow before moving the numbers.</h2></div><div class="eit-process"><article class="eit-process-item"><h3>Discover</h3><p>Review numbers, users, sites, call patterns, broadband and business requirements.</p></article><article class="eit-process-item"><h3>Design</h3><p>Define routing, devices, schedules, queues, resilience and integrations.</p></article><article class="eit-process-item"><h3>Port and deploy</h3><p>Configure the platform, prepare users and migrate numbers through a controlled plan.</p></article><article class="eit-process-item"><h3>Support and improve</h3><p>Monitor service, resolve issues and adjust call flows as the business changes.</p></article></div></div></section>
+
+  <section class="eit-section"><div class="eit-container"><div class="eit-partners-box"><div><div class="eit-kicker">Platform selection</div><h2>Choose the service around reliability and fit.</h2><p>Everything IT recommends established VoIP and cloud PBX solutions with appropriate redundancy, monitoring, scalability and integration capability.</p><p>We assess the wider environment—including connectivity, user devices, Microsoft 365 and support arrangements—so the phone system does not become an isolated technology island.</p></div><div class="eit-partner-grid"><div class="eit-partner">Cloud PBX</div><div class="eit-partner">Softphone</div><div class="eit-partner">Desk phone</div><div class="eit-partner">Mobile</div></div></div></div></section>
+
+  <section class="eit-section eit-section--light"><div class="eit-container eit-two-col"><div class="eit-copy-box"><div class="eit-kicker">Continuity and control</div><h2>Build a communications service that can adapt when work moves.</h2><p>Cloud telephony can support mobility and resilience, but it still depends on good call-flow design, suitable connectivity and documented administration.</p><p>We help establish ownership, emergency routes, authorised changes and an ongoing support model.</p></div><div class="eit-quality-grid"><article class="eit-quality-card"><h3>Resilient routing</h3><p>Alternative destinations can be planned for disruption.</p></article><article class="eit-quality-card"><h3>Controlled changes</h3><p>Routing and user changes follow an authorised process.</p></article><article class="eit-quality-card"><h3>User readiness</h3><p>Staff receive the devices and guidance appropriate to their role.</p></article><article class="eit-quality-card"><h3>One support route</h3><p>Voice, connectivity and IT issues are coordinated together.</p></article></div></div></section>
+
+  <section class="eit-cta"><div class="eit-container"><div class="eit-cta-box"><div class="eit-cta-copy"><h2>Ready to replace an inflexible phone system?</h2><p>Talk to Everything IT about a cloud PBX designed around your users, sites and customer call flows.</p></div><div class="eit-cta-actions"><a class="eit-button eit-button--white" href="https://everythingit.ie/contact/">Request a consultation</a><a class="eit-cta-phone" href="tel:+35315240755">Call +353 1 524 0755</a></div></div></div></section>
+
+</section>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"VoIP and Cloud PBX Phone Systems","serviceType":"Business VoIP and cloud PBX services","url":"https://everythingit.ie/voip-cloud-pbx-technology/","provider":{"@type":"Organization","name":"Everything IT","url":"https://everythingit.ie/","telephone":"+35315240755"},"areaServed":{"@type":"Country","name":"Ireland"}}
+</script>
+================================================================================
+PAGE END: PAGE 5 — VOIP PHONE SYSTEMS | /voip-cloud-pbx-technology/
+================================================================================

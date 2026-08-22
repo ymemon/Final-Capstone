@@ -1,0 +1,75 @@
+slug,path,id,words,h1_count,meta_title_len,meta_desc_len,issues
+about-us,/about-us/,85,611,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+antrim,/antrim/,989778,656,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+armagh,/armagh/,989777,656,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+asset-management,/asset-management/,989830,248,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+audio-visual,/audio-visual/,989807,343,0,0,0,HIGH:meta_desc; MEDIUM:no_h1
+bangor,/bangor/,989780,656,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+belfast,/belfast/,989783,602,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+business-broadband,/business-broadband/,989808,282,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+business-continuity,/business-continuity/,465,806,1,0,0,MEDIUM:ambiguous_cta; FLAG:unsourced_number; HIGH:meta_desc
+business-continuity-solutions,/business-continuity/information-security-services/business-continuity-solutions/,988514,204,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+bvp-case-study,/bvp-case-study/,989767,163,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+case-studies,/case-studies/,989695,1145,1,0,0,FLAG:unsourced_number; FLAG:unsourced_number; FLAG:unsourced_number; HIGH:meta_desc
+cloud-computing,/cloud-computing/,989819,144,0,0,0,MEDIUM:ambiguous_cta; HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+cloud-infrastructure-deployment,/cloud-infrastructure-deployment/,989817,495,0,0,0,HIGH:meta_desc; MEDIUM:no_h1
+company-relocation,/company-relocation/,989814,448,0,0,0,HIGH:meta_desc; MEDIUM:no_h1
+contact,/contact/,83,112,1,0,0,HIGH:thin_content; HIGH:meta_desc
+cork,/cork/,989791,462,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+cybersecurity-dublin,/cybersecurity-dublin/,989829,183,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+cybersecurity-solutions-dublin,/business-continuity/information-security-services/cybersecurity-solutions-dublin/,988509,418,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+dedicated-it-support-helpdesk,/business-continuity/managed-services/dedicated-it-support-helpdesk/,988371,344,1,0,0,FLAG:unsourced_number; FLAG:unsourced_number; HIGH:meta_desc
+derry,/derry/,989779,602,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+disaster-recovery-planning-testing,/disaster-recovery-planning-testing/,989826,329,0,0,0,HIGH:meta_desc; MEDIUM:no_h1
+down,/down/,989776,656,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+eit-menu-styles,/eit-menu-styles/,989677,75,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+faq,/faq/,989704,1453,1,0,0,FLAG:unsourced_number; FLAG:unsourced_number; FLAG:unsourced_number; HIGH:meta_desc
+hosted-data-centre-services,/hosted-data-centre-services/,989834,220,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+hostireland-case-study,/hostireland-case-study/,989768,107,1,0,0,HIGH:thin_content; HIGH:meta_desc
+information-security-services,/business-continuity/information-security-services/,988503,197,0,0,0,MEDIUM:ambiguous_cta; HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+inventory-rotation-warehousing-services,/inventory-rotation-warehousing-services/,989821,266,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+ires-fund-management-case-study,/ires-fund-management-case-study/,989766,161,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+iso-27001-compliance,/iso-27001-compliance/,989831,238,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+it-change-management,/it-change-management/,989828,261,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+it-management-consultancy,/it-management-consultancy/,989813,312,0,0,0,HIGH:meta_desc; MEDIUM:no_h1
+it-migration-services,/it-migration-services/,989812,240,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+it-services,//,146,456,1,0,0,MEDIUM:ambiguous_cta; FLAG:unsourced_number; HIGH:meta_desc
+it-support-dublin-city-centre,/it-support-dublin-city-centre/,989713,536,1,0,0,FLAG:unsourced_number; FLAG:unsourced_number; HIGH:meta_desc
+it-support-galway,/it-support-galway/,989664,748,1,0,0,FLAG:unsourced_number; FLAG:unsourced_number; FLAG:unsourced_number; HIGH:meta_desc
+it-support-ireland-nationwide,/it-support-ireland-nationwide/,989668,755,1,0,0,HIGH:templating; FLAG:unsourced_number; FLAG:unsourced_number; FLAG:unsourced_number; HIGH:meta_desc
+it-support-kilkenny,/it-support-kilkenny/,989667,736,1,0,0,FLAG:unsourced_number; FLAG:unsourced_number; FLAG:unsourced_number; HIGH:meta_desc
+it-support-limerick,/it-support-limerick/,989665,757,1,0,0,FLAG:unsourced_number; FLAG:unsourced_number; FLAG:unsourced_number; HIGH:meta_desc
+it-support-waterford,/it-support-waterford/,989666,745,1,0,0,FLAG:unsourced_number; FLAG:unsourced_number; FLAG:unsourced_number; HIGH:meta_desc
+kildare,/kildare/,989787,443,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+lisburn,/lisburn/,989782,602,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+louth,/louth/,989784,448,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+managed-it-services,/managed-it-services/,989835,217,0,0,0,MEDIUM:ambiguous_cta; FLAG:unsourced_number; HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+managed-print-services,/managed-print-services/,989837,176,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+mdm-services-dublin,/mdm-services-dublin/,989685,735,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+meath,/meath/,989785,435,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+mobile-device-management,/mobile-device-management/,989816,325,0,0,0,HIGH:meta_desc; MEDIUM:no_h1
+modern-cloud-working,/modern-cloud-working/,989818,441,0,0,0,HIGH:meta_desc; MEDIUM:no_h1
+network-security-monitoring,/network-security-monitoring/,989839,298,0,0,0,FLAG:unsourced_number; HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+newry,/newry/,989781,602,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+north-dublin,/north-dublin/,989793,459,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+on-demand-structured-it-procurement,/on-demand-structured-it-procurement/,989820,182,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+our-team,/our-team/,1295,790,1,0,0,HIGH:meta_desc
+privacy-notice,/privacy-notice/,1648,2379,1,0,0,HIGH:meta_desc
+procurement,/procurement/,989825,185,0,0,0,MEDIUM:ambiguous_cta; HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+professional-services,/professional-services/,989815,175,0,0,0,MEDIUM:ambiguous_cta; HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+saudi-cultural-bureau-case-study,/saudi-cultural-bureau-case-study/,989770,98,1,0,0,HIGH:thin_content; HIGH:meta_desc
+secure-scalable-network-design,/secure-scalable-network-design/,989811,99,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+service-level-agreements,/business-continuity/managed-services/service-level-agreements/,473,323,0,0,0,FLAG:unsourced_number; HIGH:meta_desc; MEDIUM:no_h1
+software-acquisition,/software-acquisition/,989836,380,0,0,0,HIGH:meta_desc; MEDIUM:no_h1
+software-license-management,/software-license-management/,989822,206,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+south-dublin,/south-dublin/,989794,457,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+spectrum-health-case-study,/spectrum-health-case-study/,989774,112,1,0,0,FLAG:unsourced_number; HIGH:thin_content; HIGH:meta_desc
+spectrum-life-case-study,/spectrum-life-case-study/,989775,125,1,0,0,FLAG:unsourced_number; FLAG:unsourced_number; HIGH:thin_content; HIGH:meta_desc
+startup-scale-case-study,/startup-scale-case-study/,989772,135,1,0,0,HIGH:thin_content; HIGH:meta_desc
+strategic-procurement,/strategic-procurement/,989823,140,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+supply-chain-logistics-amp-quality-control,/supply-chain-logistics-amp-quality-control/,989824,359,0,0,0,HIGH:meta_desc; MEDIUM:no_h1
+third-party-services,/third-party-services/,989809,221,0,0,0,MEDIUM:ambiguous_cta; HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+virtualization-services,/virtualization-services/,989810,205,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+voip-cloud-pbx-technology,/voip-cloud-pbx-technology/,989833,232,0,0,0,HIGH:thin_content; HIGH:meta_desc; MEDIUM:no_h1
+west-dublin,/west-dublin/,989792,443,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
+wicklow,/wicklow/,989786,450,1,0,0,FLAG:unsourced_number; HIGH:meta_desc
