@@ -1807,12 +1807,10 @@ function azwc_audit_script() {
 					var bad = data.checks.filter(function (c) { return c.status === 'fail' || c.status === 'warn'; }).length;
 					setTarget('checks', bad + ' of ' + data.checks.length + ' need attention');
 
-					// Show the site results immediately; speed arrives after.
-					render(data);
-
-					// The report is on screen - allow another run now rather than
-					// after PageSpeed finishes up to a minute later.
-					button.disabled = false;
+					// Deliberately no render here: the report is withheld until the
+					// diagnosis is complete, so a visitor never sees a partial report
+					// that looks finished. The progress panel carries the run.
+					// The button stays disabled because the tool genuinely is busy.
 
 					// Sequential on purpose. Google throttles concurrent requests for
 					// the same URL: run together they measured 55s and 69s, against 37s
@@ -1839,7 +1837,8 @@ function azwc_audit_script() {
 								    : 'Google did not return data');
 							done += 1;
 							setProgress(done, TOTAL, done < TOTAL);
-							render(data);
+							// No render here - see the note above; the report is drawn once,
+							// at the end, so nothing partial is ever shown.
 						}
 
 						/**
@@ -1895,6 +1894,10 @@ function azwc_audit_script() {
 					stopTimer();
 					var secs = ((Date.now() - t0) / 1000).toFixed(1);
 					progress.querySelector('.azwc-sub').textContent = 'Finished in ' + secs + ' seconds.';
+
+					// render only when the diagnosis is complete - one report, in one
+					// piece, with every section already populated.
+					render(data);
 					button.disabled = false;
 				})
 				.catch(function (err) {
