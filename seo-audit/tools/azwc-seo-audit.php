@@ -1163,8 +1163,11 @@ function azwc_audit_shortcode() {
 
 		<div class="azwc-audit-status" role="status" aria-live="polite" hidden></div>
 		<div class="azwc-progress" hidden>
-			<h4>Running the audit</h4>
+			<h4>Running the audit <span class="azwc-elapsed" aria-hidden="true"></span></h4>
 			<p class="azwc-sub">Each step below finishes when that request actually returns.</p>
+			<div class="azwc-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Audit progress">
+				<span class="azwc-bar-fill"></span>
+			</div>
 			<ul class="azwc-steps"></ul>
 		</div>
 		<div class="azwc-audit-results" hidden></div>
@@ -1193,7 +1196,21 @@ function azwc_audit_styles() {
 	#azwc-audit .azwc-audit-status.error{background:#fdf0f0;border-color:#f2c9c9;color:#8a2b2b}
 	#azwc-audit .azwc-progress{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
 	#azwc-audit .azwc-progress h4{margin:0 0 4px;font-size:15px}
-	#azwc-audit .azwc-progress .azwc-sub{margin-bottom:16px}
+	#azwc-audit .azwc-progress .azwc-sub{margin-bottom:14px}
+	#azwc-audit .azwc-elapsed{float:right;font-size:12px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+	#azwc-audit .azwc-bar{position:relative;height:6px;margin:0 0 18px;background:rgba(127,127,127,.22);border-radius:99px;overflow:hidden}
+	#azwc-audit .azwc-bar-fill{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#e6b84d,#f5d47d);transition:width .45s ease}
+	/* While a stage is still in flight the bar keeps moving, so a long
+	   PageSpeed wait does not look like a stall. */
+	#azwc-audit .azwc-bar.is-running .azwc-bar-fill::after{content:"";position:absolute;inset:0;border-radius:99px;
+		background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:azwc-sheen 1.5s linear infinite}
+	@keyframes azwc-sheen{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+	@media(prefers-reduced-motion:reduce){#azwc-audit .azwc-bar.is-running .azwc-bar-fill::after{animation:none}}
+	#azwc-audit .azwc-pending{display:flex;align-items:center;gap:9px;margin:0 0 16px;padding:11px 14px;border-radius:10px;
+		font-size:13px;background:rgba(230,184,77,.10);border:1px solid rgba(230,184,77,.34);color:#8a6410}
+	#azseo-tool-mount #azwc-audit .azwc-pending{color:#f0d9a2}
+	#azwc-audit .azwc-pending i{width:12px;height:12px;border-radius:50%;border:2px solid #e6b84d;border-top-color:transparent;animation:azwc-spin .8s linear infinite}
+	@media(prefers-reduced-motion:reduce){#azwc-audit .azwc-pending i{animation:none}}
 	#azwc-audit .azwc-steps{display:grid;gap:11px;margin:0;padding:0;list-style:none}
 	#azwc-audit .azwc-step{display:grid;grid-template-columns:20px 1fr;gap:11px;align-items:start;font-size:13.5px;color:#9aa3ad;transition:color .2s}
 	#azwc-audit .azwc-step.active{color:var(--ink);font-weight:650}
@@ -1557,7 +1574,14 @@ function azwc_audit_script() {
 			d.checks.forEach(function (c) { if (counts[c.status] !== undefined) { counts[c.status]++; } });
 			var scored = d.checks.filter(function (c) { return c.status !== 'info'; }).length;
 
-			var html = '<section class="azwc-panel"><h3>' + esc(d.url) + '</h3>'
+			// Speed arrives after the site checks, so say so rather than letting a
+			// half-finished report look final.
+			var waiting = !d.psi || d.psi.mobile === undefined || d.psi.desktop === undefined;
+			var pending = waiting
+				? '<div class="azwc-pending"><i></i><span>Still measuring speed with Google&rsquo;s API &mdash; the rest of this report is complete and the speed section will fill in automatically.</span></div>'
+				: '';
+
+			var html = pending + '<section class="azwc-panel"><h3>' + esc(d.url) + '</h3>'
 				+ '<p class="azwc-sub">Checked ' + new Date(d.fetched).toLocaleString()
 				+ ' &middot; server responded in ' + esc(d.ms) + ' ms'
 				+ (d.cached ? ' &middot; cached result' : '') + '</p>'
@@ -1639,6 +1663,31 @@ function azwc_audit_script() {
 			t.textContent = text;
 		}
 
+		var azwcTimer = null;
+
+		/** Advance the bar to the share of stages that have reported. */
+		function setProgress(done, total, running) {
+			var bar = progress.querySelector('.azwc-bar');
+			var fill = progress.querySelector('.azwc-bar-fill');
+			if (!bar || !fill) { return; }
+			var pct = total ? Math.round((done / total) * 100) : 0;
+			fill.style.width = pct + '%';
+			bar.setAttribute('aria-valuenow', String(pct));
+			bar.classList.toggle('is-running', !!running);
+		}
+
+		function startTimer(t0) {
+			var el = progress.querySelector('.azwc-elapsed');
+			stopTimer();
+			if (!el) { return; }
+			azwcTimer = window.setInterval(function () {
+				el.textContent = ((Date.now() - t0) / 1000).toFixed(1) + 's';
+			}, 200);
+		}
+		function stopTimer() {
+			if (azwcTimer) { window.clearInterval(azwcTimer); azwcTimer = null; }
+		}
+
 		function mark(key, state, note) {
 			var el = stepEls[key];
 			if (!el) { return; }
@@ -1664,6 +1713,7 @@ function azwc_audit_script() {
 		}
 
 		function fail(message) {
+			stopTimer();
 			progress.hidden = true;
 			statusEl.hidden = false;
 			statusEl.className = 'azwc-audit-status error';
@@ -1675,9 +1725,13 @@ function azwc_audit_script() {
 			var t0 = Date.now();
 			var data = null;
 			var myRun = ++azwcRunToken;
+			var TOTAL = 4;   // fetch, checks, speed x2
+			var done  = 0;
 
 			buildSteps();
 			setTarget('site', domain);
+			setProgress(0, TOTAL, true);
+			startTimer(t0);
             mark('site', 'active');
 
 			post({ domain: domain, stage: 'site' })
@@ -1691,6 +1745,8 @@ function azwc_audit_script() {
 					mark('site', 'done', 'HTTP ' + data.status + ' in ' + data.ms + ' ms'
 						+ (data.cached ? ' (cached)' : ''));
 					setTarget('site', data.url);
+					done = 2;   // fetch + checks both satisfied by this one response
+					setProgress(done, TOTAL, true);
 					mark('checks', 'done', data.checks.length + ' checks evaluated');
 					var bad = data.checks.filter(function (c) { return c.status === 'fail' || c.status === 'warn'; }).length;
 					setTarget('checks', bad + ' of ' + data.checks.length + ' need attention');
@@ -1702,32 +1758,43 @@ function azwc_audit_script() {
 					// after PageSpeed finishes up to a minute later.
 					button.disabled = false;
 
+					// Both strategies are independent calls to Google. Running them
+					// concurrently rather than chained roughly halves the wait - each
+					// one costs 17-80s on its own.
 					mark('psi_mobile', 'active');
-					setTarget('psi_mobile', data.url);
-					return post({ domain: domain, stage: 'psi', strategy: 'mobile' });
-				})
-				.then(function (res) {
-					if (myRun !== azwcRunToken) { return; }
-					var psi = res.ok ? res.body.psi : null;
-					data.psi.mobile = psi;
-					mark('psi_mobile', psi ? 'done' : 'skip',
-						psi ? (psi.score === null ? 'returned' : 'performance score ' + psi.score + '/100')
-						    : 'Google did not return data');
-					render(data);
-
 					mark('psi_desktop', 'active');
+					setTarget('psi_mobile', data.url);
 					setTarget('psi_desktop', data.url);
-					return post({ domain: domain, stage: 'psi', strategy: 'desktop' });
-				})
-				.then(function (res) {
-					if (myRun !== azwcRunToken) { return; }
-					var psi = res.ok ? res.body.psi : null;
-					data.psi.desktop = psi;
-					mark('psi_desktop', psi ? 'done' : 'skip',
-						psi ? (psi.score === null ? 'returned' : 'performance score ' + psi.score + '/100')
-						    : 'Google did not return data');
-					render(data);
 
+					function speed(strategy, key) {
+						return post({ domain: domain, stage: 'psi', strategy: strategy })
+							.then(function (res) {
+								if (myRun !== azwcRunToken) { return; }
+								var psi = res.ok ? res.body.psi : null;
+								data.psi[key] = psi;
+								mark('psi_' + key, psi ? 'done' : 'skip',
+									psi ? (psi.score === null ? 'returned' : 'performance score ' + psi.score + '/100')
+									    : 'Google did not return data');
+								done += 1;
+								setProgress(done, TOTAL, done < TOTAL);
+								render(data);
+							})
+							.catch(function () {
+								if (myRun !== azwcRunToken) { return; }
+								data.psi[key] = null;
+								mark('psi_' + key, 'skip', 'request failed');
+								done += 1;
+								setProgress(done, TOTAL, done < TOTAL);
+								render(data);
+							});
+					}
+
+					return Promise.all([ speed('mobile', 'mobile'), speed('desktop', 'desktop') ]);
+				})
+				.then(function () {
+					if (myRun !== azwcRunToken) { return; }
+					setProgress(TOTAL, TOTAL, false);
+					stopTimer();
 					var secs = ((Date.now() - t0) / 1000).toFixed(1);
 					progress.querySelector('.azwc-sub').textContent = 'Finished in ' + secs + ' seconds.';
 					button.disabled = false;
