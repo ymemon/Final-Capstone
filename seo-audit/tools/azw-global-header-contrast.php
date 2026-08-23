@@ -9,6 +9,132 @@ defined('ABSPATH') || exit;
 add_action('wp_footer', static function () {
     ?>
     <style id="azw-global-header-contrast" data-noptimize="1">
+    /* azw-mobile-domainbar ------------------------------------------- */
+    /* Colour: the eyebrow and CTA in this bar were still the legacy lime. */
+    #azwc-home-domain-bar .azwc-fixed-eyebrow {
+        color: #f5d47d !important;
+    }
+    #azwc-home-domain-bar .azwc-fixed-actions > form button,
+    #azwc-home-domain-bar .azwc-fixed-actions > form input[type="submit"],
+    #azwc-home-domain-bar .azwc-home-domain-bar__form button,
+    html body .azwc-home-domain-bar__form button,
+    html body form.azwc-home-domain-bar__form button,
+    html body .azwc-fixed-actions button,
+    html body #azwc-home-domain-bar button,
+    html body #azwc-home-domain-bar form button,
+    html body #azwc-home-domain-bar input[type="submit"],
+    #azwc-home-domain-bar button,
+    #azwc-home-domain-bar input[type="submit"],
+    #azwc-home-domain-bar .azwc-btn,
+    #azwc-home-domain-bar .azwc-fixed-cta {
+        background: #e6b84d !important;
+        border-color: #e6b84d !important;
+        color: #161208 !important;
+    }
+    #azwc-home-domain-bar button:hover,
+    #azwc-home-domain-bar .azwc-btn:hover,
+    #azwc-home-domain-bar .azwc-fixed-cta:hover {
+        background: #f5d47d !important;
+        border-color: #f5d47d !important;
+    }
+
+    /* Layout: clear the absolutely-positioned 60px header on the hamburger
+       breakpoint, where the bar and the header both start at y=0. */
+    @media (max-width: 991px) {
+        #azwc-home-domain-bar {
+            padding-top: 96px !important;
+        }
+    }
+    @media (max-width: 480px) {
+        #azwc-home-domain-bar {
+            padding-top: 104px !important;
+        }
+    }
+
+    /* azw-plan-components: dark-surface styling used on a light section. */
+    .azwc-tab {
+        color: #111823 !important;
+        border-color: rgba(17,24,35,.28) !important;
+    }
+    .azwc-tab:hover,
+    .azwc-tab:focus {
+        border-color: #e6b84d !important;
+        color: #161208 !important;
+    }
+    .azwc-tab.is-active {
+        background: #e6b84d !important;
+        border-color: #e6b84d !important;
+        color: #161208 !important;
+    }
+    .azwc-popular {
+        background: #e6b84d !important;
+        border-color: #e6b84d !important;
+        color: #161208 !important;
+    }
+    .azwc-btn {
+        background: #e6b84d !important;
+        border-color: #e6b84d !important;
+        color: #161208 !important;
+    }
+    .azwc-btn:hover,
+    .azwc-btn:focus {
+        background: #f5d47d !important;
+        border-color: #f5d47d !important;
+        color: #161208 !important;
+    }
+    .azwc-feature-number {
+        color: #9b711b !important;
+    }
+    /* azw-btn-secondary: ghost variant - the fill above is for the primary
+       button only, and this one keeps a white label. */
+    .azwc-btn.secondary,
+    .azwc-btn.azwc-btn--secondary,
+    .azwc-btn.is-secondary {
+        background: transparent !important;
+        border: 1px solid #9b711b !important;
+        color: #9b711b !important;
+        -webkit-text-fill-color: #9b711b !important;
+    }
+    .azwc-btn.secondary:hover,
+    .azwc-btn.secondary:focus {
+        background: #e6b84d !important;
+        border-color: #e6b84d !important;
+        color: #161208 !important;
+        -webkit-text-fill-color: #161208 !important;
+    }
+
+    /* azw-light-accent: gold/lime accent headings on light panels. */
+    .elementor-element-3bcebac .elementor-heading-title,
+    .elementor-element-3bcebac .elementor-heading-title span,
+    .elementor-element-e84af0a .elementor-heading-title,
+    .elementor-element-e84af0a .elementor-heading-title span,
+    .elementor-element-bccd021 .elementor-heading-title,
+    .elementor-element-bccd021 .elementor-heading-title span {
+        color: #9b711b !important;
+        -webkit-text-fill-color: #9b711b !important;
+    }
+
+    /* azw-contrast-fix: headings that resolved to a dark colour while sitting
+       on a dark section. Both measured under 1.15 contrast, i.e. invisible. */
+    /* Only sections explicitly marked .azwc-dark - the same class list also
+       appears on light sections, which is what made a broader rule harmful. */
+    .azwc-dark .azwc-section-head h2,
+    .azwc-dark .azwc-section-head h3,
+    section.azwc-dark h2 {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+    .azwc-dark .azwc-section-head p,
+    .azwc-dark .azwc-section-head .azwc-kicker {
+        color: #d6dce4 !important;
+    }
+    .azseo-hero .azseo-hero-copy h1,
+    .azseo-hero .azseo-hero-copy h2,
+    header.azseo-hero h2 {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
     /* azw-hero-unify: one hero palette across the site. ------------- */
 
     /* domain-registration carried a second lime (#e8f01a), missed by the
