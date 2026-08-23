@@ -229,6 +229,25 @@ function azwc_audit_check( $id, $label, $status, $detail, $weight = 1, $group = 
  * Resolve a possibly-relative reference against the audited page, so the
  * visitor is given a URL they can actually open rather than "/img/x.png".
  */
+/**
+ * preg_match_all that cannot return false.
+ *
+ * PCRE gives up with FALSE when it exceeds pcre.backtrack_limit, which large
+ * pages do reach. Callers here immediately index [0], so an unguarded call
+ * turns a big page into a fatal count(null). Degrade to "no matches".
+ */
+function azwc_audit_match_all( $pattern, $subject ) {
+	$m  = array();
+	$ok = @preg_match_all( $pattern, $subject, $m );
+	if ( false === $ok || ! is_array( $m ) || ! isset( $m[0] ) || ! is_array( $m[0] ) ) {
+		return array( array(), array() );
+	}
+	if ( ! isset( $m[1] ) || ! is_array( $m[1] ) ) {
+		$m[1] = array();
+	}
+	return $m;
+}
+
 function azwc_audit_abs_url( $ref, $base ) {
 	$ref = trim( html_entity_decode( $ref, ENT_QUOTES ) );
 	if ( '' === $ref || 0 === stripos( $ref, 'data:' ) ) {
@@ -653,6 +672,180 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 		'onpage'
 	);
 
+
+	/* --- additional measured checks -------------------------------------- */
+
+	// Heading order: a jump from h1 straight to h3 breaks the document outline
+	// that assistive tech and search engines both rely on.
+	$hm     = azwc_audit_match_all( '#<h([1-6])\b#i', $html );
+	$levels = array_map( 'intval', $hm[1] );
+	$skips   = array();
+	$prev    = 0;
+	foreach ( $levels as $lv ) {
+		if ( $prev && $lv > $prev + 1 ) {
+			$skips[] = 'h' . $prev . ' followed by h' . $lv;
+		}
+		$prev = $lv;
+	}
+	$checks[] = azwc_audit_check(
+		'heading_order',
+		'Headings run in order without skipping levels',
+		$skips ? 'warn' : 'pass',
+		$skips
+			? sprintf( '%d place%s where a heading level is skipped. Screen readers use the heading outline to navigate, and a gap makes the structure ambiguous.', count( $skips ), 1 === count( $skips ) ? '' : 's' )
+			: sprintf( '%d headings, no skipped levels.', count( $levels ) ),
+		1,
+		'onpage',
+		array_slice( $skips, 0, 10 )
+	);
+
+	// Character encoding.
+	$has_charset = (bool) preg_match( '#<meta[^>]+charset#i', $html );
+	$checks[]    = azwc_audit_check(
+		'charset',
+		'Character encoding is declared',
+		$has_charset ? 'pass' : 'warn',
+		$has_charset
+			? 'A meta charset declaration is present.'
+			: 'No meta charset. Browsers will guess the encoding, which can garble punctuation and accented characters.',
+		1,
+		'technical'
+	);
+
+	// Twitter/X card tags.
+	$tw = (bool) preg_match( '#<meta[^>]+name=["\']twitter:card["\']#i', $html );
+	$checks[] = azwc_audit_check(
+		'twitter_card',
+		'Twitter/X card tags are set',
+		$tw ? 'pass' : 'warn',
+		$tw
+			? 'A twitter:card tag is present, so links shared on X render as a card.'
+			: 'No twitter:card tag. X will fall back to Open Graph if present, otherwise the link shares as plain text.',
+		1,
+		'structured'
+	);
+
+	// Images without intrinsic dimensions - a direct cause of layout shift.
+	$no_dims = array();
+	foreach ( $imgs[0] as $img ) {
+		if ( preg_match( '#\bwidth\s*=#i', $img ) && preg_match( '#\bheight\s*=#i', $img ) ) {
+			continue;
+		}
+		if ( count( $no_dims ) < 12 && preg_match( '#\bsrc\s*=\s*["\']([^"\']+)#i', $img, $dm ) ) {
+			$abs = azwc_audit_abs_url( $dm[1], $url );
+			if ( $abs ) {
+				$no_dims[] = $abs;
+			}
+		}
+	}
+	$dim_missing = 0;
+	foreach ( $imgs[0] as $img ) {
+		if ( ! preg_match( '#\bwidth\s*=#i', $img ) || ! preg_match( '#\bheight\s*=#i', $img ) ) {
+			$dim_missing++;
+		}
+	}
+	$checks[] = azwc_audit_check(
+		'img_dimensions',
+		'Images declare width and height',
+		0 === $img_total ? 'info' : ( 0 === $dim_missing ? 'pass' : ( $dim_missing / $img_total < 0.3 ? 'warn' : 'fail' ) ),
+		0 === $img_total
+			? 'No images on this page.'
+			: sprintf( '%d of %d images have no width/height attributes. Without them the browser cannot reserve space, so content jumps as images load - this is what Cumulative Layout Shift measures.', $dim_missing, $img_total ),
+		1,
+		'technical',
+		$no_dims
+	);
+
+	// Lazy loading.
+	$lazy = 0;
+	foreach ( $imgs[0] as $img ) {
+		if ( preg_match( '#\bloading\s*=\s*["\']lazy#i', $img ) ) {
+			$lazy++;
+		}
+	}
+	$checks[] = azwc_audit_check(
+		'lazy_images',
+		'Images use native lazy loading',
+		0 === $img_total ? 'info' : ( $lazy > 0 ? 'pass' : 'warn' ),
+		0 === $img_total
+			? 'No images on this page.'
+			: sprintf( '%d of %d images use loading="lazy". Lazy loading defers offscreen images so the visible part of the page finishes sooner.', $lazy, $img_total ),
+		1,
+		'technical'
+	);
+
+	// target="_blank" without rel=noopener lets the opened page reach back into
+	// this one through window.opener.
+	$blanks = azwc_audit_match_all( '#<a\b[^>]*target\s*=\s*["\']_blank["\'][^>]*>#i', $html );
+	$unsafe = array();
+	foreach ( $blanks[0] as $a ) {
+		if ( preg_match( '#\brel\s*=\s*["\'][^"\']*noopener#i', $a ) ) {
+			continue;
+		}
+		if ( count( $unsafe ) < 10 && preg_match( '#\bhref\s*=\s*["\']([^"\']+)#i', $a, $hm2 ) ) {
+			$unsafe[] = azwc_audit_abs_url( $hm2[1], $url ) ?: $hm2[1];
+		}
+	}
+	$checks[] = azwc_audit_check(
+		'blank_noopener',
+		'New-tab links are opened safely',
+		$unsafe ? 'warn' : 'pass',
+		$unsafe
+			? sprintf( '%d link%s open a new tab without rel="noopener". The opened page can reference window.opener and redirect this tab.', count( $unsafe ), 1 === count( $unsafe ) ? '' : 's' )
+			: sprintf( '%d new-tab link%s, all carrying rel="noopener".', count( $blanks[0] ), 1 === count( $blanks[0] ) ? '' : 's' ),
+		1,
+		'technical',
+		$unsafe
+	);
+
+	// Placeholder links.
+	$empties = azwc_audit_match_all( '#<a\b[^>]*href\s*=\s*["\'](#|)["\'][^>]*>#i', $html );
+	$empty_n  = count( $empties[0] );
+	$checks[] = azwc_audit_check(
+		'empty_links',
+		'No placeholder or empty links',
+		$empty_n > 0 ? 'warn' : 'pass',
+		$empty_n > 0
+			? sprintf( '%d link%s point at "#" or nothing. Crawlers follow these and find no destination, and keyboard users land on a control that does not go anywhere.', $empty_n, 1 === $empty_n ? '' : 's' )
+			: 'Every link has a real destination.',
+		1,
+		'onpage'
+	);
+
+	// Response security headers.
+	$hdr = function ( $name ) use ( $headers ) {
+		$v = $headers[ $name ] ?? '';
+		return is_array( $v ) ? implode( ',', $v ) : (string) $v;
+	};
+	$sec_present = array();
+	$sec_missing = array();
+	foreach ( array(
+		'strict-transport-security' => 'HSTS',
+		'x-content-type-options'    => 'X-Content-Type-Options',
+		'x-frame-options'           => 'X-Frame-Options',
+		'referrer-policy'           => 'Referrer-Policy',
+	) as $key => $label ) {
+		if ( '' !== $hdr( $key ) ) {
+			$sec_present[] = $label;
+		} else {
+			$sec_missing[] = $label;
+		}
+	}
+	$checks[] = azwc_audit_check(
+		'security_headers',
+		'Common security headers are sent',
+		empty( $sec_missing ) ? 'pass' : ( count( $sec_missing ) <= 2 ? 'warn' : 'fail' ),
+		empty( $sec_missing )
+			? 'All four checked headers are present: ' . implode( ', ', $sec_present ) . '.'
+			: sprintf(
+				'Present: %s. Missing: %s. These are set by the server and cost nothing to add.',
+				$sec_present ? implode( ', ', $sec_present ) : 'none',
+				implode( ', ', $sec_missing )
+			),
+		1,
+		'technical'
+	);
+
 	return $checks;
 }
 
@@ -1052,6 +1245,22 @@ function azwc_audit_styles() {
 	#azwc-audit .azwc-dot{width:16px;height:16px;margin-top:4px;border-radius:50%}
 	#azwc-audit .azwc-check h4{margin:0 0 3px;font-size:14.5px;font-weight:750}
 	#azwc-audit .azwc-check p{margin:0;color:var(--muted);font-size:13px;word-break:break-word}
+	#azwc-audit .azwc-actions{counter-reset:azwcfix}
+	#azwc-audit .azwc-action{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+	#azwc-audit .azwc-action:last-child{border-bottom:0}
+	#azwc-audit .azwc-action-num{counter-increment:azwcfix;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-size:13px;font-weight:800;color:#161208;background:var(--accent)}
+	#azwc-audit .azwc-action-num::before{content:counter(azwcfix)}
+	#azwc-audit .azwc-action h4{margin:3px 0 4px;font-size:14.5px;font-weight:750}
+	#azwc-audit .azwc-action p{margin:0;color:var(--muted);font-size:13px}
+	#azwc-audit .azwc-sev{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:99px;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;vertical-align:2px}
+	#azwc-audit .azwc-sev.fail{background:rgba(214,69,69,.15);color:#d64545}
+	#azwc-audit .azwc-sev.warn{background:rgba(232,163,61,.16);color:#b97d1b}
+	#azseo-tool-mount #azwc-audit .azwc-sev.warn{color:#e8a33d}
+	#azwc-audit .azwc-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:10px;margin:18px 0 0}
+	#azwc-audit .azwc-stat{padding:12px 14px;background:var(--bg);border:1px solid var(--line);border-radius:10px}
+	#azwc-audit .azwc-stat b{display:block;font-size:22px;font-weight:780;letter-spacing:-.02em}
+	#azwc-audit .azwc-stat span{display:block;margin-top:2px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+	#azwc-audit .azwc-allclear{padding:18px;border-radius:11px;background:rgba(15,157,88,.10);border:1px solid rgba(15,157,88,.34);color:#0f9d58;font-size:14px;font-weight:650}
 	#azwc-audit .azwc-items{margin:9px 0 0;padding:0;list-style:none;display:grid;gap:4px}
 	#azwc-audit .azwc-items li{font-size:12.5px;line-height:1.45;word-break:break-all}
 	#azwc-audit .azwc-items a{color:#9b711b;text-decoration:none}
@@ -1294,6 +1503,48 @@ function azwc_audit_script() {
 				+ '<div class="azwc-checks">' + items + '</div></section>';
 		}
 
+		/**
+		 * Everything that did not pass, worst first, with its URLs. This is the
+		 * part a visitor actually works from - the per-check list above reads
+		 * well but buries the actionable items among the passes.
+		 */
+		function actionsPanel(checks) {
+			var rank = { fail: 0, warn: 1 };
+			var todo = checks.filter(function (c) { return c.status === 'fail' || c.status === 'warn'; })
+				.slice().sort(function (a, b) { return rank[a.status] - rank[b.status]; });
+
+			if (!todo.length) {
+				return '<section class="azwc-panel"><h3>What to fix first</h3>'
+					+ '<p class="azwc-sub">Ordered by impact</p>'
+					+ '<div class="azwc-allclear">Nothing failed and nothing was flagged for improvement. Every check on this page passed.</div>'
+					+ '</section>';
+			}
+
+			var rows = todo.map(function (c) {
+				var urls = '';
+				if (c.items && c.items.length) {
+					urls = '<ul class="azwc-items">' + c.items.map(function (u) {
+						var safe = esc(u);
+						return /^https?:/i.test(u)
+							? '<li><a href="' + safe + '" target="_blank" rel="noopener nofollow">' + safe + '</a></li>'
+							: '<li>' + safe + '</li>';
+					}).join('') + '</ul>';
+				}
+				return '<div class="azwc-action"><span class="azwc-action-num"></span><div>'
+					+ '<h4>' + esc(c.label)
+					+ '<span class="azwc-sev ' + c.status + '">'
+					+ (c.status === 'fail' ? 'Needs fixing' : 'Worth improving') + '</span></h4>'
+					+ '<p>' + esc(c.detail) + '</p>' + urls + '</div></div>';
+			}).join('');
+
+			var fails = todo.filter(function (c) { return c.status === 'fail'; }).length;
+			return '<section class="azwc-panel"><h3>What to fix first</h3>'
+				+ '<p class="azwc-sub">' + todo.length + ' item' + (todo.length === 1 ? '' : 's')
+				+ ' to look at, ordered by impact'
+				+ (fails ? ' \u2014 the first ' + fails + ' can stop a page ranking' : '') + '</p>'
+				+ '<div class="azwc-actions">' + rows + '</div></section>';
+		}
+
 		function authorityPanel(a) {
 			if (a && a.available) { return ''; }
 			return '<section class="azwc-panel"><h3>Backlinks and rankings</h3>'
@@ -1315,10 +1566,18 @@ function azwc_audit_script() {
 				+ '<div>' + bars(d.score.groups)
 				+ '<p class="azwc-sub" style="margin:16px 0 0">'
 				+ counts.fail + ' need fixing, ' + counts.warn + ' worth improving, ' + counts.pass + ' passing.'
-				+ '</p></div></div></section>';
+				+ '</p>'
+				+ '<div class="azwc-stats">'
+				+ '<div class="azwc-stat"><b>' + scored + '</b><span>Checks run</span></div>'
+				+ '<div class="azwc-stat"><b style="color:' + COLOR.fail + '">' + counts.fail + '</b><span>Need fixing</span></div>'
+				+ '<div class="azwc-stat"><b style="color:' + COLOR.warn + '">' + counts.warn + '</b><span>Worth improving</span></div>'
+				+ '<div class="azwc-stat"><b style="color:' + COLOR.pass + '">' + counts.pass + '</b><span>Passing</span></div>'
+				+ '</div>'
+				+ '</div></div></section>';
 
 			html += checksPanel(d.checks);
 			html += psiPanel(d.psi);
+			html += actionsPanel(d.checks);
 			html += authorityPanel(d.authority);
 			html += '<section class="azwc-cta"><h3>Want these fixed?</h3>'
 				+ '<p>We are in Gilbert. Call (480) 818-5761 or email info@azwebcorp.com and we will walk through this report with you — no charge, no obligation.</p>'
