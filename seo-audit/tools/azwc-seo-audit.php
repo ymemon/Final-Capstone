@@ -1001,6 +1001,8 @@ add_action( 'rest_api_init', function () {
 			'domain'   => array( 'required' => true, 'type' => 'string' ),
 			'stage'    => array( 'required' => false, 'type' => 'string', 'default' => 'site' ),
 			'strategy' => array( 'required' => false, 'type' => 'string', 'default' => 'mobile' ),
+			// peek: read the cache only, never start a PageSpeed call.
+			'peek'     => array( 'required' => false, 'type' => 'boolean', 'default' => false ),
 		),
 		'callback'            => 'azwc_audit_rest',
 	) );
@@ -1016,7 +1018,7 @@ function azwc_audit_rest( WP_REST_Request $request ) {
 	$strategy = 'desktop' === $request->get_param( 'strategy' ) ? 'desktop' : 'mobile';
 
 	if ( 'psi' === $stage ) {
-		return azwc_audit_stage_psi( $url, $strategy );
+		return azwc_audit_stage_psi( $url, $strategy, (bool) $request->get_param( 'peek' ) );
 	}
 	return azwc_audit_stage_site( $url );
 }
@@ -1124,18 +1126,53 @@ function azwc_audit_stage_site( $url ) {
 }
 
 /** One PageSpeed strategy. Cached separately so a slow half does not block. */
-function azwc_audit_stage_psi( $url, $strategy ) {
+function azwc_audit_stage_psi( $url, $strategy, $peek = false ) {
+	/**
+	 * Finish the PageSpeed call even if the connection is dropped.
+	 *
+	 * Running both strategies concurrently makes Google slower per call
+	 * (55-69s measured, against 37-56s sequential), which lands them on the
+	 * edge of the ~60s proxy cap in front of this site. Without this, a
+	 * killed connection also kills the PHP process, discarding a request
+	 * that was seconds from completing - so the retry pays full price again.
+	 * With it, the result still reaches the cache and the client's retry is
+	 * an instant cache read.
+	 */
+	if ( function_exists( 'ignore_user_abort' ) ) {
+		@ignore_user_abort( true );
+	}
+	if ( function_exists( 'set_time_limit' ) ) {
+		@set_time_limit( AZWC_PSI_TIMEOUT + 30 );
+	}
+
 	$cache_key = 'azwc_audit_psi_' . $strategy . '_' . md5( $url );
 	$cached    = get_transient( $cache_key );
 	if ( false !== $cached ) {
 		return new WP_REST_Response( array( 'psi' => $cached, 'strategy' => $strategy, 'cached' => true ), 200 );
 	}
 
+	/**
+	 * Peek: the caller only wants to know whether a result has landed yet.
+	 *
+	 * A plain retry is indistinguishable from a first request, so it would
+	 * start another ~60s PageSpeed call on every poll. A peek costs nothing,
+	 * letting the client wait while an earlier, disconnected request finishes
+	 * and writes its result.
+	 */
+	if ( $peek ) {
+		return new WP_REST_Response(
+			array( 'psi' => null, 'strategy' => $strategy, 'pending' => true, 'cached' => false ),
+			200
+		);
+	}
+
 	$psi = azwc_audit_psi( $url, $strategy );
 
 	// Cache the failure too, briefly. Without a key Google throttles hard, and
 	// retrying on every page load makes the throttling worse rather than better.
-	set_transient( $cache_key, $psi, $psi ? AZWC_AUDIT_CACHE_HOURS * HOUR_IN_SECONDS : 90 );
+	// A successful result is worth keeping; a failure is cached only briefly so
+	// the client's retry can pick up a late-arriving success.
+	set_transient( $cache_key, $psi, $psi ? AZWC_AUDIT_CACHE_HOURS * HOUR_IN_SECONDS : 20 );
 
 	return new WP_REST_Response( array( 'psi' => $psi, 'strategy' => $strategy, 'cached' => false ), 200 );
 }
@@ -1758,38 +1795,80 @@ function azwc_audit_script() {
 					// after PageSpeed finishes up to a minute later.
 					button.disabled = false;
 
-					// Both strategies are independent calls to Google. Running them
-					// concurrently rather than chained roughly halves the wait - each
-					// one costs 17-80s on its own.
+					// Sequential on purpose. Google throttles concurrent requests for
+					// the same URL: run together they measured 55s and 69s, against 37s
+					// and 56s run one after the other, and the slower one was then cut
+					// off by the ~60s proxy cap in front of this site. Chained is a
+					// little slower overall but actually returns both scores.
 					mark('psi_mobile', 'active');
-					mark('psi_desktop', 'active');
 					setTarget('psi_mobile', data.url);
-					setTarget('psi_desktop', data.url);
 
+					/**
+					 * Ask for one strategy, retrying if it comes back empty.
+					 *
+					 * A dropped connection does not stop the server finishing the call
+					 * (it sets ignore_user_abort), so the result usually lands in the
+					 * cache a few seconds later and the retry returns it immediately.
+					 */
 					function speed(strategy, key) {
+
+						function settle(psi) {
+							if (myRun !== azwcRunToken) { return; }
+							data.psi[key] = psi;
+							mark('psi_' + key, psi ? 'done' : 'skip',
+								psi ? (psi.score === null ? 'returned' : 'performance score ' + psi.score + '/100')
+								    : 'Google did not return data');
+							done += 1;
+							setProgress(done, TOTAL, done < TOTAL);
+							render(data);
+						}
+
+						/**
+						 * Poll the cache rather than re-requesting.
+						 *
+						 * The first call may have had its connection cut by the proxy at
+						 * ~60s, but the server keeps going and writes its result. A peek
+						 * is free, so wait for that instead of paying for a second call.
+						 */
+						function pollForResult(tries) {
+							if (myRun !== azwcRunToken) { return null; }
+							if (tries <= 0) { settle(null); return null; }
+							mark('psi_' + key, 'active', 'finishing up, waiting for Google to return');
+							return new Promise(function (resolve) {
+								window.setTimeout(function () {
+									resolve(
+										post({ domain: domain, stage: 'psi', strategy: strategy, peek: true })
+											.then(function (r) {
+												if (myRun !== azwcRunToken) { return; }
+												var got = r.ok ? r.body.psi : null;
+												if (got) { settle(got); return; }
+												return pollForResult(tries - 1);
+											})
+											.catch(function () { return pollForResult(tries - 1); })
+									);
+								}, 4000);
+							});
+						}
+
 						return post({ domain: domain, stage: 'psi', strategy: strategy })
 							.then(function (res) {
 								if (myRun !== azwcRunToken) { return; }
 								var psi = res.ok ? res.body.psi : null;
-								data.psi[key] = psi;
-								mark('psi_' + key, psi ? 'done' : 'skip',
-									psi ? (psi.score === null ? 'returned' : 'performance score ' + psi.score + '/100')
-									    : 'Google did not return data');
-								done += 1;
-								setProgress(done, TOTAL, done < TOTAL);
-								render(data);
+								if (!psi) { return pollForResult(20); }   // ~80s of cheap polls
+								settle(psi);
 							})
 							.catch(function () {
 								if (myRun !== azwcRunToken) { return; }
-								data.psi[key] = null;
-								mark('psi_' + key, 'skip', 'request failed');
-								done += 1;
-								setProgress(done, TOTAL, done < TOTAL);
-								render(data);
+								return pollForResult(20);
 							});
 					}
 
-					return Promise.all([ speed('mobile', 'mobile'), speed('desktop', 'desktop') ]);
+					return speed('mobile', 'mobile').then(function () {
+						if (myRun !== azwcRunToken) { return; }
+						mark('psi_desktop', 'active');
+						setTarget('psi_desktop', data.url);
+						return speed('desktop', 'desktop');
+					});
 				})
 				.then(function () {
 					if (myRun !== azwcRunToken) { return; }
