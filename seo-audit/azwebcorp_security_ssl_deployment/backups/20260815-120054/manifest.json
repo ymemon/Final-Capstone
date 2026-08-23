@@ -1,0 +1,7 @@
+{
+  "deployment_id": "20260815-120054",
+  "generated_utc": "2026-08-15T12:01:04.672396+00:00",
+  "wordpress_root": "/html",
+  "integration_path": "/html/wp-content/mu-plugins/azwebcorp-security-pages.php",
+  "remote_backup": "/html/wp-content/azwc-backups/security-pages-20260815-120054"
+}

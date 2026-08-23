@@ -36,6 +36,11 @@ define( 'AZWC_AUDIT_CACHE_HOURS', 6 );
 define( 'AZWC_AUDIT_RATE_PER_HOUR', 8 );
 define( 'AZWC_AUDIT_TIMEOUT', 20 );
 define( 'AZWC_AUDIT_MAX_BYTES', 3145728 ); // 3 MB is far past any honest page.
+/**
+ * A full Lighthouse run on a heavy page genuinely takes longer than a minute.
+ * 45s was cutting Google off mid-answer and reporting it as "no data".
+ */
+define( 'AZWC_PSI_TIMEOUT', 150 );
 
 /**
  * PageSpeed Insights works without a key at low volume but is aggressively
@@ -216,8 +221,36 @@ function azwc_audit_chain( $url, $max = 5 ) {
  * — it reports something true that is not a pass or a failure.
  * ---------------------------------------------------------------------- */
 
-function azwc_audit_check( $id, $label, $status, $detail, $weight = 1, $group = 'technical' ) {
-	return compact( 'id', 'label', 'status', 'detail', 'weight', 'group' );
+function azwc_audit_check( $id, $label, $status, $detail, $weight = 1, $group = 'technical', $items = array() ) {
+	return compact( 'id', 'label', 'status', 'detail', 'weight', 'group', 'items' );
+}
+
+/**
+ * Resolve a possibly-relative reference against the audited page, so the
+ * visitor is given a URL they can actually open rather than "/img/x.png".
+ */
+function azwc_audit_abs_url( $ref, $base ) {
+	$ref = trim( html_entity_decode( $ref, ENT_QUOTES ) );
+	if ( '' === $ref || 0 === stripos( $ref, 'data:' ) ) {
+		return '';
+	}
+	if ( preg_match( '#^https?://#i', $ref ) ) {
+		return $ref;
+	}
+	$p = wp_parse_url( $base );
+	if ( empty( $p['host'] ) ) {
+		return '';
+	}
+	$scheme = $p['scheme'] ?? 'https';
+	if ( 0 === strpos( $ref, '//' ) ) {
+		return $scheme . ':' . $ref;
+	}
+	$origin = $scheme . '://' . $p['host'];
+	if ( 0 === strpos( $ref, '/' ) ) {
+		return $origin . $ref;
+	}
+	$dir = rtrim( dirname( $p['path'] ?? '/' ), '/\\' );
+	return $origin . $dir . '/' . $ref;
 }
 
 /**
@@ -383,12 +416,15 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 				implode( ' -> ', wp_list_pluck( $chain, 'url' ) )
 			),
 		2,
-		'technical'
+		'technical',
+		$hops > 0 ? wp_list_pluck( $chain, 'url' ) : array()
 	);
 
 	$mixed = 0;
-	if ( $is_https && preg_match_all( '#(?:src|href)=["\']http://[^"\']+#i', $html, $mm ) ) {
+	$mixed_items = array();
+	if ( $is_https && preg_match_all( '#(?:src|href)=["\'](http://[^"\']+)#i', $html, $mm ) ) {
 		$mixed = count( $mm[0] );
+		$mixed_items = array_slice( array_values( array_unique( $mm[1] ) ), 0, 12 );
 	}
 	$checks[] = azwc_audit_check(
 		'mixed_content',
@@ -398,7 +434,8 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 			? sprintf( '%d resource%s referenced over plain http on an https page. Browsers block or warn on these.', $mixed, 1 === $mixed ? ' is' : 's are' )
 			: 'All referenced resources use https.',
 		2,
-		'technical'
+		'technical',
+		$mixed_items
 	);
 
 	$compressed = ! empty( $headers['content-encoding'] );
@@ -489,9 +526,17 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 	preg_match_all( '#<img\b[^>]*>#i', $html, $imgs );
 	$img_total = count( $imgs[0] );
 	$img_noalt = 0;
+	$img_items = array();
 	foreach ( $imgs[0] as $img ) {
 		if ( ! preg_match( '#\balt\s*=\s*["\'][^"\']*[^\s"\']#i', $img ) ) {
 			$img_noalt++;
+			// Name the file, so the owner can go and fix that image.
+			if ( count( $img_items ) < 12 && preg_match( '#\bsrc\s*=\s*["\']([^"\']+)#i', $img, $sm ) ) {
+				$abs = azwc_audit_abs_url( $sm[1], $url );
+				if ( $abs ) {
+					$img_items[] = $abs;
+				}
+			}
 		}
 	}
 	$checks[] = azwc_audit_check(
@@ -502,7 +547,8 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 			? 'No images found on this page.'
 			: sprintf( '%d of %d images have no alt text. Alt text is what a screen reader announces and what Google reads to understand an image.', $img_noalt, $img_total ),
 		1,
-		'onpage'
+		'onpage',
+		$img_items
 	);
 
 	$viewport = (bool) preg_match( '#<meta[^>]+name=["\']viewport["\']#i', $html );
@@ -626,7 +672,7 @@ function azwc_audit_psi( $url, $strategy = 'mobile' ) {
 		'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
 	);
 
-	$r = wp_remote_get( $endpoint, array( 'timeout' => 45 ) );
+	$r = wp_remote_get( $endpoint, array( 'timeout' => AZWC_PSI_TIMEOUT ) );
 	if ( is_wp_error( $r ) || 200 !== (int) wp_remote_retrieve_response_code( $r ) ) {
 		return null;
 	}
@@ -782,6 +828,59 @@ function azwc_audit_rest( WP_REST_Request $request ) {
 	return azwc_audit_stage_site( $url );
 }
 
+/**
+ * Turn a transport-layer failure into something a business owner can act on.
+ *
+ * The raw text here is cURL's, and it is written for whoever is holding the
+ * socket. The underlying fact is still reported; only the phrasing changes,
+ * and the original is appended so nothing is hidden.
+ */
+function azwc_audit_human_error( $raw ) {
+	$lower = strtolower( $raw );
+
+	if ( false !== strpos( $lower, 'timed out' ) || false !== strpos( $lower, 'timeout' ) ) {
+		$plain = 'Your server did not respond in time. That usually means the site is very slow, temporarily down, or blocking automated requests - a firewall or security plugin refusing anything that is not a browser is the most common cause.';
+	} elseif ( false !== strpos( $lower, 'could not resolve host' ) || false !== strpos( $lower, 'name or service not known' ) ) {
+		$plain = 'That domain name did not resolve, so no server could be found for it. Check the spelling - and if it is newly registered, DNS can take a day or so to propagate.';
+	} elseif ( false !== strpos( $lower, 'ssl' ) || false !== strpos( $lower, 'certificate' ) ) {
+		$plain = 'The site\'s HTTPS certificate could not be verified. Visitors are likely seeing a browser security warning, which is worth fixing before anything else on this report.';
+	} elseif ( false !== strpos( $lower, 'connection refused' ) ) {
+		$plain = 'The server actively refused the connection. The domain resolves, but nothing is answering web requests on it right now.';
+	} else {
+		$plain = 'The site could not be reached.';
+	}
+
+	return $plain . ' (Technical detail: ' . $raw . ')';
+}
+
+/**
+ * Same idea for an HTTP status the server did return. A 403 is usually a bot
+ * block rather than a broken site, and saying so prevents the visitor
+ * concluding their site is down when it is fine in a browser.
+ */
+function azwc_audit_http_status_error( $status ) {
+	$map = array(
+		401 => 'That page requires a login, so there is no public page to analyse.',
+		403 => 'The server refused the request (HTTP 403). The site is probably fine in a browser - a firewall or bot protection is blocking automated tools like this one. Anything that blocks us may also be blocking search engine crawlers, which is worth checking.',
+		404 => 'That address returned "not found" (HTTP 404). Check the URL, or try the home page on its own.',
+		410 => 'That page reports itself as permanently removed (HTTP 410).',
+		429 => 'The site is rate-limiting requests (HTTP 429), so it declined to serve the page. Try again shortly.',
+		500 => 'The site returned a server error (HTTP 500). That is a fault on the site itself and visitors are likely seeing it too.',
+		502 => 'The site returned a bad-gateway error (HTTP 502), which usually means its own server is having trouble right now.',
+		503 => 'The site is unavailable (HTTP 503) - often maintenance mode, or a server under too much load.',
+	);
+
+	if ( isset( $map[ $status ] ) ) {
+		return $map[ $status ];
+	}
+
+	return sprintf(
+		'That URL returned HTTP %d, so there is no page to analyse.%s',
+		$status,
+		$status >= 500 ? ' A 5xx status is a fault on the site\'s own server.' : ''
+	);
+}
+
 /** Everything measurable from the site itself. */
 function azwc_audit_stage_site( $url ) {
 	$cache_key = 'azwc_audit_site_' . md5( $url );
@@ -801,14 +900,14 @@ function azwc_audit_stage_site( $url ) {
 	$page = azwc_audit_fetch( $url );
 	if ( is_wp_error( $page ) ) {
 		return new WP_REST_Response(
-			array( 'error' => 'Could not reach that site: ' . $page->get_error_message() ),
-			502
+			array( 'error' => azwc_audit_human_error( $page->get_error_message() ) ),
+			422
 		);
 	}
 	if ( $page['status'] >= 400 ) {
 		return new WP_REST_Response(
-			array( 'error' => sprintf( 'That URL returned HTTP %d, so there is no page to analyse.', $page['status'] ) ),
-			502
+			array( 'error' => azwc_audit_http_status_error( $page['status'] ) ),
+			422
 		);
 	}
 
@@ -843,7 +942,7 @@ function azwc_audit_stage_psi( $url, $strategy ) {
 
 	// Cache the failure too, briefly. Without a key Google throttles hard, and
 	// retrying on every page load makes the throttling worse rather than better.
-	set_transient( $cache_key, $psi, $psi ? AZWC_AUDIT_CACHE_HOURS * HOUR_IN_SECONDS : 5 * MINUTE_IN_SECONDS );
+	set_transient( $cache_key, $psi, $psi ? AZWC_AUDIT_CACHE_HOURS * HOUR_IN_SECONDS : 90 );
 
 	return new WP_REST_Response( array( 'psi' => $psi, 'strategy' => $strategy, 'cached' => false ), 200 );
 }
@@ -921,13 +1020,28 @@ function azwc_audit_styles() {
 	#azwc-audit .azwc-sub{margin:0 0 20px;color:var(--muted);font-size:13px}
 	#azwc-audit .azwc-top{display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:center}
 	#azwc-audit .azwc-gauge{text-align:center}
+	#azwc-audit .azwc-gauge svg text{fill:var(--ink)}
 	#azwc-audit .azwc-gauge figcaption{margin-top:6px;font-size:12px;color:var(--muted)}
 	#azwc-audit .azwc-bars{display:grid;gap:13px}
 	#azwc-audit .azwc-bar-row{display:grid;grid-template-columns:130px 1fr 44px;gap:12px;align-items:center;font-size:13px}
 	#azwc-audit .azwc-track{height:9px;background:#eceff3;border-radius:99px;overflow:hidden}
-	#azwc-audit .azwc-fill{height:100%;border-radius:99px}
+	#azwc-audit .azwc-fill{display:block;height:100%;border-radius:99px}
+#azwc-audit .azwc-gauge figcaption{background:none!important;padding:0!important;color:var(--muted)!important}
+#azwc-audit .azwc-vital{padding:16px;background:var(--bg);border:1px solid var(--line);border-radius:11px}
+#azwc-audit .azwc-vital b{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+#azwc-audit .azwc-vital strong{display:block;margin-top:7px;font-size:25px;font-weight:750;letter-spacing:-.02em;line-height:1.1}
+#azwc-audit .azwc-vital .azwc-band{display:block;font-size:12px;font-weight:750;margin-top:3px}
+#azwc-audit .azwc-thresh{position:relative;display:flex;gap:2px;margin:11px 0 9px}
+#azwc-audit .azwc-thresh i{display:block;height:6px;border-radius:99px;opacity:.30}
+#azwc-audit .azwc-thresh i.on{opacity:1}
+#azwc-audit .azwc-thresh i.g{flex:0 0 33%;background:#0f9d58}
+#azwc-audit .azwc-thresh i.n{flex:0 0 34%;background:#e8a33d}
+#azwc-audit .azwc-thresh i.p{flex:1 1 auto;background:#d64545}
+#azwc-audit .azwc-thresh u{position:absolute;top:-4px;width:3px;height:14px;background:#111827;border-radius:2px;transform:translateX(-50%)}
+#azwc-audit .azwc-vital em{display:block;font-style:normal;font-size:12px;color:var(--muted);line-height:1.45}
+#azwc-audit .azwc-scale{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:-4px;margin-bottom:8px}
 	#azwc-audit .azwc-bar-val{text-align:right;font-weight:800;font-variant-numeric:tabular-nums}
-	#azwc-audit .azwc-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+	#azwc-audit .azwc-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}
 	#azwc-audit .azwc-metric{padding:16px;background:var(--bg);border:1px solid var(--line);border-radius:11px}
 	#azwc-audit .azwc-metric b{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 	#azwc-audit .azwc-metric strong{display:block;margin-top:7px;font-size:25px;font-weight:750;letter-spacing:-.02em}
@@ -938,6 +1052,13 @@ function azwc_audit_styles() {
 	#azwc-audit .azwc-dot{width:16px;height:16px;margin-top:4px;border-radius:50%}
 	#azwc-audit .azwc-check h4{margin:0 0 3px;font-size:14.5px;font-weight:750}
 	#azwc-audit .azwc-check p{margin:0;color:var(--muted);font-size:13px;word-break:break-word}
+	#azwc-audit .azwc-items{margin:9px 0 0;padding:0;list-style:none;display:grid;gap:4px}
+	#azwc-audit .azwc-items li{font-size:12.5px;line-height:1.45;word-break:break-all}
+	#azwc-audit .azwc-items a{color:#9b711b;text-decoration:none}
+	#azwc-audit .azwc-items a:hover,#azwc-audit .azwc-items a:focus{text-decoration:underline}
+	#azseo-tool-mount #azwc-audit .azwc-items a{color:#e6b84d}
+	#azwc-audit .azwc-items-more{color:var(--muted);font-size:12px;margin-top:3px}
+	#azwc-audit .azwc-step small.azwc-target{display:block;font-size:11.5px;color:var(--muted);word-break:break-all}
 	#azwc-audit .azwc-legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:18px;font-size:12px;color:var(--muted)}
 	#azwc-audit .azwc-legend i{display:inline-block;width:10px;height:10px;margin-right:6px;border-radius:50%;vertical-align:-1px}
 	#azwc-audit .azwc-empty{padding:18px;background:var(--bg);border:1px dashed #cfd6de;border-radius:11px;color:var(--muted);font-size:13.5px}
@@ -946,6 +1067,35 @@ function azwc_audit_styles() {
 	#azwc-audit .azwc-cta p{margin:8px 0 16px;color:#c2cad7;font-size:14px}
 	#azwc-audit .azwc-cta a{display:inline-flex;align-items:center;min-height:46px;padding:0 22px;background:var(--accent);color:#12203a;border-radius:9px;font-weight:800;font-size:14px;text-decoration:none}
 	@media(max-width:640px){#azwc-audit .azwc-top{grid-template-columns:1fr}#azwc-audit .azwc-bar-row{grid-template-columns:96px 1fr 40px}}
+	
+	/* --- dark host context -------------------------------------------
+	   When the gold/black page design adopts this tool into its own mount,
+	   re-point the tool's custom properties at that palette. Without this
+	   the card stays white while the host styles the input dark and the
+	   label light, so the label disappears against its own card. */
+	#azseo-tool-mount #azwc-audit{--ink:#e6edf3;--muted:#9aa7b4;--line:rgba(255,255,255,.10);--card:#0b0e13;--bg:#111820;--accent:#e6b84d}
+	#azseo-tool-mount #azwc-audit label{color:var(--ink)}
+	
+	/* Beats the page design's own !important input rule (2 ids + attr). */
+	#azseo-page #azseo-tool-mount #azwc-audit input,
+	#azseo-page #azseo-tool-mount #azwc-audit input[type="text"],
+	#azseo-page #azseo-tool-mount #azwc-audit input[type="url"]{background:#161d26!important;color:#e6edf3!important;border:1px solid rgba(230,184,77,.45)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important}
+	#azseo-page #azseo-tool-mount #azwc-audit input:hover{border-color:rgba(230,184,77,.65)!important}
+	#azseo-page #azseo-tool-mount #azwc-audit input:focus{background:#1b2430!important;border-color:#e6b84d!important;outline:2px solid #e6b84d!important;outline-offset:1px}
+	#azseo-page #azseo-tool-mount #azwc-audit input::placeholder{color:#9fb0c0!important;opacity:1!important}
+	#azseo-tool-mount #azwc-audit input{background:#161d26;color:#e6edf3;border:1px solid rgba(230,184,77,.42);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+	#azseo-tool-mount #azwc-audit input:hover{border-color:rgba(230,184,77,.60)}
+	#azseo-tool-mount #azwc-audit input:focus{outline:2px solid #e6b84d;outline-offset:1px;border-color:#e6b84d;background:#1b2430}
+	#azseo-tool-mount #azwc-audit input::placeholder{color:#9fb0c0;opacity:1}
+	#azseo-tool-mount #azwc-audit button{color:#161208}
+	#azseo-tool-mount #azwc-audit .azwc-track{background:rgba(255,255,255,.10)}
+	#azseo-tool-mount #azwc-audit .azwc-empty{border-color:rgba(255,255,255,.16)}
+	#azseo-tool-mount #azwc-audit .azwc-audit-status{background:rgba(230,184,77,.10);border-color:rgba(230,184,77,.32);color:#f0d9a2}
+	#azseo-tool-mount #azwc-audit .azwc-audit-status.error{background:rgba(214,69,69,.12);border-color:rgba(214,69,69,.38);color:#f3b4b4}
+	#azseo-tool-mount #azwc-audit .azwc-mark{border-color:rgba(255,255,255,.28)}
+	#azseo-tool-mount #azwc-audit .azwc-step{color:#7d8894}
+	#azseo-tool-mount #azwc-audit .azwc-step.done,#azseo-tool-mount #azwc-audit .azwc-step.active{color:var(--ink)}
+	#azseo-tool-mount #azwc-audit .azwc-cta{background:#111820;border:1px solid rgba(230,184,77,.30)}
 	</style>
 	<?php
 }
@@ -964,6 +1114,16 @@ function azwc_audit_script() {
 		var progress = root.querySelector('.azwc-progress');
 
 		var COLOR = { pass: '#0f9d58', warn: '#e8a33d', fail: '#d64545', info: '#9aa3ad' };
+		var FIELD_LABELS = {
+			CUMULATIVE_LAYOUT_SHIFT_SCORE: 'Layout shift',
+			EXPERIMENTAL_TIME_TO_FIRST_BYTE: 'Time to first byte',
+			TIME_TO_FIRST_BYTE: 'Time to first byte',
+			FIRST_CONTENTFUL_PAINT_MS: 'First contentful paint',
+			LARGEST_CONTENTFUL_PAINT_MS: 'Largest contentful paint',
+			INTERACTION_TO_NEXT_PAINT: 'Interaction to next paint',
+			EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT: 'Interaction to next paint',
+			FIRST_INPUT_DELAY_MS: 'First input delay'
+		};
 		var GROUPS = {
 			indexability: 'Indexability',
 			technical: 'Technical',
@@ -1031,10 +1191,10 @@ function azwc_audit_script() {
 				html += '<h4 style="margin:18px 0 10px;font-size:14px;text-transform:capitalize">' + k
 					+ (p.score === null ? '' : ' — performance score ' + p.score + '/100') + '</h4>'
 					+ '<div class="azwc-metrics">'
-					+ metric('Largest contentful paint', m.lcp)
-					+ metric('Cumulative layout shift', m.cls)
-					+ metric('Total blocking time', m.tbt)
-					+ metric('First contentful paint', m.fcp)
+					+ vital('lcp', m.lcp)
+					+ vital('cls', m.cls)
+					+ vital('tbt', m.tbt)
+					+ vital('fcp', m.fcp)
 					+ '</div>';
 
 				var f = p.field || {};
@@ -1042,7 +1202,7 @@ function azwc_audit_script() {
 				if (keys.length) {
 					html += '<p class="azwc-sub" style="margin:14px 0 8px">Field data from real visitors (Chrome UX Report):</p><div class="azwc-metrics">';
 					keys.forEach(function (fk) {
-						var label = fk.replace(/_/g, ' ').toLowerCase();
+						var label = FIELD_LABELS[fk] || fk.replace(/_/g, ' ').toLowerCase();
 						var val = f[fk].percentile;
 						var unit = /shift/i.test(fk) ? '' : ' ms';
 						var shown = /shift/i.test(fk) ? (val / 100).toFixed(2) : val;
@@ -1053,6 +1213,53 @@ function azwc_audit_script() {
 				}
 			});
 			return html + '</section>';
+		}
+
+		/* Google's published Core Web Vitals thresholds. These are Google's own
+   numbers, not our grading - the marker shows where this site actually
+   lands, which is the difference between "4.1 s" and "4.1 s, which is
+   poor, and here is why that matters". */
+		var VITALS = {
+			lcp: { label: 'Largest contentful paint', plain: 'How long before the main content appears on screen.', good: 2500, poor: 4000, fmt: 's' },
+			cls: { label: 'Cumulative layout shift', plain: 'How much the page jumps around while it loads.', good: 0.1, poor: 0.25, fmt: 'n' },
+			tbt: { label: 'Total blocking time', plain: 'How long the page stays frozen and ignores taps.', good: 200, poor: 600, fmt: 'ms' },
+			fcp: { label: 'First contentful paint', plain: 'How long before anything at all appears.', good: 1800, poor: 3000, fmt: 's' }
+		};
+
+		function vital(key, m) {
+			var cfg = VITALS[key];
+			if (!cfg || !m || (m.display === null && m.value === null)) { return ''; }
+			var v = m.value;
+			var band = -1;
+			if (typeof v === 'number') { band = v <= cfg.good ? 0 : (v <= cfg.poor ? 1 : 2); }
+			var names = ['Good', 'Needs improvement', 'Poor'];
+			var cols = [COLOR.pass, COLOR.warn, COLOR.fail];
+			var bandName = names[band] || '';
+			var bandColor = cols[band] || '#9aa3ad';
+
+			// Marker position across three equal visual segments.
+			var pct = null;
+			if (band === 0) { pct = Math.max(2, (v / cfg.good) * 33); }
+			else if (band === 1) { pct = 33 + ((v - cfg.good) / (cfg.poor - cfg.good)) * 34; }
+			else if (band === 2) { pct = Math.min(98, 67 + ((v - cfg.poor) / (cfg.poor * 1.5)) * 33); }
+
+			var unit = cfg.fmt === 'n' ? '' : (cfg.fmt === 's' ? ' s' : ' ms');
+			var goodLabel = cfg.fmt === 's' ? (cfg.good / 1000) + ' s' : (cfg.good + unit);
+			var poorLabel = cfg.fmt === 's' ? (cfg.poor / 1000) + ' s' : (cfg.poor + unit);
+
+			return '<div class="azwc-vital">'
+				+ '<b>' + esc(cfg.label) + '</b>'
+				+ '<strong style="color:' + bandColor + '">' + esc(m.display || v) + '</strong>'
+				+ (bandName ? '<span class="azwc-band" style="color:' + bandColor + '">' + bandName + '</span>' : '')
+				+ '<span class="azwc-thresh">'
+				+   '<i class="g' + (band === 0 ? ' on' : '') + '"></i>'
+				+   '<i class="n' + (band === 1 ? ' on' : '') + '"></i>'
+				+   '<i class="p' + (band === 2 ? ' on' : '') + '"></i>'
+				+   (pct === null ? '' : '<u style="left:' + pct.toFixed(1) + '%"></u>')
+				+ '</span>'
+				+ '<span class="azwc-scale"><span>good ≤ ' + esc(goodLabel) + '</span><span>poor &gt; ' + esc(poorLabel) + '</span></span>'
+				+ '<em>' + esc(cfg.plain) + '</em>'
+				+ '</div>';
 		}
 
 		function metric(label, m) {
@@ -1066,8 +1273,16 @@ function azwc_audit_script() {
 			var order = { fail: 0, warn: 1, pass: 2, info: 3 };
 			var sorted = checks.slice().sort(function (a, b) { return order[a.status] - order[b.status]; });
 			var items = sorted.map(function (c) {
+				// A count is not actionable on its own - list the offending URLs
+				// when the check was able to collect them.
+				var list = '';
+				if (c.items && c.items.length) {
+					list = '<ul class="azwc-items">' + c.items.map(function (u) {
+						return '<li><a href="' + esc(u) + '" target="_blank" rel="noopener nofollow">' + esc(u) + '</a></li>';
+					}).join('') + '</ul>';
+				}
 				return '<div class="azwc-check"><span class="azwc-dot" style="background:' + COLOR[c.status] + '"></span>'
-					+ '<div><h4>' + esc(c.label) + '</h4><p>' + esc(c.detail) + '</p></div></div>';
+					+ '<div><h4>' + esc(c.label) + '</h4><p>' + esc(c.detail) + '</p>' + list + '</div></div>';
 			}).join('');
 			return '<section class="azwc-panel"><h3>What we found</h3>'
 				+ '<p class="azwc-sub">Every line below was observed in the response from your server. Failures are listed first.</p>'
@@ -1115,7 +1330,8 @@ function azwc_audit_script() {
 			// time would yank the page out from under someone already reading.
 			if (!out.dataset.scrolled) {
 				out.dataset.scrolled = '1';
-				out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				var azwcTop = out.getBoundingClientRect().top + window.pageYOffset - 120;
+					window.scrollTo({ top: azwcTop > 0 ? azwcTop : 0, behavior: 'smooth' });
 			}
 		}
 
@@ -1126,11 +1342,13 @@ function azwc_audit_script() {
 		var STEPS = [
 			{ key: 'site', label: 'Fetching the page', note: 'Following redirects, then reading robots.txt and the sitemap' },
 			{ key: 'checks', label: 'Checking indexability, structure and markup', note: '' },
-			{ key: 'psi_mobile', label: 'Asking Google for mobile speed data', note: 'PageSpeed Insights — this is the slow one' },
+			{ key: 'psi_mobile', label: 'Asking Google for mobile speed data', note: 'PageSpeed Insights — this is the slow one, up to a minute' },
 			{ key: 'psi_desktop', label: 'Asking Google for desktop speed data', note: '' }
 		];
 
 		var stepEls = {};
+		// Incremented per run; a late PSI response from an older run is ignored.
+		var azwcRunToken = 0;
 
 		function buildSteps() {
 			var ul = progress.querySelector('.azwc-steps');
@@ -1145,6 +1363,21 @@ function azwc_audit_script() {
 				stepEls[s.key] = li;
 			});
 			progress.hidden = false;
+		}
+
+		/** Show which URL a step is actually working on. */
+		function setTarget(key, text) {
+			var el = stepEls[key];
+			if (!el || !text) { return; }
+			var wrap = el.querySelector('span:last-child');
+			if (!wrap) { return; }
+			var t = wrap.querySelector('small.azwc-target');
+			if (!t) {
+				t = document.createElement('small');
+				t.className = 'azwc-target';
+				wrap.appendChild(t);
+			}
+			t.textContent = text;
 		}
 
 		function mark(key, state, note) {
@@ -1182,8 +1415,10 @@ function azwc_audit_script() {
 		function run(domain) {
 			var t0 = Date.now();
 			var data = null;
+			var myRun = ++azwcRunToken;
 
 			buildSteps();
+			setTarget('site', domain);
             mark('site', 'active');
 
 			post({ domain: domain, stage: 'site' })
@@ -1192,19 +1427,28 @@ function azwc_audit_script() {
 						throw new Error(res.body && res.body.error ? res.body.error : 'The audit could not run.');
 					}
 					data = res.body;
-					data.psi = { mobile: null, desktop: null };
+					data.psi = {}; // leave keys undefined so the panel shows "waiting", not "no data", until Google actually answers
 
 					mark('site', 'done', 'HTTP ' + data.status + ' in ' + data.ms + ' ms'
 						+ (data.cached ? ' (cached)' : ''));
+					setTarget('site', data.url);
 					mark('checks', 'done', data.checks.length + ' checks evaluated');
+					var bad = data.checks.filter(function (c) { return c.status === 'fail' || c.status === 'warn'; }).length;
+					setTarget('checks', bad + ' of ' + data.checks.length + ' need attention');
 
 					// Show the site results immediately; speed arrives after.
 					render(data);
 
+					// The report is on screen - allow another run now rather than
+					// after PageSpeed finishes up to a minute later.
+					button.disabled = false;
+
 					mark('psi_mobile', 'active');
+					setTarget('psi_mobile', data.url);
 					return post({ domain: domain, stage: 'psi', strategy: 'mobile' });
 				})
 				.then(function (res) {
+					if (myRun !== azwcRunToken) { return; }
 					var psi = res.ok ? res.body.psi : null;
 					data.psi.mobile = psi;
 					mark('psi_mobile', psi ? 'done' : 'skip',
@@ -1213,9 +1457,11 @@ function azwc_audit_script() {
 					render(data);
 
 					mark('psi_desktop', 'active');
+					setTarget('psi_desktop', data.url);
 					return post({ domain: domain, stage: 'psi', strategy: 'desktop' });
 				})
 				.then(function (res) {
+					if (myRun !== azwcRunToken) { return; }
 					var psi = res.ok ? res.body.psi : null;
 					data.psi.desktop = psi;
 					mark('psi_desktop', psi ? 'done' : 'skip',
@@ -1228,6 +1474,7 @@ function azwc_audit_script() {
 					button.disabled = false;
 				})
 				.catch(function (err) {
+					if (myRun !== azwcRunToken) { return; }
 					fail(err && err.message ? err.message : 'The audit could not complete. If the site is slow to respond it may have timed out — try again.');
 				});
 		}

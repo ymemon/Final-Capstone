@@ -1,0 +1,96 @@
+{
+  "website-security": {
+    "existed": true,
+    "id": "2435",
+    "post": {
+      "ID": 2435,
+      "post_author": "0",
+      "post_date": "2026-08-15 06:06:14",
+      "post_date_gmt": "2026-08-15 06:06:14",
+      "post_content": "[azwc_security_page type=\"website-security\"]",
+      "post_title": "Website Security",
+      "post_excerpt": "",
+      "post_status": "publish",
+      "comment_status": "closed",
+      "ping_status": "closed",
+      "post_password": "",
+      "post_name": "website-security",
+      "to_ping": "",
+      "pinged": "",
+      "post_modified": "2026-08-15 06:06:14",
+      "post_modified_gmt": "2026-08-15 06:06:14",
+      "post_content_filtered": "",
+      "post_parent": 0,
+      "guid": "https://azwebcorp.com/website-security/",
+      "menu_order": 0,
+      "post_type": "page",
+      "post_mime_type": "",
+      "comment_count": "0",
+      "url": "https://azwebcorp.com/website-security/"
+    },
+    "meta": [
+      {
+        "post_id": 2435,
+        "meta_key": "rank_math_internal_links_processed",
+        "meta_value": "1"
+      },
+      {
+        "post_id": 2435,
+        "meta_key": "_wp_page_template",
+        "meta_value": "elementor_header_footer"
+      },
+      {
+        "post_id": 2435,
+        "meta_key": "_elementor_page_assets",
+        "meta_value": "a:0:{}"
+      }
+    ]
+  },
+  "ssl": {
+    "existed": true,
+    "id": "2436",
+    "post": {
+      "ID": 2436,
+      "post_author": "0",
+      "post_date": "2026-08-15 06:06:15",
+      "post_date_gmt": "2026-08-15 06:06:15",
+      "post_content": "[azwc_security_page type=\"ssl\"]",
+      "post_title": "SSL Certificates",
+      "post_excerpt": "",
+      "post_status": "publish",
+      "comment_status": "closed",
+      "ping_status": "closed",
+      "post_password": "",
+      "post_name": "ssl",
+      "to_ping": "",
+      "pinged": "",
+      "post_modified": "2026-08-15 06:06:15",
+      "post_modified_gmt": "2026-08-15 06:06:15",
+      "post_content_filtered": "",
+      "post_parent": 0,
+      "guid": "https://azwebcorp.com/ssl/",
+      "menu_order": 0,
+      "post_type": "page",
+      "post_mime_type": "",
+      "comment_count": "0",
+      "url": "https://azwebcorp.com/ssl/"
+    },
+    "meta": [
+      {
+        "post_id": 2436,
+        "meta_key": "rank_math_internal_links_processed",
+        "meta_value": "1"
+      },
+      {
+        "post_id": 2436,
+        "meta_key": "_wp_page_template",
+        "meta_value": "elementor_header_footer"
+      },
+      {
+        "post_id": 2436,
+        "meta_key": "_elementor_page_assets",
+        "meta_value": "a:0:{}"
+      }
+    ]
+  }
+}

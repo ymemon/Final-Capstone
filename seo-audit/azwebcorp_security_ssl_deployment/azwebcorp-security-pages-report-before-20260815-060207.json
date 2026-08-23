@@ -1,0 +1,67 @@
+{
+  "generated_utc": "2026-08-15T06:02:07.252730+00:00",
+  "mode": "inspection-before-deployment",
+  "host": "644762.us8.ssh.myftpupload.com",
+  "username": "client_9d34da8b_644762",
+  "sftp_home": "/home/client_9d34da8b_644762",
+  "wordpress_root": "/home/client_9d34da8b_644762/html",
+  "wp_cli_available": true,
+  "mu_plugin_installed": false,
+  "mu_plugin_version": null,
+  "pages": {
+    "website-security": {
+      "slug": "website-security",
+      "exists": false,
+      "id": null,
+      "status": null,
+      "url": null
+    },
+    "ssl": {
+      "slug": "ssl",
+      "exists": false,
+      "id": null,
+      "status": null,
+      "url": null
+    }
+  },
+  "live_routes": [
+    {
+      "slug": "website-security",
+      "requested_url": "https://azwebcorp.com/website-security/",
+      "final_url": "https://azwebcorp.com/products/website-security-advanced/?azwc_verify=20260815-060202",
+      "http_status": 200,
+      "marker_found": false,
+      "product_ids_found": [
+        "website-security-standard",
+        "website-security-advanced",
+        "website-security-premium"
+      ],
+      "product_ids_missing": [],
+      "route_correct": false,
+      "checkout_action_found": true,
+      "error": null
+    },
+    {
+      "slug": "ssl",
+      "requested_url": "https://azwebcorp.com/ssl/",
+      "final_url": "https://azwebcorp.com/ssl-certificates/?azwc_verify=20260815-060205",
+      "http_status": 200,
+      "marker_found": false,
+      "product_ids_found": [],
+      "product_ids_missing": [
+        "ssl-standard",
+        "dlxssl-dvSingleDomain",
+        "ssl-standard-ucc",
+        "dlxssl-dvMultiDomain5",
+        "ssl-standard-wildcard",
+        "dlxssl-wildcard"
+      ],
+      "route_correct": false,
+      "checkout_action_found": true,
+      "error": null
+    }
+  ],
+  "notes": [
+    "At least one current live route does not resolve to its intended slug."
+  ]
+}

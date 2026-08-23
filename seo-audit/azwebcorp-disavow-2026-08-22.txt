@@ -1,0 +1,9 @@
+# Disavow file for azwebcorp.com
+# Generated 2026-08-22 from Search Console Links report export (223 linking pages reviewed)
+#
+# Domain-level: confirmed forum-spam networks, unrelated content, random injected thread links
+domain:hotel-golebiewski.phorum.pl
+domain:payt.phorum.pl
+#
+# URL-level only (legitimate institution, single unrelated blog-comment-style link, not the whole domain)
+https://sola.kau.se/onlinelearning2022/2022/10/30/reflection-of-topic-2-open-learning-openness-and-sharing/
