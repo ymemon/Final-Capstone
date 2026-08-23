@@ -1246,6 +1246,13 @@ function azwc_audit_styles() {
 	#azwc-audit .azwc-pending{display:flex;align-items:center;gap:9px;margin:0 0 16px;padding:11px 14px;border-radius:10px;
 		font-size:13px;background:rgba(230,184,77,.10);border:1px solid rgba(230,184,77,.34);color:#8a6410}
 	#azseo-tool-mount #azwc-audit .azwc-pending{color:#f0d9a2}
+	#azwc-audit .azwc-pending{display:block}
+	#azwc-audit .azwc-pending-head{display:flex;align-items:center;gap:9px}
+	#azwc-audit .azwc-pending-bar{display:block;position:relative;height:5px;margin:10px 0 0;border-radius:99px;overflow:hidden;background:rgba(127,127,127,.25)}
+	#azwc-audit .azwc-pending-bar span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#e6b84d,#f5d47d);transition:width .45s ease}
+	#azwc-audit .azwc-pending-bar::after{content:"";position:absolute;inset:0;border-radius:99px;
+		background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:azwc-sheen 1.5s linear infinite}
+	@media(prefers-reduced-motion:reduce){#azwc-audit .azwc-pending-bar::after{animation:none}}
 	#azwc-audit .azwc-pending i{width:12px;height:12px;border-radius:50%;border:2px solid #e6b84d;border-top-color:transparent;animation:azwc-spin .8s linear infinite}
 	@media(prefers-reduced-motion:reduce){#azwc-audit .azwc-pending i{animation:none}}
 	#azwc-audit .azwc-steps{display:grid;gap:11px;margin:0;padding:0;list-style:none}
@@ -1613,9 +1620,21 @@ function azwc_audit_script() {
 
 			// Speed arrives after the site checks, so say so rather than letting a
 			// half-finished report look final.
-			var waiting = !d.psi || d.psi.mobile === undefined || d.psi.desktop === undefined;
+			var psi = d.psi || {};
+			var speedDone = (psi.mobile !== undefined ? 1 : 0) + (psi.desktop !== undefined ? 1 : 0);
+			var waiting = speedDone < 2;
+			// Stages: fetch + checks are both satisfied by the first response, so
+			// two of four are already done by the time anything renders.
+			var pct = Math.round(((2 + speedDone) / 4) * 100);
 			var pending = waiting
-				? '<div class="azwc-pending"><i></i><span>Still measuring speed with Google&rsquo;s API &mdash; the rest of this report is complete and the speed section will fill in automatically.</span></div>'
+				? '<div class="azwc-pending">'
+					+ '<span class="azwc-pending-head"><i></i><span>Still measuring speed with Google&rsquo;s API'
+					+ ' &mdash; check ' + (speedDone + 1) + ' of 2. Everything else below is complete, and the speed'
+					+ ' section fills in by itself.</span></span>'
+					+ '<span class="azwc-pending-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"'
+					+ ' aria-valuenow="' + pct + '" aria-label="Audit progress">'
+					+ '<span style="width:' + pct + '%"></span></span>'
+					+ '</div>'
 				: '';
 
 			var html = pending + '<section class="azwc-panel"><h3>' + esc(d.url) + '</h3>'
