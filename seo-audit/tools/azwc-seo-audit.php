@@ -41,6 +41,10 @@ define( 'AZWC_AUDIT_MAX_BYTES', 3145728 ); // 3 MB is far past any honest page.
  * 45s was cutting Google off mid-answer and reporting it as "no data".
  */
 define( 'AZWC_PSI_TIMEOUT', 150 );
+/** Image count at which offscreen images become a safe assumption. */
+define( 'AZWC_LAZY_MANY', 10 );
+/** Coverage below this, on an image-heavy page, is worth flagging. */
+define( 'AZWC_LAZY_MIN_PCT', 25 );
 
 /**
  * PageSpeed Insights works without a key at low volume but is aggressively
@@ -769,30 +773,46 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 			$lazy++;
 		}
 	}
+	/**
+	 * Lazy loading, scored on volume and coverage.
+	 *
+	 * The correct advice is to lazy-load OFFSCREEN images; applying it to an
+	 * above-the-fold image delays Largest Contentful Paint and makes the page
+	 * worse. Which images are offscreen cannot be determined from the HTML, so
+	 * this never demands 100%: it flags only where deferrable images are a near
+	 * certainty - a lot of images, and few or none of them deferred.
+	 *
+	 * Wording note: every branch spells the count out. "0 of 7" was read as
+	 * "0 or 7", which made a real finding look like a bug.
+	 */
+	$azw_lazy_heavy = $img_total >= AZWC_LAZY_MANY;
+	$azw_lazy_pct   = $img_total > 0 ? (int) round( $lazy / $img_total * 100 ) : 0;
+
+	if ( 0 === $img_total ) {
+		$azw_lazy_status = 'info';
+		$azw_lazy_label  = 'No images to lazy load';
+		$azw_lazy_detail = 'This page has no images, so there is nothing to defer.';
+	} elseif ( 0 === $lazy ) {
+		$azw_lazy_status = $azw_lazy_heavy ? 'warn' : 'info';
+		$azw_lazy_label  = 'Images are not lazy loaded';
+		$azw_lazy_detail = $azw_lazy_heavy
+			? sprintf( 'This page loads %d images and not one of them uses loading="lazy". At that many, most sit below the fold and are being downloaded before anyone scrolls to them. Add it to those - but leave it off anything visible on load, because lazy-loading an above-the-fold image delays Largest Contentful Paint.', $img_total )
+			: sprintf( 'This page loads %d images and none use loading="lazy". At that few it makes little practical difference, and it should never be applied to images visible on load - that delays Largest Contentful Paint. Noted rather than counted against you.', $img_total );
+	} elseif ( $azw_lazy_heavy && $azw_lazy_pct < AZWC_LAZY_MIN_PCT ) {
+		$azw_lazy_status = 'warn';
+		$azw_lazy_label  = 'Most images are not lazy loaded';
+		$azw_lazy_detail = sprintf( 'This page loads %d images and only %d of them use loading="lazy" - %d%% coverage. On a page this image-heavy, far more than %d%% are likely to be below the fold, so the rest are downloaded up front. Keep it off whatever is visible on load.', $img_total, $lazy, $azw_lazy_pct, $azw_lazy_pct );
+	} else {
+		$azw_lazy_status = 'pass';
+		$azw_lazy_label  = 'Images use native lazy loading';
+		$azw_lazy_detail = sprintf( 'This page loads %d images and %d of them use loading="lazy" - %d%% coverage, so offscreen images are deferred until they are needed.', $img_total, $lazy, $azw_lazy_pct );
+	}
+
 	$checks[] = azwc_audit_check(
 		'lazy_images',
-		$lazy > 0 ? 'Images use native lazy loading' : 'Images do not use native lazy loading',
-		/**
-		 * Only a fault on image-heavy pages.
-		 *
-		 * The correct advice is to lazy-load OFFSCREEN images; doing it to an
-		 * above-the-fold image delays Largest Contentful Paint and makes things
-		 * worse. Which images are offscreen cannot be determined from the HTML,
-		 * so below a threshold where offscreen images are near-certain this is
-		 * reported as information rather than scored as a problem.
-		 */
-		0 === $img_total
-			? 'info'
-			: ( $lazy > 0
-				? 'pass'
-				: ( $img_total >= 10 ? 'warn' : 'info' ) ),
-		0 === $img_total
-			? 'No images on this page.'
-			: ( $lazy > 0
-				? sprintf( '%d of %d images use loading="lazy", so offscreen images are deferred until they are needed.', $lazy, $img_total )
-				: ( $img_total >= 10
-					? sprintf( 'None of the %d images use loading="lazy". On a page with this many images that is worth adding for the ones below the fold - but leave it off anything visible on load, because lazy-loading an above-the-fold image delays Largest Contentful Paint.', $img_total )
-					: sprintf( 'None of the %d images use loading="lazy". At this count it makes little difference, and it should never be applied to images visible on load - doing so delays Largest Contentful Paint. Noted rather than flagged.', $img_total ) ) ),
+		$azw_lazy_label,
+		$azw_lazy_status,
+		$azw_lazy_detail,
 		1,
 		'technical'
 	);
