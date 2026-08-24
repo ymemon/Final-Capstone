@@ -128,16 +128,31 @@ function azwc_fu_render() {
 		});
 	}
 
+	/**
+	 * Just the hostname.
+	 *
+	 * The audit reports its normalised URL ("https://example.com/"), which is
+	 * right for the audit and wrong in a field labelled "Your website" — the
+	 * server re-normalises anyway, so this is purely so it reads like something
+	 * a person would have typed.
+	 */
+	function tidyDomain(value) {
+		return String(value || '')
+			.trim()
+			.replace(/^https?:\/\//i, '')
+			.replace(/\/+$/, '');
+	}
+
 	/** The domain under audit, wherever we can find it. */
 	function currentDomain() {
 		var root = document.getElementById('azwc-audit');
-		if (root && root.dataset.auditedDomain) { return root.dataset.auditedDomain; }
+		if (root && root.dataset.auditedDomain) { return tidyDomain(root.dataset.auditedDomain); }
 		try {
 			var q = new URLSearchParams(window.location.search).get('target');
-			if (q) { return q; }
+			if (q) { return tidyDomain(q); }
 		} catch (e) { /* no URLSearchParams, fall through */ }
 		var input = document.getElementById('azwc-audit-domain');
-		return input ? input.value.trim() : '';
+		return input ? tidyDomain(input.value) : '';
 	}
 
 	/* ---- modal plumbing ------------------------------------------------- */
