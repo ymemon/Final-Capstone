@@ -32,6 +32,17 @@ EXPECTED_COPY = (
 )
 
 CENTER_CSS = """
+/* AZWebCorp: services-aligned homepage hero, 2026-08-24 */
+.eit-hero-bg{justify-content:center;padding-left:max(30px,calc((100vw - 1140px)/2));padding-right:max(30px,calc((100vw - 1140px)/2))}
+.eit-hero-bg .eit-hero-content{width:100%;max-width:1140px;margin:0 auto;text-align:center}
+.eit-hero-bg h1.eit-hero-h1{max-width:900px;margin-left:auto;margin-right:auto}
+.eit-hero-bg .sub-headline,.eit-hero-bg p{margin-left:auto;margin-right:auto}
+.eit-hero-bg p{margin-bottom:30px}
+@media(max-width:768px){.eit-hero-bg{padding-left:24px;padding-right:24px}}
+@media(max-width:480px){.eit-hero-bg{padding-left:18px;padding-right:18px}}
+""".strip()
+
+OLD_CENTER_CSS = """
 /* AZWebCorp: centered homepage hero, 2026-08-24 */
 .eit-hero-bg{justify-content:center}
 .eit-hero-bg .eit-hero-content{width:100%;max-width:900px;margin:0 auto;text-align:center}
@@ -52,22 +63,26 @@ def load_password() -> str:
 
 def build_php() -> str:
     css = CENTER_CSS.replace("\\", "\\\\").replace("'", "\\'")
+    old_css = OLD_CENTER_CSS.replace("\\", "\\\\").replace("'", "\\'")
     expected = json.dumps(EXPECTED_COPY)
     return f'''<?php
 require_once __DIR__ . '/wp-load.php';
-$id={PAGE_ID};$widgetId='{WIDGET_ID}';$css='{css}';
+$id={PAGE_ID};$widgetId='{WIDGET_ID}';$css='{css}';$oldCss='{old_css}';
 $expected=json_decode('{expected}',true);
 $raw=get_post_meta($id,'_elementor_data',true);
 $data=json_decode($raw,true);
 if(!is_array($data)){{throw new RuntimeException('Elementor JSON is invalid');}}
 $matches=0;$copyBefore=[];$copyAfter=[];
-$edit=function(&$nodes)use(&$edit,$widgetId,$css,$expected,&$matches,&$copyBefore,&$copyAfter){{
+$edit=function(&$nodes)use(&$edit,$widgetId,$css,$oldCss,$expected,&$matches,&$copyBefore,&$copyAfter){{
   foreach($nodes as &$node){{
     if(($node['id']??'')===$widgetId){{
       $html=$node['settings']['html']??'';
       foreach($expected as $text){{$copyBefore[$text]=strpos(wp_strip_all_tags($html),$text)!==false;}}
       if(in_array(false,$copyBefore,true)){{throw new RuntimeException('Hero copy preflight failed');}}
-      if(strpos($html,'centered homepage hero, 2026-08-24')===false){{
+      if(strpos($html,'centered homepage hero, 2026-08-24')!==false){{
+        $html=str_replace($oldCss,$css,$html,$replacements);
+        if($replacements!==1){{throw new RuntimeException('Existing hero override did not match exactly');}}
+      }}elseif(strpos($html,'services-aligned homepage hero, 2026-08-24')===false){{
         $pos=strripos($html,'</style>');
         if($pos===false){{throw new RuntimeException('Hero style block not found');}}
         $html=substr($html,0,$pos)."\n".$css."\n".substr($html,$pos);
@@ -83,7 +98,7 @@ $edit($data);
 if($matches!==1){{throw new RuntimeException('Expected one hero widget; found '.$matches);}}
 if($copyBefore!==$copyAfter || in_array(false,$copyAfter,true)){{throw new RuntimeException('Hero copy changed');}}
 $stamp=gmdate('Ymd-His');
-$backupDir=dirname(__DIR__).'/eit-backups';
+$backupDir='/home/client_c47ef96dfe_198185/eit-backups';
 if(!is_dir($backupDir)){{mkdir($backupDir,0750,true);}}
 $backup=$backupDir.'/homepage-before-hero-center-'.$stamp.'.json';
 file_put_contents($backup,wp_json_encode(['elementor_data'=>$raw],JSON_UNESCAPED_SLASHES));
@@ -96,7 +111,7 @@ if(isset($GLOBALS['wpaas_cache_class'])){{
   if(method_exists($GLOBALS['wpaas_cache_class'],'flush_cdn')){{$GLOBALS['wpaas_cache_class']->flush_cdn();}}
 }}
 $render=Elementor\\Plugin::$instance->frontend->get_builder_content_for_display($id);
-echo wp_json_encode(['page_id'=>$id,'matches'=>$matches,'backup'=>basename($backup),'center_css'=>strpos($render,'centered homepage hero, 2026-08-24')!==false,'copy_unchanged'=>$copyBefore===$copyAfter]);
+echo wp_json_encode(['page_id'=>$id,'matches'=>$matches,'backup'=>basename($backup),'aligned_css'=>strpos($render,'services-aligned homepage hero, 2026-08-24')!==false,'copy_unchanged'=>$copyBefore===$copyAfter]);
 '''
 
 
@@ -131,9 +146,9 @@ def main() -> None:
     response = requests.get(f"https://everythingit.ie/?hero-center={stamp}", timeout=60)
     response.raise_for_status()
     checks = {text: text in response.text for text in EXPECTED_COPY}
-    result = {"status": response.status_code, "center_css": "centered homepage hero, 2026-08-24" in response.text, "copy": checks}
+    result = {"status": response.status_code, "aligned_css": "services-aligned homepage hero, 2026-08-24" in response.text, "services_width": "max-width:1140px" in response.text, "responsive_gutters": "@media(max-width:480px)" in response.text, "copy": checks}
     print(json.dumps({"public_verification": result}))
-    if not result["center_css"] or not all(checks.values()):
+    if not result["aligned_css"] or not result["services_width"] or not result["responsive_gutters"] or not all(checks.values()):
         raise RuntimeError(f"Public verification failed: {result}")
 
 

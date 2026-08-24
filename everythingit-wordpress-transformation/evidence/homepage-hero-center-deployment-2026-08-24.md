@@ -16,3 +16,10 @@ supporting paragraph centered. A timestamped Elementor-data rollback snapshot
 was created before mutation. Elementor, WordPress object, GoDaddy page and CDN
 caches were cleared. A cache-busted public request returned HTTP 200 with the
 centering marker and all copy invariants present.
+
+## Services-grid alignment refinement
+
+Following the client's annotated screenshot, the hero was explicitly aligned
+to the same 1140px boxed-content width used by the “Our Services” section. The
+headline remains centre-aligned within that shared frame, with fluid desktop
+gutters plus dedicated tablet and mobile gutters. No hero wording was changed.
