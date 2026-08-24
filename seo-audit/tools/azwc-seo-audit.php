@@ -1813,12 +1813,34 @@ function azwc_audit_script() {
 			html += psiPanel(d.psi);
 			html += actionsPanel(d.checks);
 			html += authorityPanel(d.authority);
-			html += '<section class="azwc-cta"><h3>Want these fixed?</h3>'
+			// Filled in by the follow-up plugin (PDF delivery, call booking).
+			// The plain block below is what shows if that plugin is not loaded,
+			// so the report never ends with nothing to do next.
+			html += '<section class="azwc-cta" id="azwc-followup-cta"><h3>Want these fixed?</h3>'
 				+ '<p>We are in Gilbert. Call (480) 818-5761 or email info@azwebcorp.com and we will walk through this report with you — no charge, no obligation.</p>'
 				+ '<a href="tel:+14808185761">Call (480) 818-5761</a></section>';
 
 			out.innerHTML = html;
 			out.hidden = false;
+
+			/**
+			 * Tell anything listening that a finished report is on screen.
+			 *
+			 * render() is called once, after every stage has settled, so this
+			 * fires exactly once per run and always describes a complete report.
+			 * `done`/`TOTAL` are locals of run() and deliberately not consulted
+			 * here - they are not in scope, and a try/catch would have hidden
+			 * that by silently never dispatching.
+			 */
+			if (typeof CustomEvent === 'function') {
+				root.dispatchEvent(new CustomEvent('azwc:rendered', {
+					bubbles: true,
+					detail: {
+						domain: (d && d.url) || '',
+						score: (d && d.score && d.score.overall) || null
+					}
+				}));
+			}
 			// render() runs again as each speed stage returns. Scrolling every
 			// time would yank the page out from under someone already reading.
 			if (!out.dataset.scrolled) {

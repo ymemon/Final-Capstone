@@ -1,5 +1,39 @@
 # AZWebCorp SEO — Session Status (5 Aug 2026, updated 23 Aug 2026)
 
+## 23 Aug — Shop menu: Firewall (WAF) bypassed its own page
+
+Every Shop item is meant to land on an AZWebCorp page which then hands off to
+the reseller. **Firewall (WAF)** (menu db_id 459) skipped that entirely and
+pointed straight at `https://www.shopazwebcorp.com/products/ssl` — off-site, and
+at the SSL product rather than anything security/firewall related, so it looks
+like a copy-paste from the SSL item.
+
+The dedicated page already existed: **`/website-security/` (post 2435)**,
+published, rendering through `[azwc_security_page type="website-security"]` —
+the same mu-plugin system as the SSL page, and its sibling in the SECURITY tab
+group. It covers web application firewall, malware scanning and cleanup, with
+Standard / Advanced / Premium tiers at $4.99 / $14.99 / $22.99.
+
+(A second candidate, post 2408 "Website Security & Firewall for Arizona
+Businesses", is a **draft** with plain HTML content and no Elementor data —
+superseded, not the live page. Left alone.)
+
+Repointed 459 to `/website-security/` and audited the rest: **every primary-menu
+item now resolves to a page on azwebcorp.com**, no other off-site jumps.
+Verified by clicking Shop → Firewall (WAF) in a browser, landing on the page
+with H1 "Website Security".
+
+Purchase path confirmed intact: the three Add to Cart controls are
+`form.azwc-ss-checkout` POSTs to
+`https://www.secureserver.net/api/v1/cart/550793?itc=slp_rstdstore&redirect=true`
+with a JSON `items` payload — the GoDaddy reseller cart, reseller id 550793.
+They are forms, not links, so a link-only audit of the page will report no
+reseller URL and look like a dead end when it is not.
+
+**Noted, not changed:** the Add to Cart buttons render unstyled on this page and
+on `/ssl/` — plain bordered boxes with an oversized arrow glyph, no button
+styling. Cosmetic, and outside what was asked here.
+
 ## 23 Aug, end of day — Elementor downgraded to match Pro; hero palette unified
 
 **Elementor core 4.2.3 → 3.18.3, at the user's explicit instruction**, to match
@@ -846,3 +880,51 @@ port 22 (no TCP handshake). All server work is run by the user over SSH.
 WordPress REST API is unusable for writes — the host strips the
 `Authorization` header (`rest_not_logged_in`); WP-CLI over SSH is the working
 path. Large pastes into the SSH terminal corrupt — keep blocks small.
+
+---
+
+## 2026-08-23/24 — Follow-up system (PDF delivery + call booking)
+
+New mu-plugin `azwc-followup.php` (loader) + `azwc-followup/` (core, pdf,
+mail, rest, admin, ui). Loader-only in the mu-plugins root, per the rule in
+memory — everything that does work lives in the subdirectory.
+
+**What it does**
+- Plain-English paragraph on all 28 audit checks (`azwc_audit_plain_english`).
+- "Email me this as a PDF" — name + email, dompdf report, 6 pages.
+- "Book a free 30-minute call" — Mon–Fri, 9am–9pm Arizona, 15-minute grid,
+  30-minute calls. 705 slots over 15 weekdays.
+- Double opt-in: nothing is booked until they click, then POST.
+- info@azwebcorp.com notified on request, confirm and cancel.
+- Reminder 1 hour before, .ics invite on confirm.
+- `SEO Leads` admin screen + `wp azwc-leads list|health`.
+
+**Decisions worth remembering**
+- Report is rebuilt SERVER-side from the audit's own transients
+  (`azwc_audit_site_<md5>` etc). The browser never posts report content back,
+  so nothing a visitor types can reach a PDF we send under our own domain.
+- Confirm/cancel links are GET → button → POST. Two reasons: this host
+  rewrites our headers to `public, max-age=2678400` regardless of
+  nocache_headers(), and corporate mail scanners follow every link in an
+  email, which would auto-confirm every booking and defeat the point.
+- Timezone is a plugin constant (America/Phoenix), NOT WP's setting — this
+  install has timezone_string empty and gmt_offset 0, i.e. WP thinks it is UTC.
+- dompdf comes from GoDaddy's mwc-core vendor tree. Not ours, auto-updated.
+  `azwc_fu_dompdf_ready()` probes for it and the report falls back to an HTML
+  attachment if it ever disappears. Check with `wp azwc-leads health`.
+- No system crontab on this host, so WP-Cron is traffic-driven. Reminder
+  window is deliberately wide (75 min) and `azwc_fu_catch_up()` runs the tick
+  from any request, throttled to once per 5 min.
+
+**Verified live**: 28/28 plain paragraphs, slots Mon–Fri only, 9am first /
+8:30pm last start, overlap blocks ±15min, 409 on double-book, honeypot +
+timing + name + email rejections, PDF 6 pages with correct UTF-8, ICS folded
+to 75 octets with correct escaping, reminder fires once and not 6h early,
+3x GET does not confirm, POST does. Test rows deleted, table reset.
+
+**Open / flagged**
+- Phone number inconsistency: the audit tool's own CTA says 480-818-5761;
+  the new PDF/emails use 623-670-1611 (the number from the email signature).
+  Needs a decision on which is canonical.
+- Results page still light-themed; "Running the audit" panel still on screen
+  after results land.
