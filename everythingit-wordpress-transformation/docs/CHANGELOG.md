@@ -56,6 +56,7 @@ This is a portfolio-level reconstruction of the major workstreams. It intentiona
 
 ## Navigation
 
+- Centred the global desktop/tablet navigation within its header column while preserving the responsive mobile menu.
 - Corrected desktop and mobile menu assignments.
 - Removed the Case Studies tab while the page remained deactivated from public navigation.
 - Promoted Cyber Security to a dedicated top-level destination.
