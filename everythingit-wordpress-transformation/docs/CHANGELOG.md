@@ -51,6 +51,7 @@ This is a portfolio-level reconstruction of the major workstreams. It intentiona
 - Refined the Team page hierarchy around one full-team photographic hero followed by individual member profiles, removing repeated portraits from the hero.
 - Added reusable footer/header and homepage component source.
 - Converted the homepage Google reviews row into a seamless continuous slider with accessible pause and reduced-motion behaviour.
+- Moved the Google rating and stars above the slider and expanded the review track across the full responsive content frame.
 - Applied semantic HTML, scoped CSS, responsive behaviour and accessible SVG treatment.
 
 ## Navigation

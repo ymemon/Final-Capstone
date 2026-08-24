@@ -122,9 +122,9 @@ def main() -> None:
             except OSError:pass
         sftp.close();ssh.close();local_php.unlink(missing_ok=True)
     response=requests.get(f"https://everythingit.ie/?review-lower={stamp}",timeout=60);response.raise_for_status()
-    checks={'cards':response.text.count('class="eit-google-card"'),'unique_cards':response.text.count('id="eit-review-'),'duplicate_sets':response.text.count('class="eit-google-set eit-google-set--duplicate"'),'continuous':'eitGoogleMarquee' in response.text,'iso':response.text.count('class="eit-iso-modern"'),'reviews':response.text.count('class="eit-google-reviews"'),'tablet_frame':'grid-column:1/-1' in response.text}
+    checks={'cards':response.text.count('class="eit-google-card"'),'unique_cards':response.text.count('id="eit-review-'),'duplicate_sets':response.text.count('class="eit-google-set eit-google-set--duplicate"'),'continuous':'eitGoogleMarquee' in response.text,'iso':response.text.count('class="eit-iso-modern"'),'reviews':response.text.count('class="eit-google-reviews"'),'full_width_header':'grid-template-columns:1fr;gap:14px' in response.text and '.eit-google-summary{display:flex;flex-wrap:wrap;justify-content:center' in response.text}
     print(json.dumps({'status':response.status_code,'public':checks}))
-    if checks!={'cards':20,'unique_cards':10,'duplicate_sets':1,'continuous':True,'iso':1,'reviews':1,'tablet_frame':True}:raise RuntimeError(f'Public verification failed: {checks}')
+    if checks!={'cards':20,'unique_cards':10,'duplicate_sets':1,'continuous':True,'iso':1,'reviews':1,'full_width_header':True}:raise RuntimeError(f'Public verification failed: {checks}')
 
 
 if __name__ == '__main__':

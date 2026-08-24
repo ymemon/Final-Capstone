@@ -69,3 +69,7 @@ unique reviews.
 - responsive card sizing and the direct link to all 40 Google reviews remain;
 - public verification returned one review section, 20 rendered cards, 10 unique
   review IDs, one duplicate set and the continuous-animation marker.
+
+The review layout was then refined so the Google rating and stars sit in a
+centred header above the slider. The continuous review track now spans the full
+responsive content frame rather than occupying only the third desktop column.
