@@ -18,13 +18,12 @@
 .eit-google-slider{min-width:0;display:grid;gap:9px}
 .eit-google-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:9px 12px}
 .eit-google-controls>span{color:#70757a;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
-.eit-google-buttons{display:flex;flex-wrap:wrap;gap:4px}
-.eit-google-buttons a{width:21px;height:21px;display:grid;place-items:center;border:1px solid #dadce0;border-radius:50%;background:#fff;color:#5f6368!important;font:700 9px/1 Arial;text-decoration:none!important}
-.eit-google-buttons a:hover,.eit-google-buttons a:focus-visible{border-color:#1a73e8;background:#1a73e8;color:#fff!important;outline:none}
-.eit-google-viewport{min-width:0;overflow-x:auto;padding:2px 2px 8px;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;mask-image:linear-gradient(90deg,#000 0,#000 96%,transparent 100%)}
+.eit-google-viewport{min-width:0;overflow:hidden;padding:2px 2px 8px;scrollbar-width:none;mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%)}
 .eit-google-viewport::-webkit-scrollbar{display:none}
-.eit-google-track{width:max-content;display:flex;gap:12px}
-.eit-google-card{width:270px;min-height:156px;padding:16px 17px;display:flex;flex-direction:column;justify-content:space-between;gap:11px;scroll-snap-align:start;scroll-margin-left:2px;border:1px solid #e0e3e7;border-radius:16px;background:#fff;box-shadow:0 7px 24px rgba(32,33,36,.07)}
+.eit-google-track{width:max-content;display:flex;gap:12px;will-change:transform;animation:eitGoogleMarquee 62s linear infinite}
+.eit-google-set{display:flex;gap:12px}
+.eit-google-reviews:hover .eit-google-track,.eit-google-reviews:focus-within .eit-google-track{animation-play-state:paused}
+.eit-google-card{width:270px;min-height:156px;padding:16px 17px;display:flex;flex-direction:column;justify-content:space-between;gap:11px;flex:0 0 auto;border:1px solid #e0e3e7;border-radius:16px;background:#fff;box-shadow:0 7px 24px rgba(32,33,36,.07)}
 .eit-google-card .eit-google-stars{font-size:12px}
 .eit-google-card blockquote{margin:0;color:#202124;font-size:14px;font-weight:650;line-height:1.42}
 .eit-google-meta{display:flex;align-items:center;gap:9px}
@@ -34,6 +33,7 @@
 .eit-google-meta small{color:#70757a;font-size:9px}
 .eit-google-all-link{color:#1a73e8!important;font-size:11px;font-weight:750;text-decoration:none!important}
 .eit-google-all-link:hover{text-decoration:underline!important}
+@keyframes eitGoogleMarquee{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 6px))}}
 .eit-iso-modern,
 .eit-iso-modern *{box-sizing:border-box}
 .eit-iso-modern{
@@ -109,7 +109,7 @@
 @keyframes eitIsoSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
 @media(max-width:1080px){.eit-google-shell{width:min(100% - 48px,900px);grid-template-columns:minmax(190px,1fr) minmax(130px,170px);gap:18px 22px}.eit-google-slider{grid-column:1/-1}.eit-iso-wrap{width:min(100% - 48px,900px)}.eit-iso-grid{grid-template-columns:1fr;gap:74px}.eit-iso-assurance{justify-self:center;max-width:630px}}
 @media(max-width:680px){.eit-google-shell{width:min(100% - 30px,620px);min-height:0;padding:20px 0 18px;grid-template-columns:1fr;gap:15px}.eit-google-summary{grid-template-columns:1fr auto;align-items:center;gap:6px 15px}.eit-google-label{grid-column:1}.eit-google-rating{grid-column:2;grid-row:1}.eit-google-rating strong{font-size:28px}.eit-google-summary>a{grid-column:1/-1}.eit-google-bars{display:none}.eit-google-viewport{margin-right:-15px;padding-right:15px;mask-image:none}.eit-google-card{width:min(78vw,285px)}.eit-iso-modern{min-height:0}.eit-iso-wrap{width:min(100% - 30px,620px);padding:34px 0 58px}.eit-iso-top{margin-bottom:54px}.eit-iso-live{font-size:0}.eit-iso-copy h2{font-size:clamp(42px,13vw,58px)}.eit-iso-lead{font-size:16px}.eit-iso-actions{align-items:stretch}.eit-iso-btn{width:100%}.eit-iso-trust{grid-template-columns:1fr;gap:16px}.eit-iso-panel{padding:13px;border-radius:22px}.eit-iso-certificate{grid-template-columns:auto 1fr;padding:20px 17px;min-height:140px;gap:13px}.eit-iso-shield{width:56px;height:56px;border-radius:15px}.eit-iso-shield svg{width:38px;height:38px}.eit-iso-certificate h3{font-size:27px}.eit-iso-seal{display:none}.eit-iso-list>div{grid-template-columns:auto 1fr}.eit-iso-list em{display:none}.eit-iso-orbit.one{width:470px;height:470px}.eit-iso-orbit.two{width:380px;height:380px}}
-@media(prefers-reduced-motion:reduce){.eit-google-viewport{scroll-behavior:auto}.eit-iso-orbit.two{animation:none}.eit-iso-btn{transition:none}}
+@media(prefers-reduced-motion:reduce){.eit-google-viewport{overflow-x:auto;mask-image:none}.eit-google-track{animation:none}.eit-google-set--duplicate{display:none}.eit-iso-orbit.two{animation:none}.eit-iso-btn{transition:none}}
 </style>
 
 <section class="eit-google-reviews" aria-labelledby="eit-google-title">
@@ -129,9 +129,10 @@
     </div>
 
     <div class="eit-google-slider">
-      <div class="eit-google-controls"><span>10 written review highlights · swipe or choose</span><nav class="eit-google-buttons" aria-label="Choose a Google review"><a href="#eit-review-1" aria-label="Review 1">1</a><a href="#eit-review-2" aria-label="Review 2">2</a><a href="#eit-review-3" aria-label="Review 3">3</a><a href="#eit-review-4" aria-label="Review 4">4</a><a href="#eit-review-5" aria-label="Review 5">5</a><a href="#eit-review-6" aria-label="Review 6">6</a><a href="#eit-review-7" aria-label="Review 7">7</a><a href="#eit-review-8" aria-label="Review 8">8</a><a href="#eit-review-9" aria-label="Review 9">9</a><a href="#eit-review-10" aria-label="Review 10">10</a></nav></div>
+      <div class="eit-google-controls"><span>10 verified written reviews · continuous slider</span></div>
       <div class="eit-google-viewport" tabindex="0" aria-label="Everything IT Google review slider">
         <div class="eit-google-track">
+          <div class="eit-google-set">
           <article id="eit-review-1" class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“They have played a key role in helping us scale from a small operation to a much larger setup.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">G</span><p><strong>Gina Cassidy</strong><small>Scaling support since 2021</small></p></div></article>
           <article id="eit-review-2" class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“They have consistently delivered exceptional managed IT services to support our business, serving a team of over 140 users.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">D</span><p><strong>David Curley</strong><small>14+ year managed-services relationship</small></p></div></article>
           <article id="eit-review-3" class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“Our preferred IT support provider for over 11 years... dependable, efficient, and professional service across all aspects of our IT operations.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">E</span><p><strong>Exceptional Villas</strong><small>11+ years as preferred provider</small></p></div></article>
@@ -142,6 +143,19 @@
           <article id="eit-review-8" class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“We have always received a timely and professional standard of service from a very capable and highly experienced team.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">D</span><p><strong>Declan O'Connor</strong><small>Timely, professional service</small></p></div></article>
           <article id="eit-review-9" class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“My yearly rate is down €6k, while receiving better support.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">G</span><p><strong>Verified Google reviewer</strong><small>€6,000 annual reduction</small></p></div></article>
           <article id="eit-review-10" class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“Genuine, helpful, professional and honest. We have been dealing with Everything IT for 11+ years now.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">G</span><p><strong>Verified Google reviewer</strong><small>11+ year relationship</small></p></div></article>
+          </div>
+          <div class="eit-google-set eit-google-set--duplicate" aria-hidden="true">
+          <article class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“They have played a key role in helping us scale from a small operation to a much larger setup.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">G</span><p><strong>Gina Cassidy</strong><small>Scaling support since 2021</small></p></div></article>
+          <article class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“They have consistently delivered exceptional managed IT services to support our business, serving a team of over 140 users.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">D</span><p><strong>David Curley</strong><small>14+ year managed-services relationship</small></p></div></article>
+          <article class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“Our preferred IT support provider for over 11 years... dependable, efficient, and professional service across all aspects of our IT operations.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">E</span><p><strong>Exceptional Villas</strong><small>11+ years as preferred provider</small></p></div></article>
+          <article class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“They have completely changed the IT infrastructure for the better. The engineers are very knowledgeable, flexible and work very hard.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">E</span><p><strong>Edel McDonagh</strong><small>Successful provider transition</small></p></div></article>
+          <article class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“Fantastic people, extremely professional, enthusiastic and industry leaders in their field of ICT Support &amp; IT Project Management.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">R</span><p><strong>Rod Walsh</strong><small>10+ year technology partnership</small></p></div></article>
+          <article class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“A team of young, dynamic and highly professional ICT experts in their field.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">Q</span><p><strong>QMS Solutions</strong><small>Specialist ICT expertise</small></p></div></article>
+          <article class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“PC and laptops... always delivered ahead of time. Time to resolve issues is extremely fast thanks to real-time messaging and on-call handover.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">A</span><p><strong>Aidan Molloy</strong><small>Hardware delivered ahead of schedule</small></p></div></article>
+          <article class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“We have always received a timely and professional standard of service from a very capable and highly experienced team.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">D</span><p><strong>Declan O'Connor</strong><small>Timely, professional service</small></p></div></article>
+          <article class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“My yearly rate is down €6k, while receiving better support.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">G</span><p><strong>Verified Google reviewer</strong><small>€6,000 annual reduction</small></p></div></article>
+          <article class="eit-google-card"><span class="eit-google-stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“Genuine, helpful, professional and honest. We have been dealing with Everything IT for 11+ years now.”</blockquote><div class="eit-google-meta"><span class="eit-google-avatar">G</span><p><strong>Verified Google reviewer</strong><small>11+ year relationship</small></p></div></article>
+          </div>
         </div>
       </div>
       <a class="eit-google-all-link" href="https://www.google.com/maps/place/?q=place_id:ChIJPQFEVAsJZ0gRmKsfrTWPS7A" target="_blank" rel="noopener">Read all 40 reviews directly on Google →</a>

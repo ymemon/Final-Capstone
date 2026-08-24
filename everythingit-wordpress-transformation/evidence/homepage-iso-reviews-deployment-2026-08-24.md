@@ -53,3 +53,19 @@ The review frame now uses:
 Public source order was verified as ISO → Manufacturers → Manufacturers →
 Corporate IT Procurement → Google reviews. Ten cards and ten controls remained
 present after relocation.
+
+## Continuous review slider
+
+The lower-page Google review row was upgraded to a seamless, continuously
+moving marquee. It retains 10 unique authenticated review excerpts and repeats
+that set visually to avoid a gap when the animation loops. The repeated set is
+marked `aria-hidden="true"`, so assistive technology encounters only the 10
+unique reviews.
+
+- 62-second linear continuous loop with no snap-back gap;
+- pauses on pointer hover and keyboard focus;
+- falls back to manual horizontal scrolling when reduced motion is requested;
+- duplicate visual set is hidden in reduced-motion mode;
+- responsive card sizing and the direct link to all 40 Google reviews remain;
+- public verification returned one review section, 20 rendered cards, 10 unique
+  review IDs, one duplicate set and the continuous-animation marker.
