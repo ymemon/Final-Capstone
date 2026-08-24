@@ -16,6 +16,7 @@ USER = "client_c47ef96dfe_198185"
 ROOT = "/home/client_c47ef96dfe_198185/html"
 HEADER_ID = 989508
 MENU_WIDGET_ID = "63c90f5"
+HEADER_SECTION_ID = "2a345d4"
 CREDENTIAL_SOURCE = Path(os.environ.get(
     "EIT_CREDENTIAL_SOURCE",
     r"C:\Users\yasir\Downloads\Other\eit_case_studies_rebuild.py",
@@ -35,11 +36,11 @@ def load_password() -> str:
 
 PHP = f'''<?php
 require_once __DIR__ . '/wp-load.php';
-$id={HEADER_ID};$widgetId='{MENU_WIDGET_ID}';
+$id={HEADER_ID};$widgetId='{MENU_WIDGET_ID}';$sectionId='{HEADER_SECTION_ID}';
 $raw=get_post_meta($id,'_elementor_data',true);$data=json_decode($raw,true);
 if(!is_array($data)){{throw new RuntimeException('Header Elementor JSON is invalid');}}
-$matches=0;$before=null;
-$edit=function(&$nodes)use(&$edit,$widgetId,&$matches,&$before){{
+$matches=0;$sectionMatches=0;$before=null;
+$edit=function(&$nodes)use(&$edit,$widgetId,$sectionId,&$matches,&$sectionMatches,&$before){{
   foreach($nodes as &$node){{
     if(($node['id']??'')===$widgetId){{
       $before=$node['settings']['align']??'left';
@@ -49,11 +50,16 @@ $edit=function(&$nodes)use(&$edit,$widgetId,&$matches,&$before){{
       $node['settings']['custom_css']="/* EIT centred global menu */\nselector .hfe-nav-menu,selector nav>ul{{justify-content:center!important}}";
       $matches++;
     }}
+    if(($node['id']??'')===$sectionId){{
+      $node['settings']['custom_css']="/* EIT truly centred header */\n@media(min-width:1025px){{selector>.elementor-container{{display:grid;grid-template-columns:minmax(180px,1fr) auto minmax(180px,1fr);align-items:center}}selector>.elementor-container>.elementor-column{{width:auto!important}}selector .elementor-element-94282b5{{justify-self:start}}selector .elementor-element-0cca6d2{{justify-self:center}}selector .elementor-element-73951eb{{justify-self:end}}}}";
+      $sectionMatches++;
+    }}
     if(!empty($node['elements'])){{$edit($node['elements']);}}
   }}
 }};
 $edit($data);
 if($matches!==1){{throw new RuntimeException('Expected one menu widget; found '.$matches);}}
+if($sectionMatches!==1){{throw new RuntimeException('Expected one header section; found '.$sectionMatches);}}
 $stamp=gmdate('Ymd-His');$backupDir='/home/client_c47ef96dfe_198185/eit-backups';
 if(!is_dir($backupDir)&&!mkdir($backupDir,0750,true)){{throw new RuntimeException('Backup directory unavailable');}}
 $backup=$backupDir.'/header-before-menu-center-'.$stamp.'.json';
@@ -67,7 +73,7 @@ if(isset($GLOBALS['wpaas_cache_class'])){{
  if(method_exists($GLOBALS['wpaas_cache_class'],'flush_cdn')){{$GLOBALS['wpaas_cache_class']->flush_cdn();}}
 }}
 $render=Elementor\\Plugin::$instance->frontend->get_builder_content_for_display($id);
-echo wp_json_encode(['header_id'=>$id,'widget_matches'=>$matches,'before'=>$before,'center_rule_saved'=>strpos(wp_json_encode($data),'EIT centred global menu')!==false,'backup'=>basename($backup)]);
+echo wp_json_encode(['header_id'=>$id,'widget_matches'=>$matches,'section_matches'=>$sectionMatches,'before'=>$before,'center_rule_saved'=>strpos(wp_json_encode($data),'EIT truly centred header')!==false,'backup'=>basename($backup)]);
 '''
 
 
@@ -96,7 +102,8 @@ def main() -> None:
     response=requests.get(f"https://everythingit.ie/?header-center={stamp}",timeout=60);response.raise_for_status()
     css_response=requests.get(f"https://everythingit.ie/wp-content/uploads/elementor/css/post-{HEADER_ID}.css?header-center={stamp}",timeout=60);css_response.raise_for_status()
     checks={
-        "center_rule":"elementor-element-63c90f5 .hfe-nav-menu" in css_response.text and "justify-content:center!important" in css_response.text,
+        "menu_center_rule":"elementor-element-63c90f5 .hfe-nav-menu" in css_response.text and "justify-content:center!important" in css_response.text,
+        "balanced_header":"grid-template-columns:minmax(180px,1fr) auto minmax(180px,1fr)" in css_response.text and "elementor-element-0cca6d2" in css_response.text,
         "menu_present":'id="menu-1-63c90f5"' in response.text,
         "helpdesk":">Helpdesk<" in response.text,
     }
