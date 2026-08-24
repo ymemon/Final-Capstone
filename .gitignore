@@ -17,6 +17,14 @@ secrets.*
 *.zip
 wp-config.php
 remote-file-backups/
+**/backups/
+**/CLIENT-INFO.md
+**/SESSION-STATUS.md
+**/connect.ps1
+**/gsc-queries.csv
+**/*backup-before-*.json
+**/*request-email*.md
+**/weekly-update-email-*.md
 
 # Generated/runtime files
 __pycache__/
@@ -24,4 +32,3 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 Thumbs.db
-
