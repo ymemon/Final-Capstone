@@ -152,6 +152,56 @@ function azw_dark_theme_css() {
 		border-radius:16px;
 	}
 
+	/* The product/hosting heroes were built on an OLIVE gradient, not the
+	   brand one:
+
+	       radial-gradient(circle at 88% 12%, rgba(232,240,26,.25) ...)
+	       linear-gradient(125deg,#0d0f09,#22270f 56%,#414719)
+
+	   Dark enough that the contrast pass was happy and the page still read as
+	   "dark", but green - the survivor of the lime palette, and the reason
+	   these pages looked like a different site to the ones already converted.
+	   Rebuilt on the exact brand values, keeping the corner glow but in gold.
+	   Both layers must be restated: background-image replaces the whole stack,
+	   so listing only the base would drop the glow. */
+	body header.azwc-hero,
+	body section.azwc-home-domain-bar{
+		background-image:
+			radial-gradient(circle at 88% 12%, rgba(230,184,77,.25), rgba(0,0,0,0) 28%),
+			linear-gradient(135deg,#050608 0%,#111823 60%,#30240a 100%) !important;
+	}
+	body div.azwc-cta{
+		background-image:linear-gradient(120deg,#111823,#30240a) !important;
+	}
+
+	/* ---- the last of the lime --------------------------------------------
+	   Accent colours still on rgb(232,240,26) and its olive relatives. Found
+	   by testing green >= red rather than by hunting hex values: brand gold
+	   (230,184,77) has red ABOVE green, lime (232,240,26) and olive (75,83,24)
+	   have it below, so the two families separate cleanly and greys and whites
+	   never match. `lime.js` in the scratchpad runs that scan. */
+	body a.is-active,
+	body div.azwc-feature-number{
+		background-color:var(--azw-gold) !important;
+		color:#161208 !important;
+	}
+	body a.is-active span,
+	body div.azwc-feature-number span{
+		color:#161208 !important;
+	}
+	body div.azwc-tld-slider,
+	body section.azwc-home-domain-bar.azwc-positioned,
+	body section.azwc-domain-shell,
+	body div.azwc-official-search{
+		border-color:var(--azw-line) !important;
+	}
+	body div.azwc-tld-slider{
+		background-color:var(--azw-card) !important;
+	}
+	body article.azwc-plan.is-popular{
+		box-shadow:0 0 0 1px rgba(230,184,77,.34), 0 18px 44px rgba(230,184,77,.16) !important;
+	}
+
 	/* Wrappers AROUND those cards. Carding both would stack two tints and two
 	   borders, so the container simply steps out of the way. */
 	body aside.azw-related,
