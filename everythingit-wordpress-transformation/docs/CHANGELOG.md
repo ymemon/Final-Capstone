@@ -46,6 +46,7 @@ This is a portfolio-level reconstruction of the major workstreams. It intentiona
 
 ## Frontend and Elementor
 
+- Removed the visible manufacturer-logo panel and its hidden responsive duplicate from the homepage.
 - Created responsive managed-services, MDM, consultancy, cybersecurity, services and Cork/location experiences.
 - Added a premium Our Team experience with leadership profiles, responsive imagery and descriptive image alternatives.
 - Refined the Team page hierarchy around one full-team photographic hero followed by individual member profiles, removing repeated portraits from the hero.
