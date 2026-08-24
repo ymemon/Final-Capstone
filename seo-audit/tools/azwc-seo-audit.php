@@ -225,8 +225,59 @@ function azwc_audit_chain( $url, $max = 5 ) {
  * — it reports something true that is not a pass or a failure.
  * ---------------------------------------------------------------------- */
 
+/**
+ * A jargon-free explanation of what each check is actually about.
+ *
+ * `detail` reports what was measured on this page and assumes the reader
+ * already knows what a canonical tag or an Open Graph image is. Most visitors
+ * do not, so on its own a real finding reads as noise. This is the paragraph
+ * that tells them what the thing IS and why it costs them something.
+ *
+ * Keyed on the check id only, deliberately - the detail line already covers
+ * what happened on this particular page, and one stable explanation per topic
+ * is far easier to keep accurate than one per topic per outcome.
+ */
+function azwc_audit_plain_english( $id ) {
+	static $map = array(
+		'indexable'          => 'Search engines have to be allowed to list a page before it can ever show up in results. This checks that nothing on the page is quietly telling Google to stay away - a setting that often gets switched on while a site is being built and then never switched back off.',
+		'robots_txt'         => 'robots.txt is a small file at the root of your site telling search engines which areas they may look at. If it is missing they guess; if it is too strict it can hide pages you very much want found.',
+		'sitemap'            => 'A sitemap is a machine-readable list of every page you want found. It does not earn rankings by itself, but it means Google picks up new and changed pages in days rather than stumbling across them weeks later.',
+		'canonical'          => 'When the same content can be reached at more than one web address, search engines have to pick which one to rank. A canonical tag makes that choice for them, so your ranking strength pools onto one page instead of being split between near-identical copies.',
+		'https'              => 'This is the padlock in the browser bar. Without it browsers label the site "Not secure" in front of your customers, and Google has treated it as a ranking factor for years.',
+		'redirects'          => 'How many times a browser gets bounced to a new address before it lands on the real page. Every bounce adds delay and leaks a little ranking strength, so the fewer the better.',
+		'mixed_content'      => 'A secure page that pulls in an image or script over an insecure connection. Browsers may block those files outright or quietly drop the padlock, so a page that should look safe suddenly does not.',
+		'compression'        => 'Compression squeezes the page before it is sent across the network, often to a quarter of its size. It is a server setting rather than a design change, and it makes every visit faster for every visitor.',
+		'html_size'          => 'The weight of the page\'s own code, before any images. Very heavy pages are slower to arrive, cost mobile visitors real data, and search engines only read so far down before they stop.',
+		'title'              => 'The clickable blue headline in Google\'s results, and the text on the browser tab. It is the single biggest on-page influence on whether somebody picks your listing over the competitor above or below you.',
+		'description'        => 'The grey summary line underneath your headline in search results. Google does not rank you on it, but it strongly affects how many people click - and if you leave it empty, Google picks a sentence off the page for you.',
+		'h1'                 => 'The main visible headline on the page. It tells visitors and search engines, in one line, what this page is actually for. Having none, or several competing ones, muddies that.',
+		'content_depth'      => 'Roughly how much real text the page carries. Thin pages struggle to rank because there simply is not enough on them to answer what somebody typed into Google.',
+		'image_alt'          => 'Alt text describes a picture in words. Screen readers read it aloud to blind visitors, it is an accessibility requirement you can be held to, and it is the only way image search knows what your photos show.',
+		'viewport'           => 'The instruction that tells a phone to lay the page out at phone width. Without it, mobile visitors get the full desktop layout shrunk down to unreadable - and Google judges your site on its mobile version, not its desktop one.',
+		'lang'               => 'A one-word declaration of which language the page is written in. Screen readers use it to choose the right pronunciation, and search engines use it to decide which country to show you in.',
+		'structured_data'    => 'Hidden labels that spell out for Google what the page contains - a business, an address, opening hours, a price, a review score. This is what earns the star ratings and extra detail you see on some results and not others.',
+		'open_graph'         => 'The headline and picture that appear when somebody pastes your link into Facebook, LinkedIn, WhatsApp or Slack. Without them a shared link is a bare line of text, and bare links get very few clicks.',
+		'favicon'            => 'The small icon on the browser tab and in bookmarks. Google now shows it next to your listing on mobile, so not having one leaves a blank grey square beside your name.',
+		'links'              => 'Internal links are how both visitors and search engines move around your site. A page nothing links to is effectively invisible, and a broken link wastes a visit you already paid to get.',
+		'heading_order'      => 'Headings are meant to nest like a table of contents - a main heading, then sub-headings beneath it. When levels get skipped, screen reader users lose their place and search engines get a blurrier picture of how the page is organised.',
+		'charset'            => 'A short declaration of how the text is encoded. Without it, accented letters, curly apostrophes and currency symbols can come out as garbled characters on some devices.',
+		'twitter_card'       => 'The same idea as the social preview, but specifically for X/Twitter. It decides whether a shared link shows a proper image card or just a plain address.',
+		'img_dimensions'     => 'The width and height written into the image tag. Without them the layout shifts around as pictures load - that is why text sometimes jumps just as you start reading. Google measures that jump and counts it against you.',
+		'lazy_images'        => 'Lazy loading tells the browser not to download a picture until the visitor scrolls near it. On an image-heavy page that can cut the initial load dramatically - but it should never be used on images that are visible the moment the page opens.',
+		'blank_noopener'     => 'Links that open in a new tab hand a small amount of control to the page they open, unless they are marked not to. Adding rel="noopener" closes that gap and costs nothing.',
+		'empty_links'        => 'Links with nothing inside them - usually an icon, or a leftover tag. A screen reader announces them as just "link", and search engines learn nothing about where they lead.',
+		'security_headers'   => 'A handful of instructions your server can send that tell the browser how to protect your visitors. They are free, invisible to customers, and they shut down several common attacks.',
+	);
+
+	return isset( $map[ $id ] ) ? $map[ $id ] : '';
+}
+
 function azwc_audit_check( $id, $label, $status, $detail, $weight = 1, $group = 'technical', $items = array() ) {
-	return compact( 'id', 'label', 'status', 'detail', 'weight', 'group', 'items' );
+	// Looked up rather than passed in, so all 28 call sites stay untouched
+	// and the copy lives in one editable place.
+	$plain = azwc_audit_plain_english( $id );
+
+	return compact( 'id', 'label', 'status', 'detail', 'plain', 'weight', 'group', 'items' );
 }
 
 /**
@@ -1414,6 +1465,10 @@ function azwc_audit_styles() {
 	#azwc-audit .azwc-stat b{display:block;font-size:22px;font-weight:780;letter-spacing:-.02em}
 	#azwc-audit .azwc-stat span{display:block;margin-top:2px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
 	#azwc-audit .azwc-allclear{padding:18px;border-radius:11px;background:rgba(15,157,88,.10);border:1px solid rgba(15,157,88,.34);color:#0f9d58;font-size:14px;font-weight:650}
+	#azwc-audit .azwc-plain{margin:9px 0 0;padding:9px 12px;border-left:3px solid var(--accent,#e6b84d);
+		background:rgba(127,127,127,.08);border-radius:0 8px 8px 0;font-size:13px;line-height:1.62;color:var(--muted)}
+	#azwc-audit .azwc-plain b{display:block;margin-bottom:2px;font-size:10.5px;font-weight:800;
+		letter-spacing:.09em;text-transform:uppercase;opacity:.75}
 	#azwc-audit .azwc-items{margin:9px 0 0;padding:0;list-style:none;display:grid;gap:4px}
 	#azwc-audit .azwc-items li{font-size:12.5px;line-height:1.45;word-break:break-all}
 	#azwc-audit .azwc-items a{color:#9b711b;text-decoration:none}
@@ -1631,6 +1686,12 @@ function azwc_audit_script() {
 				+ '<strong style="color:' + color + '">' + esc(m.display || m.value) + '</strong></div>';
 		}
 
+		/** The jargon-free explainer, when the check carries one. */
+		function plainBlock(c) {
+			if (!c.plain) { return ''; }
+			return '<div class="azwc-plain"><b>What this means</b>' + esc(c.plain) + '</div>';
+		}
+
 		function checksPanel(checks) {
 			var order = { fail: 0, warn: 1, pass: 2, info: 3 };
 			var sorted = checks.slice().sort(function (a, b) { return order[a.status] - order[b.status]; });
@@ -1644,7 +1705,8 @@ function azwc_audit_script() {
 					}).join('') + '</ul>';
 				}
 				return '<div class="azwc-check"><span class="azwc-dot" style="background:' + COLOR[c.status] + '"></span>'
-					+ '<div><h4>' + esc(c.label) + '</h4><p>' + esc(c.detail) + '</p>' + list + '</div></div>';
+					+ '<div><h4>' + esc(c.label) + '</h4><p>' + esc(c.detail) + '</p>'
+					+ plainBlock(c) + list + '</div></div>';
 			}).join('');
 			return '<section class="azwc-panel"><h3>What we found</h3>'
 				+ '<p class="azwc-sub">Every line below was observed in the response from your server. Failures are listed first.</p>'
@@ -1687,7 +1749,7 @@ function azwc_audit_script() {
 					+ '<h4>' + esc(c.label)
 					+ '<span class="azwc-sev ' + c.status + '">'
 					+ (c.status === 'fail' ? 'Needs fixing' : 'Worth improving') + '</span></h4>'
-					+ '<p>' + esc(c.detail) + '</p>' + urls + '</div></div>';
+					+ '<p>' + esc(c.detail) + '</p>' + plainBlock(c) + urls + '</div></div>';
 			}).join('');
 
 			var fails = todo.filter(function (c) { return c.status === 'fail'; }).length;
