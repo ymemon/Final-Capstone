@@ -621,15 +621,21 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 
 	$og       = (bool) preg_match( '#<meta[^>]+property=["\']og:title["\']#i', $html );
 	$og_img   = (bool) preg_match( '#<meta[^>]+property=["\']og:image["\']#i', $html );
+	$azw_og_label = ( $og && $og_img )
+		? 'Social sharing tags are set'
+		: ( $og ? 'Social sharing image is missing' : 'Social sharing tags are missing' );
 	$checks[] = azwc_audit_check(
 		'open_graph',
-		'Social sharing tags are set',
+		// The heading is what people scan, so it has to state the finding. A
+		// fixed "tags are set" above a body saying og:image is missing reads as
+		// a contradiction.
+		$azw_og_label,
 		( $og && $og_img ) ? 'pass' : ( $og ? 'warn' : 'fail' ),
 		( $og && $og_img )
 			? 'Open Graph title and image are both present, so shared links render as a card.'
 			: ( $og
-				? 'og:title is set but og:image is missing — shared links will have no thumbnail.'
-				: 'No Open Graph tags. Links shared to Facebook, LinkedIn or WhatsApp will show a bare URL.' ),
+				? 'og:title is set, but there is no og:image. Links shared to Facebook, LinkedIn, WhatsApp or Slack will appear as a text-only row with no thumbnail, which is markedly less clickable. Add one image of at least 1200x630px.'
+				: 'No Open Graph tags at all. Links shared to Facebook, LinkedIn or WhatsApp will show a bare URL with no title, description or image.' ),
 		1,
 		'structured'
 	);
@@ -765,11 +771,28 @@ function azwc_audit_run_checks( $url, $page, $chain ) {
 	}
 	$checks[] = azwc_audit_check(
 		'lazy_images',
-		'Images use native lazy loading',
-		0 === $img_total ? 'info' : ( $lazy > 0 ? 'pass' : 'warn' ),
+		$lazy > 0 ? 'Images use native lazy loading' : 'Images do not use native lazy loading',
+		/**
+		 * Only a fault on image-heavy pages.
+		 *
+		 * The correct advice is to lazy-load OFFSCREEN images; doing it to an
+		 * above-the-fold image delays Largest Contentful Paint and makes things
+		 * worse. Which images are offscreen cannot be determined from the HTML,
+		 * so below a threshold where offscreen images are near-certain this is
+		 * reported as information rather than scored as a problem.
+		 */
+		0 === $img_total
+			? 'info'
+			: ( $lazy > 0
+				? 'pass'
+				: ( $img_total >= 10 ? 'warn' : 'info' ) ),
 		0 === $img_total
 			? 'No images on this page.'
-			: sprintf( '%d of %d images use loading="lazy". Lazy loading defers offscreen images so the visible part of the page finishes sooner.', $lazy, $img_total ),
+			: ( $lazy > 0
+				? sprintf( '%d of %d images use loading="lazy", so offscreen images are deferred until they are needed.', $lazy, $img_total )
+				: ( $img_total >= 10
+					? sprintf( 'None of the %d images use loading="lazy". On a page with this many images that is worth adding for the ones below the fold - but leave it off anything visible on load, because lazy-loading an above-the-fold image delays Largest Contentful Paint.', $img_total )
+					: sprintf( 'None of the %d images use loading="lazy". At this count it makes little difference, and it should never be applied to images visible on load - doing so delays Largest Contentful Paint. Noted rather than flagged.', $img_total ) ) ),
 		1,
 		'technical'
 	);
