@@ -17,6 +17,10 @@ This is a portfolio-level reconstruction of the major workstreams. It intentiona
   navigation controls, touch/trackpad scrolling and scroll snapping.
 - Retained a direct Google Business Profile link for the complete set of 40
   public ratings/reviews.
+- Separated the review slider from the ISO widget and moved it to the end of the
+  homepage after Corporate IT Procurement.
+- Reworked the slider frame with fluid desktop columns, a full-width tablet row,
+  a single-column mobile layout and wrapping navigation controls.
 
 ## 2026-08-24 — Homepage hero alignment
 

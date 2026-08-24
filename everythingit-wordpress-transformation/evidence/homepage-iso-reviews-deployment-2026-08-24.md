@@ -34,3 +34,22 @@ Public checks after deployment:
 - authenticated review cards: 10
 - working review navigation anchors: 10
 - CSS scroll snapping and mobile swipe: enabled
+
+## Lower-page relocation and responsive frame
+
+The review slider was subsequently separated from the ISO section and inserted
+after homepage section `c58e3f3` (Corporate IT Procurement), making it the final
+homepage content section before the global footer. The ISO section remains in
+its original position.
+
+The review frame now uses:
+
+- fluid `minmax()` columns and clamped outer gutters on wide screens;
+- a two-row tablet layout with the slider spanning the full frame width;
+- a one-column mobile layout;
+- wrapping review navigation controls;
+- horizontally scrollable, snap-aligned cards sized to the available viewport.
+
+Public source order was verified as ISO → Manufacturers → Manufacturers →
+Corporate IT Procurement → Google reviews. Ten cards and ten controls remained
+present after relocation.
