@@ -90,7 +90,9 @@
 .eit-iso-paneltop,.eit-iso-panelfoot{display:flex;align-items:center;justify-content:space-between;color:#96918c;font:600 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em}
 .eit-iso-active{display:inline-flex;align-items:center;gap:7px;color:var(--iso-orange-soft);border:1px solid rgba(250,147,47,.25);background:rgba(250,147,47,.08);border-radius:999px;padding:7px 9px}
 .eit-iso-active i{width:5px;height:5px}
-.eit-iso-certificate{position:relative;overflow:hidden;margin:20px 0 14px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;min-height:164px;padding:25px;border-radius:20px;color:#242627;background:linear-gradient(135deg,#fff 0%,#f5f5f5 100%);box-shadow:0 20px 50px rgba(0,0,0,.24)}
+.eit-iso-certificate{position:relative;overflow:hidden;margin:20px 0 14px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;min-height:164px;padding:25px;border-radius:20px;color:#242627!important;background:linear-gradient(135deg,#fff 0%,#f5f5f5 100%);box-shadow:0 20px 50px rgba(0,0,0,.24);text-decoration:none!important;transition:transform .2s ease,box-shadow .2s ease}
+.eit-iso-certificate:hover,.eit-iso-certificate:focus-visible{transform:translateY(-3px);box-shadow:0 26px 58px rgba(0,0,0,.3)}
+.eit-iso-certificate:focus-visible{outline:3px solid var(--iso-orange);outline-offset:4px}
 .eit-iso-certificate:after{content:"";position:absolute;width:190px;height:190px;right:-72px;bottom:-98px;border-radius:50%;border:38px solid rgba(250,147,47,.07)}
 .eit-iso-shield{width:70px;height:70px;display:grid;place-items:center;color:var(--iso-orange);border:1px solid rgba(250,147,47,.22);background:rgba(250,147,47,.07);border-radius:18px}
 .eit-iso-shield svg{width:46px;height:46px}
@@ -197,13 +199,13 @@
         <div class="eit-iso-panel">
           <div class="eit-iso-paneltop"><span>ASSURANCE / 27001</span><span class="eit-iso-active"><i></i> ACTIVE</span></div>
 
-          <div class="eit-iso-certificate">
+          <a class="eit-iso-certificate" href="https://everythingit.ie/iso-27001-compliance/" aria-label="Learn about Everything IT ISO 27001 compliance">
             <div class="eit-iso-shield">
               <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 39 10v11c0 10.2-5.9 18.3-15 23-9.1-4.7-15-12.8-15-23V10L24 4Z" fill="none" stroke="currentColor" stroke-width="2.2"></path><path d="m17 24 4.5 4.5L31.5 18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6"></path></svg>
             </div>
             <div><small>INFORMATION SECURITY</small><h3>ISO 27001</h3><p>Certified management system</p></div>
             <div class="eit-iso-seal">CERTIFIED<br><b>✓</b></div>
-          </div>
+          </a>
 
           <div class="eit-iso-list">
             <div><span class="eit-iso-check">✓</span><p><strong>Governance</strong><small>Defined ownership, policies and oversight</small></p><em>VERIFIED</em></div>

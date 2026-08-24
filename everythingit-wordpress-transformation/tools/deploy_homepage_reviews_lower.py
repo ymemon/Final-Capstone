@@ -102,6 +102,8 @@ def main() -> None:
             or source.count('eit-google-set--duplicate') != 2
             or 'eitGoogleMarquee' not in source):
         raise RuntimeError("Source slider validation failed")
+    if source.count('href="https://everythingit.ie/iso-27001-compliance/" aria-label="Learn about Everything IT ISO 27001 compliance"') != 1:
+        raise RuntimeError("ISO banner link validation failed")
     stamp = int(time.time())
     remote_source = f"eit-review-lower-{stamp}.html"
     remote_php = f"eit-review-lower-{stamp}.php"

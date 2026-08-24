@@ -53,6 +53,7 @@ This is a portfolio-level reconstruction of the major workstreams. It intentiona
 - Added reusable footer/header and homepage component source.
 - Converted the homepage Google reviews row into a seamless continuous slider with accessible pause and reduced-motion behaviour.
 - Moved the Google rating and stars above the slider and expanded the review track across the full responsive content frame.
+- Linked the homepage ISO certification banner directly to the ISO 27001 compliance page.
 - Applied semantic HTML, scoped CSS, responsive behaviour and accessible SVG treatment.
 
 ## Navigation
@@ -62,6 +63,7 @@ This is a portfolio-level reconstruction of the major workstreams. It intentiona
 - Removed the Case Studies tab while the page remained deactivated from public navigation.
 - Promoted Cyber Security to a dedicated top-level destination.
 - Normalised the top-level order to Services, MDM, Cyber Security, Locations, Team and Contact Us.
+- Corrected the global header telephone display to `+353 1 524 0755` after auditing all 54 published pages.
 
 ## Production operations
 

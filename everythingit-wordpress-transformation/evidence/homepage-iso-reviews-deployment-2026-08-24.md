@@ -73,3 +73,7 @@ unique reviews.
 The review layout was then refined so the Google rating and stars sit in a
 centred header above the slider. The continuous review track now spans the full
 responsive content frame rather than occupying only the third desktop column.
+
+The white ISO certification banner within the dark homepage assurance panel is
+now a keyboard-accessible link to `/iso-27001-compliance/`, with visible hover
+and focus treatment.
