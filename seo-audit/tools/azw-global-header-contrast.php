@@ -282,31 +282,38 @@ add_action('wp_footer', static function () {
 
     /* azw-overlay-fix ------------------------------------------------
        Theme paints .overlay solid white across the header strip, hiding
-       the dark bar below and leaving white nav text on white. Kill it in
-       the non-sticky state; the sticky header is genuinely white and is
-       left alone. */
-    body header.site-header.header-two:not(.sticky-header) .bottom-header > .overlay,
-    body header.site-header.header-two:not(.sticky-header) .overlay-header > .overlay {
+       the dark bar below and leaving white nav text on white. Killed in
+       BOTH states: the scrolled state used to be left white deliberately,
+       from when the page under it was white too. It no longer is, and a
+       white bar sliding over the dark report was the one place the theme
+       came apart - as well as putting #a6a6a6 nav links on white. */
+    body header.site-header.header-two .bottom-header > .overlay,
+    body header.site-header.header-two .overlay-header > .overlay {
         background: transparent !important;
     }
 
     /* Stock logo is dark ink, unreadable on the dark bar. Swap to the light
-       variant (attachment 2480) only while the header is dark; `content` on
-       a replaced element is the least invasive swap and needs no markup
-       change. Sticky/white header keeps the original. */
-    body header.site-header.header-two:not(.sticky-header) .site-branding img#headerLogo,
-    body header.site-header.header-two:not(.sticky-header) .site-branding img {
+       variant (attachment 2480); `content` on a replaced element is the
+       least invasive swap and needs no markup change. Applies scrolled too,
+       now that the bar stays dark in both states. */
+    body header.site-header.header-two .site-branding img#headerLogo,
+    body header.site-header.header-two .site-branding img {
         content: url('https://azwebcorp.com/wp-content/uploads/2026/08/Azwebcorp-light_logo.png');
     }
 
-    body header.site-header.header-two:not(.sticky-header) .bottom-header {
+    body header.site-header.header-two.sticky-header .overlay,
+    body header.site-header.header-two.sticky-header .bottom-header > .overlay {
+        background: transparent !important;
+    }
+
+    body header.site-header.header-two .bottom-header {
         background: rgba(7, 9, 13, .92) !important;
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         border-bottom: 1px solid rgba(255, 255, 255, .10) !important;
     }
-    body.home header#masthead.header-two:not(.sticky-header) .overlay-header,
-    body.home header#masthead.header-two:not(.sticky-header) .bottom-header {
+    body.home header#masthead.header-two .overlay-header,
+    body.home header#masthead.header-two .bottom-header {
         background: #07090d !important;
     }
     body.home header#masthead .site-branding,
@@ -318,7 +325,7 @@ add_action('wp_footer', static function () {
         opacity: 1 !important;
         visibility: visible !important;
     }
-    body header.site-header.header-two:not(.sticky-header) .main-navigation ul.menu > li > a {
+    body header.site-header.header-two .main-navigation ul.menu > li > a {
         color: #fff !important;
         -webkit-text-fill-color: #fff !important;
         text-shadow: none !important;
@@ -326,7 +333,7 @@ add_action('wp_footer', static function () {
     /* azw-no-capsules: plain white labels, same as every other page. No
        display:flex here on purpose - the theme's own layout centres the
        text correctly, and the flex override was what knocked it off. */
-    body.home header#masthead.header-two:not(.sticky-header) .main-navigation ul.menu > li > a {
+    body.home header#masthead.header-two .main-navigation ul.menu > li > a {
         color: #fff !important;
         -webkit-text-fill-color: #fff !important;
         background: transparent !important;
@@ -336,20 +343,20 @@ add_action('wp_footer', static function () {
         visibility: visible !important;
         mix-blend-mode: normal !important;
     }
-    body header.site-header.header-two:not(.sticky-header) .main-navigation ul.menu > li > a:hover,
-    body header.site-header.header-two:not(.sticky-header) .main-navigation ul.menu > li > a:focus,
-    body header.site-header.header-two:not(.sticky-header) .main-navigation ul.menu > li > a:active,
-    body header.site-header.header-two:not(.sticky-header) .main-navigation ul.menu > li:hover > a,
-    body header.site-header.header-two:not(.sticky-header) .main-navigation ul.menu > li.current-menu-item > a,
-    body header.site-header.header-two:not(.sticky-header) .main-navigation ul.menu > li.current_page_item > a {
+    body header.site-header.header-two .main-navigation ul.menu > li > a:hover,
+    body header.site-header.header-two .main-navigation ul.menu > li > a:focus,
+    body header.site-header.header-two .main-navigation ul.menu > li > a:active,
+    body header.site-header.header-two .main-navigation ul.menu > li:hover > a,
+    body header.site-header.header-two .main-navigation ul.menu > li.current-menu-item > a,
+    body header.site-header.header-two .main-navigation ul.menu > li.current_page_item > a {
         color: #e6b84d !important;
     }
-    body.home header#masthead.header-two:not(.sticky-header) .main-navigation ul.menu > li > a:hover,
-    body.home header#masthead.header-two:not(.sticky-header) .main-navigation ul.menu > li > a:focus,
-    body.home header#masthead.header-two:not(.sticky-header) .main-navigation ul.menu > li > a:active,
-    body.home header#masthead.header-two:not(.sticky-header) .main-navigation ul.menu > li:hover > a,
-    body.home header#masthead.header-two:not(.sticky-header) .main-navigation ul.menu > li.current-menu-item > a,
-    body.home header#masthead.header-two:not(.sticky-header) .main-navigation ul.menu > li.current_page_item > a {
+    body.home header#masthead.header-two .main-navigation ul.menu > li > a:hover,
+    body.home header#masthead.header-two .main-navigation ul.menu > li > a:focus,
+    body.home header#masthead.header-two .main-navigation ul.menu > li > a:active,
+    body.home header#masthead.header-two .main-navigation ul.menu > li:hover > a,
+    body.home header#masthead.header-two .main-navigation ul.menu > li.current-menu-item > a,
+    body.home header#masthead.header-two .main-navigation ul.menu > li.current_page_item > a {
         color: #e6b84d !important;
         -webkit-text-fill-color: #e6b84d !important;
         background: transparent !important;
@@ -380,8 +387,8 @@ add_action('wp_footer', static function () {
         color: #604b16 !important;
         background: #f5f7f9 !important;
     }
-    body header.site-header.header-two:not(.sticky-header) .header-icons a,
-    body header.site-header.header-two:not(.sticky-header) .header-icons .search-icon {
+    body header.site-header.header-two .header-icons a,
+    body header.site-header.header-two .header-icons .search-icon {
         color: #fff !important;
     }
     body header.site-header .header-btn-1.button-primary {
@@ -416,6 +423,44 @@ add_action('wp_footer', static function () {
         body.home header#masthead .main-navigation {
             display: block !important;
         }
+    }
+
+    /* azw-sticky-dark ------------------------------------------------
+       The scrolled bar, kept dark.
+
+       The rules above already say this, but the theme's own sticky rule
+       is class-only and ties them on specificity, so it won on source
+       order everywhere except the home page - which only escaped because
+       its `body.home` variant carried one extra class. Rather than rely
+       on that accident, these use the #masthead id: one id beats any
+       number of classes, so the outcome no longer depends on which
+       stylesheet the theme happens to print last.
+
+       Without this the bar goes white on scroll while the logo swap has
+       already switched to the light mark, i.e. a white logo on white. */
+    body header#masthead.site-header.header-two.sticky-header .bottom-header,
+    body header#masthead.site-header.header-two.sticky-header .bottom-header.header-image-wrap,
+    body header#masthead.site-header.header-two.sticky-header .overlay-header {
+        background: #07090d !important;
+        border-bottom: 1px solid rgba(255, 255, 255, .10) !important;
+    }
+    body header#masthead.site-header.header-two.sticky-header .overlay,
+    body header#masthead.site-header.header-two.sticky-header .bottom-header > .overlay {
+        background: transparent !important;
+    }
+    body header#masthead.site-header.header-two.sticky-header .main-navigation ul.menu > li > a,
+    body header#masthead.site-header.header-two.sticky-header .site-title,
+    body header#masthead.site-header.header-two.sticky-header .site-title a {
+        color: #ffffff !important;
+    }
+    body header#masthead.site-header.header-two.sticky-header .main-navigation ul.menu > li > a:hover,
+    body header#masthead.site-header.header-two.sticky-header .main-navigation ul.menu > li > a:focus,
+    body header#masthead.site-header.header-two.sticky-header .main-navigation ul.menu > li.current-menu-item > a,
+    body header#masthead.site-header.header-two.sticky-header .main-navigation ul.menu > li.current_page_item > a {
+        color: #e6b84d !important;
+    }
+    body header#masthead.site-header.header-two.sticky-header .site-branding img {
+        content: url('https://azwebcorp.com/wp-content/uploads/2026/08/Azwebcorp-light_logo.png');
     }
     </style>
     <?php

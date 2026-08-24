@@ -244,7 +244,7 @@ function azwc_fu_report_html( $report, $name = '' ) {
 	<h3>Want this walked through?</h3>
 	<p>This report is automated — it reads what your page sends to a browser. A person reading your site alongside your competitors will find things no crawler can.</p>
 	<p>Book a free 30-minute call and we will run a hand audit before we speak, then talk you through it.</p>
-	<p style="margin-top:8px"><b style="color:#e6b84d">623-670-1611</b> &nbsp;·&nbsp; info@azwebcorp.com &nbsp;·&nbsp; azwebcorp.com/free-seo-audit/</p>
+	<p style="margin-top:8px"><b style="color:#e6b84d">480-818-5761</b> &nbsp;·&nbsp; info@azwebcorp.com &nbsp;·&nbsp; azwebcorp.com/free-seo-audit/</p>
 </div>
 
 <div class="foot">

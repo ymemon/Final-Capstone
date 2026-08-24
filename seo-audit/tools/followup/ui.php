@@ -56,45 +56,47 @@ function azwc_fu_render() {
 	.azwc-fu-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:flex-start;justify-content:center;
 		padding:24px 14px;overflow-y:auto;background:rgba(4,6,10,.74)}
 	.azwc-fu-modal.is-open{display:flex}
-	.azwc-fu-box{position:relative;width:100%;max-width:600px;margin:auto;background:#fff;color:#1c2129;
+	.azwc-fu-box{position:relative;width:100%;max-width:600px;margin:auto;background:#0d1219;color:#d6dce4;
+		border:1px solid rgba(230,184,77,.24);
 		border-radius:16px;padding:30px 28px;font-size:15px;line-height:1.6}
-	.azwc-fu-box h4{margin:0 0 6px;font-size:20px;color:#12161d}
-	.azwc-fu-box .azwc-fu-lede{margin:0 0 18px;color:#5a626d;font-size:14px}
+	.azwc-fu-box h4{margin:0 0 6px;font-size:20px;color:#ffffff}
+	.azwc-fu-box .azwc-fu-lede{margin:0 0 18px;color:#aab2bd;font-size:14px}
 	.azwc-fu-x{position:absolute;top:12px;right:12px;width:34px;height:34px;border:0;border-radius:9px;
-		background:#eef0f3;color:#48505b;font-size:19px;line-height:1;cursor:pointer}
-	.azwc-fu-x:hover{background:#e2e5ea}
+		background:rgba(255,255,255,.08);color:#d6dce4;font-size:19px;line-height:1;cursor:pointer}
+	.azwc-fu-x:hover{background:rgba(255,255,255,.16)}
 	.azwc-fu-field{margin-bottom:13px}
-	.azwc-fu-field label{display:block;font-size:12.5px;font-weight:750;margin-bottom:4px;color:#3b434e}
-	.azwc-fu-field input{width:100%;padding:11px 13px;font:inherit;font-size:15px;color:#1c2129;background:#fff;
-		border:1px solid #cfd4db;border-radius:9px}
+	.azwc-fu-field label{display:block;font-size:12.5px;font-weight:750;margin-bottom:4px;color:#d6dce4}
+	.azwc-fu-field input{width:100%;padding:11px 13px;font:inherit;font-size:15px;color:#ffffff;background:rgba(255,255,255,.06);
+		border:1px solid rgba(255,255,255,.22);border-radius:9px}
 	.azwc-fu-field input:focus{outline:2px solid #e6b84d;outline-offset:1px;border-color:#e6b84d}
+	.azwc-fu-field input::placeholder{color:#98a1ad}
 	.azwc-fu-hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden}
 	.azwc-fu-go{width:100%;padding:14px 20px;font:inherit;font-size:15.5px;font-weight:800;color:#161208;
 		background:#e6b84d;border:1px solid #e6b84d;border-radius:10px;cursor:pointer;margin-top:6px}
 	.azwc-fu-go:hover{background:#f5d47d}
 	.azwc-fu-go[disabled]{opacity:.6;cursor:default}
-	.azwc-fu-note{margin:12px 0 0;font-size:12.5px;color:#6b7480;line-height:1.55}
+	.azwc-fu-note{margin:12px 0 0;font-size:12.5px;color:#98a1ad;line-height:1.55}
 	.azwc-fu-msg{margin:14px 0 0;padding:12px 14px;border-radius:9px;font-size:14px;display:none}
-	.azwc-fu-msg.is-err{display:block;background:#fdeaea;border:1px solid #f2c2c2;color:#8f2b2b}
-	.azwc-fu-msg.is-ok{display:block;background:#eaf7ef;border:1px solid #bfe4cd;color:#1d6b3c}
+	.azwc-fu-msg.is-err{display:block;background:rgba(214,69,69,.14);border:1px solid rgba(214,69,69,.40);color:#f2a9a9}
+	.azwc-fu-msg.is-ok{display:block;background:rgba(15,157,88,.14);border:1px solid rgba(15,157,88,.40);color:#4cc98a}
 
-	.azwc-fu-days{display:flex;gap:7px;overflow-x:auto;padding-bottom:9px;margin-bottom:14px;
+	.azwc-fu-days{display:flex;gap:7px;overflow-x:auto;padding-bottom:9px;margin-bottom:14px;color-scheme:dark;
 		scrollbar-width:thin;-webkit-overflow-scrolling:touch}
-	.azwc-fu-day{flex:0 0 auto;padding:9px 13px;border:1px solid #cfd4db;border-radius:10px;background:#fff;
-		font:inherit;font-size:13px;font-weight:700;color:#3b434e;cursor:pointer;white-space:nowrap}
+	.azwc-fu-day{flex:0 0 auto;padding:9px 13px;border:1px solid rgba(255,255,255,.20);border-radius:10px;
+		background:rgba(255,255,255,.05);font:inherit;font-size:13px;font-weight:700;color:#d6dce4;cursor:pointer;white-space:nowrap}
 	.azwc-fu-day:hover{border-color:#e6b84d}
-	.azwc-fu-day.is-on{background:#12161d;border-color:#12161d;color:#fff}
+	.azwc-fu-day.is-on{background:#e6b84d;border-color:#e6b84d;color:#161208}
 	.azwc-fu-slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(94px,1fr));gap:7px;
 		max-height:246px;overflow-y:auto;padding:2px}
-	.azwc-fu-slot{padding:10px 6px;border:1px solid #cfd4db;border-radius:9px;background:#fff;font:inherit;
-		font-size:13.5px;font-weight:650;color:#1c2129;cursor:pointer;text-align:center}
-	.azwc-fu-slot:hover{border-color:#e6b84d;background:#faf6ec}
+	.azwc-fu-slot{padding:10px 6px;border:1px solid rgba(255,255,255,.20);border-radius:9px;
+		background:rgba(255,255,255,.05);font:inherit;font-size:13.5px;font-weight:650;color:#ffffff;cursor:pointer;text-align:center}
+	.azwc-fu-slot:hover{border-color:#e6b84d;background:rgba(230,184,77,.16)}
 	.azwc-fu-slot.is-on{background:#e6b84d;border-color:#e6b84d;color:#161208;font-weight:800}
-	.azwc-fu-picked{margin:14px 0 4px;padding:12px 14px;background:#faf6ec;border:1px solid #e6d3a3;
-		border-radius:9px;font-size:14px;color:#4a3d18}
+	.azwc-fu-picked{margin:14px 0 4px;padding:12px 14px;background:rgba(230,184,77,.12);border:1px solid rgba(230,184,77,.34);
+		border-radius:9px;font-size:14px;color:#f5d47d}
 	.azwc-fu-picked b{display:block;font-size:15px}
 	.azwc-fu-back{background:none;border:0;padding:0;margin-bottom:12px;font:inherit;font-size:13px;
-		color:#9b711b;cursor:pointer;text-decoration:underline}
+		color:#f5d47d;cursor:pointer;text-decoration:underline}
 	.azwc-fu-spin{display:inline-block;width:13px;height:13px;margin-right:7px;vertical-align:-2px;
 		border:2px solid rgba(22,18,8,.3);border-top-color:#161208;border-radius:50%;animation:azwcfuspin .7s linear infinite}
 	@keyframes azwcfuspin{to{transform:rotate(360deg)}}
@@ -258,7 +260,7 @@ function azwc_fu_render() {
 					body.innerHTML = '<h4 id="azwc-fu-title">On its way</h4>'
 						+ '<p>' + esc(r.body.message) + '</p>'
 						+ '<p class="azwc-fu-note">Not there in a few minutes? Check your spam folder, '
-						+ 'or call us on 623-670-1611 and we will send it again.</p>';
+						+ 'or call us on 480-818-5761 and we will send it again.</p>';
 					return;
 				}
 				go.disabled = false;
@@ -302,13 +304,13 @@ function azwc_fu_render() {
 			slotData = data;
 			if (!data.days || !data.days.length) {
 				body.innerHTML += '<p>We have no free slots in the next few weeks. '
-					+ 'Call us on <b>623-670-1611</b> and we will find a time.</p>';
+					+ 'Call us on <b>480-818-5761</b> and we will find a time.</p>';
 				return;
 			}
 			drawCalendar();
 		}).catch(function () {
 			var el = document.getElementById('azwc-fu-loading');
-			if (el) { el.textContent = 'We could not load the calendar. Please call 623-670-1611.'; }
+			if (el) { el.textContent = 'We could not load the calendar. Please call 480-818-5761.'; }
 		});
 	}
 

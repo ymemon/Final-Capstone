@@ -54,7 +54,7 @@ function azwc_fu_wrap( $title, $body ) {
 		. '<tr><td style="padding:28px;color:#1c2129;font-size:15px;line-height:1.62;">' . $body . '</td></tr>'
 
 		. '<tr><td style="background:#f6f7f9;padding:18px 28px;color:#6b7480;font-size:12px;line-height:1.6;border-top:1px solid #e2e5ea;">'
-		. 'AZ Web Corp &nbsp;·&nbsp; <a href="tel:+16236701611" style="color:#9b711b;text-decoration:none;">623-670-1611</a>'
+		. 'AZ Web Corp &nbsp;·&nbsp; <a href="tel:+14808185761" style="color:#9b711b;text-decoration:none;">480-818-5761</a>'
 		. ' &nbsp;·&nbsp; <a href="mailto:info@azwebcorp.com" style="color:#9b711b;text-decoration:none;">info@azwebcorp.com</a><br>'
 		. 'Monday–Thursday, 9:00am–6:00pm PST &nbsp;·&nbsp; <a href="https://azwebcorp.com" style="color:#9b711b;text-decoration:none;">azwebcorp.com</a><br>'
 		. '<span style="color:#9aa3ad;">&copy; ' . $year . ' AZ Web Corp</span>'
@@ -133,7 +133,7 @@ function azwc_fu_mail_report( $row, $report, $attachments, $is_pdf ) {
 		. '<p>If you would like us to do that, we will run a hand audit and walk you through it on a call. '
 		. 'It is free and it takes half an hour.</p>'
 		. azwc_fu_button( home_url( '/free-seo-audit/?azwc_call=book' ), 'Book a free 30-minute call' )
-		. '<p style="font-size:13px;color:#6b7480;">Prefer to talk now? Call <b>623-670-1611</b>.</p>';
+		. '<p style="font-size:13px;color:#6b7480;">Prefer to talk now? Call <b>480-818-5761</b>.</p>';
 
 	return azwc_fu_send(
 		$row->email,

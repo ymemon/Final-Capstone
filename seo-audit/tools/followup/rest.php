@@ -125,7 +125,7 @@ function azwc_fu_rest_report( WP_REST_Request $r ) {
 
 	if ( ! azwc_fu_rate_ok( 'report', AZWC_FU_MAX_EMAILS_H ) ) {
 		return azwc_fu_err(
-			new WP_Error( 'azwc_fu_rate', 'That is a lot of reports from one place. Try again in an hour, or call us on 623-670-1611.' ),
+			new WP_Error( 'azwc_fu_rate', 'That is a lot of reports from one place. Try again in an hour, or call us on 480-818-5761.' ),
 			429
 		);
 	}
@@ -175,7 +175,7 @@ function azwc_fu_rest_report( WP_REST_Request $r ) {
 
 	if ( ! $sent ) {
 		return azwc_fu_err(
-			new WP_Error( 'azwc_fu_mail', 'We built your report but could not email it. Please call us on 623-670-1611 and we will send it over.' ),
+			new WP_Error( 'azwc_fu_mail', 'We built your report but could not email it. Please call us on 480-818-5761 and we will send it over.' ),
 			500
 		);
 	}
@@ -214,7 +214,7 @@ function azwc_fu_rest_booking( WP_REST_Request $r ) {
 
 	if ( ! azwc_fu_rate_ok( 'call', AZWC_FU_MAX_BOOKINGS_H ) ) {
 		return azwc_fu_err(
-			new WP_Error( 'azwc_fu_rate', 'You already have a booking request in. Give us a call on 623-670-1611 if you need another time.' ),
+			new WP_Error( 'azwc_fu_rate', 'You already have a booking request in. Give us a call on 480-818-5761 if you need another time.' ),
 			429
 		);
 	}
@@ -256,7 +256,7 @@ function azwc_fu_rest_booking( WP_REST_Request $r ) {
 
 	if ( ! azwc_fu_mail_confirm_request( $row ) ) {
 		return azwc_fu_err(
-			new WP_Error( 'azwc_fu_mail', 'We could not send the confirmation email. Please call us on 623-670-1611.' ),
+			new WP_Error( 'azwc_fu_mail', 'We could not send the confirmation email. Please call us on 480-818-5761.' ),
 			500
 		);
 	}
@@ -304,7 +304,7 @@ function azwc_fu_handle_action() {
 		azwc_fu_page(
 			'Link not recognised',
 			'<p>That link has expired or was already used. If you were booking a call, '
-			. 'start again from the audit page or just ring us on <b>623-670-1611</b>.</p>',
+			. 'start again from the audit page or just ring us on <b>480-818-5761</b>.</p>',
 			home_url( '/free-seo-audit/' ),
 			'Back to the SEO check'
 		);

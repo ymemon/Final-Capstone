@@ -1276,6 +1276,32 @@ function azwc_audit_stage_psi( $url, $strategy, $peek = false ) {
  * Front end
  * ---------------------------------------------------------------------- */
 
+/**
+ * Pages that carry the audit tool.
+ *
+ * Slug-based, not ID-based: these two pages are the tool's home and a slug
+ * survives an export/import where a numeric ID does not.
+ */
+function azwc_audit_is_tool_page() {
+	return is_page( array( 'free-seo-audit', 'seo-audit-results' ) );
+}
+
+/**
+ * Marks the page so the dark theme can scope to it.
+ *
+ * The theme paints its white on <body>, and every wrapper between there and
+ * the tool is transparent, so this is the only element worth hooking.
+ */
+add_filter(
+	'body_class',
+	function ( $classes ) {
+		if ( azwc_audit_is_tool_page() ) {
+			$classes[] = 'azwc-audit-page';
+		}
+		return $classes;
+	}
+);
+
 add_shortcode( 'azwc_seo_audit', 'azwc_audit_shortcode' );
 
 /**
@@ -1513,7 +1539,47 @@ function azwc_audit_styles() {
 	#azseo-tool-mount #azwc-audit .azwc-step{color:#7d8894}
 	#azseo-tool-mount #azwc-audit .azwc-step.done,#azseo-tool-mount #azwc-audit .azwc-step.active{color:var(--ink)}
 	#azseo-tool-mount #azwc-audit .azwc-cta{background:#111820;border:1px solid rgba(230,184,77,.30)}
-	</style>
+	
+	/* ---- Dark brand theme ------------------------------------------------
+	   Same palette as the hero above it: the report used to sit on the
+	   theme's white, so the page changed identity halfway down.
+	   Everything below the token block exists because that rule hardcoded a
+	   light colour and so is untouched by flipping the tokens. */
+	body.azwc-audit-page{background:linear-gradient(135deg,#050608,#111823 60%,#30240a) fixed !important}
+	body.azwc-audit-page #content.site-content,
+	body.azwc-audit-page .site-main,
+	body.azwc-audit-page .entry-content,
+	body.azwc-audit-page .wrap-detail-page{background:transparent !important}
+
+	body.azwc-audit-page #azwc-audit{
+		--ink:#ffffff;
+		--muted:#d6dce4;
+		--line:rgba(230,184,77,.24);
+		--accent:#e6b84d;
+		--card:rgba(255,255,255,.045);
+		--bg:rgba(255,255,255,.03)}
+
+	body.azwc-audit-page #azwc-audit input{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.22);color:#fff}
+	body.azwc-audit-page #azwc-audit input::placeholder{color:#98a1ad}
+	body.azwc-audit-page #azwc-audit input:focus{border-color:#e6b84d;background:rgba(255,255,255,.09)}
+	body.azwc-audit-page #azwc-audit .azwc-audit-status{background:rgba(230,184,77,.10);border-color:rgba(230,184,77,.30);color:#f5d47d}
+	body.azwc-audit-page #azwc-audit .azwc-audit-status.error{background:rgba(214,69,69,.14);border-color:rgba(214,69,69,.40);color:#f2a9a9}
+	body.azwc-audit-page #azwc-audit .azwc-mark,
+	body.azwc-audit-page #azwc-audit .azwc-step.skip .azwc-mark{border-color:rgba(255,255,255,.30);background:transparent}
+	body.azwc-audit-page #azwc-audit .azwc-track,
+	body.azwc-audit-page #azwc-audit .azwc-empty{background:rgba(255,255,255,.10)}
+	body.azwc-audit-page #azwc-audit .azwc-thresh u{background:#ffffff}
+	/* The gauge's unfilled ring is written inline in the SVG, not in a class. */
+	body.azwc-audit-page #azwc-audit .azwc-gauge svg circle:first-of-type{stroke:rgba(255,255,255,.13)}
+	body.azwc-audit-page #azwc-audit .azwc-sev.warn{background:rgba(232,163,61,.18);color:#e8a33d}
+	body.azwc-audit-page #azwc-audit .azwc-sev.fail{background:rgba(214,69,69,.18);color:#ef8f8f}
+	body.azwc-audit-page #azwc-audit .azwc-allclear{color:#4cc98a}
+	body.azwc-audit-page #azwc-audit .azwc-items a{color:#f5d47d}
+	body.azwc-audit-page #azwc-audit .azwc-plain{background:rgba(255,255,255,.05)}
+	body.azwc-audit-page #azwc-audit .azwc-panel h3,
+	body.azwc-audit-page #azwc-audit .azwc-check h4,
+	body.azwc-audit-page #azwc-audit .azwc-action h4{color:#ffffff}
+</style>
 	<?php
 }
 
