@@ -126,6 +126,32 @@ function azw_dark_theme_css() {
 		border-radius:12px;
 	}
 
+	/* ---- leftovers from the previous look --------------------------------
+	   Everything above touches background-COLOR only, so that hero gradients
+	   and photographic sections survive. These two are background-IMAGES and
+	   therefore sail straight through it, which is why they were still the
+	   odd ones out after the rest of the site went dark:
+
+	   - .elementor-element-e6776eb is the hero section shared by About and
+	     Arizona Digital Marketing. It carries a 2024 stock banner photo
+	     (Xcratch-Banner-image.webp) where every other page has the gradient.
+	   - .elementor-element-f11c945 is a featured-post panel still painted
+	     with the OLD palette: linear-gradient(167deg,#dde423,#e6b84d), the
+	     lime-to-gold that was supposed to have gone.
+
+	   Named individually because CSS cannot select an element by the value of
+	   its background-image, and blanket-removing background-image would take
+	   every hero and every photo with it. */
+	body .elementor-element-e6776eb{
+		background-image:linear-gradient(135deg,#050608,#111823 60%,#30240a) !important;
+	}
+	body .elementor-element-f11c945 .elementor-element-populated{
+		background-image:none !important;
+		background-color:var(--azw-card) !important;
+		border:1px solid var(--azw-line) !important;
+		border-radius:16px;
+	}
+
 	/* Wrappers AROUND those cards. Carding both would stack two tints and two
 	   borders, so the container simply steps out of the way. */
 	body aside.azw-related,
