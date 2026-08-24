@@ -114,7 +114,7 @@ function azw_quickbar_script() {
     var v = (input.value || '').trim();
     if (!v) { input.focus(); return; }
     btn.disabled = true;
-    note.textContent = 'Starting the audit…';
+    note.textContent = 'Starting the audit...';
 
     withTool(function (target, tform) {
       target.value = v;
@@ -124,13 +124,10 @@ function azw_quickbar_script() {
       } else {
         tform.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
       }
-      var results = document.querySelector('#azwc-audit .azwc-progress')
-                 || document.querySelector('#azwc-audit');
-      if (results && results.scrollIntoView) {
-        var y = results.getBoundingClientRect().top + window.pageYOffset - 110;
-        window.scrollTo({ top: y > 0 ? y : 0, behavior: 'smooth' });
-      }
-      note.textContent = 'Running — your report appears below.';
+      // The tool's own submit handler now opens the dedicated results tab, so
+      // there is nothing to scroll to on this page.
+      note.textContent = 'Opening your report in a new tab...';
+      window.setTimeout(function () { note.textContent = ''; }, 6000);
       btn.disabled = false;
     });
   });

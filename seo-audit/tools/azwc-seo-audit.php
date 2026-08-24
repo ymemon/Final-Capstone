@@ -1184,10 +1184,24 @@ function azwc_audit_stage_psi( $url, $strategy, $peek = false ) {
 
 add_shortcode( 'azwc_seo_audit', 'azwc_audit_shortcode' );
 
+/**
+ * Where the dedicated results tab lives. Falls back to the audit page
+ * itself, so the tool still works if that page is ever removed.
+ */
+function azwc_audit_results_url() {
+	$page = get_page_by_path( 'seo-audit-results' );
+	if ( $page && 'publish' === $page->post_status ) {
+		return get_permalink( $page );
+	}
+	return '';
+}
+
 function azwc_audit_shortcode() {
 	ob_start();
 	?>
-	<div id="azwc-audit" data-endpoint="<?php echo esc_url( rest_url( 'azwc/v1/audit' ) ); ?>">
+	<div id="azwc-audit"
+	     data-endpoint="<?php echo esc_url( rest_url( 'azwc/v1/audit' ) ); ?>"
+	     data-results="<?php echo esc_url( azwc_audit_results_url() ); ?>">
 		<form class="azwc-audit-form" novalidate>
 			<label for="azwc-audit-domain">Enter your website address</label>
 			<div class="azwc-audit-row">
@@ -1199,6 +1213,19 @@ function azwc_audit_shortcode() {
 		</form>
 
 		<div class="azwc-audit-status" role="status" aria-live="polite" hidden></div>
+		<div class="azwc-scan" hidden>
+			<div class="azwc-scan-head">
+				<h4>Scanning <span class="azwc-scan-target"></span></h4>
+				<p class="azwc-scan-count"></p>
+			</div>
+			<div class="azwc-tiles" role="img" aria-label="Audit checks, filling in as each result lands"></div>
+			<div class="azwc-scan-key">
+				<span><i class="k-pass"></i>Passing</span>
+				<span><i class="k-warn"></i>Worth improving</span>
+				<span><i class="k-fail"></i>Needs fixing</span>
+				<span><i class="k-pending"></i>Still checking</span>
+			</div>
+		</div>
 		<div class="azwc-progress" hidden>
 			<h4>Running the audit <span class="azwc-elapsed" aria-hidden="true"></span></h4>
 			<p class="azwc-sub">Each step below finishes when that request actually returns.</p>
@@ -1231,6 +1258,28 @@ function azwc_audit_styles() {
 	#azwc-audit .azwc-audit-note{margin:12px 0 0;color:var(--muted);font-size:13px}
 	#azwc-audit .azwc-audit-status{margin-top:18px;padding:16px 18px;background:#fffbe9;border:1px solid #f0e0a8;border-radius:10px;font-size:14px}
 	#azwc-audit .azwc-audit-status.error{background:#fdf0f0;border-color:#f2c9c9;color:#8a2b2b}
+	#azwc-audit .azwc-scan{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
+	#azwc-audit .azwc-scan-head{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:14px}
+	#azwc-audit .azwc-scan-head h4{margin:0;font-size:15px}
+	#azwc-audit .azwc-scan-target{color:var(--muted);font-weight:500;word-break:break-all}
+	#azwc-audit .azwc-scan-count{margin:0;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+	#azwc-audit .azwc-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(26px,1fr));gap:6px}
+	#azwc-audit .azwc-tile{display:block;height:26px;border-radius:5px;background:rgba(127,127,127,.20);
+		transform:scale(.82);opacity:.55;transition:background .25s ease,transform .25s ease,opacity .25s ease}
+	#azwc-audit .azwc-tile.is-pending{animation:azwc-tilepulse 1.25s ease-in-out infinite}
+	#azwc-audit .azwc-tile.is-pass{background:#0f9d58;transform:scale(1);opacity:1}
+	#azwc-audit .azwc-tile.is-warn{background:#e8a33d;transform:scale(1);opacity:1}
+	#azwc-audit .azwc-tile.is-fail{background:#d64545;transform:scale(1);opacity:1}
+	#azwc-audit .azwc-tile.is-info{background:#9aa3ad;transform:scale(1);opacity:.9}
+	@keyframes azwc-tilepulse{0%,100%{opacity:.35}50%{opacity:.75}}
+	@media(prefers-reduced-motion:reduce){#azwc-audit .azwc-tile{transition:none}#azwc-audit .azwc-tile.is-pending{animation:none}}
+	#azwc-audit .azwc-scan-key{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:12px;color:var(--muted)}
+	#azwc-audit .azwc-scan-key i{display:inline-block;width:10px;height:10px;margin-right:6px;border-radius:3px;vertical-align:-1px}
+	#azwc-audit .azwc-scan-key .k-pass{background:#0f9d58}
+	#azwc-audit .azwc-scan-key .k-warn{background:#e8a33d}
+	#azwc-audit .azwc-scan-key .k-fail{background:#d64545}
+	#azwc-audit .azwc-scan-key .k-pending{background:rgba(127,127,127,.45)}
+	#azwc-audit.is-results .azwc-audit-form{display:none}
 	#azwc-audit .azwc-progress{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
 	#azwc-audit .azwc-progress h4{margin:0 0 4px;font-size:15px}
 	#azwc-audit .azwc-progress .azwc-sub{margin-bottom:14px}
@@ -1720,6 +1769,63 @@ function azwc_audit_script() {
 		}
 
 		var azwcTimer = null;
+		var scanEl  = root.querySelector('.azwc-scan');
+		var tilesEl = root.querySelector('.azwc-tiles');
+
+		function tile(cls) {
+			var el = document.createElement('span');
+			el.className = 'azwc-tile ' + (cls || 'is-pending');
+			return el;
+		}
+
+		/** Placeholder grid while the page is being fetched. */
+		function scanStart(target, guess) {
+			if (!scanEl || !tilesEl) { return; }
+			tilesEl.innerHTML = '';
+			for (var i = 0; i < guess; i++) { tilesEl.appendChild(tile()); }
+			var t = root.querySelector('.azwc-scan-target');
+			if (t) { t.textContent = target; }
+			scanCount(0, guess);
+			scanEl.hidden = false;
+		}
+
+		function scanCount(done, total) {
+			var c = root.querySelector('.azwc-scan-count');
+			if (c) { c.textContent = done + ' of ' + total + ' checks complete'; }
+		}
+
+		/**
+		 * Reveal the real results.
+		 *
+		 * All 28 site checks arrive in one response, so this is a staggered
+		 * REVEAL of results already in hand - not a fake progress animation.
+		 * Kept fast (38ms a tile) so it reads as the grid filling in rather
+		 * than pretending the work is still happening.
+		 */
+		function scanFill(checks, extraPending) {
+			if (!tilesEl) { return; }
+			var total = checks.length + extraPending;
+			while (tilesEl.children.length < total) { tilesEl.appendChild(tile()); }
+			while (tilesEl.children.length > total) { tilesEl.removeChild(tilesEl.lastChild); }
+			checks.forEach(function (c, i) {
+				var el = tilesEl.children[i];
+				window.setTimeout(function () {
+					el.className = 'azwc-tile is-' + c.status;
+					el.setAttribute('title', c.label);
+					scanCount(i + 1, total);
+				}, i * 38);
+			});
+		}
+
+		/** Resolve one of the trailing speed tiles. */
+		function scanSpeed(index, ok, label) {
+			if (!tilesEl) { return; }
+			var el = tilesEl.children[tilesEl.children.length - 2 + index];
+			if (!el) { return; }
+			el.className = 'azwc-tile ' + (ok ? 'is-pass' : 'is-info');
+			el.setAttribute('title', label);
+		}
+
 
 		/** Advance the bar to the share of stages that have reported. */
 		function setProgress(done, total, running) {
@@ -1786,6 +1892,9 @@ function azwc_audit_script() {
 
 			buildSteps();
 			setTarget('site', domain);
+			// 28 is what the current check set produces; the grid reconciles to the
+			// real count as soon as the response arrives, so a drift here is cosmetic.
+			scanStart(domain, 28);
 			setProgress(0, TOTAL, true);
 			startTimer(t0);
             mark('site', 'active');
@@ -1801,6 +1910,9 @@ function azwc_audit_script() {
 					mark('site', 'done', 'HTTP ' + data.status + ' in ' + data.ms + ' ms'
 						+ (data.cached ? ' (cached)' : ''));
 					setTarget('site', data.url);
+					// Two trailing tiles are held for the speed strategies, which are
+					// genuinely still running.
+					scanFill(data.checks, 2);
 					done = 2;   // fetch + checks both satisfied by this one response
 					setProgress(done, TOTAL, true);
 					mark('checks', 'done', data.checks.length + ' checks evaluated');
@@ -1837,6 +1949,9 @@ function azwc_audit_script() {
 								    : 'Google did not return data');
 							done += 1;
 							setProgress(done, TOTAL, done < TOTAL);
+							scanSpeed(key === 'mobile' ? 0 : 1, !!psi,
+								(key === 'mobile' ? 'Mobile' : 'Desktop') + ' speed'
+								+ (psi && psi.score !== null ? ' - ' + psi.score + '/100' : ' - no data'));
 							// No render here - see the note above; the report is drawn once,
 							// at the end, so nothing partial is ever shown.
 						}
@@ -1906,10 +2021,40 @@ function azwc_audit_script() {
 				});
 		}
 
+		var azwcResultsUrl = root.dataset.results || '';
+		var azwcTarget = (function () {
+			try { return new URLSearchParams(window.location.search).get('target') || ''; }
+			catch (e) { return ''; }
+		})();
+
+		/**
+		 * Results page: the domain is already decided, so hide the input and go.
+		 */
+		if (azwcTarget) {
+			root.classList.add('is-results');
+			input.value = azwcTarget;
+			window.setTimeout(function () {
+				out.hidden = true;
+				out.innerHTML = '';
+				statusEl.hidden = true;
+				button.disabled = true;
+				run(azwcTarget);
+			}, 60);
+		}
+
 		form.addEventListener('submit', function (e) {
 			e.preventDefault();
 			var domain = input.value.trim();
 			if (!domain) { return; }
+
+			// From the audit page, hand off to the dedicated results tab. Opened
+			// straight from this click so it is a user gesture and survives popup
+			// blocking. On the results page itself azwcTarget is set, so we run
+			// inline instead of spawning tabs forever.
+			if (azwcResultsUrl && !azwcTarget) {
+				window.open(azwcResultsUrl + '?target=' + encodeURIComponent(domain), '_blank', 'noopener');
+				return;
+			}
 			out.hidden = true;
 			out.innerHTML = '';
 			delete out.dataset.scrolled;
