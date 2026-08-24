@@ -42,6 +42,19 @@ function azw_rel_catalog() {
         'ssl'                 => array('SSL certificates',              'Encrypt traffic and clear browser warnings.'),
         'website-backup'      => array('Website backup',                'Automated backups and restore points.'),
         'website-builder'     => array('Website builder',               'Build it yourself with a drag-and-drop editor.'),
+
+        // Service and city pages. Added because every one of these had zero
+        // inbound internal links, and the ones with real content on them were
+        // earning zero impressions as a result.
+        'arizona-web-design'      => array('Arizona web design',        'How we approach design across the state.'),
+        'web-development'         => array('Arizona web development',   'The engineering side of larger builds.'),
+        'arizona-seo-services'    => array('SEO across Arizona',        'Technical and local search, statewide.'),
+        'web-design-phoenix-az'   => array('Web design in Phoenix',     'What changes when you are selling into Phoenix.'),
+        'phoenix-web-development' => array('Phoenix web development',   'Custom builds, integrations and speed work.'),
+        'seo-company-phoenix-az'  => array('Phoenix SEO',               'Local search in the Valley&#039;s hardest market.'),
+        'web-design-gilbert-az'   => array('Web design in Gilbert',     'Design from a studio in the same town.'),
+        'seo-services-gilbert-az' => array('SEO in Gilbert',            'Local search for East Valley businesses.'),
+
     );
 }
 
@@ -65,6 +78,19 @@ function azw_rel_map() {
         'web-hosting-plus'    => array('domain-registration', 'business-email', 'ssl', 'wordpress-hosting'),
         'vps-hosting'         => array('domain-registration', 'business-email', 'ssl', 'wordpress-hosting'),
         'hosting-domains'     => array('domain-registration', 'domain-transfer', 'business-email', 'ssl'),
+
+        // The service/city cluster. Links flow FROM the pages that already have
+        // authority INTO the ones with none - /arizona-seo-services/ carries
+        // 7,447 impressions and was linking to nothing local at all.
+        'arizona-web-design'      => array('web-design-phoenix-az', 'web-design-gilbert-az', 'phoenix-web-development', 'arizona-seo-services'),
+        'arizona-seo-services'    => array('seo-company-phoenix-az', 'seo-services-gilbert-az', 'arizona-web-design', 'web-development'),
+        'web-development'         => array('phoenix-web-development', 'arizona-web-design', 'seo-company-phoenix-az', 'wordpress-hosting'),
+        'web-design-phoenix-az'   => array('phoenix-web-development', 'seo-company-phoenix-az', 'arizona-web-design', 'web-design-gilbert-az'),
+        'phoenix-web-development' => array('web-design-phoenix-az', 'seo-company-phoenix-az', 'web-development', 'wordpress-hosting'),
+        'seo-company-phoenix-az'  => array('arizona-seo-services', 'web-design-phoenix-az', 'seo-services-gilbert-az', 'phoenix-web-development'),
+        'web-design-gilbert-az'   => array('seo-services-gilbert-az', 'arizona-web-design', 'web-design-phoenix-az', 'web-development'),
+        'seo-services-gilbert-az' => array('arizona-seo-services', 'web-design-gilbert-az', 'seo-company-phoenix-az', 'arizona-web-design'),
+
     );
 }
 
