@@ -83,7 +83,7 @@ add_action('wp_footer', static function () {
         color: #161208 !important;
     }
     .azwc-feature-number {
-        color: #9b711b !important;
+        color: #e6b84d !important;
     }
     /* azw-btn-secondary: ghost variant - the fill above is for the primary
        button only, and this one keeps a white label. */
@@ -91,9 +91,9 @@ add_action('wp_footer', static function () {
     .azwc-btn.azwc-btn--secondary,
     .azwc-btn.is-secondary {
         background: transparent !important;
-        border: 1px solid #9b711b !important;
-        color: #9b711b !important;
-        -webkit-text-fill-color: #9b711b !important;
+        border: 1px solid #e6b84d !important;
+        color: #e6b84d !important;
+        -webkit-text-fill-color: #e6b84d !important;
     }
     .azwc-btn.secondary:hover,
     .azwc-btn.secondary:focus {
@@ -103,15 +103,21 @@ add_action('wp_footer', static function () {
         -webkit-text-fill-color: #161208 !important;
     }
 
-    /* azw-light-accent: gold/lime accent headings on light panels. */
+    /* azw-light-accent: gold accent headings.
+       These were #9b711b, a deep gold picked when these panels sat on white.
+       Every page carries the dark gradient now, so that value reads as muddy
+       brown next to the #e6b84d used everywhere else - which is exactly the
+       "different theme colour" the client saw on About and Digital Marketing.
+       It passes a 3:1 contrast check on dark, which is why the automated
+       sweep never flagged it; it is a brand mismatch, not a legibility one. */
     .elementor-element-3bcebac .elementor-heading-title,
     .elementor-element-3bcebac .elementor-heading-title span,
     .elementor-element-e84af0a .elementor-heading-title,
     .elementor-element-e84af0a .elementor-heading-title span,
     .elementor-element-bccd021 .elementor-heading-title,
     .elementor-element-bccd021 .elementor-heading-title span {
-        color: #9b711b !important;
-        -webkit-text-fill-color: #9b711b !important;
+        color: #e6b84d !important;
+        -webkit-text-fill-color: #e6b84d !important;
     }
 
     /* azw-contrast-fix: headings that resolved to a dark colour while sitting
@@ -373,7 +379,7 @@ add_action('wp_footer', static function () {
     body header.site-header.header-two.sticky-header .main-navigation ul.menu > li:hover > a,
     body header.site-header.header-two.sticky-header .main-navigation ul.menu > li.current-menu-item > a,
     body header.site-header.header-two.sticky-header .main-navigation ul.menu > li.current_page_item > a {
-        color: #9b711b !important;
+        color: #e6b84d !important;
     }
     body #masthead .main-navigation ul.menu ul {
         background: #fff !important;
