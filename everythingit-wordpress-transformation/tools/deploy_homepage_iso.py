@@ -78,7 +78,7 @@ $replace=function(&$nodes)use(&$replace,$target,$html,&$matches){{
 $replace($data);
 if($matches!==1){{throw new RuntimeException('Expected one ISO section; found '.$matches);}}
 $stamp=gmdate('Ymd-His');
-$backupDir=dirname(__DIR__).'/eit-backups';
+$backupDir='/home/client_c47ef96dfe_198185/eit-backups';
 if(!is_dir($backupDir)){{mkdir($backupDir,0750,true);}}
 $backup=$backupDir.'/homepage-before-iso-reviews-'.$stamp.'.json';
 file_put_contents($backup,wp_json_encode([

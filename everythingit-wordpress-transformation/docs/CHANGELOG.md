@@ -12,6 +12,11 @@ This is a portfolio-level reconstruction of the major workstreams. It intentiona
 - Backed up the original homepage Elementor data before mutation and verified
   the new section at the database, Elementor-render and public HTTP layers.
 - Added reusable, credential-free inspection and rollback-safe deployment tools.
+- Expanded the review band into a CSS-native slider containing all 10 verified
+  written review excerpts available in the project evidence, with ten direct
+  navigation controls, touch/trackpad scrolling and scroll snapping.
+- Retained a direct Google Business Profile link for the complete set of 40
+  public ratings/reviews.
 
 ## 2026-08-24 — Homepage hero alignment
 

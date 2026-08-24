@@ -6,10 +6,12 @@ Replaced the legacy white ISO 27001 section on homepage page ID 146 with the
 modern dark certification component in `src/components/homepage-iso-reviews.html`.
 
 The supplied concept displayed “40 reviews” but contained only three hard-coded
-review excerpts. The production version removes that partial, potentially
-misleading subset and links directly to the verified Everything IT Google
-Business Profile (`ChIJPQFEVAsJZ0gRmKsfrTWPS7A`) with a clear “Read all 40
-reviews” action.
+review excerpts. The production version uses all 10 authenticated written review
+excerpts available in the project evidence inside a CSS-native horizontal
+slider. It also links directly to the verified Everything IT Google Business
+Profile (`ChIJPQFEVAsJZ0gRmKsfrTWPS7A`) with a clear “Read all 40 reviews”
+action, covering the complete public profile rather than implying that the ten
+written excerpts are the entire review set.
 
 ## Safeguards and verification
 
@@ -29,3 +31,6 @@ Public checks after deployment:
 - `Read all 40 reviews`: present
 - old `iso-27001-certified-logo-it.jpg.png`: absent
 - placeholder review cards: zero
+- authenticated review cards: 10
+- working review navigation anchors: 10
+- CSS scroll snapping and mobile swipe: enabled
