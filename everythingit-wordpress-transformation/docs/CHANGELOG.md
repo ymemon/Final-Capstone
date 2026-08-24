@@ -13,6 +13,15 @@ This is a portfolio-level reconstruction of the major workstreams. It intentiona
   the new section at the database, Elementor-render and public HTTP layers.
 - Added reusable, credential-free inspection and rollback-safe deployment tools.
 
+## 2026-08-24 — Homepage hero alignment
+
+- Centered the existing homepage hero copy and CTA as one bounded content group.
+- Preserved the headline, subheadline, audit line and button copy verbatim.
+- Preserved the existing background image, spacing, colors and responsive type
+  sizes.
+- Added a rollback-safe, copy-invariant deployment utility and verified the
+  change in Elementor data and the public response.
+
 ## Discovery and audit
 
 - Built URL, content, heading, metadata, duplicate-content and internal-link inventories.
