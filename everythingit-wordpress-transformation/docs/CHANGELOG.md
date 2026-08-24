@@ -39,6 +39,7 @@ This is a portfolio-level reconstruction of the major workstreams. It intentiona
 
 ## Information architecture and SEO
 
+- Consolidated the duplicate Cyber Security pages into the Huntress partnership page at `/cybersecurity-dublin/`.
 - Consolidated duplicate service URLs around stable canonical destinations.
 - Corrected redirect targets and removed unnecessary redirect hops.
 - Improved page titles, descriptions, headings, internal links and canonical metadata.
