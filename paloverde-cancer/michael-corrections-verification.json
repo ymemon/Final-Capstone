@@ -1,0 +1,80 @@
+{
+  "carousel": {
+    "images": [
+      "https://875051.us16.myftpupload.com/wp-content/uploads/2025/12/PET-2-scaled.jpeg",
+      "https://875051.us16.myftpupload.com/wp-content/uploads/2025/12/SDO-2-7373-N-Scottsdale.webp",
+      "https://875051.us16.myftpupload.com/wp-content/uploads/2025/12/TBO-5601-W-Eugie.jpg",
+      "https://875051.us16.myftpupload.com/wp-content/uploads/2025/12/WVO-9250-W-Thomas-1.jpg",
+      "https://875051.us16.myftpupload.com/wp-content/uploads/2026/03/GTO-1-1488-W-Elliot-East-Valley.jpg"
+    ],
+    "dots": 5,
+    "active": "https://875051.us16.myftpupload.com/wp-content/uploads/2026/03/GTO-1-1488-W-Elliot-East-Valley.jpg"
+  },
+  "team": {
+    "cards": 6,
+    "names": [
+      "Nazish Ahmad, DO",
+      "Rajinder Grover, MD",
+      "Maqbool A. Halepota, MD",
+      "Demetrio Mamani, MD",
+      "Amol N.S. Rakkar, MD",
+      "Haider Zafar, MD"
+    ],
+    "mamaniLinks": [
+      "https://875051.us16.myftpupload.com/your-team/dr-mamani/"
+    ]
+  },
+  "locations": {
+    "estrella-location": [
+      {
+        "src": "https://875051.us16.myftpupload.com/wp-content/uploads/2025/12/WVO-9250-W-Thomas-1.jpg",
+        "naturalWidth": 2048,
+        "naturalHeight": 1364
+      }
+    ],
+    "glendale-location": [
+      {
+        "src": "https://875051.us16.myftpupload.com/wp-content/uploads/2025/12/TBO-5601-W-Eugie.jpg",
+        "naturalWidth": 1280,
+        "naturalHeight": 855
+      }
+    ],
+    "scottsdale-location": [
+      {
+        "src": "https://875051.us16.myftpupload.com/wp-content/uploads/2025/12/SDO-2-7373-N-Scottsdale.webp",
+        "naturalWidth": 2048,
+        "naturalHeight": 1365
+      }
+    ],
+    "east-valley-location": [
+      {
+        "src": "https://875051.us16.myftpupload.com/wp-content/uploads/2026/03/GTO-1-1488-W-Elliot-East-Valley.jpg",
+        "naturalWidth": 2048,
+        "naturalHeight": 1365
+      }
+    ]
+  },
+  "pet": {
+    "mapFrames": 1,
+    "mapSrc": "https://www.google.com/maps?q=16641+N+40th+St,+Phoenix,+AZ+85032&output=embed",
+    "hasAllLocationsBlock": false,
+    "addressPresent": true
+  },
+  "mobile": {
+    "/your-team/": {
+      "viewport": 390,
+      "bodyWidth": 390,
+      "documentWidth": 390
+    },
+    "/pet-scan-imaging/": {
+      "viewport": 390,
+      "bodyWidth": 390,
+      "documentWidth": 390
+    },
+    "/east-valley-location/": {
+      "viewport": 390,
+      "bodyWidth": 390,
+      "documentWidth": 390
+    }
+  }
+}

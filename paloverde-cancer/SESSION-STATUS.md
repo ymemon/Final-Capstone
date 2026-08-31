@@ -243,3 +243,37 @@ URLs now return 404 to real visitors.
   `pvcancer.com` DNS not yet pointed at it. Outside SSH/WP-CLI access,
   needs the client's registrar/DNS action before "going live" is real to
   the public.
+
+## 2026-08-31 — Michael Bustard correction list completed
+
+Michael supplied four issues: physician assignments, missing Dr. Mamani,
+missing Gilbert carousel image, low-resolution location photos, and the PET
+page's inconsistent format/missing map/all-location block.
+
+### Live changes
+
+- Re-verified all four office rosters against Michael's list; the live rosters
+  already matched exactly and were preserved.
+- Rebuilt `/your-team/` from its previous introduction-only state into a
+  responsive six-physician grid. Dr. Demetrio Mamani is included and all six
+  profile links return HTTP 200.
+- Added the 2048px Gilbert/GTO office image to the homepage carousel. The
+  carousel now has five images and five working dots.
+- Replaced the four 160x111 office images with verified full-resolution files:
+  Estrella 2048px, Glendale 1280px, Scottsdale 2048px, Gilbert 2048px. Updated
+  both `post_content` and `_elementor_data` where present.
+- Rebuilt `/pet-scan-imaging/` with the PET location address, dedicated Google
+  map iframe, direction button, responsive location-detail layout, preserved
+  treatment/FAQ information, and removed the unrelated all-office list and
+  malformed social/footer residue from the page body.
+- Server backup of every affected `post_content` and `_elementor_data` field:
+  `/home/client_b9c1bb2d60_875051/pv-michael-corrections-20260831-183700/`.
+
+### Verification and client handoff
+
+- Automated evidence: `michael-corrections-verification.json`.
+- Desktop screenshots are under `screenshots/michael-confirmation-*.png`.
+- Mobile checks at 390px show no horizontal overflow on Your Team, PET, or
+  East Valley/Gilbert.
+- Confirmation email draft and attachment list:
+  `MICHAEL-CONFIRMATION-EMAIL-2026-08-31.md`.
