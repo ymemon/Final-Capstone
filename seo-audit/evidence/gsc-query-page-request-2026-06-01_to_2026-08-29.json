@@ -1,0 +1,8 @@
+{
+  "siteUrl": "sc-domain:azwebcorp.com",
+  "startDate": "2026-06-01",
+  "endDate": "2026-08-29",
+  "dimensions": ["query", "page"],
+  "rowLimit": 25000,
+  "dataState": "all"
+}

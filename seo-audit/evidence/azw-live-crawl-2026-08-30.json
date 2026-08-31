@@ -1,0 +1,2177 @@
+{
+  "site": "https://azwebcorp.com",
+  "sitemap_url_count": 30,
+  "internal_url_count": 40,
+  "pages": [
+    {
+      "requested": "https://azwebcorp.com/",
+      "final": "https://azwebcorp.com/",
+      "status": 200,
+      "redirects": [],
+      "title": "Arizona Web Design & Development | AZ Web Corp",
+      "title_length": 46,
+      "descriptions": [
+        "AZWebCorp is one of the Arizona website companies businesses trust for web design, WordPress development, SEO, hosting, domains, and business email - based in Gilbert, Arizona."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Arizona Web Design & Development for Businesses Ready to Grow"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/arizona-web-design/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/seo-company-phoenix-az/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-design-gilbert-az/",
+        "https://azwebcorp.com/web-design-phoenix-az/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "WebPage",
+        "ImageObject",
+        "WebSite",
+        "SearchAction",
+        "ProfessionalService",
+        "Organization",
+        "ImageObject",
+        "PostalAddress",
+        "Place",
+        "PostalAddress",
+        "GeoCoordinates"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1210
+    },
+    {
+      "requested": "https://azwebcorp.com/about-azwebcorp/",
+      "final": "https://azwebcorp.com/about-azwebcorp/",
+      "status": 200,
+      "redirects": [],
+      "title": "About AZWebCorp | Arizona Web Developers, Digital Marketing",
+      "title_length": 59,
+      "descriptions": [
+        "About AZWebCorp: Expert Arizona web developers, digital marketing specialists and SEO solutions for local businesses."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/about-azwebcorp/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "We design & develop beautiful websites\nin-house in Arizona USA."
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/arizona-web-design/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-design-gilbert-az/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "AboutPage"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 940
+    },
+    {
+      "requested": "https://azwebcorp.com/arizona-digital-marketing/",
+      "final": "https://azwebcorp.com/arizona-digital-marketing/",
+      "status": 200,
+      "redirects": [],
+      "title": "Arizona Digital Marketing Agency | AZWebCorp | 1 Expert",
+      "title_length": 55,
+      "descriptions": [
+        "Expert Arizona digital marketing and internet marketing solutions. Boost your online presence with customized services tailored to drive real results."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/arizona-digital-marketing/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Arizona Are you getting the results you want from Digital Marketing ?"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "Service",
+        "Country",
+        "State",
+        "WebPage"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1235
+    },
+    {
+      "requested": "https://azwebcorp.com/arizona-seo-services/",
+      "final": "https://azwebcorp.com/arizona-seo-services/",
+      "status": 200,
+      "redirects": [],
+      "title": "Arizona SEO Company | Technical & Local SEO | AZWebCorp",
+      "title_length": 55,
+      "descriptions": [
+        "AZWebCorp is an Arizona SEO company providing technical SEO, local SEO, on-page optimization, content planning, and implementation for Arizona businesses."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/arizona-seo-services/"
+      ],
+      "robots": [
+        "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Arizona SEO Company Built on Technical Precision"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/arizona-web-design/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/seo-company-phoenix-az/",
+        "https://azwebcorp.com/seo-services-gilbert-az/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "Service",
+        "Country",
+        "State",
+        "WebPage"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 2468
+    },
+    {
+      "requested": "https://azwebcorp.com/arizona-web-design/",
+      "final": "https://azwebcorp.com/arizona-web-design/",
+      "status": 200,
+      "redirects": [],
+      "title": "Arizona Web Design | AZWebCorp",
+      "title_length": 30,
+      "descriptions": [
+        "Web design for Arizona businesses from a Gilbert studio. Sites built to load fast, work on phones and turn visitors into calls. Call (480) 818-5761."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/arizona-web-design/"
+      ],
+      "robots": [
+        "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Arizona Web Design"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/phoenix-web-development/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/seo-company-phoenix-az/",
+        "https://azwebcorp.com/seo-services-gilbert-az/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-design-chandler-az/",
+        "https://azwebcorp.com/web-design-gilbert-az/",
+        "https://azwebcorp.com/web-design-mesa-az/",
+        "https://azwebcorp.com/web-design-phoenix-az/",
+        "https://azwebcorp.com/web-design-queen-creek-az/",
+        "https://azwebcorp.com/web-design-scottsdale-az/",
+        "https://azwebcorp.com/web-design-tempe-az/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [],
+      "invalid_schema_blocks": 0,
+      "word_count": 2047
+    },
+    {
+      "requested": "https://azwebcorp.com/business-email/",
+      "final": "https://azwebcorp.com/business-email/",
+      "status": 200,
+      "redirects": [],
+      "title": "Business Email & Microsoft 365 Plans | AZWebCorp",
+      "title_length": 48,
+      "descriptions": [
+        "Professional business email using your domain from $4.99/month, plus Microsoft 365 email and productivity plans through AZWebCorp."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/business-email/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Professional Business Email Using Your Own Domain"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "Service",
+        "Country",
+        "State",
+        "WebPage"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 997
+    },
+    {
+      "requested": "https://azwebcorp.com/category/co-operate/",
+      "final": "https://azwebcorp.com/category/co-operate/",
+      "status": 200,
+      "redirects": [],
+      "title": "Web Development - Arizona Web Development & Design | AZ Web Corp",
+      "title_length": 64,
+      "descriptions": [
+        "Expert web development articles, tutorials, and tips from AZWebCorp. Learn WordPress, PHP, JavaScript, and modern web technologies for Arizona businesses."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/category/co-operate/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Web Development"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/author/junaid/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/category/co-operate/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "CollectionPage",
+        "WebSite",
+        "ProfessionalService",
+        "ImageObject",
+        "PostalAddress",
+        "Place",
+        "PostalAddress",
+        "GeoCoordinates"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 427
+    },
+    {
+      "requested": "https://azwebcorp.com/category/seo/",
+      "final": "https://azwebcorp.com/category/seo/",
+      "status": 200,
+      "redirects": [],
+      "title": "SEO - Arizona Web Development & Design | AZ Web Corp",
+      "title_length": 52,
+      "descriptions": [
+        "SEO tips, strategies, and guides from Arizona's SEO experts. Learn how to rank higher on Google, increase organic traffic, and dominate local search results."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/category/seo/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "SEO"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/author/junaid/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/category/seo/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "CollectionPage",
+        "WebSite",
+        "ProfessionalService",
+        "ImageObject",
+        "PostalAddress",
+        "Place",
+        "PostalAddress",
+        "GeoCoordinates"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 424
+    },
+    {
+      "requested": "https://azwebcorp.com/contact-us/",
+      "final": "https://azwebcorp.com/contact-us/",
+      "status": 200,
+      "redirects": [],
+      "title": "Contact AZWebCorp | Arizona Web Development & SEO",
+      "title_length": 49,
+      "descriptions": [
+        "Contact AZWebCorp in Gilbert, Arizona for WordPress development, custom websites, SEO, domains, business email, hosting, maintenance, and technical support."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/contact-us/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Contact AZWebCorp"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/phoenix-web-development/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/seo-company-phoenix-az/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-design-gilbert-az/",
+        "https://azwebcorp.com/web-design-phoenix-az/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "ContactPage"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 711
+    },
+    {
+      "requested": "https://azwebcorp.com/domain-registration/",
+      "final": "https://azwebcorp.com/domain-registration/",
+      "status": 200,
+      "redirects": [],
+      "title": "Affordable Domain Registration from $11.99 | AZWebCorp",
+      "title_length": 54,
+      "descriptions": [
+        "Search and register eligible popular domains from $11.99 per year through AZWebCorp's secure GoDaddy-powered reseller storefront."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/domain-registration/"
+      ],
+      "robots": [
+        "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Find the right domain for your business"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "Service",
+        "Country",
+        "State",
+        "WebPage"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 428
+    },
+    {
+      "requested": "https://azwebcorp.com/domain-transfer/",
+      "final": "https://azwebcorp.com/domain-transfer/",
+      "status": 200,
+      "redirects": [],
+      "title": "Domain Transfer to a Local Arizona Host | AZWebCorp",
+      "title_length": 51,
+      "descriptions": [
+        "Transfer your domain to AZWebCorp in Gilbert, AZ without downtime. Free WHOIS privacy and full DNS control included. See the steps before you start."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/domain-transfer/"
+      ],
+      "robots": [
+        "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Domain Transfer to AZWebCorp (Gilbert, AZ)"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "ListItem",
+        "Product",
+        "Brand",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 602
+    },
+    {
+      "requested": "https://azwebcorp.com/free-seo-audit/",
+      "final": "https://azwebcorp.com/free-seo-audit/",
+      "status": 200,
+      "redirects": [],
+      "title": "Free SEO Audit Tool | AZWebCorp",
+      "title_length": 31,
+      "descriptions": [
+        "Run a free SEO audit on your website. Real measured results \u2014 indexability, speed from Google, on-page structure. No email required, no invented scores."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/free-seo-audit/"
+      ],
+      "robots": [
+        "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Free SEO Audit"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "WebApplication",
+        "Organization"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1458
+    },
+    {
+      "requested": "https://azwebcorp.com/hosting-domains/",
+      "final": "https://azwebcorp.com/hosting-domains/",
+      "status": 200,
+      "redirects": [],
+      "title": "Web Hosting Plans & Pricing | AZWebCorp",
+      "title_length": 39,
+      "descriptions": [
+        "Compare cPanel, managed WordPress, Web Hosting Plus and SSD VPS hosting plans from AZWebCorp. Find the right performance, storage and support for your website."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/hosting-domains/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Choose a hosting platform that fits the work\u2014not just the price."
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "CollectionPage",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 831
+    },
+    {
+      "requested": "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+      "final": "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+      "status": 200,
+      "redirects": [],
+      "title": "How Much Does SEO Cost in Arizona? What Actually Drives the Price",
+      "title_length": 65,
+      "descriptions": [
+        "What Arizona SEO really costs and why. An honest breakdown of the factors that drive price, what cheap SEO packages leave out, and the questions to ask before you pay."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "How much does SEO cost in Arizona?"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/category/seo/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BlogPosting",
+        "Person",
+        "ImageObject",
+        "WebPage",
+        "ImageObject",
+        "WebSite",
+        "ProfessionalService",
+        "Organization",
+        "GeoCoordinates",
+        "ImageObject",
+        "PostalAddress",
+        "Place",
+        "PostalAddress",
+        "GeoCoordinates"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1410
+    },
+    {
+      "requested": "https://azwebcorp.com/our-featured-projects/",
+      "final": "https://azwebcorp.com/our-featured-projects/",
+      "status": 200,
+      "redirects": [],
+      "title": "Our Work: Website Design Portfolio and Case Studies | AZ Web Corp",
+      "title_length": 65,
+      "descriptions": [
+        "Browse AZWebCorp portfolio of Arizona web design and development projects - real client sites, real results."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/our-featured-projects/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Featured Projects"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/arizona-web-design/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/phoenix-web-development/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-design-phoenix-az/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "CollectionPage"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 653
+    },
+    {
+      "requested": "https://azwebcorp.com/phoenix-web-development/",
+      "final": "https://azwebcorp.com/phoenix-web-development/",
+      "status": 200,
+      "redirects": [],
+      "title": "Phoenix Web Development | Custom Builds, Integrations & Speed | AZWebCorp",
+      "title_length": 73,
+      "descriptions": [
+        "Web development for Phoenix businesses: custom WordPress, integrations with the systems you already run, performance work and maintenance. Call 480-818-5761."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/phoenix-web-development/"
+      ],
+      "robots": [
+        "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Phoenix Web Development"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/seo-company-phoenix-az/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-design-phoenix-az/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "ListItem",
+        "ProfessionalService",
+        "City",
+        "State",
+        "PostalAddress",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1892
+    },
+    {
+      "requested": "https://azwebcorp.com/privacy-policy/",
+      "final": "https://azwebcorp.com/privacy-policy/",
+      "status": 200,
+      "redirects": [],
+      "title": "AZWebCorp Privacy Policy: Your Data, Protected",
+      "title_length": 46,
+      "descriptions": [
+        "Review AZWebCorp Privacy Policy, outlining data collection, use and protection practices, ensuring transparency and security"
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/privacy-policy/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Privacy Policy"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [],
+      "invalid_schema_blocks": 0,
+      "word_count": 1601
+    },
+    {
+      "requested": "https://azwebcorp.com/seo-company-phoenix-az/",
+      "final": "https://azwebcorp.com/seo-company-phoenix-az/",
+      "status": 200,
+      "redirects": [],
+      "title": "Phoenix SEO Company Serving the Valley | AZWebCorp",
+      "title_length": 50,
+      "descriptions": [
+        "A Phoenix SEO company offering realistic SEO services for Phoenix businesses. Straight assessments, no guaranteed-ranking claims. Call (480) 818-5761."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/seo-company-phoenix-az/"
+      ],
+      "robots": [
+        "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Phoenix SEO Company Serving the Valley"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/phoenix-web-development/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/seo-services-gilbert-az/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-design-phoenix-az/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 2643
+    },
+    {
+      "requested": "https://azwebcorp.com/seo-services-gilbert-az/",
+      "final": "https://azwebcorp.com/seo-services-gilbert-az/",
+      "status": 200,
+      "redirects": [],
+      "title": "SEO Services in Gilbert, AZ | AZWebCorp",
+      "title_length": 39,
+      "descriptions": [
+        "SEO services for Gilbert, AZ businesses from an agency actually based in Gilbert. Local search, Google Business Profile and site fixes. Call (480) 818-5761."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/seo-services-gilbert-az/"
+      ],
+      "robots": [
+        "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "SEO Services in Gilbert, AZ"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/arizona-web-design/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/seo-company-phoenix-az/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-design-gilbert-az/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "ListItem",
+        "ProfessionalService",
+        "City",
+        "State",
+        "PostalAddress",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1458
+    },
+    {
+      "requested": "https://azwebcorp.com/ssl/",
+      "final": "https://azwebcorp.com/ssl/",
+      "status": 200,
+      "redirects": [],
+      "title": "SSL Certificates for Websites & Domains | AZ Web Corp",
+      "title_length": 53,
+      "descriptions": [
+        "Compare DV SSL certificates for one site, five sites or unlimited subdomains, with manual or automated installation and secure reseller checkout."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/ssl/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "SSL Certificates"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-backup/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Service",
+        "Offer",
+        "Offer",
+        "Offer",
+        "Offer",
+        "Offer",
+        "Offer",
+        "WebPage"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1157
+    },
+    {
+      "requested": "https://azwebcorp.com/vps-hosting/",
+      "final": "https://azwebcorp.com/vps-hosting/",
+      "status": 200,
+      "redirects": [],
+      "title": "SSD VPS Hosting Plans & Pricing | AZWebCorp",
+      "title_length": 43,
+      "descriptions": [
+        "Compare performance and high-performance SSD VPS hosting plans with dedicated CPU, RAM, root access, unlimited traffic and room to scale."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/vps-hosting/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Full control, dedicated resources and a serious path to scale."
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "ItemList",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1139
+    },
+    {
+      "requested": "https://azwebcorp.com/web-design-gilbert-az/",
+      "final": "https://azwebcorp.com/web-design-gilbert-az/",
+      "status": 200,
+      "redirects": [],
+      "title": "Web Design in Gilbert, AZ | AZWebCorp",
+      "title_length": 37,
+      "descriptions": [
+        "Website design in Gilbert, AZ from a studio on E Laurel Ave. Sites for contractors, clinics and local firms, built to work on phones. Call (480) 818-5761."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/web-design-gilbert-az/"
+      ],
+      "robots": [
+        "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Web Design in Gilbert, AZ"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/arizona-web-design/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/seo-services-gilbert-az/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-design-phoenix-az/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "ListItem",
+        "ProfessionalService",
+        "City",
+        "State",
+        "PostalAddress",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1387
+    },
+    {
+      "requested": "https://azwebcorp.com/web-design-phoenix-az/",
+      "final": "https://azwebcorp.com/web-design-phoenix-az/",
+      "status": 200,
+      "redirects": [],
+      "title": "Web Design Phoenix AZ | Websites That Get You Called | AZWebCorp",
+      "title_length": 64,
+      "descriptions": [
+        "Web design for Phoenix businesses, built mobile-first by an Arizona studio. Real photography, explicit service areas, and a site you own outright. Call 480-818-5761."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/web-design-phoenix-az/"
+      ],
+      "robots": [
+        "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Web Design in Phoenix, AZ"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/arizona-web-design/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/phoenix-web-development/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/seo-company-phoenix-az/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-design-gilbert-az/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "ListItem",
+        "ProfessionalService",
+        "City",
+        "State",
+        "PostalAddress",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1971
+    },
+    {
+      "requested": "https://azwebcorp.com/web-development/",
+      "final": "https://azwebcorp.com/web-development/",
+      "status": 200,
+      "redirects": [],
+      "title": "Custom Web Development Services in Arizona | AZ Web Corp",
+      "title_length": 56,
+      "descriptions": [
+        "AZWebCorp builds custom WordPress websites, eCommerce stores, and web applications for Arizona businesses - development-focused, not just design."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/web-development/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Custom Web Development Services for Arizona Businesses Ready to Grow"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/arizona-web-design/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/phoenix-web-development/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/seo-company-phoenix-az/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-builder/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "Service",
+        "Country",
+        "State",
+        "WebPage"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1713
+    },
+    {
+      "requested": "https://azwebcorp.com/web-hosting-plus/",
+      "final": "https://azwebcorp.com/web-hosting-plus/",
+      "status": 200,
+      "redirects": [],
+      "title": "Web Hosting Plus Plans & Pricing | AZWebCorp",
+      "title_length": 44,
+      "descriptions": [
+        "Get VPS-style speed with simplified hosting management. Compare Web Hosting Plus plans with dedicated RAM, CPU, storage, SSL and support for multiple websites."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/web-hosting-plus/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "VPS-style resources with a control panel your team can actually use."
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "ItemList",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 1025
+    },
+    {
+      "requested": "https://azwebcorp.com/web-hosting/",
+      "final": "https://azwebcorp.com/web-hosting/",
+      "status": 200,
+      "redirects": [],
+      "title": "cPanel Hosting Plans & Pricing | AZWebCorp",
+      "title_length": 42,
+      "descriptions": [
+        "Compare AZWebCorp cPanel hosting plans from $3.99 per month. Choose storage, databases, websites and SSL resources that fit your business."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/web-hosting/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "cPanel hosting that keeps website management simple."
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-backup/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "ItemList",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 971
+    },
+    {
+      "requested": "https://azwebcorp.com/website-backup/",
+      "final": "https://azwebcorp.com/website-backup/",
+      "status": 200,
+      "redirects": [],
+      "title": "Website Backup Services in Arizona | AZWebCorp",
+      "title_length": 46,
+      "descriptions": [
+        "Automatic daily website backups with one-click restore, set up by AZWebCorp in Gilbert, AZ. Recover from bad updates, failed edits and server problems fast."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/website-backup/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Website Backup Services for Arizona Businesses"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "Service",
+        "Country",
+        "State",
+        "WebPage"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 693
+    },
+    {
+      "requested": "https://azwebcorp.com/website-builder/",
+      "final": "https://azwebcorp.com/website-builder/",
+      "status": 200,
+      "redirects": [],
+      "title": "Website Builder for Arizona Small Businesses | AZWebCorp",
+      "title_length": 56,
+      "descriptions": [
+        "AZWebCorp's Website Builder gets an Arizona small business site live fast on industry-specific templates. No code needed, or our Gilbert, AZ team builds it."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/website-builder/"
+      ],
+      "robots": [
+        "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Website Builder for Arizona Small Businesses"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "ListItem",
+        "Product",
+        "Brand",
+        "FAQPage",
+        "Question",
+        "Answer"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 592
+    },
+    {
+      "requested": "https://azwebcorp.com/website-security/",
+      "final": "https://azwebcorp.com/website-security/",
+      "status": 200,
+      "redirects": [],
+      "title": "Website Security, Malware Protection & Backup | AZ Web Corp",
+      "title_length": 59,
+      "descriptions": [
+        "Protect your website with a firewall, malware scanning, cleanup, DDoS defense, CDN and secure backups. Plans from $4.99 per month per site."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/website-security/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "Website Security"
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Service",
+        "Offer",
+        "Offer",
+        "Offer",
+        "WebPage"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 805
+    },
+    {
+      "requested": "https://azwebcorp.com/wordpress-hosting/",
+      "final": "https://azwebcorp.com/wordpress-hosting/",
+      "status": 200,
+      "redirects": [],
+      "title": "Managed WordPress Hosting Plans | AZWebCorp",
+      "title_length": 43,
+      "descriptions": [
+        "Managed WordPress hosting from $7.99 per month with NVMe storage, SSL, backups, malware scanning and performance options. Compare AZWebCorp plans."
+      ],
+      "canonicals": [
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "robots": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "h1s": [
+        "A faster, safer WordPress foundation without the maintenance drag."
+      ],
+      "internal_links": [
+        "https://azwebcorp.com/",
+        "https://azwebcorp.com/2020/07/29/",
+        "https://azwebcorp.com/about-azwebcorp/",
+        "https://azwebcorp.com/arizona-digital-marketing/",
+        "https://azwebcorp.com/arizona-seo-services/",
+        "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+        "https://azwebcorp.com/business-email/",
+        "https://azwebcorp.com/case-studies/",
+        "https://azwebcorp.com/contact-us/",
+        "https://azwebcorp.com/domain-registration/",
+        "https://azwebcorp.com/domain-transfer/",
+        "https://azwebcorp.com/free-seo-audit/",
+        "https://azwebcorp.com/hosting-domains/",
+        "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+        "https://azwebcorp.com/our-featured-projects/",
+        "https://azwebcorp.com/privacy-policy/",
+        "https://azwebcorp.com/ssl/",
+        "https://azwebcorp.com/vps-hosting/",
+        "https://azwebcorp.com/web-development/",
+        "https://azwebcorp.com/web-hosting-plus/",
+        "https://azwebcorp.com/web-hosting/",
+        "https://azwebcorp.com/website-backup/",
+        "https://azwebcorp.com/website-security/",
+        "https://azwebcorp.com/wordpress-hosting/"
+      ],
+      "schema_types": [
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "ItemList",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand",
+        "ListItem",
+        "Product",
+        "Offer",
+        "Brand"
+      ],
+      "invalid_schema_blocks": 0,
+      "word_count": 980
+    }
+  ],
+  "link_results": [
+    {
+      "url": "https://azwebcorp.com/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/2020/07/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/2020/07/29/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/about-azwebcorp/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/arizona-digital-marketing/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/arizona-seo-services/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/arizona-web-design/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/author/junaid/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/best-internal-linking-plugins-wordpress/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/business-email/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/case-studies/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/category/co-operate/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/category/seo/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/contact-us/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/domain-registration/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/domain-transfer/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/free-seo-audit/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/hosting-domains/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/how-much-does-seo-cost-in-arizona/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/our-featured-projects/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/phoenix-web-development/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/privacy-policy/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/seo-company-phoenix-az/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/seo-services-gilbert-az/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/ssl/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/vps-hosting/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/web-design-chandler-az/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/web-design-gilbert-az/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/web-design-mesa-az/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/web-design-phoenix-az/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/web-design-queen-creek-az/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/web-design-scottsdale-az/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/web-design-tempe-az/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/web-development/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/web-hosting-plus/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/web-hosting/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/website-backup/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/website-builder/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/website-security/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://azwebcorp.com/wordpress-hosting/",
+      "status": 200,
+      "location": null
+    }
+  ],
+  "issues": {
+    "title_length": [
+      {
+        "url": "https://azwebcorp.com/phoenix-web-development/",
+        "length": 73,
+        "title": "Phoenix Web Development | Custom Builds, Integrations & Speed | AZWebCorp"
+      }
+    ],
+    "duplicate_titles": [],
+    "duplicate_descriptions": [],
+    "broken_internal_links": [],
+    "redirecting_internal_links": []
+  }
+}
