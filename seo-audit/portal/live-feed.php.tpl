@@ -1,0 +1,210 @@
+<?php
+/**
+ * GA4 Realtime active-user feed for the SEO portal.
+ *
+ * Auth is a dedicated read-only service account, not a personal OAuth token:
+ * it is scoped to this one property and can be revoked in the GA4 admin UI
+ * without touching anyone's Google login.
+ *
+ * The key is api/ga4-key.php - a PHP file returning an array, inside the
+ * webroot. That reads wrong and is not: PHP on this host cannot read anything
+ * outside the webroot, and a .php file is executed rather than served, so
+ * requesting it directly returns an empty body. An earlier version of this
+ * comment claimed the key lived outside the webroot; it never did on the
+ * deployed copy, and assuming otherwise cost an afternoon when the agency
+ * portal's sign-in gate was first written against a home-directory path.
+ *
+ * Generated per property by deploy_live_feeds.py from live-feed.php.tpl.
+ * Do not edit the deployed copy; edit the template and redeploy.
+ *
+ * Every property reuses one service account
+ * (gsc-reader@azwebcorp-gsc-77313.iam.gserviceaccount.com). It needs Viewer
+ * on each GA4 property it is asked about; without that the API returns 403
+ * and this endpoint reports the feed as unavailable rather than guessing.
+ */
+
+header('Content-Type: application/json');
+header('Cache-Control: no-store');
+
+/**
+ * The key is a PHP file inside the webroot, not JSON outside it, because PHP on
+ * this host is chrooted: it sees the document root as `/` (DOCUMENT_ROOT
+ * reports /dom644762) and cannot read the SSH home directory at all. Verified
+ * 2026-09-07 - file_exists() on the outside-webroot path returned false while
+ * the file was plainly there over SSH. A .php file is executed rather than
+ * served and its top-level `return` emits nothing, so the credential cannot be
+ * fetched over HTTP; an .htaccess deny sits alongside it as well.
+ */
+const KEY_PATH  = __DIR__ . '/ga4-key.php';
+// Per-property cache file. This MUST carry the slug: a single shared path
+// means whichever property warms the cache first serves its live visitor
+// numbers to every other portal for the whole TTL - one client seeing
+// another's realtime traffic.
+const CACHE_PATH = '/tmp/azw-portal-live-__PORTAL_SLUG__.json';
+const PROPERTY   = '__GA4_PROPERTY__';
+const CACHE_TTL  = 20;
+const SCOPE      = 'https://www.googleapis.com/auth/analytics.readonly';
+
+function fail(string $msg): void {
+    echo json_encode(['error' => $msg]);
+    exit;
+}
+
+function b64url(string $raw): string {
+    return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+}
+
+// Serve a warm cache first - GA4 realtime quota is not generous.
+if (is_readable(CACHE_PATH) && (time() - filemtime(CACHE_PATH)) < CACHE_TTL) {
+    $cached = file_get_contents(CACHE_PATH);
+    if ($cached !== false && $cached !== '') {
+        echo $cached;
+        exit;
+    }
+}
+
+if (!is_readable(KEY_PATH)) {
+    fail('live feed not configured');
+}
+$key = require KEY_PATH;
+if (!is_array($key) || empty($key['private_key']) || empty($key['client_email'])) {
+    fail('live feed credentials unreadable');
+}
+
+$now = time();
+$claims = [
+    'iss'   => $key['client_email'],
+    'scope' => SCOPE,
+    'aud'   => 'https://oauth2.googleapis.com/token',
+    'iat'   => $now,
+    'exp'   => $now + 3600,
+];
+$signingInput = b64url(json_encode(['alg' => 'RS256', 'typ' => 'JWT'])) . '.' . b64url(json_encode($claims));
+
+$signature = '';
+if (!openssl_sign($signingInput, $signature, $key['private_key'], OPENSSL_ALGO_SHA256)) {
+    fail('live feed could not sign assertion');
+}
+$jwt = $signingInput . '.' . b64url($signature);
+
+function post_req(string $url, $body, array $headers = []): ?array {
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_POSTFIELDS => is_array($body) ? http_build_query($body) : $body,
+        CURLOPT_HTTPHEADER => $headers,
+    ]);
+    $resp = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($resp === false || $code >= 400) {
+        return null;
+    }
+    return json_decode((string) $resp, true);
+}
+
+$auth = post_req('https://oauth2.googleapis.com/token', [
+    'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+    'assertion'  => $jwt,
+]);
+if (!$auth || empty($auth['access_token'])) {
+    fail('live feed auth failed');
+}
+
+$report = post_req(
+    'https://analyticsdata.googleapis.com/v1beta/properties/' . PROPERTY . ':runRealtimeReport',
+    json_encode([
+        'dimensions' => [['name' => 'unifiedScreenName']],
+        'metrics'    => [['name' => 'activeUsers']],
+        'limit'      => 10,
+    ]),
+    ['Authorization: Bearer ' . $auth['access_token'], 'Content-Type: application/json']
+);
+if ($report === null) {
+    fail('live feed query failed - is the service account a Viewer on the property?');
+}
+
+$pages = [];
+$total = 0;
+foreach ($report['rows'] ?? [] as $row) {
+    $total += (int) ($row['metricValues'][0]['value'] ?? 0);
+    $pages[] = [
+        'page'  => $row['dimensionValues'][0]['value'] ?? '(unknown)',
+        'users' => (int) ($row['metricValues'][0]['value'] ?? 0),
+    ];
+}
+
+/* Second realtime query: where those visitors are, for the globe.
+ *
+ * Separate from the pages query on purpose. GA4 returns the cartesian product
+ * of the dimensions asked for, so requesting page x country x city in one call
+ * would split a single visitor across several rows and make the totals above
+ * wrong. Two narrow queries each aggregate cleanly.
+ *
+ * countryId is the ISO-3166-1 alpha-2 code, which is what the centroid table
+ * is keyed on; country and city are carried through for display only. */
+$geo = post_req(
+    'https://analyticsdata.googleapis.com/v1beta/properties/' . PROPERTY . ':runRealtimeReport',
+    json_encode([
+        'dimensions' => [['name' => 'countryId'], ['name' => 'country'], ['name' => 'city']],
+        'metrics'    => [['name' => 'activeUsers']],
+        'limit'      => 50,
+    ]),
+    ['Authorization: Bearer ' . $auth['access_token'], 'Content-Type: application/json']
+);
+
+$centroids = is_readable(__DIR__ . '/country-centroids.php')
+    ? require __DIR__ . '/country-centroids.php'
+    : [];
+
+$byCountry = [];
+$places = [];
+foreach ($geo['rows'] ?? [] as $row) {
+    $iso   = strtoupper((string) ($row['dimensionValues'][0]['value'] ?? ''));
+    $name  = (string) ($row['dimensionValues'][1]['value'] ?? '');
+    $city  = (string) ($row['dimensionValues'][2]['value'] ?? '');
+    $users = (int) ($row['metricValues'][0]['value'] ?? 0);
+    if ($users <= 0 || $iso === '' || $iso === '(NOT SET)') {
+        continue;
+    }
+    // City rows are for the list; the map pin is per country.
+    $places[] = [
+        'city'    => ($city !== '' && strtolower($city) !== '(not set)') ? $city : null,
+        'country' => $name,
+        'users'   => $users,
+    ];
+    if (!isset($byCountry[$iso])) {
+        $byCountry[$iso] = ['country' => $name, 'users' => 0];
+    }
+    $byCountry[$iso]['users'] += $users;
+}
+
+$locations = [];
+foreach ($byCountry as $iso => $c) {
+    if (!isset($centroids[$iso])) {
+        continue;           // no centroid: listed in places, just not plotted
+    }
+    $locations[] = [
+        'country' => $c['country'],
+        'iso'     => $iso,
+        'users'   => $c['users'],
+        'lat'     => $centroids[$iso][0],
+        'lon'     => $centroids[$iso][1],
+    ];
+}
+usort($locations, fn($a, $b) => $b['users'] <=> $a['users']);
+usort($places, fn($a, $b) => $b['users'] <=> $a['users']);
+
+$out = json_encode([
+    'activeUsers' => $total,
+    'pages'       => $pages,
+    'locations'   => $locations,   // country centroids, for the globe
+    'places'      => $places,      // city-level rows, for the list
+    'geoOk'       => $geo !== null,
+    'ts'          => gmdate('c'),
+]);
+
+@file_put_contents(CACHE_PATH, $out);
+echo $out;

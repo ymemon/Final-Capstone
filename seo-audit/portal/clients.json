@@ -42,6 +42,7 @@
     "ga4_property": "552051066",
     "ssh_helper": "ssh_run_eit.bat",
     "ai_log_dir": null,
+    "live_feed": true,
     "internal": false
   },
   "prestigewindows": {
