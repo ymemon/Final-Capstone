@@ -9,6 +9,9 @@ Editorial pages targeting commercial keywords the site tracks but has no page fo
 | `seo-services-gilbert-az.html` | `/seo-services-gilbert-az/` | New |
 | `seo-company-phoenix-az.html` | `/seo-company-phoenix-az/` | New |
 | `arizona-seo-services.html` | `/arizona-seo-services/` | **Rewrite — publish at the existing URL** |
+| `case-studies.html` | `/case-studies/` | New |
+
+`case-studies.html` carries a publishing constraint of its own: only the Everything IT entry is cleared. Palo Verde Cancer Specialists and Prestige Windows are drafted as commented-out blocks at the foot of the file and must not be published until each client has agreed to be named — and, for Palo Verde, until `pvcancer.com` actually resolves to the site we built.
 
 `arizona-seo-services.html` replaces the body of a page that already exists and already gets traffic. Publishing it at a new URL discards the accumulated equity on the current one.
 
