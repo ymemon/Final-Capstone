@@ -4,8 +4,14 @@
  *
  * Run through WP-CLI so WordPress is fully loaded:
  *
- *     wp eval-file azw-publish-content.php          # DRY RUN
- *     wp eval-file azw-publish-content.php apply    # write
+ *     wp eval-file azw-publish-content.php                        # DRY RUN, all pages
+ *     wp eval-file azw-publish-content.php apply                  # write all pages
+ *     wp eval-file azw-publish-content.php case-studies           # DRY RUN, one page
+ *     wp eval-file azw-publish-content.php case-studies apply     # write one page
+ *
+ * Naming slugs limits the run to those pages. Publishing all of them rewrites
+ * every page from the local copy, which discards anything edited in WordPress
+ * since — so prefer naming what you actually changed.
  *
  * The write flag is a bare word, not --apply: WP-CLI parses anything starting
  * with a dash as one of its own options and rejects it before this file runs.
@@ -21,7 +27,14 @@
  * every page two <h1> tags.
  */
 
-$apply = (bool) array_intersect( array( 'apply', '--apply' ), (array) $args );
+$args  = (array) $args;
+$apply = (bool) array_intersect( array( 'apply', '--apply' ), $args );
+
+// Any remaining bare words are slugs to publish. Without this the script
+// rewrites every page in the directory, which silently clobbers anything that
+// has been edited in WordPress since the local copy was last synced. Naming
+// the slugs keeps a publish to exactly the pages you meant to touch.
+$only = array_values( array_diff( $args, array( 'apply', '--apply' ) ) );
 
 $dir = __DIR__ . '/content';
 if ( ! is_dir( $dir ) ) {
@@ -31,6 +44,19 @@ if ( ! is_dir( $dir ) ) {
 $files = glob( $dir . '/*.html' );
 if ( ! $files ) {
 	WP_CLI::error( "No .html files in {$dir}" );
+}
+
+if ( $only ) {
+	$files = array_values( array_filter( $files, static function ( $f ) use ( $only ) {
+		return in_array( basename( $f, '.html' ), $only, true );
+	} ) );
+	$missing = array_diff( $only, array_map( static function ( $f ) {
+		return basename( $f, '.html' );
+	}, $files ) );
+	if ( $missing ) {
+		WP_CLI::error( 'No such content file(s): ' . implode( ', ', $missing ) );
+	}
+	WP_CLI::line( 'Limited to: ' . implode( ', ', $only ) );
 }
 
 if ( ! $apply ) {
