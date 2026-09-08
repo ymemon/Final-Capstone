@@ -1,0 +1,26 @@
+# Deployed to html/reports/_owner/.htaccess
+#
+# READ THIS BEFORE ADDING ANYTHING HERE: on this host an .htaccess in the
+# webroot is close to decorative. Two things have now been tested directly and
+# both were ignored:
+#
+#   - Auth* directives. A correct AuthType/AuthUserFile/Require block still
+#     served 200 to an unauthenticated request (verified against origin, with
+#     Cloudflare reporting a cache MISS, so not an edge artifact).
+#     Authentication is therefore enforced in index.php.
+#   - mod_headers Cache-Control overrides, including `Header always set`. The
+#     platform rewrites responses on this path to
+#     `Cache-Control: public, max-age=2678400` regardless, overriding the
+#     no-store the gate sends from PHP.
+#
+# The caching one bites: while this directory was briefly absent on 2026-09-08
+# an edge node cached the 404 and kept serving it after the page was restored,
+# which from the other end looks exactly like "the page doesn't exist". The fix
+# that actually works is a CDN purge, so deploy_owner.py now runs one on every
+# deploy. Authenticated responses were checked separately and are NOT cached -
+# Cloudflare reports them DYNAMIC and the no-store header survives on them - so
+# this is a staleness problem, not a disclosure one.
+#
+# What remains below is only what does not depend on AllowOverride for headers.
+
+Options -Indexes

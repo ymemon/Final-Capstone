@@ -162,9 +162,25 @@ def main():
     for f in staged:
         run([SCP, str(f), f"{target}:{REMOTE_DIR}/p/{f.name}"], a.dry_run)
 
+    run([SCP, str(HERE / "owner-dir.htaccess"), f"{target}:{REMOTE_DIR}/.htaccess"], a.dry_run)
+
     # Nothing here should ever have been written outside the webroot; clear the
     # earlier attempt so no stale copy of every client's data is left lying about.
     run([SSH, "rm -rf ~/portal-owner ~/.portal-owner-auth"], a.dry_run)
+
+    # The platform pins responses on this path at a 31-day public TTL and
+    # ignores both the no-store PHP sends and an .htaccess header override, so
+    # a redeploy alone does not reach anyone whose edge node holds the old copy.
+    # A purge is the only thing that does. Skipping it once already produced a
+    # 404 that outlived the problem by hours.
+    print("\n-- purging CDN edge --")
+    run([SSH, "cd ~/html && wp eval '"
+              "if (empty($GLOBALS[\"wpaas_cache_class\"]) "
+              "|| !method_exists($GLOBALS[\"wpaas_cache_class\"], \"flush_cdn\")) "
+              "{ echo \"NO CDN CLASS\"; } else "
+              "{ $GLOBALS[\"wpaas_cache_class\"]->flush_cdn(); echo \"CDN PURGE SENT\"; }' "
+              "--skip-plugins --skip-themes"], a.dry_run)
+
     print("\ndone -> https://azwebcorp.com/reports/_owner/")
 
 
