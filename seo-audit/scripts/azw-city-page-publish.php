@@ -43,6 +43,87 @@ $CITIES = [
              'Often yes, and it is usually cheaper than a rebuild. If the underlying site is sound, fixing speed, mobile layout, the enquiry form and local search signals costs a fraction of starting again.'],
         ],
     ],
+
+    'web-design-mesa-az' => [
+        'city' => 'Mesa',
+        'title' => 'Web Design in Mesa, AZ | AZWebCorp',
+        'desc' => 'Website design for Mesa businesses, from a studio in Gilbert just south of '
+                . 'the city line. Built for repair-intent trades, winter-visitor seasonality and '
+                . 'Falcon Field B2B. Call (480) 818-5761.',
+        'also_served' => 'Apache Junction, Arizona',
+        // Read out of the body file so the generated FAQPage matches the
+        // visible copy exactly. Do not hand-edit these; edit the body and
+        // re-sync, or the page ships schema that disagrees with itself.
+        'faqs' => [
+            ['Are you based in Mesa?',
+             'No — we are in Gilbert, at 4690 E Laurel Ave, just south of the Mesa border. For most of Mesa that is fifteen to twenty minutes, and we come to you for the first meeting and for photography. We would rather say that than list a Mesa suite number that turns out to be a mailbox.'],
+            ['My customers are only in one part of Mesa. Does that matter?',
+             'It matters a lot, and it is usually an advantage. A site that says which parts of the city you cover, and names the cross streets, converts better than one claiming the whole Valley — and it is easier to rank. We would rather build you a page that wins east Mesa than one that vaguely addresses everywhere.'],
+            ['Do you work with manufacturers and B2B suppliers?',
+             'Yes, and they need a different site from a consumer trade — capabilities, materials, tolerances, lead times and an RFQ path that accepts a drawing, rather than booking widgets. We will build that structure and then ask you for the specifics; we will not invent certifications or specifications on your behalf.'],
+            ['What does a website cost?',
+             'We quote per project, because it depends on page count, whether we photograph your work, and whether you need e-commerce, booking or an RFQ workflow. You get a range on the first call, before spending anything — and if an edit to your existing site would do the job more cheaply than a rebuild, we will tell you that.'],
+            ['Can you fix the site I have instead of replacing it?',
+             'Often, and it is usually cheaper. If the underlying site is sound, fixing load speed, mobile layout, the enquiry path and the local search signals costs a fraction of a rebuild. The free audit above is a reasonable first look at which situation you are in.'],
+        ],
+    ],
+    'web-design-chandler-az' => [
+        'city' => 'Chandler',
+        'title' => 'Web Design in Chandler, AZ | AZWebCorp',
+        'desc' => 'Website design for Chandler businesses, from a studio in Gilbert. Built for a technical audience and the supplier economy around the Price Road Corridor. Call (480) 818-5761.',
+        'also_served' => 'Mesa, Arizona',
+        // Read out of the body file, not retyped: the publisher builds
+        // FAQPage from these and they must match the visible copy exactly.
+        'faqs' => [
+            ['Why does a technical local audience change the website?',
+             'Because marketing language that works elsewhere reads as evasion here. An audience that specifies tolerances for a living notices when a site claims to be industry-leading and never says what it does. Specifics convert this audience: what you do, what it costs, how long it takes, what you will not take on.'],
+            ['We want to supply the semiconductor plants. Is a website worth anything for that?',
+             'Yes, but not the kind most agencies build. It gets read after a referral, not instead of one, by somebody checking whether you are credible before a meeting. That means capability statements, certifications, insurance limits, safety record and comparable past work, all findable in under two minutes and not hidden behind a contact form.'],
+            ['Is Chandler more competitive than the surrounding towns?',
+             'For consumer services, generally yes. Household incomes are high, which attracts more competitors and raises advertising costs, and national franchises target the area deliberately. That usually argues for competing on a narrower specialism rather than head-on for the broadest term in your category.'],
+            ['Are you based in Chandler?',
+             'No, we are in Gilbert, next door, and we will not rent a Chandler address to appear local. It changes nothing about your rankings, because Google weights where your business is and not where your agency is. It does mean we can be at your premises quickly.'],
+        ],
+    ],
+
+    'web-design-scottsdale-az' => [
+        'city' => 'Scottsdale',
+        'title' => 'Web Design in Scottsdale, AZ | AZWebCorp',
+        'desc' => 'Website design for Scottsdale businesses, from a studio in Gilbert. Built for a seasonal visitor economy and two audiences on one site. Call (480) 818-5761.',
+        'also_served' => 'Paradise Valley, Arizona',
+        // Read out of the body file, not retyped: the publisher builds
+        // FAQPage from these and they must match the visible copy exactly.
+        'faqs' => [
+            ['Should my site be built for visitors or for locals?',
+             'Usually both, on separate paths. A visitor needs to know where you are, whether you are open, and how to book, decided in about a minute on a phone. A resident needs to know you are worth returning to. One page trying to do both jobs at once generally does neither, and the fix is structural rather than a matter of wording.'],
+            ['How do you handle a business whose year is one long season?',
+             'By building the seasonal parts to be changed rather than rebuilt. Hours, menus, rates and closures should be editable by you in minutes, because a site that says open daily in July when you shut until October costs you trust as well as a booking. If your revenue concentrates into a few months, the site has to be right during them.'],
+            ['Scottsdale design standards are high. Can you meet them?',
+             'Sometimes the honest answer is no. If you need a brand identity built from scratch to sit beside luxury hospitality, a specialist studio is a better fit and we will say so. If you need a site that is genuinely fast, works properly on a phone, is easy to update and does not embarrass you next to a resort\'s, that we do.'],
+            ['You are in Gilbert, not Scottsdale. Does that matter here?',
+             'It matters more in Scottsdale than anywhere else we work, and not for the reason people assume. Your rankings depend on where your business is, not where your agency is. But we are about forty minutes away, so in-person meetings need planning rather than being casual. If regular face-to-face contact is important to you, that is worth weighing before you hire us.'],
+        ],
+    ],
+
+    'web-design-tempe-az' => [
+        'city' => 'Tempe',
+        'title' => 'Web Design in Tempe, AZ | AZWebCorp',
+        'desc' => 'Website design for Tempe businesses, from a studio in Gilbert. Built for a dense, landlocked city with high customer turnover. Call (480) 818-5761.',
+        'also_served' => 'Phoenix, Arizona',
+        // Read out of the body file, not retyped: the publisher builds
+        // FAQPage from these and they must match the visible copy exactly.
+        'faqs' => [
+            ['Are you based in Tempe?',
+             'No. We are in Gilbert, at 4690 E Laurel Ave, about twenty minutes away, and we will not rent a Tempe address to look local. It makes no difference to your rankings, because Google weights where your business is rather than where your agency is. It does mean we can come to you for photography and meetings.'],
+            ['Should my Tempe business target students?',
+             'Only if the margins work. Student trade is high volume, price sensitive and turns over every few years, so word of mouth compounds more slowly than it would elsewhere. If your business depends on established households or on commercial contracts, chasing the student market can absorb a great deal of attention for very little return. It is worth deciding deliberately rather than by default.'],
+            ['Why does being landlocked matter to my website?',
+             'Because it changes what work is available and who you are competing with. Tempe cannot expand outward, so there is far less new construction than in the towns further out and much more repair and renovation. Repair intent is urgent and decided on a phone in minutes, which rewards a fast site that names the service plainly and shows a tappable number, over one built around a homepage carousel.'],
+            ['My address is a suite in a shared building. Does that hurt?',
+             'It can, and it is fixable. Multi-tenant addresses confuse both customers and mapping apps, and a visitor who cannot find your door counts as a lost enquiry even though your marketing worked. A plain description of the entrance, the parking and the suite, alongside the map, recovers most of that.'],
+        ],
+    ],
+
 ];
 
 if (!isset($CITIES[$slug])) {
@@ -124,8 +205,18 @@ if ($words < 1200) {
     echo "\nREFUSING: {$words} words is short of the Gilbert benchmark (~1,400).\n";
     return;
 }
-if (strpos($post->post_content, 'county line runs straight through') !== false) {
-    echo "\nalready built out - nothing to do\n";
+/* Refuse to overwrite a page that already has real copy on it.
+ *
+ * Not a hypothetical: on 2026-09-08 a parallel session published Queen Creek
+ * four minutes before this script's dry run, and the only thing that stopped an
+ * overwrite was noticing the byte count by eye. A stub is ~45 words of
+ * post_content; anything above 800 is somebody's work. `force` is deliberately
+ * awkward to type. */
+$existing_words = str_word_count(wp_strip_all_tags($post->post_content));
+if ($existing_words >= 800 && !in_array('force', $args ?? [], true)) {
+    echo "\nREFUSING: this page already has {$existing_words} words of content.\n"
+       . "Someone has built it out. Diff it before replacing, then pass 'force'\n"
+       . "if you still mean to.\n";
     return;
 }
 if (!$APPLY) { echo "\nDRY RUN. Add 'apply' to save.\n"; return; }
