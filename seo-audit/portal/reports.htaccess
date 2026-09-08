@@ -1,0 +1,24 @@
+# Deployed to html/reports/.htaccess
+#
+# WHY: this account sits behind GoDaddy Varnish + Cloudflare, and both happily
+# serve a stale copy of a static .html for a long time after it is replaced.
+# That has repeatedly made a freshly deployed portal look broken or out of date
+# to whoever opened it - including a full redesign that appeared not to deploy
+# at all, and an unpublished page that kept returning 200.
+#
+# These dashboards are small, private, per-client pages with no traffic concern,
+# so the correct trade is: never serve them stale. The data inside is baked at
+# build time, so a cached copy is not just old chrome, it is old NUMBERS being
+# shown to a client as current.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|json)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+    # Signals to the GoDaddy/Varnish edge that this must not be held.
+    Header set X-Accel-Expires "0"
+  </FilesMatch>
+</IfModule>
+
+# No directory listing: /reports/ must not enumerate which clients exist.
+Options -Indexes

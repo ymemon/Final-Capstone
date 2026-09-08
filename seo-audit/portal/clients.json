@@ -1,0 +1,68 @@
+{
+  "_README": [
+    "Portal clients. Add a client here, run sync_portal.py <slug>, then",
+    "build_portal.py <slug>, then deploy to html/reports/<slug>/.",
+    "",
+    "gsc_property must be EXACTLY as Search Console lists it - either the",
+    "URL-prefix form ('https://example.com/') or the domain form",
+    "('sc-domain:example.com'). Prefer sc-domain where it exists: it covers",
+    "www + non-www + http + https as one property, which matters on sites that",
+    "have historically been indexed under more than one of those.",
+    "",
+    "ga4_property is the numeric property id, or null. Null is not a failure -",
+    "the page renders an explicit 'not connected' panel. Never substitute zeros",
+    "for a source that is not wired up; a client cannot tell a fake 0 from a",
+    "real one.",
+    "",
+    "ai_log_dir may be null here and supplied instead by 'portal_ai_log_dirs'",
+    "in ~/.claude-tools/azwebcorp-creds.json, keyed by slug. Some clients' log",
+    "paths contain their hosting account name, which is half a credential pair",
+    "and does not belong in a public repository."
+  ],
+  "azwebcorp": {
+    "name": "AZ Web Corp",
+    "domain": "azwebcorp.com",
+    "gsc_property": "https://azwebcorp.com/",
+    "ga4_property": "247570709",
+    "ssh_helper": "ssh_run.bat",
+    "ai_log_dir": "~/html/wp-content/ai-crawler-logs",
+    "internal": true
+  },
+  "everythingit": {
+    "name": "Everything IT",
+    "domain": "everythingit.ie",
+    "gsc_property": "sc-domain:everythingit.ie",
+    "ga4_property": "552051066",
+    "ssh_helper": "ssh_run_eit.bat",
+    "ai_log_dir": null,
+    "internal": false
+  },
+  "prestigewindows": {
+    "name": "Prestige Windows",
+    "domain": "prestigewindowsaz.com",
+    "gsc_property": "sc-domain:prestigewindowsaz.com",
+    "ga4_property": null,
+    "ssh_helper": "ssh_run_prestige.bat",
+    "ai_log_dir": "/html/wp-content/ai-crawler-logs",
+    "internal": false
+  },
+  "shopazwebcorp": {
+    "name": "Shop AZ Web Corp",
+    "domain": "shopazwebcorp.com",
+    "gsc_property": "sc-domain:shopazwebcorp.com",
+    "ga4_property": null,
+    "ssh_helper": null,
+    "ai_log_dir": null,
+    "internal": true
+  },
+  "paloverde": {
+    "name": "Palo Verde Cancer Specialists",
+    "domain": "pvcancer.com",
+    "gsc_property": "sc-domain:pvcancer.com",
+    "ga4_property": null,
+    "ssh_helper": "ssh_run_paloverde.bat",
+    "ai_log_dir": null,
+    "internal": false,
+    "pending": "Awaiting Search Console and DNS access from Mike (asked 2026-09-08). The gsc_property above is the expected value once pvcancer.com resolves to the new site - verify it against the exact string Search Console reports before the first sync. Skipped by sync and build until this key is removed."
+  }
+}

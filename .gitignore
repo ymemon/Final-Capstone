@@ -1,0 +1,53 @@
+# NOTE: github.com/ymemon/Final-Capstone is a PUBLIC repository.
+# Anything committed here is world-readable. Check `git status` before
+# `git add -A` - the working tree holds client work that should not ship.
+
+# Credentials never belong in this repo. They live in
+# C:\Users\yasir\.claude-tools\azwebcorp-creds.json and are loaded at runtime.
+azwebcorp-creds.json
+*-oauth-token.json
+*-oauth-client.json
+*creds*.json
+*-key.json
+
+# Raw client mail and API dumps pulled by the watcher / ticket sync.
+# These hold real client correspondence - keep them off GitHub.
+client-watch/mail_dump.json
+client-watch/mail_list.txt
+client-watch/state.json
+client-watch/idle_state.json
+client-watch/idle_events.jsonl
+client-watch/ack_state.json
+seo-audit/ticket-sync/fetch_*.json
+seo-audit/ticket-sync/run_*.json
+seo-audit/ticket-sync/*_err.txt
+
+# Logs
+*.log
+client-watch/watch_log.txt
+
+# Python
+__pycache__/
+*.pyc
+
+# Vendor / generated trees. 4,389 files of someone else's code that would
+# otherwise land in a public repo on the next `git add -A`.
+local-sites/
+node_modules/
+
+# Staged deploy scripts awaiting approval. Transient by nature, and some
+# carry client page-gate passwords (e.g. the EIT hardware-supply demo).
+client-watch/staged/
+
+# Portal owner-tier credentials - never commit these.
+seo-audit/portal/owner-htpasswd.local
+seo-audit/portal/owner-password.local
+seo-audit/portal/owner-auth.local
+seo-audit/portal/.deploy-owner/
+
+# Portal build inputs and outputs. Both embed real client search and analytics
+# figures, and this repository is public - only the source that produces them
+# belongs here.
+seo-audit/portal/data/
+seo-audit/portal/dist/
+seo-audit/portal/azwebcorp/index.html
