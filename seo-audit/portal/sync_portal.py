@@ -29,11 +29,14 @@ HERE = Path(__file__).resolve().parent
 SEO_AUDIT = HERE.parent
 sys.path.insert(0, str(SEO_AUDIT))
 
+from ga4_token import resolve_ga4_token  # noqa: E402 - needs the path set above
+
 DATA_DIR = HERE / "data"
 CLIENTS_FILE = HERE / "clients.json"
 
 GSC_TOKEN = Path(r"C:\Users\yasir\.claude-tools\gsc-oauth-token.json")
-GA4_TOKEN = Path(r"C:\Users\yasir\.claude-tools\ga4-oauth-token.json")
+# Resolved lazily, not hardcoded: ga4-oauth-token.json expired and silently
+# took the GA4 half of every portal sync with it.
 GSC_SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
 GA4_SCOPES = ["https://www.googleapis.com/auth/analytics.readonly"]
 
@@ -232,7 +235,7 @@ def build_ga4(property_id):
     from googleapiclient.discovery import build as gbuild
     from datetime import datetime, timezone
 
-    svc = gbuild("analyticsdata", "v1beta", credentials=creds(GA4_TOKEN, GA4_SCOPES),
+    svc = gbuild("analyticsdata", "v1beta", credentials=creds(resolve_ga4_token(GA4_SCOPES), GA4_SCOPES),
                  cache_discovery=False)
     end = date.today() - timedelta(days=1)
     start = end - timedelta(days=WINDOW - 1)
