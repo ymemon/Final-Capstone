@@ -49,7 +49,12 @@ class Page:
     def __init__(self, path: Path):
         self.path = path
         self.slug = path.stem
-        self.src = path.read_text(encoding="utf-8")
+        raw = path.read_text(encoding="utf-8")
+        # Comments are not content. Without stripping them a note that merely
+        # mentions a <body> or <h1> tag is parsed as though it opened one, and the
+        # page silently validates against the wrong slice of the file.
+        self.comments = re.findall(r"<!--.*?-->", raw, re.DOTALL)
+        self.src = re.sub(r"<!--.*?-->", "", raw, flags=re.DOTALL)
         self.errors: list[str] = []
         self.warnings: list[str] = []
 
@@ -118,8 +123,13 @@ class Page:
         # second copy in the file would be duplicate schema rather than a fix.
         # Opt out per type with a comment, e.g.
         #     <!-- schema-provided-elsewhere: FAQPage -->
+        # Read from the stripped-out comments, not self.src, which no longer
+        # contains any.
         provided = set(
-            re.findall(r"<!--\s*schema-provided-elsewhere:\s*([\w, ]+?)\s*-->", self.src)
+            re.findall(
+                r"<!--\s*schema-provided-elsewhere:\s*([\w, ]+?)\s*-->",
+                "\n".join(self.comments),
+            )
         )
         provided = {t.strip() for entry in provided for t in entry.split(",") if t.strip()}
 
@@ -181,10 +191,17 @@ class Page:
 
 
 def main() -> int:
-    paths = sorted(p for p in PAGES_DIR.glob("*.html"))
+    # A "-insert" file is a fragment written to be pasted into a page that
+    # already exists, not a page of its own, so it has no title, canonical or
+    # h1 by design. Validating it as a page produced seven guaranteed failures
+    # that made the whole run useless as a pass/fail signal.
+    paths = sorted(p for p in PAGES_DIR.glob("*.html") if not p.stem.endswith("-insert"))
+    skipped = sorted(p.name for p in PAGES_DIR.glob("*-insert.html"))
     if not paths:
         print(f"No HTML files in {PAGES_DIR}", file=sys.stderr)
         return 1
+    if skipped:
+        print("fragments skipped (not pages): " + ", ".join(skipped))
 
     pages = [Page(p) for p in paths]
     for p in pages:

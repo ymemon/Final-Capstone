@@ -18,6 +18,16 @@ That page was rebuilt in **Elementor** on the site (`_elementor_data`, `elemento
 
 Edit that page in Elementor. Its schema is handled outside the database too: Rank Math emits WebPage, Service and BreadcrumbList, and `tools/azw-arizona-faq-schema.php` (an mu-plugin) supplies the FAQPage its accordion markup does not give Rank Math.
 
+## Fragments, and why `validate.py` ignores them
+
+A file whose name ends `-insert` is a block written to be pasted into a page that already exists, not a page in its own right. It has no title, canonical or `h1` by design, so the validator skips it and says which files it skipped. `seo-company-phoenix-insert.html` is one of these — its copy is already live on `/seo-company-phoenix-az/`.
+
+## Two pages finished but not published
+
+`phoenix-web-development.html` and `web-design-phoenix-az.html` were written in full and then left without head tags or a body wrapper, which meant `validate.py` counted them as empty and `azw-publish-content.php` skipped them silently. Both are now complete and validate clean.
+
+Neither is live. **The live URLs are still the 44/45-word doorway stubs, noindexed during the thin-page cleanup**, so publishing either should be paired with lifting `rank_math_robots` back to `index,follow` on that page — otherwise a real page ships with a `noindex` on it. That was always the documented follow-up: write genuine content for the cities that matter, then remove the noindex.
+
 ## Schema that lives somewhere else
 
 `REQUIRED_SCHEMA` in `validate.py` expects all three types in the file. When a type is legitimately emitted elsewhere — Rank Math builds FAQPage automatically from visible Q&A on some pages, and a second copy is duplicate schema rather than a fix — declare it instead of adding a duplicate:
