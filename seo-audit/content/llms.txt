@@ -1,0 +1,77 @@
+# AZ Web Corp
+
+> AZ Web Corp is a web design, web development, and SEO agency based in Gilbert, Arizona, serving businesses across the Phoenix metro area (Phoenix, Mesa, Gilbert, Tempe, Chandler, Scottsdale, Queen Creek, the East Valley) and nationwide. Services include custom WordPress and web development, technical and local SEO, hosting/domains/email, and digital marketing. Phone: (480) 818-5761. Address: 4690 E Laurel Ave, Gilbert, AZ 85234.
+
+## Core services
+
+- [Arizona Web Design & Development](https://azwebcorp.com/web-development/): Custom WordPress and web development for Arizona businesses.
+- [Arizona SEO Services](https://azwebcorp.com/arizona-seo-services/): Technical SEO process — audits, on-page SEO, schema, local SEO, ongoing content and authority building.
+- [SEO Company Serving Phoenix, AZ](https://azwebcorp.com/seo-company-phoenix-az/): SEO services specifically for Phoenix-area businesses, including an honest FAQ on how to evaluate any SEO agency.
+- [Arizona Digital Marketing](https://azwebcorp.com/arizona-digital-marketing/): Broader digital marketing services beyond SEO.
+- [Case Studies](https://azwebcorp.com/case-studies/): Examples of client work, including an ISO 27001-certified IT firm in Ireland and a laboratory software provider.
+
+## Local service-area pages
+
+- [Web Design in Gilbert, AZ](https://azwebcorp.com/web-design-gilbert-az/)
+- [Web Design Phoenix, AZ](https://azwebcorp.com/web-design-phoenix-az/)
+- [Web Design Scottsdale, AZ](https://azwebcorp.com/web-design-scottsdale-az/)
+- [Web Design Mesa, AZ](https://azwebcorp.com/web-design-mesa-az/)
+- [Web Design Chandler, AZ](https://azwebcorp.com/web-design-chandler-az/)
+- [Web Design Tempe, AZ](https://azwebcorp.com/web-design-tempe-az/)
+- [Web Design Queen Creek, AZ](https://azwebcorp.com/web-design-queen-creek-az/)
+- [SEO Services in Gilbert, AZ](https://azwebcorp.com/seo-services-gilbert-az/)
+- [Phoenix Web Development Company](https://azwebcorp.com/phoenix-web-development/)
+
+## Hosting, domains, and email
+
+- [Web Hosting Plans & Pricing](https://azwebcorp.com/hosting-domains/)
+- [Managed WordPress Hosting](https://azwebcorp.com/wordpress-hosting/)
+- [SSD VPS Hosting](https://azwebcorp.com/vps-hosting/)
+- [Domain Registration](https://azwebcorp.com/domain-registration/)
+- [Domain Transfer](https://azwebcorp.com/domain-transfer/)
+- [Business Email](https://azwebcorp.com/business-email/)
+- [SSL Certificates](https://azwebcorp.com/ssl/)
+- [Website Security & Firewall](https://azwebcorp.com/website-security/)
+- [Website Backup Services](https://azwebcorp.com/website-backup/)
+- [Website Builder](https://azwebcorp.com/website-builder/)
+
+## Published pricing
+
+Entry prices as listed on the pages above, in USD. "From" reflects the lowest
+plan in each family; email plans are per user, per month. Check the linked page
+for current terms — these are the advertised starting prices, not quotes.
+
+### Hosting — https://azwebcorp.com/hosting-domains/
+
+- cPanel Hosting: from $3.99/month
+- Managed WordPress: from $7.99/month
+- SSD VPS Hosting: from $4.99/month
+- Web Hosting Plus (dedicated RAM and CPU): from $20.99/month
+
+### Business email — https://azwebcorp.com/business-email/
+
+Titan professional email, per user per month:
+
+- Light: $4.99 — 10 GB per user, webmail plus iOS/Android apps, calendar and contacts
+- Pro: $5.99 — 30 GB, undo send, read receipts, 5 GB Titan Drive
+- Premium: $7.99 — 50 GB, unlimited templates, priority inbox, 25 GB Titan Drive, branding
+- Ultra: $11.99 — 100 GB
+
+Microsoft 365, per user per month:
+
+- Email Essentials: $5.99 — professional email on your own domain, 50 GB, shared calendars, up to 400 aliases
+- Email Plus: $6.99
+- Online Business Essentials: $9.99 — Office web apps, 1 TB online storage
+- Online Business Professional: $13.99 — Office apps on up to five devices
+
+### Web design, development and SEO
+
+Project-based and retainer work is quoted per engagement rather than listed at
+a fixed price. Contact https://azwebcorp.com/contact-us/ or request a free
+audit at https://azwebcorp.com/free-seo-audit/.
+
+## Company
+
+- [About AZ Web Corp](https://azwebcorp.com/about-azwebcorp/)
+- [Contact AZ Web Corp](https://azwebcorp.com/contact-us/)
+- [Free SEO Audit](https://azwebcorp.com/free-seo-audit/)
