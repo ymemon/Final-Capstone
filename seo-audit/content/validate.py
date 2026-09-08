@@ -112,8 +112,19 @@ class Page:
 
     def _check_schema(self):
         types = {s.get("@type") for s in self.schemas}
+
+        # A page may declare that a schema type is emitted somewhere else --
+        # Rank Math generates FAQPage from visible Q&A on some pages, and a
+        # second copy in the file would be duplicate schema rather than a fix.
+        # Opt out per type with a comment, e.g.
+        #     <!-- schema-provided-elsewhere: FAQPage -->
+        provided = set(
+            re.findall(r"<!--\s*schema-provided-elsewhere:\s*([\w, ]+?)\s*-->", self.src)
+        )
+        provided = {t.strip() for entry in provided for t in entry.split(",") if t.strip()}
+
         for required in REQUIRED_SCHEMA:
-            if required not in types:
+            if required not in types and required not in provided:
                 self.errors.append(f"missing {required} schema")
 
         # Product schema here means a bridge page landed in the wrong directory.

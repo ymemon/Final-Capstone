@@ -8,12 +8,27 @@ Editorial pages targeting commercial keywords the site tracks but has no page fo
 |---|---|---|
 | `seo-services-gilbert-az.html` | `/seo-services-gilbert-az/` | New |
 | `seo-company-phoenix-az.html` | `/seo-company-phoenix-az/` | New |
-| `arizona-seo-services.html` | `/arizona-seo-services/` | **Rewrite — publish at the existing URL** |
 | `case-studies.html` | `/case-studies/` | New |
 
 `case-studies.html` carries a publishing constraint of its own: only the Everything IT entry is cleared. Palo Verde Cancer Specialists and Prestige Windows are drafted as commented-out blocks at the foot of the file and must not be published until each client has agreed to be named — and, for Palo Verde, until `pvcancer.com` actually resolves to the site we built.
 
-`arizona-seo-services.html` replaces the body of a page that already exists and already gets traffic. Publishing it at a new URL discards the accumulated equity on the current one.
+## `/arizona-seo-services/` is not managed here any more
+
+That page was rebuilt in **Elementor** on the site (`_elementor_data`, `elementor_header_footer` template). Elementor is its display source, so `post_content` renders to nobody — a section added there is invisible to visitors, which is exactly what happened when a case-study cross-link was written into it. Its `.html` file has been removed from this directory so nobody publishes over it expecting a visible change.
+
+Edit that page in Elementor. Its schema is handled outside the database too: Rank Math emits WebPage, Service and BreadcrumbList, and `tools/azw-arizona-faq-schema.php` (an mu-plugin) supplies the FAQPage its accordion markup does not give Rank Math.
+
+## Schema that lives somewhere else
+
+`REQUIRED_SCHEMA` in `validate.py` expects all three types in the file. When a type is legitimately emitted elsewhere — Rank Math builds FAQPage automatically from visible Q&A on some pages, and a second copy is duplicate schema rather than a fix — declare it instead of adding a duplicate:
+
+```html
+<!-- schema-provided-elsewhere: FAQPage -->
+```
+
+## Do not edit these pages in the WordPress editor
+
+Saving a schema-carrying page in the block editor **strips `<script>` tags but keeps their contents**. On `/seo-company-phoenix-az/` that turned three JSON-LD blocks into 3KB of raw JSON displayed to visitors, with the quotes curled by `wptexturize`, and the page lost all of its structured data. Publish changes through `../scripts/azw-publish-content.php`, which disables kses for the write.
 
 ## Before publishing
 
