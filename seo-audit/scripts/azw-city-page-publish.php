@@ -91,15 +91,14 @@ $CITIES = [
         'title' => 'Web Design in Scottsdale, AZ | AZWebCorp',
         'desc' => 'Website design for Scottsdale businesses, from a studio in Gilbert. Built for a seasonal visitor economy and two audiences on one site. Call (480) 818-5761.',
         'also_served' => 'Paradise Valley, Arizona',
-        // Read out of the body file, not retyped: the publisher builds
-        // FAQPage from these and they must match the visible copy exactly.
+        // Read out of the body file so FAQPage matches the visible copy.
         'faqs' => [
             ['Should my site be built for visitors or for locals?',
              'Usually both, on separate paths. A visitor needs to know where you are, whether you are open, and how to book, decided in about a minute on a phone. A resident needs to know you are worth returning to. One page trying to do both jobs at once generally does neither, and the fix is structural rather than a matter of wording.'],
             ['How do you handle a business whose year is one long season?',
              'By building the seasonal parts to be changed rather than rebuilt. Hours, menus, rates and closures should be editable by you in minutes, because a site that says open daily in July when you shut until October costs you trust as well as a booking. If your revenue concentrates into a few months, the site has to be right during them.'],
             ['Scottsdale design standards are high. Can you meet them?',
-             'Sometimes the honest answer is no. If you need a brand identity built from scratch to sit beside luxury hospitality, a specialist studio is a better fit and we will say so. If you need a site that is genuinely fast, works properly on a phone, is easy to update and does not embarrass you next to a resort\'s, that we do.'],
+             'Sometimes the honest answer is no. If you need a brand identity built from scratch to sit beside luxury hospitality, a specialist studio is a better fit and we will say so. If you need a site that is genuinely fast, works properly on a phone, is easy to update and does not look out of place beside a resort site, that we do.'],
             ['You are in Gilbert, not Scottsdale. Does that matter here?',
              'It matters more in Scottsdale than anywhere else we work, and not for the reason people assume. Your rankings depend on where your business is, not where your agency is. But we are about forty minutes away, so in-person meetings need planning rather than being casual. If regular face-to-face contact is important to you, that is worth weighing before you hire us.'],
         ],
