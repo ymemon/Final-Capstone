@@ -106,17 +106,33 @@ function azwc_audit_progress_state()
 function azwc_audit_progress_push($url, $status, $ms, $bytes = 0, $type = '')
 {
     list($key, $state) = azwc_audit_progress_state();
-    if (!$state) {
-        return;
-    }
-    $state['events'][] = array(
+
+    // Kept on the request as well as in the job transient, so the finished
+    // report can carry its own crawl even when the browser sent no job id.
+    // That is what lets a cached report show the crawl it came from instead of
+    // an empty panel.
+    $origin = isset($GLOBALS['azwc_audit_started']) ? $GLOBALS['azwc_audit_started'] : microtime(true);
+    $event = array(
         'url'    => (string) $url,
         'status' => (int) $status,
         'ms'     => (int) $ms,
         'bytes'  => (int) $bytes,
         'type'   => (string) $type,
-        'at'     => round(microtime(true) - $state['started'], 2),
+        'at'     => round(microtime(true) - $origin, 2),
     );
+
+    if (!isset($GLOBALS['azwc_audit_events'])) {
+        $GLOBALS['azwc_audit_events'] = array();
+    }
+    $GLOBALS['azwc_audit_events'][] = $event;
+    if (count($GLOBALS['azwc_audit_events']) > AZWC_AUDIT_JOB_MAX_EVENTS) {
+        $GLOBALS['azwc_audit_events'] = array_slice($GLOBALS['azwc_audit_events'], -AZWC_AUDIT_JOB_MAX_EVENTS);
+    }
+
+    if (!$state) {
+        return;
+    }
+    $state['events'][] = $event;
     if (count($state['events']) > AZWC_AUDIT_JOB_MAX_EVENTS) {
         $state['events'] = array_slice($state['events'], -AZWC_AUDIT_JOB_MAX_EVENTS);
     }
@@ -1412,6 +1428,7 @@ add_action('rest_api_init', function () {
             'strategy' => array('required' => false, 'type' => 'string', 'default' => 'mobile'),
             'peek' => array('required' => false, 'type' => 'boolean', 'default' => false),
             'job' => array('required' => false, 'type' => 'string', 'default' => ''),
+            'fresh' => array('required' => false, 'type' => 'boolean', 'default' => false),
         ),
         'callback' => 'azwc_audit_rest',
     ));
@@ -1468,7 +1485,11 @@ function azwc_audit_rest(WP_REST_Request $request)
     if ('psi' === $stage) {
         return azwc_audit_stage_psi($url, $strategy, (bool) $request->get_param('peek'));
     }
-    return azwc_audit_stage_site($url, (string) $request->get_param('job'));
+    return azwc_audit_stage_site(
+        $url,
+        (string) $request->get_param('job'),
+        (bool) $request->get_param('fresh')
+    );
 }
 
 function azwc_audit_history_key($host)
@@ -1476,18 +1497,24 @@ function azwc_audit_history_key($host)
     return 'azwc_audit_history_' . md5($host);
 }
 
-function azwc_audit_stage_site($url, $job = '')
+function azwc_audit_stage_site($url, $job = '', $fresh = false)
 {
     if (function_exists('set_time_limit')) {
         @set_time_limit(150);
     }
+    $GLOBALS['azwc_audit_started'] = microtime(true);
+    $GLOBALS['azwc_audit_events'] = array();
     azwc_audit_progress_start($job, $url);
     $cache_key = 'azwc_audit_site_' . md5($url);
-    $cached = get_transient($cache_key);
+
+    // A forced re-scan skips the stored report but not the rate limiter or the
+    // lock below, so it cannot be used to hammer a target.
+    $cached = $fresh ? false : get_transient($cache_key);
     if ($cached) {
         $cached['cached'] = true;
-        // No crawl happens on a cache hit. Say that rather than let the front
-        // end replay a crawl that is not taking place.
+        // No crawl happens on a cache hit. The stored report carries the crawl
+        // it was built from, so the panel can show that — labelled with when it
+        // ran — instead of replaying it as though it were happening now.
         azwc_audit_progress_finish(true);
         return new WP_REST_Response($cached, 200);
     }
@@ -1531,6 +1558,9 @@ function azwc_audit_stage_site($url, $job = '')
                 )
                 : null,
             'cached' => false,
+            // Stored with the report so a later cache hit can show the crawl
+            // this report was actually built from.
+            'crawl' => isset($GLOBALS['azwc_audit_events']) ? $GLOBALS['azwc_audit_events'] : array(),
         );
         if ($host && null !== $score['overall']) {
             set_transient($history_key, array('score' => $score['overall'], 'fetched' => $result['fetched']), 30 * DAY_IN_SECONDS);
@@ -2020,6 +2050,15 @@ function azwc_audit_shortcode()
             return (n / 1048576).toFixed(1) + ' MB';
         }
 
+        function azAgo(iso) {
+            const then = Date.parse(iso);
+            if (!then) return 'earlier';
+            const mins = Math.max(1, Math.round((Date.now() - then) / 60000));
+            if (mins < 60) return mins + (mins === 1 ? ' minute ago' : ' minutes ago');
+            const hrs = Math.round(mins / 60);
+            return hrs + (hrs === 1 ? ' hour ago' : ' hours ago');
+        }
+
         function azFmtClock(sec) {
             const m = Math.floor(sec / 60), ss = Math.floor(sec % 60);
             return m + ':' + String(ss).padStart(2, '0');
@@ -2040,7 +2079,8 @@ function azwc_audit_shortcode()
             } catch (e) { return u; }
         }
 
-        async function runAudit(domain) {
+        async function runAudit(domain, opts) {
+            const fresh = !!(opts && opts.fresh);
             results.hidden = true;
             results.innerHTML = '';
             progress.hidden = false;
@@ -2141,7 +2181,7 @@ function azwc_audit_shortcode()
                 const response = await fetch(container.dataset.endpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ domain: domain, job: job })
+                    body: JSON.stringify({ domain: domain, job: job, fresh: fresh })
                 });
 
                 if (!response.ok) {
@@ -2157,14 +2197,35 @@ function azwc_audit_shortcode()
                 await poll();
                 clearInterval(ticker);
 
-                if (elPhase) elPhase.textContent = data.cached ? 'Loaded from a recent scan' : 'Scan complete';
+
+                // A cache hit performs no requests, so nothing has streamed in.
+                // Rather than show an empty panel, paint the crawl this report
+                // was actually built from — stated plainly as a past scan, not
+                // replayed as though it were happening now.
+                let hold = seen ? 650 : 250;
+                if (data.cached && Array.isArray(data.crawl) && data.crawl.length) {
+                    data.crawl.forEach(paint);
+                    if (elElapsed) elElapsed.textContent = azFmtClock(data.crawl[data.crawl.length - 1].at || 0);
+                    if (elNote) {
+                        elNote.hidden = false;
+                        elNote.textContent = 'Showing the crawl from the last scan of this domain, ' +
+                            azAgo(data.fetched) + '. Nothing was re-crawled just now — use Re-run scan for a fresh crawl.';
+                    }
+                    hold = 1600;
+                }
+
+                if (elPhase) {
+                    elPhase.textContent = data.cached
+                        ? 'Loaded from a scan ' + azAgo(data.fetched)
+                        : 'Scan complete';
+                }
                 fill.style.width = '100%';
 
                 setTimeout(function () {
                     progress.hidden = true;
                     results.hidden = false;
                     renderResults(data, domain);
-                }, seen ? 650 : 250);
+                }, hold);
 
             } catch (err) {
                 finished = true;
@@ -2578,7 +2639,9 @@ function azwc_audit_shortcode()
             azWireNav(results);
 
             const rerun = results.querySelector('#az-rep-rerun');
-            if (rerun) rerun.addEventListener('click', () => runAudit(domain));
+            // Without fresh:true this re-read the same cached report for six
+            // hours and looked like a button that did nothing.
+            if (rerun) rerun.addEventListener('click', () => runAudit(domain, { fresh: true }));
 
             startReveal(checks, data, domain);
             azLoadPsi(domain, results);
