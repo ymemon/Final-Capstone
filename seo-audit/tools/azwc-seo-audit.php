@@ -26,8 +26,15 @@ define('AZWC_AUDIT_MAX_BYTES', 3145728);
 define('AZWC_PSI_TIMEOUT', 150);
 define('AZWC_LAZY_MANY', 10);
 define('AZWC_LAZY_MIN_PCT', 25);
-define('AZWC_LINKCHECK_MAX', 10);
+// Raised from 10 so the live crawl log has more genuine work to show. The
+// budget below is what makes that safe: a probe is HEAD then, if that is
+// refused, GET, so 30 links is up to 360s of worst-case waiting against the
+// 150s set_time_limit in azwc_audit_stage_site(). Probing stops when the
+// budget is spent and the report states how many links were actually reached,
+// so a slow site yields a smaller sample rather than a dead audit.
+define('AZWC_LINKCHECK_MAX', 30);
 define('AZWC_LINKCHECK_TIMEOUT', 6);
+define('AZWC_LINKCHECK_BUDGET', 45);
 define('AZWC_SITEMAP_STALE_DAYS', 180);
 
 function azwc_audit_psi_key()
@@ -963,19 +970,53 @@ function azwc_audit_run_checks($url, $page, $chain)
     }
 
     $broken_links = array();
+    $unverified = 0;
+    $probed = 0;
+    $probe_started = microtime(true);
     azwc_audit_progress_phase('Probing internal links');
     foreach ($link_sample as $target) {
+        // Stop on the budget rather than the list length. A handful of links
+        // that each sit on the 6s timeout would otherwise run the request past
+        // its execution limit and lose the entire audit.
+        if (microtime(true) - $probe_started > AZWC_LINKCHECK_BUDGET) {
+            break;
+        }
         $code = azwc_audit_probe_link($target);
+        $probed++;
+
+        // 401/403/429 mean the crawler was refused, not that the link is
+        // broken: Instagram and LinkedIn both answer 429 to an automated HEAD
+        // while loading perfectly for a visitor. Reporting those as broken
+        // links to a prospective client is a false accusation about their own
+        // site, so they are counted separately and never listed as failures.
+        if (in_array($code, array(401, 403, 429), true)) {
+            $unverified++;
+            continue;
+        }
         if (0 === $code || $code >= 400) {
             $broken_links[] = $target . ' — ' . ($code ?: 'no response');
         }
     }
-    if ($link_sample) {
+    if ($probed) {
+        // Report against what was actually reached, never against what was
+        // queued, or a truncated run would overstate the coverage.
+        $checked = $probed - $unverified;
+        $detail = sprintf(
+            'Sampled %d links: %s.',
+            $probed,
+            empty($broken_links) ? 'all loaded successfully' : count($broken_links) . ' failed'
+        );
+        if ($unverified) {
+            $detail .= sprintf(
+                ' %d could not be verified because the host refused an automated request (usually a social network); those are not counted as broken.',
+                $unverified
+            );
+        }
         $checks[] = azwc_audit_check(
             'broken_links',
             empty($broken_links) ? 'Sampled links all work' : 'Some sampled links are broken',
-            empty($broken_links) ? 'pass' : (count($broken_links) / count($link_sample) < 0.34 ? 'warn' : 'fail'),
-            sprintf('Sampled %d links: %s.', count($link_sample), empty($broken_links) ? 'all loaded successfully' : count($broken_links) . ' failed'),
+            empty($broken_links) ? 'pass' : (($checked > 0 && count($broken_links) / $checked < 0.34) ? 'warn' : 'fail'),
+            $detail,
             2,
             'onpage',
             $broken_links
