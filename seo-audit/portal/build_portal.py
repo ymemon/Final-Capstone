@@ -271,7 +271,10 @@ def build(slug, cfg, clients=None, owner=False):
     insights = build_insights(data)
 
     if owner and clients:
-        roster = [{"slug": s, "name": c["name"]} for s, c in clients.items() if not c.get("pending")]
+        # The empty slug routes back to the gate's overview, so there is always
+        # a way back to "all properties" from inside one of them.
+        roster = [{"slug": "", "name": "← All properties"}]
+        roster += [{"slug": s, "name": c["name"]} for s, c in clients.items() if not c.get("pending")]
     else:
         roster = [{"slug": slug, "name": cfg["name"]}]
 

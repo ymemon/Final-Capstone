@@ -53,7 +53,9 @@ function roster(): array {
     $out = [];
     foreach (scandir(PAGES_DIR) ?: [] as $e) {
         if ($e === '.' || $e === '..') continue;
-        if (preg_match('/^([a-z0-9_-]+)\.php$/', $e, $m)) {
+        // Leading underscore is reserved for generated files such as
+        // _index.php, which is data for the overview and not a property.
+        if (preg_match('/^([a-z0-9][a-z0-9_-]*)\.php$/', $e, $m)) {
             $out[] = $m[1];
         }
     }
@@ -92,6 +94,90 @@ HTML;
     exit;
 }
 
+/** Every property on one screen, which is what "master access" should open on. */
+function overview_page(): void {
+    $rows = is_readable(PAGES_DIR . '/_index.php') ? require PAGES_DIR . '/_index.php' : [];
+    $e = fn($s) => htmlspecialchars((string) $s, ENT_QUOTES);
+
+    $fmt = function ($n) {
+        if ($n === null) return '&mdash;';
+        return $n >= 10000 ? round($n / 1000, 1) . 'K' : number_format((float) $n);
+    };
+    $delta = function ($cur, $prev) {
+        if (!$prev) return '<span class="d flat">no prior period</span>';
+        $p = ($cur - $prev) / $prev * 100;
+        $cls = $p > 0.5 ? 'up' : ($p < -0.5 ? 'down' : 'flat');
+        $arrow = $p > 0.5 ? '&#9650;' : ($p < -0.5 ? '&#9660;' : '&#9679;');
+        return sprintf('<span class="d %s">%s %.1f%% vs prev</span>', $cls, $arrow, abs($p));
+    };
+
+    $cards = '';
+    foreach ($rows as $r) {
+        $ga4 = $r['sessions'] === null
+            ? '<div class="m"><b>&mdash;</b><span>Analytics not connected</span></div>'
+            : '<div class="m"><b>' . $fmt($r['sessions']) . '</b><span>Sessions &middot; 28d</span></div>';
+        $ai = $r['aiHits']
+            ? '<div class="m"><b>' . $fmt($r['aiHits']) . '</b><span>AI crawls &middot; ' . (int) $r['aiDays'] . 'd</span></div>'
+            : '<div class="m"><b>&mdash;</b><span>No AI crawler log</span></div>';
+        $cards .= '<a class="card" href="?c=' . $e($r['slug']) . '">'
+            . '<div class="hd"><h2>' . $e($r['name']) . ($r['internal'] ? ' <i>internal</i>' : '') . '</h2>'
+            . '<div class="dom">' . $e($r['domain']) . '</div></div>'
+            . '<div class="ms">'
+            . '<div class="m"><b>' . $fmt($r['clicks']) . '</b><span>Clicks &middot; 28d</span>' . $delta($r['clicks'], $r['clicksPrev']) . '</div>'
+            . '<div class="m"><b>' . $fmt($r['impressions']) . '</b><span>Impressions &middot; 28d</span>' . $delta($r['impressions'], $r['impressionsPrev']) . '</div>'
+            . '<div class="m"><b>' . $fmt($r['keywords']) . '</b><span>Ranking keywords</span></div>'
+            . '<div class="m"><b>' . ($r['position'] ?: '&mdash;') . '</b><span>Avg position</span></div>'
+            . $ga4 . $ai
+            . '</div><div class="go">Open portal &rarr;</div></a>';
+    }
+    if (!$cards) {
+        $cards = '<p class="none">No properties have been built yet.</p>';
+    }
+
+    echo <<<HTML
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>All properties - AZ Web Corp</title>
+<style>
+ :root{color-scheme:dark}
+ body{background:#000;color:#fff;margin:0;padding:34px 26px 60px;
+      font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+ header{max-width:1180px;margin:0 auto 26px}
+ h1{font-size:23px;margin:0 0 5px}
+ .sub{color:#85847f;font-size:13px;margin:0}
+ .out{float:right;color:#85847f;font-size:12.5px;text-decoration:none}
+ .out:hover{color:#fff}
+ .grid{max-width:1180px;margin:0 auto;display:grid;gap:15px;
+       grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+ .card{display:block;text-decoration:none;color:inherit;background:#101113;
+       border:1px solid rgba(255,255,255,.10);border-radius:15px;padding:19px 20px 15px;
+       transition:border-color .16s,transform .16s}
+ .card:hover{border-color:rgba(230,184,77,.45);transform:translateY(-2px)}
+ .hd h2{font-size:16px;margin:0}
+ .hd h2 i{font-style:normal;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+          color:#85847f;border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:1px 7px;
+          vertical-align:middle;margin-left:5px}
+ .dom{color:#85847f;font-size:12.5px;margin-top:2px}
+ .ms{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:16px 0 13px}
+ .m b{display:block;font-size:20px;font-variant-numeric:tabular-nums;line-height:1.15}
+ .m span{display:block;color:#85847f;font-size:11px}
+ .d{display:block;font-size:11px;margin-top:2px}
+ .d.up{color:#0ca30c}.d.down{color:#e66767}.d.flat{color:#85847f}
+ .go{color:#e6b84d;font-size:12.5px;border-top:1px solid rgba(255,255,255,.08);padding-top:11px}
+ .none{max-width:1180px;margin:0 auto;color:#85847f}
+</style></head><body>
+<header>
+ <a class="out" href="?logout=1">Sign out</a>
+ <h1>All properties</h1>
+ <p class="sub">Agency view. Every property you have connected, busiest first. Client links show only their own.</p>
+</header>
+<div class="grid">{$cards}</div>
+</body></html>
+HTML;
+    exit;
+}
+
 // --- authenticate ----------------------------------------------------------
 if (isset($_GET['logout'])) {
     unset($_SESSION[SESSION_KEY]);
@@ -121,17 +207,25 @@ if (empty($_SESSION[SESSION_KEY])) {
 }
 
 // --- serve -----------------------------------------------------------------
+// Past this line the request is authenticated, so the guard the page files and
+// _index.php check for can be defined. It has to happen before the overview
+// runs, not just before a client page is included - the overview requires
+// _index.php, which carries the same guard.
+define('AZWC_OWNER_GATE', true);
+
 $clients = roster();
 if (!$clients) {
     echo 'No agency copies are deployed yet.';
     exit;
 }
 
-$want = (string) ($_GET['c'] ?? $clients[0]);
-// Allowlist rather than sanitise: only a name already found on disk is served,
-// so no crafted value can escape the directory.
-if (!in_array($want, $clients, true)) {
-    $want = $clients[0];
+// No property chosen (or an unknown one) means show the overview - every
+// property at once - rather than silently landing on whichever happens to be
+// first. Allowlist rather than sanitise: only a name already found on disk is
+// served, so no crafted value can escape the directory.
+$want = $_GET['c'] ?? null;
+if ($want === null || !in_array($want, $clients, true)) {
+    overview_page();
 }
 
 $file = PAGES_DIR . '/' . $want . '.php';
@@ -142,5 +236,4 @@ if (!is_readable($file)) {
 }
 
 header('Content-Type: text/html; charset=utf-8');
-define('AZWC_OWNER_GATE', true);   // the page files check for this and 404 without it
 require $file;
