@@ -23,7 +23,13 @@
     "own GA4 service-account key. The page then polls that absolute path, so it",
     "works from the agency view too, where a relative 'api/live.php' would",
     "resolve against /reports/_owner/ and 404. Leave it out and the page says",
-    "the live feed is not connected for that property, which is the truth."
+    "the live feed is not connected for that property, which is the truth.",
+    "",
+    "emails: addresses allowed to sign in to THIS client's dashboard at",
+    "https://azwebcorp.com/reports/ . One address belongs to one client; if the",
+    "same address is listed twice the last entry wins. Leaving the list empty",
+    "means nobody can reach that dashboard - the gate fails closed on purpose,",
+    "so an empty roster locks people out rather than letting anyone in."
   ],
   "azwebcorp": {
     "name": "AZ Web Corp",
@@ -33,7 +39,8 @@
     "ssh_helper": "ssh_run.bat",
     "ai_log_dir": "~/html/wp-content/ai-crawler-logs",
     "live_feed": true,
-    "internal": true
+    "internal": true,
+    "emails": []
   },
   "everythingit": {
     "name": "Everything IT",
@@ -43,7 +50,8 @@
     "ssh_helper": "ssh_run_eit.bat",
     "ai_log_dir": null,
     "live_feed": true,
-    "internal": false
+    "internal": false,
+    "emails": []
   },
   "prestigewindows": {
     "name": "Prestige Windows",
@@ -52,7 +60,8 @@
     "ga4_property": null,
     "ssh_helper": "ssh_run_prestige.bat",
     "ai_log_dir": "/html/wp-content/ai-crawler-logs",
-    "internal": false
+    "internal": false,
+    "emails": []
   },
   "shopazwebcorp": {
     "name": "Shop AZ Web Corp",
@@ -61,7 +70,8 @@
     "ga4_property": null,
     "ssh_helper": null,
     "ai_log_dir": null,
-    "internal": true
+    "internal": true,
+    "emails": []
   },
   "paloverde": {
     "name": "Palo Verde Cancer Specialists",
@@ -71,6 +81,7 @@
     "ssh_helper": "ssh_run_paloverde.bat",
     "ai_log_dir": null,
     "internal": false,
-    "pending": "Awaiting Search Console and DNS access from Mike (asked 2026-09-08). The gsc_property above is the expected value once pvcancer.com resolves to the new site - verify it against the exact string Search Console reports before the first sync. Skipped by sync and build until this key is removed."
+    "pending": "Awaiting Search Console and DNS access from Mike (asked 2026-09-08). The gsc_property above is the expected value once pvcancer.com resolves to the new site - verify it against the exact string Search Console reports before the first sync. Skipped by sync and build until this key is removed.",
+    "emails": []
   }
 }
