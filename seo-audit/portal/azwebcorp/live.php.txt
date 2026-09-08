@@ -127,9 +127,73 @@ foreach ($report['rows'] ?? [] as $row) {
     ];
 }
 
+/* Second realtime query: where those visitors are, for the globe.
+ *
+ * Separate from the pages query on purpose. GA4 returns the cartesian product
+ * of the dimensions asked for, so requesting page x country x city in one call
+ * would split a single visitor across several rows and make the totals above
+ * wrong. Two narrow queries each aggregate cleanly.
+ *
+ * countryId is the ISO-3166-1 alpha-2 code, which is what the centroid table
+ * is keyed on; country and city are carried through for display only. */
+$geo = post_req(
+    'https://analyticsdata.googleapis.com/v1beta/properties/' . PROPERTY . ':runRealtimeReport',
+    json_encode([
+        'dimensions' => [['name' => 'countryId'], ['name' => 'country'], ['name' => 'city']],
+        'metrics'    => [['name' => 'activeUsers']],
+        'limit'      => 50,
+    ]),
+    ['Authorization: Bearer ' . $auth['access_token'], 'Content-Type: application/json']
+);
+
+$centroids = is_readable(__DIR__ . '/country-centroids.php')
+    ? require __DIR__ . '/country-centroids.php'
+    : [];
+
+$byCountry = [];
+$places = [];
+foreach ($geo['rows'] ?? [] as $row) {
+    $iso   = strtoupper((string) ($row['dimensionValues'][0]['value'] ?? ''));
+    $name  = (string) ($row['dimensionValues'][1]['value'] ?? '');
+    $city  = (string) ($row['dimensionValues'][2]['value'] ?? '');
+    $users = (int) ($row['metricValues'][0]['value'] ?? 0);
+    if ($users <= 0 || $iso === '' || $iso === '(NOT SET)') {
+        continue;
+    }
+    // City rows are for the list; the map pin is per country.
+    $places[] = [
+        'city'    => ($city !== '' && strtolower($city) !== '(not set)') ? $city : null,
+        'country' => $name,
+        'users'   => $users,
+    ];
+    if (!isset($byCountry[$iso])) {
+        $byCountry[$iso] = ['country' => $name, 'users' => 0];
+    }
+    $byCountry[$iso]['users'] += $users;
+}
+
+$locations = [];
+foreach ($byCountry as $iso => $c) {
+    if (!isset($centroids[$iso])) {
+        continue;           // no centroid: listed in places, just not plotted
+    }
+    $locations[] = [
+        'country' => $c['country'],
+        'iso'     => $iso,
+        'users'   => $c['users'],
+        'lat'     => $centroids[$iso][0],
+        'lon'     => $centroids[$iso][1],
+    ];
+}
+usort($locations, fn($a, $b) => $b['users'] <=> $a['users']);
+usort($places, fn($a, $b) => $b['users'] <=> $a['users']);
+
 $out = json_encode([
     'activeUsers' => $total,
     'pages'       => $pages,
+    'locations'   => $locations,   // country centroids, for the globe
+    'places'      => $places,      // city-level rows, for the list
+    'geoOk'       => $geo !== null,
     'ts'          => gmdate('c'),
 ]);
 

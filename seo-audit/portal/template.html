@@ -1218,13 +1218,25 @@ function renderLiveDetail() {
   if (layer) {
     layer.innerHTML = locs.map(l =>
       `<div class="pin" data-lat="${l.lat}" data-lon="${l.lon}"><b></b>` +
-      `<em>${esc(l.city || l.country || 'Visitor')}${l.users > 1 ? ' · ' + l.users : ''}</em></div>`).join('');
+      `<em>${esc(l.country || 'Visitor')}${l.users > 1 ? ' · ' + l.users : ''}</em></div>`).join('');
   }
+  /* The list is city-level where GA4 provides it, which is finer than the pins:
+     a pin sits on a country centroid, so it can only ever claim "someone in
+     Ireland", never a street. Keeping the precise text separate from the
+     approximate marker means neither overstates the other. */
   if (placesEl) {
-    placesEl.innerHTML = locs.length
-      ? bars(placesEl, locs.map(l => ({ p: l.city || l.country, users: l.users })), 'users', 'p', S.s3, fmt) || ''
-      : `<div class="nodata">The live feed reports active visitors and the pages they are on, but not
-         where they are. Adding the country dimension to the realtime query would light up the globe.</div>`;
+    const places = liveData.places || [];
+    if (places.length) {
+      placesEl.innerHTML = '';
+      bars(placesEl, places.map(p => ({
+        p: p.city ? `${p.city}, ${p.country}` : p.country, users: p.users
+      })), 'users', 'p', S.s3, fmt);
+    } else if (liveData.geoOk === false) {
+      placesEl.innerHTML = '<div class="nodata">The live feed could not read visitor locations this cycle.</div>';
+    } else {
+      placesEl.innerHTML = `<div class="nodata">No visitors in the last 30 minutes, so there is nothing
+        to place. Locations appear here, and on the globe, as soon as someone is on the site.</div>`;
+    }
   }
   if (noteEl) {
     noteEl.textContent = locs.length
@@ -1328,7 +1340,10 @@ void main(){
   vec3 n = vec3(uv/R, sqrt(max(0.0, 1.0 - rr)));
   vec3 w = rotY(rotX(n, -uTilt), -uTime*0.055);
   float lat = asin(clamp(w.y, -1.0, 1.0));
-  float lon = atan(w.z, w.x);
+  // Note the -w.z. With atan(w.z, w.x) longitude decreases left-to-right, which
+  // renders a mirror-image Earth - Africa east of Asia. It is easy to miss,
+  // because a mirrored Earth still looks like Earth at a glance.
+  float lon = atan(-w.z, w.x);
   vec2 tc = vec2(lon/(2.0*PI) + 0.5, 0.5 - lat/PI);
   vec3 dayC = texture2D(uDay, tc).rgb;
   vec3 nightC = texture2D(uNight, tc).rgb;
@@ -1435,8 +1450,10 @@ function positionPins(state) {
 
   for (const pin of layer.children) {
     const lat = +pin.dataset.lat * Math.PI / 180, lon = +pin.dataset.lon * Math.PI / 180;
-    // Texture space -> world, then apply the same spin and tilt as the shader.
-    let x = Math.cos(lat) * Math.cos(lon), y = Math.sin(lat), z = Math.cos(lat) * Math.sin(lon);
+    // Texture space -> world, then the same spin and tilt the shader applies.
+    // The negated z mirrors the shader's atan(-w.z, w.x); if the two ever
+    // disagree the pins drift away from the coastlines they name.
+    let x = Math.cos(lat) * Math.cos(lon), y = Math.sin(lat), z = -Math.cos(lat) * Math.sin(lon);
     let x1 = Math.cos(spin) * x - Math.sin(spin) * z, z1 = Math.sin(spin) * x + Math.cos(spin) * z;
     const y2 = Math.cos(tilt) * y - Math.sin(tilt) * z1, z2 = Math.sin(tilt) * y + Math.cos(tilt) * z1;
     if (z2 <= 0.04) { pin.style.display = 'none'; continue; }   // far side
