@@ -44,7 +44,14 @@ BASE = "https://azwebcorp.com"
 
 
 def fetch(path):
-    req = urllib.request.Request(BASE + path, headers={"User-Agent": "Mozilla/5.0"})
+    # Cache-bust every request. This platform pins pages at a 31-day public
+    # edge TTL, and an earlier run of this audit read a stale copy and reported
+    # a title bug on /web-design-mesa-az/ that had already been fixed. An audit
+    # that reads the CDN is auditing history.
+    import time
+    sep = "&" if "?" in path else "?"
+    req = urllib.request.Request(BASE + path + f"{sep}aeoaudit={int(time.time())}",
+                                 headers={"User-Agent": "Mozilla/5.0", "Cache-Control": "no-cache"})
     with urllib.request.urlopen(req, timeout=40) as r:
         return r.read().decode("utf-8", "replace")
 
