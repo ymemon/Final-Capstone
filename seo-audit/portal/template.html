@@ -86,12 +86,35 @@
   .live-now { display: flex; align-items: center; gap: 12px; }
   .pulse { width: 9px; height: 9px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 0 rgba(46,224,106,.6); animation: pl 2s infinite; }
   @keyframes pl { 0%{box-shadow:0 0 0 0 rgba(46,224,106,.55)} 70%{box-shadow:0 0 0 9px rgba(46,224,106,0)} 100%{box-shadow:0 0 0 0 rgba(46,224,106,0)} }
-  .live-num { font-size: 30px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+  /* Wall-display sizing. These screens are read from across the room, so the
+     live count and the clock are deliberately oversized relative to
+     everything else on the bar. */
+  .live-num { font-size: 76px; font-weight: 800; line-height: .95; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+  .live-cap-lg { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+
+  .wallclock { margin-left: auto; text-align: right; line-height: 1; }
+  .wallclock-time {
+    font-size: 92px; font-weight: 800; line-height: .9; letter-spacing: -.03em;
+    font-variant-numeric: tabular-nums; color: var(--ink);
+  }
+  .wallclock-sub {
+    margin-top: 6px; font-size: 15px; font-weight: 600; color: var(--ink-2);
+    letter-spacing: .04em;
+  }
+  /* The seconds are useful for proving the board is live, but they should not
+     compete with the hour and minute for attention. */
+  .wallclock-secs { font-size: .42em; font-weight: 600; color: var(--ink-3); margin-left: .12em; letter-spacing: 0; }
+
+  @media (max-width: 1080px) {
+    .live-num { font-size: 46px; }
+    .wallclock-time { font-size: 52px; }
+    .wallclock-sub { font-size: 13px; }
+  }
   .live-cap { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
   .live-sub { font-size: 11.5px; color: var(--ink-2); }
   .live-pages { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12px; color: var(--ink-2); }
   .live-pages b { color: var(--ink); font-variant-numeric: tabular-nums; }
-  .live-stale { font-size: 11px; color: var(--ink-3); margin-left: auto; }
+  .live-stale { font-size: 12px; color: var(--ink-3); }
 
   .view { padding: 24px 26px 70px; max-width: 1500px; }
   .view h2 { font-size: 19px; margin: 0 0 3px; font-weight: 700; }
@@ -263,12 +286,18 @@ a.card.linked:hover .kgo, a.card.linked:focus-visible .kgo { opacity: 1; color: 
   .ticker {
     position: relative; overflow: hidden; border-bottom: 1px solid var(--line);
     background: linear-gradient(180deg, #0a0b0d, #050506);
-    height: 40px; display: flex; align-items: center;
+    /* Taller and larger than desk sizing: this strip is read at a distance. */
+    height: 62px; display: flex; align-items: center;
+    font-size: 21px; font-weight: 600;
   }
   .ticker-track {
-    display: flex; align-items: center; gap: 46px; white-space: nowrap;
+    display: flex; align-items: center; gap: 60px; white-space: nowrap;
     will-change: transform; padding-left: 100%;
     animation: ticker-scroll var(--ticker-dur, 90s) linear infinite;
+  }
+  @media (max-width: 1080px) {
+    .ticker { height: 44px; font-size: 15px; }
+    .ticker-track { gap: 34px; }
   }
   /* Pausing on hover is the difference between a banner you can read and one
      that taunts you. */
@@ -361,13 +390,17 @@ a.card.linked:hover .kgo, a.card.linked:focus-visible .kgo { opacity: 1; color: 
       <div class="live-now">
         <span class="pulse"></span>
         <div>
-          <div class="live-cap">Live audience</div>
+          <div class="live-cap-lg">Live audience</div>
           <div class="live-num" id="live-count">–</div>
         </div>
         <div class="live-sub" id="live-label">active in the last 30 min</div>
       </div>
       <div class="live-pages" id="live-pages"></div>
       <div class="live-stale" id="live-stale"></div>
+      <div class="wallclock">
+        <div class="wallclock-time" id="wallclock-time">--:--<span class="wallclock-secs" id="wallclock-secs"></span></div>
+        <div class="wallclock-sub" id="wallclock-date">&nbsp;</div>
+      </div>
     </div>
     <div class="ticker" id="ticker" aria-label="Performance headlines"></div>
     <div id="views"></div>
@@ -1534,6 +1567,33 @@ async function pollLive() {
 paintLive();
 pollLive();
 setInterval(pollLive, 30000);
+
+/* ---- wall clock -------------------------------------------------------
+   The portal runs on office screens, so the time has to be right and has to
+   visibly move. Scheduling each tick to the next real second boundary keeps
+   it aligned instead of drifting the way a fixed 1000ms interval does. */
+function paintWallClock() {
+  const t = document.getElementById('wallclock-time');
+  const s = document.getElementById('wallclock-secs');
+  const d = document.getElementById('wallclock-date');
+  if (!t) return;
+  const now = new Date();
+  const hm = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  const parts = hm.split(' ');
+  t.firstChild.nodeValue = parts[0];
+  if (s) s.textContent = String(now.getSeconds()).padStart(2, '0') + (parts[1] ? ' ' + parts[1] : '');
+  if (d) d.textContent = now.toLocaleDateString('en-US',
+    { weekday: 'long', month: 'long', day: 'numeric' });
+}
+
+function startWallClock() {
+  paintWallClock();
+  setTimeout(function tick() {
+    paintWallClock();
+    setTimeout(tick, 1000 - (Date.now() % 1000));
+  }, 1000 - (Date.now() % 1000));
+}
+startWallClock();
 </script>
 
 </body>
