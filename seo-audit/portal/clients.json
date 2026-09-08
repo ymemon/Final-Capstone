@@ -17,7 +17,13 @@
     "ai_log_dir may be null here and supplied instead by 'portal_ai_log_dirs'",
     "in ~/.claude-tools/azwebcorp-creds.json, keyed by slug. Some clients' log",
     "paths contain their hosting account name, which is half a credential pair",
-    "and does not belong in a public repository."
+    "and does not belong in a public repository.",
+    "",
+    "live_feed: true only where html/reports/<slug>/api/live.php exists with its",
+    "own GA4 service-account key. The page then polls that absolute path, so it",
+    "works from the agency view too, where a relative 'api/live.php' would",
+    "resolve against /reports/_owner/ and 404. Leave it out and the page says",
+    "the live feed is not connected for that property, which is the truth."
   ],
   "azwebcorp": {
     "name": "AZ Web Corp",
@@ -26,6 +32,7 @@
     "ga4_property": "247570709",
     "ssh_helper": "ssh_run.bat",
     "ai_log_dir": "~/html/wp-content/ai-crawler-logs",
+    "live_feed": true,
     "internal": true
   },
   "everythingit": {

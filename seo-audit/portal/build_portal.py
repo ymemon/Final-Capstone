@@ -30,7 +30,7 @@ ASSETS = HERE / "assets"
 
 TOKENS = ("__PORTAL_DATA__", "__CLIENT_NAME__", "__CLIENT_DOMAIN__",
           "__EARTH_DAY__", "__EARTH_NIGHT__", "__PORTAL_INSIGHTS__",
-          "__CLIENT_ROSTER__", "__PORTAL_ROLE__")
+          "__CLIENT_ROSTER__", "__PORTAL_ROLE__", "__LIVE_ENDPOINT__")
 
 
 def earth_textures():
@@ -278,9 +278,15 @@ def build(slug, cfg, clients=None, owner=False):
     else:
         roster = [{"slug": slug, "name": cfg["name"]}]
 
+    # Absolute, not relative: the agency view serves this same page from
+    # /reports/_owner/, where a relative "api/live.php" resolves to a path that
+    # does not exist and the page reports the feed as down.
+    live_endpoint = f"/reports/{slug}/api/live.php" if cfg.get("live_feed") else None
+
     html = (tpl
             .replace("__CLIENT_NAME__", cfg["name"])
             .replace("__CLIENT_DOMAIN__", cfg["domain"])
+            .replace("__LIVE_ENDPOINT__", json.dumps(live_endpoint))
             .replace("__CLIENT_ROSTER__", json.dumps(roster, separators=(",", ":")))
             .replace("__PORTAL_ROLE__", "owner" if owner else "client")
             .replace("__EARTH_DAY__", tex["__EARTH_DAY__"])
