@@ -1,0 +1,56 @@
+{
+  "folders": [
+    "(\\HasChildren \\UnMarked) \"/\" Archive",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2026",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2025",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Spam",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"WP candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" AZPL",
+    "(\\HasNoChildren \\UnMarked) \"/\" EverythingIT",
+    "(\\HasChildren \\UnMarked) \"/\" Candidates",
+    "(\\HasNoChildren \\UnMarked) \"/\" Candidates/DCS",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" Notes",
+    "(\\HasChildren \\UnMarked \\Trash) \"/\" Trash",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren \\UnMarked \\Sent) \"/\" Sent",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Junk",
+    "(\\HasNoChildren \\UnMarked) \"/\" INBOX/CASE",
+    "(\\HasNoChildren \\UnMarked \\Drafts) \"/\" Drafts",
+    "(\\HasChildren) \"/\" INBOX"
+  ],
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8830,
+        "from": "Spotlight by Semrush <news@team.semrush.com>",
+        "to": "careers@azwebcorp.com",
+        "subject": "The Drum and Fortune take the Spotlight",
+        "date": "Thu, 10 Sep 2026 07:12:59 -0500 (CDT)",
+        "message_id": "<1646961806.2579442.1789042379168@marketo-platform--email-sender-prod-batch-cluster-5d777f459bg76>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Our keynote stages have new names and two major media brands at the helm. The Drum will host the Spotlight Stage, while Fortune will host the Signals Stage.\nWhat you can expect from each:\nSpotlight stage\nWhere marketing is going\nThe Main Stage is now called the Spotlight Stage, hosted by The Drum. \nCMOs, platform leaders, and brand builders from Adobe, LinkedIn, OpenAI, and more discuss how discovery is shifting and what makes someone choose your brand.\nOpen to all pass holders\n\nSignals stage\nWhat to act on now\nThe Enterprise Stage is now called the Signals Stage, hosted by Fortune. \nAnalysts and operators from Forrester, Wix, Chili Piper, and more break down AI visibility, measurement, agents, and the org changes that follow.\nOnly All Access & VIP pass holders\nMeet your keynote stage hosts\nGordon Young\nCo-Founder and Editor-in-Chief, The Drum\nKamal Ahmed\nExecutive Editorial Director, Fortune\nGordon and Kamal join 80+ speakers bringing the latest thinking on search, AI, content, brand, and visibility to London this October.\nJoin the leaders shaping what comes next. Leave knowing what to act on now.\nBook your VIP pass today to experience both sides of the conversation. Save 20% on tickets before Sept 24. <https://engage.semrush.com/dc/11kQTkGAes5Nsh5GkZMletJvO1w0Iv8UfUBHmraT-cLPhg1oXxnyB6fq-DeYMzq3mxksvHEXYMUn_JlgMebHO6-_RvjpoGGbB6ZEvmdb9Iu1agVphNOI3kTprZeBhmMyDgOfXbtAKcUE0VNU9M4DCjI7GtIryWL1ai2DrFBRpNFQ6hKbpyk-yo0jRPfSnC_x/NTE5LUlJWS04NjkAAAGkKjT5mXQmnHCRnjpZS0FTWREJ6KgHBZzmn"
+      },
+      {
+        "uid": 8831,
+        "from": "Spotlight by Semrush <news@team.semrush.com>",
+        "to": "rti@azwebcorp.com",
+        "subject": "The Drum and Fortune take the Spotlight",
+        "date": "Thu, 10 Sep 2026 07:15:33 -0500 (CDT)",
+        "message_id": "<1184038008.369215.1789042533296@marketo-platform--email-sender-prod-batch-cluster-5d777f45mqtt7>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Our keynote stages have new names and two major media brands at the helm. The Drum will host the Spotlight Stage, while Fortune will host the Signals Stage.\nWhat you can expect from each:\nSpotlight stage\nWhere marketing is going\nThe Main Stage is now called the Spotlight Stage, hosted by The Drum. \nCMOs, platform leaders, and brand builders from Adobe, LinkedIn, OpenAI, and more discuss how discovery is shifting and what makes someone choose your brand.\nOpen to all pass holders\n\nSignals stage\nWhat to act on now\nThe Enterprise Stage is now called the Signals Stage, hosted by Fortune. \nAnalysts and operators from Forrester, Wix, Chili Piper, and more break down AI visibility, measurement, agents, and the org changes that follow.\nOnly All Access & VIP pass holders\nMeet your keynote stage hosts\nGordon Young\nCo-Founder and Editor-in-Chief, The Drum\nKamal Ahmed\nExecutive Editorial Director, Fortune\nGordon and Kamal join 80+ speakers bringing the latest thinking on search, AI, content, brand, and visibility to London this October.\nJoin the leaders shaping what comes next. Leave knowing what to act on now.\nBook your VIP pass today to experience both sides of the conversation. Save 20% on tickets before Sept 24. <https://engage.semrush.com/dc/11kQTkGAes5Nsh5GkZMletJvO1w0Iv8UfUBHmraT-cLPhg1oXxnyB6fq-DeYMzq3mxksvHEXYMUn_JlgMebHO6-_RvjpoGGbB6ZEvmdb9Iu1agVphNOI3kTprZeBhmMyDgOfXbtAKcUE0VNU9M4DCjI7GtIryWL1ai2DrFBRpNFQ6hKbpyk-yo0jRPfSnC_x/NTE5LUlJWS04NjkAAAGkKjdTpxf0XDuvhkz9jURduy0wtXYM8DwEY"
+      }
+    ],
+    "max_uid": 8831,
+    "max_date": "Thu, 10 Sep 2026 07:15:33 -0500 (CDT)"
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 0,
+    "max_date": null
+  }
+}

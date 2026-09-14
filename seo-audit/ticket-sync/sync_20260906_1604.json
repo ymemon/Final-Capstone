@@ -1,0 +1,69 @@
+{
+  "folder_names": [
+    "(\\HasChildren \\UnMarked) \"/\" Archive",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2026",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2025",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Spam",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"WP candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" AZPL",
+    "(\\HasNoChildren \\UnMarked) \"/\" EverythingIT",
+    "(\\HasChildren \\UnMarked) \"/\" Candidates",
+    "(\\HasNoChildren \\UnMarked) \"/\" Candidates/DCS",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" Notes",
+    "(\\HasChildren \\UnMarked \\Trash) \"/\" Trash",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren \\Marked \\Sent) \"/\" Sent",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Junk",
+    "(\\HasNoChildren \\UnMarked) \"/\" INBOX/CASE",
+    "(\\HasNoChildren \\UnMarked \\Drafts) \"/\" Drafts",
+    "(\\HasChildren) \"/\" INBOX"
+  ],
+  "sent_folder_used": "Sent",
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8695,
+        "from": "\"Anthropic, PBC\" <invoice+statements@mail.anthropic.com>",
+        "to": "info@azwebcorp.com",
+        "subject": "Your receipt from Anthropic, PBC #2628-3641-7528",
+        "date": "Sun, 6 Sep 2026 22:52:44 +0000",
+        "message_id": "<010101a078ec9236-2a5dd5c7-83aa-4f40-afff-4da9a0a8ec7c-000000@us-west-2.amazonses.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Anthropic, PBC  (https://www.anthropic.com/)\n\nAnthropic, PBC\n\nReceipt from Anthropic, PBC $12.35 Paid September 6, 2026 (invoice illustration [https://stripe-images.s3.amazonaws.com/emails/invoices_invoice_illustration.png]) Download invoice (https://pay.stripe.com/invoice/acct_1MExQ9BjIQrRQnux/live_YWNjdF8xTUV4UTlCaklRclJRbnV4LF9WREZPVkViR0Y3c2JwVEt6V0phclNOdWdYTkdsVkJnLDE3OTI3NTk2MA0200GAVMKE0h/pdf?s=em) Download receipt (https://dashboard.stripe.com/receipts/invoices/CAcQARoXChVhY2N0XzFNRXhROUJqSVFyUlFudXgot9331AYyBsTUCDOFUDovFv8qQ5yB3qVZdOBwRFZmIOdoIyuAF8iDYV3JeWS3IvLQXoa0DfnBjpdiLdwu42g/pdf?s=em) Receipt number 2628-3641-7528 Invoice number EW6IBXBK-0036 Payment method - 7081\n\nReceipt #2628-3641-7528 Auto recharge extra usage, Individual plan Qty 1 $11.32 Subtotal $11.32 Total excluding tax $11.32 Tax - Arizona (9.1%) $1.03 Total $12.35 Amount paid $12.35 Questions? Visit our support site (https://support.anthropic.com/).\n\nPowered by    stripe logo (https://stripe.com)"
+      },
+      {
+        "uid": 8696,
+        "from": "Phil — AZ Web Corp <requests@azwebcorp.com>",
+        "to": "Nassim Tantouri <Nassim@prestigehomestudioaz.com>",
+        "subject": "Got your Meta invitation — here's where to watch the activity",
+        "date": "Sun, 06 Sep 2026 15:55:30 -0700",
+        "message_id": "<178873533065.17716.18151187695180454341@azwebcorp.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Nassim,\n\nThanks for setting the accounts up and inviting us into the\nprestigewindowsaz business portfolio — the invitation came through this\nafternoon and we're accepting it on our end. That was the piece we were\nwaiting on, so we can now start building the pages out and posting.\n\nYou asked how to see what's happening on the accounts yourself.\nEverything for both Facebook and Instagram lives in one place — Meta\nBusiness Suite — and you can check it any time without going through us.\n\n1. Open Meta Business Suite\n   Go to business.facebook.com and sign in with the same login you used\n   to create the accounts.\n\n2. Switch to the Prestige Windows account\n   This is the part that trips people up. If you manage more than one\n   business, it opens on whichever one it saw last — likely Prestige\n   Home Studio. Click the account name in the top-left corner and pick\n   prestigewindowsaz from the list. Everything on screen then refers to\n   that account only.\n\n3. Home — what just happened\n   New followers, comments, messages and reactions as they come in.\n\n4. Insights — how it's performing\n   Reach, visits, follower growth and which posts did anything, with\n   Facebook and Instagram side by side. You can change the date range\n   at the top.\n\n5. Content — what's published and what's queued\n   Every post that's gone out, plus anything scheduled ahead.\n\nOn your phone it's the same thing in the Meta Business Suite app (iOS\nand Android) — the account switcher sits at the top of the screen"
+      }
+    ],
+    "max_uid": 8696,
+    "max_date": "Sun, 06 Sep 2026 15:55:30 -0700"
+  },
+  "sent": {
+    "messages": [
+      {
+        "uid": 1125,
+        "from": "Phil — AZ Web Corp <requests@azwebcorp.com>",
+        "to": "Nassim Tantouri <Nassim@prestigehomestudioaz.com>",
+        "subject": "Got your Meta invitation — here's where to watch the activity",
+        "date": "Sun, 06 Sep 2026 15:55:30 -0700",
+        "message_id": "<178873533065.17716.18151187695180454341@azwebcorp.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Nassim,\n\nThanks for setting the accounts up and inviting us into the\nprestigewindowsaz business portfolio — the invitation came through this\nafternoon and we're accepting it on our end. That was the piece we were\nwaiting on, so we can now start building the pages out and posting.\n\nYou asked how to see what's happening on the accounts yourself.\nEverything for both Facebook and Instagram lives in one place — Meta\nBusiness Suite — and you can check it any time without going through us.\n\n1. Open Meta Business Suite\n   Go to business.facebook.com and sign in with the same login you used\n   to create the accounts.\n\n2. Switch to the Prestige Windows account\n   This is the part that trips people up. If you manage more than one\n   business, it opens on whichever one it saw last — likely Prestige\n   Home Studio. Click the account name in the top-left corner and pick\n   prestigewindowsaz from the list. Everything on screen then refers to\n   that account only.\n\n3. Home — what just happened\n   New followers, comments, messages and reactions as they come in.\n\n4. Insights — how it's performing\n   Reach, visits, follower growth and which posts did anything, with\n   Facebook and Instagram side by side. You can change the date range\n   at the top.\n\n5. Content — what's published and what's queued\n   Every post that's gone out, plus anything scheduled ahead.\n\nOn your phone it's the same thing in the Meta Business Suite app (iOS\nand Android) — the account switcher sits at the top of the screen"
+      }
+    ],
+    "max_uid": 1125,
+    "max_date": "Sun, 06 Sep 2026 15:55:30 -0700"
+  }
+}

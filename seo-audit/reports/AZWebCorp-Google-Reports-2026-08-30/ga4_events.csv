@@ -1,0 +1,8 @@
+﻿eventName,eventCount,totalUsers,eventCountPerUser,eventValue,keyEvents
+page_view,58,28,2.071428571428572,0,0
+session_start,36,28,1.2857142857142858,0,0
+first_visit,28,28,1.0,0,0
+user_engagement,24,12,2.0,0,0
+form_start,14,7,2.0,0,0
+scroll,13,5,2.6,0,0
+form_submit,1,1,1.0,0,0

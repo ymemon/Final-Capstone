@@ -47,8 +47,9 @@ function azwc_fu_wrap( $title, $body ) {
 		. '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">'
 
 		. '<tr><td style="background:#0d1117;padding:22px 28px;">'
-		. '<div style="font-size:15px;letter-spacing:.18em;font-weight:800;color:#e6b84d;">AZ WEB CORP</div>'
-		. '<div style="font-size:11px;color:#9aa3ad;margin-top:2px;">Web Development, SEO &amp; Digital Marketing</div>'
+		. '<img src="https://azwebcorp.com/wp-content/uploads/2024/06/Azwebcorp-white_logo.png" alt="AZ Web Corp" '
+		. 'width="150" style="display:block;width:150px;height:auto;border:0;">'
+		. '<div style="font-size:11px;color:#9aa3ad;margin-top:8px;">Web Development, SEO &amp; Digital Marketing</div>'
 		. '</td></tr>'
 
 		. '<tr><td style="padding:28px;color:#1c2129;font-size:15px;line-height:1.62;">' . $body . '</td></tr>'
@@ -245,10 +246,11 @@ function azwc_fu_mail_reminder( $row ) {
  */
 function azwc_fu_mail_internal( $row, $event ) {
 	$titles = array(
-		'report'    => 'Report downloaded',
-		'requested' => 'CALL REQUESTED — awaiting their confirmation',
-		'confirmed' => 'CALL CONFIRMED — audit this before the call',
-		'cancelled' => 'Call cancelled',
+		'report'     => 'Report downloaded',
+		'registered' => 'New lead — audit unlocked',
+		'requested'  => 'CALL REQUESTED — awaiting their confirmation',
+		'confirmed'  => 'CALL CONFIRMED — audit this before the call',
+		'cancelled'  => 'Call cancelled',
 	);
 	$title = isset( $titles[ $event ] ) ? $titles[ $event ] : $event;
 

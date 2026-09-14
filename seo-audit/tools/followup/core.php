@@ -100,6 +100,25 @@ function azwc_fu_rate_ok( $kind, $max ) {
 	return $count < $max;
 }
 
+/**
+ * How many times this email has already unlocked a full report, lifetime.
+ *
+ * Not time-windowed like azwc_fu_rate_ok() — this is a permanent cap per
+ * address, not an hourly abuse guard, so it is its own query rather than a
+ * reuse of that function.
+ */
+function azwc_fu_unlock_count( $email ) {
+	global $wpdb;
+	$table = azwc_fu_table();
+
+	return (int) $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT COUNT(*) FROM {$table} WHERE kind = 'unlock' AND email = %s",
+			$email
+		)
+	);
+}
+
 function azwc_fu_new_token() {
 	return substr( str_replace( '-', '', wp_generate_uuid4() ), 0, 32 );
 }

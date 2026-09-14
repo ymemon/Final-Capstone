@@ -1,0 +1,3 @@
+﻿platform,deviceCategory,sessions,totalUsers,newUsers,activeUsers,engagedSessions,engagementRate,averageSessionDuration,screenPageViews,eventCount,keyEvents
+web,desktop,27,24,24,24,12,0.4444444444444444,235.39760596296296,41,130,0
+web,mobile,9,4,4,4,4,0.4444444444444444,170.75094066666668,17,44,0

@@ -1,0 +1,13 @@
+{
+  "sent_folder_used": "Sent",
+  "inbox": {
+    "messages": [],
+    "max_uid": 8684,
+    "max_date": null
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 0,
+    "max_date": null
+  }
+}

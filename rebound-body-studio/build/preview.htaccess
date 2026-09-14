@@ -1,0 +1,14 @@
+# Preview only. The GoDaddy gateway in front of azwebcorp.com was serving these
+# pages from Cloudflare with max-age=2678400 - 31 days - so a redeploy left the
+# client looking at a build from hours earlier with no way to tell. Verified
+# 2026-09-09: CF-Cache-Status: HIT on /preview/rebound/sessions/ returning the
+# five-service menu after the six-service one had been uploaded.
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+  Header set Pragma "no-cache"
+  Header unset Expires
+  Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive Off
+</IfModule>

@@ -49,6 +49,10 @@ define( 'AZWC_FU_REMIND_MIN', 60 );   // Reminder lead time.
 /** Anti-abuse. These are per IP, per hour. */
 define( 'AZWC_FU_MAX_EMAILS_H', 5 );
 define( 'AZWC_FU_MAX_BOOKINGS_H', 3 );
+define( 'AZWC_FU_MAX_UNLOCKS_H', 10 );
+
+/** How many full audit reveals one email address ever gets, lifetime. */
+define( 'AZWC_FU_UNLOCK_CAP', 3 );
 
 foreach ( array( 'core', 'pdf', 'mail', 'rest', 'admin', 'ui' ) as $azwc_fu_part ) {
 	$azwc_fu_file = AZWC_FU_DIR . '/' . $azwc_fu_part . '.php';

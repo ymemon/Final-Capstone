@@ -277,3 +277,143 @@ page's inconsistent format/missing map/all-location block.
   East Valley/Gilbert.
 - Confirmation email draft and attachment list:
   `MICHAEL-CONFIRMATION-EMAIL-2026-08-31.md`.
+
+## 2026-09-14 — Content depth pass + discovered the site now renders from `_elementor_data`, not `post_content`
+
+**Root-cause finding, supersedes all older "post_content is live" notes in this
+file and in CLIENT-INFO.md:** confirmed live that the 4 location pages
+(533/461/501/544) currently render from **`_elementor_data`** (a single
+`text-editor` widget holding the entire page as one HTML blob), not
+`post_content`. `post_content` is a stale, wrapper-less leftover with no
+`class` attributes at all — editing it has zero visible effect. This matches
+the 2026-08-31 `_elementor_data` JSON-repair note in
+`reference-paloverde-wp-technique` ("pages render from `_elementor_data` as
+designed" after the corrupt-JSON fix) — that correction just hadn't been
+re-confirmed against these 4 specific pages until today. **Any future edit to
+these 4 pages must go into `_elementor_data`'s `editor` key, not
+`post_content`.**
+
+**Two real, live bugs found and fixed while doing the content pass (not what
+was asked, but too significant to leave alone on a cancer-care site):**
+- **Scottsdale (501) was publicly showing 4 completely fake doctors** —
+  Lauren D. Stegman, Kurt A. Wharton, Abhilash P. Nambiar, John J. Kresl —
+  reusing other doctors' photos under the wrong names. This is the exact bug
+  reported fixed on 2026-08-18, but that fix only ever landed in
+  `post_content`, which stopped being live after the 08-31 JSON repair — so
+  the fake roster silently came back. Replaced with the correct roster
+  (Halepota, Grover, Ahmad per Michael Bustard's list) using the same
+  doctor-card format as the other 3 pages, and moved the section to sit
+  right after About (matching the other pages' order — it had been at the
+  very bottom of the page).
+- **East Valley (544)'s "View Profile" link for Dr. Mamani 404'd**
+  (`/demetrio-mamani-md/`). Fixed to `/your-team/dr-mamani/` (confirmed 200).
+- Also found Glendale (461) was live with **no Services section at all**
+  between Doctors and Map — the 08-18 fix for this had the same
+  post_content-only fate as the Scottsdale doctor fix. Added it back (4
+  cards, matching the other pages).
+
+**Content-depth work (the actual ask — "content is still pretty thin"),
+applied to all 4 location pages' `_elementor_data`:**
+- About section: 1 short paragraph + 4 generic bullets → 2 real paragraphs
+  (facility location/service area grounded in each page's actual address and
+  the real driving-directions text already on the page, cross-location care
+  coordination) + 6 bullets.
+- All service cards (Medical Oncology, Hematology, Immunotherapy, Radiation
+  Therapy where applicable): one generic sentence → 2 sentences with real
+  informational depth, written as general patient-education content only —
+  no clinical claims, outcomes, or statistics invented.
+- Insurance & Billing: "Please call to verify your insurance." → a real
+  paragraph about the billing-verification process.
+- **New section added to all 4 pages: "What to Expect at Your First Visit"**
+  (before you arrive / your consultation / building your care team / ongoing
+  support) — reuses the existing `.services-grid`/`.service-card` CSS, no
+  new styles needed.
+- Doctor cards on Estrella/Glendale/Scottsdale (the 3 pages using the simple
+  doctor-card block) now link to each doctor's existing bio page
+  (`View Full Bio →`, inline-styled, no new CSS). East Valley already had
+  this via its filterable multi-location doctor grid.
+- Did **not** touch `post_content` on any of the 4 pages — confirmed dead,
+  not worth keeping in sync (nobody sees it, not even the Elementor editor,
+  which also reads `_elementor_data`).
+
+**Deploy status: DATABASE UPDATED, but NOT YET VISIBLE LIVE — blocked on a
+cache purge that needs wp-admin credentials.** Yasir ran
+`deploy_paloverde_content.bat` (2026-09-14) — all 4 `wp post meta update
+_elementor_data` calls reported Success, confirmed by re-reading the DB
+directly (`wp post meta get 501 _elementor_data` shows the new Scottsdale
+roster, no trace of the old fake doctors). But the live site is still
+showing the OLD content on 3 of 4 pages (Glendale is correct — see why
+below), even when bypassing Cloudflare's edge cache entirely
+(`?nocache=1` still returns `CF-Cache-Status: DYNAMIC` yet shows stale
+HTML). Root cause: **GoDaddy's managed WordPress stack has an origin-level
+Varnish/CDN cache** (`wp-content/mu-plugins/gd-system-plugin/includes/
+class-cache-v2.php`, `Cache_V2` class) that sits in front of PHP — separate
+from both Cloudflare's edge cache AND the `wpo-cache`/`wpo-minify` static
+files the deploy script already clears. `wp post meta update` (meta-only)
+never fires WordPress's `save_post`/`clean_post_cache` hooks, which is what
+this plugin listens on to know to purge. Tried triggering it directly via
+`wp eval 'clean_post_cache($id)'` for all 4 IDs (a standard, safe core WP
+call, not a hack) — it should register the plugin's `do_purge()` →
+`shutdown` → `purge()` chain, but the live pages were still stale 15+
+seconds later, so either it isn't propagating or something (`has_ban()`
+guard, an async API call to GoDaddy's infra) is short-circuiting it. The
+one confirmed-working purge path is the wp-admin admin-bar "Empty Cache"
+button / `?wpaas_action=flush_cache&wpaas_nonce=...` URL, which requires an
+authenticated admin session — **`current_user_can()` is checked server-side,
+so this cannot be done with just SSH/WP-CLI access; it needs the actual
+wp-admin login** (username `460489pwpadmin`, password not stored in any
+file this session can read).
+
+**Why Glendale (461) looks correct and the other 3 don't:** pure accident
+of cache timing, not a real difference in the fix. Cloudflare's edge cache
+has a 31-day TTL. Earlier in this same session, before the deploy, live
+`curl` checks were run against Estrella/Scottsdale/East Valley (debugging
+the wrong-doctors and broken-link bugs) — those requests got cached at the
+CDN edge with the OLD content and a long TTL. Glendale was never fetched
+before the deploy, so the first-ever cache entry for it was the post-deploy
+verification fetch, which picked up the new content. **Lesson for next
+time: avoid live `curl` verification passes on cacheable pages before a
+content deploy on this host — it can poison the CDN cache with stale
+content that then survives the deploy.**
+
+**RESOLVED, same session — all 4 pages confirmed live and correct.** Yasir
+supplied the wp-admin password; logged in via cookie-authenticated curl
+(`wp-login.php`, standard `log`/`pwd`/`wp-submit`/`testcookie` fields — note
+a bare POST without a prior GET fails with "Cookies are blocked" because the
+`wordpress_test_cookie` needs to be set by a GET first). Turned out there
+were **three separate stale layers**, not one, and all three had to be
+cleared before the real content showed up:
+1. Cloudflare's edge cache (31-day TTL) — cleared by the `wpaas_action=
+   flush_cache&wpaas_nonce=...` URL (nonce scraped from the admin bar HTML
+   after login).
+2. **A Redis object cache** (`wp cache type` → `Redis`) — this was the
+   real culprit keeping the origin itself stale even with `?nocache=1`
+   bypassing Cloudflare entirely. `wp cache flush` cleared it. This is a
+   new finding for this site, not previously documented.
+3. Cloudflare again, because it had re-cached a stale snapshot from
+   mid-troubleshooting — re-ran the `wpaas_action=flush_cache` purge
+   *after* the Redis flush so it picked up the now-correct origin content.
+Also tried Elementor's own `elementor_site_clear_cache` action along the
+way (harmless, didn't hurt, wasn't the actual fix).
+
+**Final verification (plain fetches, no cache-busting params):** all 4
+pages return `CF-Cache-Status: MISS→` fresh content. Scottsdale shows only
+Halepota/Grover/Ahmad (zero trace of Stegman/Wharton/Nambiar/Kresl).
+East Valley's Mamani link is `/your-team/dr-mamani/`. Glendale has its
+Services section. All 4 have "What to Expect at Your First Visit". Checked
+`doctor-card`/`service-card`/`pv-doctor-card` counts and scanned for the
+site's known wpautop stray-`<p>`-in-grid corruption pattern — none found on
+any of the 4 pages. Browser screenshot verification was not available this
+session (Claude in Chrome extension not connected) — HTTP-level content and
+structural checks stood in for it.
+
+**New technique note for [[paloverde-wp-technique]]:** this site's
+managed-WordPress stack has at least 3 cache layers (Cloudflare edge, a
+GoDaddy Varnish-style layer reachable via the wp-admin `wpaas_action=
+flush_cache` nonce URL, and a Redis object cache reachable via `wp cache
+flush`). A `wp post meta update` (as opposed to a full `wp post update`)
+skips the hooks that would normally invalidate all of these automatically.
+For any future meta-only edit to a live page on this site, after the DB
+write: (1) `wp cache flush` for Redis, (2) hit the wpaas flush-cache URL for
+CDN/Varnish, in that order — Redis first, since purging CDN before Redis is
+fixed just re-caches the stale content again.

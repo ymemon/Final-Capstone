@@ -1,0 +1,9 @@
+Hi {CLIENT_NAME},
+
+Here's your secure login link for the studio dashboard:
+
+{LOGIN_URL}
+
+This link expires in 15 minutes. If you didn't request this, you can safely ignore this email.
+
+{STUDIO_NAME}

@@ -1,0 +1,32 @@
+{
+  "sent_folder_used": "Sent",
+  "inbox_new_count": 2,
+  "inbox_max_uid": 8681,
+  "sent_new_count": 0,
+  "sent_max_uid": 0,
+  "inbox": [
+    {
+      "uid": 8679,
+      "from": "Anthropic <no-reply-BK8u9kn6xf6Tb-gXkjUBgg@mail.anthropic.com>",
+      "to": "info@azwebcorp.com",
+      "subject": "Your secure link to Claude.ai is here | 2026-09-04 12:34:58",
+      "date": "Fri, 04 Sep 2026 19:34:58 +0000 (UTC)",
+      "message_id": "<OG0FJvG9T6-T9AZtYa9GDA@geopod-ismtpd-66>",
+      "in_reply_to": null,
+      "references": null,
+      "body": "<!doctype html><html lang=\"und\" dir=\"auto\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\"><head><title></title><!--[if !mso]><!--><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><!--<![endif]--><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><style type=\"text/css\">#outlook a { padding:0; }\n      body { margin:0;padding:0;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }\n      table, td { border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt; }\n      img { border:0;height:auto;line-height:100%; outline:none;text-decoration:none;-ms-interpolation-mode:bicubic; }\n      p { display:block;margin:13px 0; }</style><!--[if mso]>\n    <noscript>\n    <xml>\n    <o:OfficeDocumentSettings>\n      <o:AllowPNG/>\n      <o:PixelsPerInch>96</o:PixelsPerInch>\n    </o:OfficeDocumentSettings>\n    </xml>\n    </noscript>\n    <![endif]--><!--[if lte mso 11]>\n    <style type=\"text/css\">\n      .mj-outlook-group-fix { width:100% !important; }\n    </style>\n    <![endif]--><!--[if !mso]><!--><link href=\"https://fonts.googl"
+    },
+    {
+      "uid": 8681,
+      "from": "Anthropic <no-reply-LT_TgANzoienvMkUiF5EKQ@mail.anthropic.com>",
+      "to": "info@azwebcorp.com",
+      "subject": "Security alert: new trusted device added to your Claude account",
+      "date": "Fri, 04 Sep 2026 19:36:56 +0000 (UTC)",
+      "message_id": "<-Zc1dYYASyqx3e_ox7DoPg@geopod-ismtpd-95>",
+      "in_reply_to": null,
+      "references": null,
+      "body": "<!doctype html><html lang=\"und\" dir=\"auto\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\"><head><title></title><!--[if !mso]><!--><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><!--<![endif]--><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><style type=\"text/css\">#outlook a { padding:0; }\n      body { margin:0;padding:0;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }\n      table, td { border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt; }\n      img { border:0;height:auto;line-height:100%; outline:none;text-decoration:none;-ms-interpolation-mode:bicubic; }\n      p { display:block;margin:13px 0; }</style><!--[if mso]>\n    <noscript>\n    <xml>\n    <o:OfficeDocumentSettings>\n      <o:AllowPNG/>\n      <o:PixelsPerInch>96</o:PixelsPerInch>\n    </o:OfficeDocumentSettings>\n    </xml>\n    </noscript>\n    <![endif]--><!--[if lte mso 11]>\n    <style type=\"text/css\">\n      .mj-outlook-group-fix { width:100% !important; }\n    </style>\n    <![endif]--><style type=\"text/css\">@media only screen and (min"
+    }
+  ],
+  "sent": []
+}

@@ -113,8 +113,144 @@ add_action(
 				'callback'            => 'azwc_fu_rest_booking',
 			)
 		);
+
+		register_rest_route(
+			'azwc/v1',
+			'/unlock',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => $public,
+				'callback'            => 'azwc_fu_rest_unlock',
+			)
+		);
 	}
 );
+
+/**
+ * Register (or re-recognise) a lead and report how many full reveals they
+ * have left.
+ *
+ * Every completed audit calls this once — silently, with a remembered
+ * identity, for a visitor who has already registered, or after the visitor
+ * fills in the gate form for the first time. Either way it is the single
+ * place that increments the lifetime count, so there is exactly one way to
+ * get an extra reveal: giving a different email address.
+ */
+function azwc_fu_rest_unlock( WP_REST_Request $r ) {
+	$fields = azwc_fu_validate( $r );
+	if ( is_wp_error( $fields ) ) {
+		return azwc_fu_err( $fields );
+	}
+
+	if ( ! azwc_fu_rate_ok( 'unlock', AZWC_FU_MAX_UNLOCKS_H ) ) {
+		return azwc_fu_err(
+			new WP_Error( 'azwc_fu_rate', 'That is a lot of unlocks from one place. Try again in an hour, or call us on 480-818-5761.' ),
+			429
+		);
+	}
+
+	$used = azwc_fu_unlock_count( $fields['email'] );
+	if ( $used >= AZWC_FU_UNLOCK_CAP ) {
+		return azwc_fu_err(
+			new WP_Error(
+				'azwc_fu_cap',
+				sprintf(
+					"You've used all %d of your free full audits. Reply to any of our emails or call 480-818-5761 and we will go through the rest with you directly.",
+					AZWC_FU_UNLOCK_CAP
+				)
+			),
+			403
+		);
+	}
+
+	// Rebuilt from the same transients the /audit endpoint just populated,
+	// same as azwc_fu_report() does for /report — this is what lets the PDF
+	// go out immediately, from the domain string alone, with no separate
+	// "email me a copy" step.
+	$domain_param = (string) $r->get_param( 'domain' );
+	$report       = azwc_fu_report( $domain_param );
+	$domain       = is_array( $report ) ? wp_parse_url( $report['url'], PHP_URL_HOST ) : $domain_param;
+
+	if ( ! is_array( $report ) && function_exists( 'azwc_audit_normalize' ) ) {
+		$norm = azwc_audit_normalize( $domain_param );
+		if ( ! is_wp_error( $norm ) ) {
+			$domain = wp_parse_url( $norm, PHP_URL_HOST );
+		}
+	}
+
+	$score = $r->get_param( 'score' );
+	$score = is_numeric( $score )
+		? (int) $score
+		: ( is_array( $report ) && isset( $report['site']['score']['overall'] ) ? (int) $report['site']['score']['overall'] : null );
+
+	$row = azwc_fu_insert(
+		array(
+			'kind'   => 'unlock',
+			'name'   => $fields['name'],
+			'email'  => $fields['email'],
+			'domain' => mb_substr( sanitize_text_field( $domain ), 0, 190 ),
+			'score'  => $score,
+			'status' => 'unlocked',
+		)
+	);
+	if ( is_wp_error( $row ) ) {
+		return azwc_fu_err( $row, 500 );
+	}
+
+	// Best-effort: unlocking the on-screen results must succeed even if the
+	// report transient already expired or the mail send fails. The visitor
+	// still gets their results either way; `emailed` just tells the front
+	// end whether to say a copy is on its way.
+	$emailed = false;
+	if ( is_array( $report ) ) {
+		list( $emailed ) = azwc_fu_deliver_report( $row, $report );
+	}
+
+	azwc_fu_mail_internal( $row, 'registered' );
+
+	return new WP_REST_Response(
+		array(
+			'ok'        => true,
+			'emailed'   => $emailed,
+			'remaining' => max( 0, AZWC_FU_UNLOCK_CAP - ( $used + 1 ) ),
+		),
+		200
+	);
+}
+
+/**
+ * Build the report attachment (PDF, or HTML if dompdf is unavailable) and
+ * email it. Shared by /report and /unlock so there is exactly one path that
+ * assembles and sends the report file — see azwc_fu_rest_unlock() for why
+ * a failure here must never block the caller.
+ *
+ * Returns array( bool $sent, bool $is_pdf ).
+ */
+function azwc_fu_deliver_report( $row, $report ) {
+	$slug   = sanitize_file_name( str_replace( '.', '-', $row->domain ) );
+	$is_pdf = false;
+	$pdf    = azwc_fu_report_pdf( $report, $row->name );
+
+	if ( is_wp_error( $pdf ) ) {
+		$file = azwc_fu_tempfile(
+			'<!DOCTYPE html><html><head><meta charset="utf-8"><title>SEO report</title></head><body>'
+				. azwc_fu_report_html( $report, $row->name ) . '</body></html>',
+			'seo-report-' . $slug . '.html'
+		);
+	} else {
+		$is_pdf = true;
+		$file   = azwc_fu_tempfile( $pdf, 'seo-report-' . $slug . '.pdf' );
+	}
+
+	if ( is_wp_error( $file ) ) {
+		return array( false, $is_pdf );
+	}
+
+	$sent = azwc_fu_mail_report( $row, $report, array( $file ), $is_pdf );
+	wp_delete_file( $file );
+
+	return array( (bool) $sent, $is_pdf );
+}
 
 /** Email the report. */
 function azwc_fu_rest_report( WP_REST_Request $r ) {
@@ -151,27 +287,7 @@ function azwc_fu_rest_report( WP_REST_Request $r ) {
 
 	// PDF if the renderer is there, a self-contained HTML page if it is not.
 	// A missing library downgrades the attachment; it never loses the lead.
-	$slug   = sanitize_file_name( str_replace( '.', '-', $row->domain ) );
-	$is_pdf = false;
-	$pdf    = azwc_fu_report_pdf( $report, $row->name );
-
-	if ( is_wp_error( $pdf ) ) {
-		$file = azwc_fu_tempfile(
-			'<!DOCTYPE html><html><head><meta charset="utf-8"><title>SEO report</title></head><body>'
-				. azwc_fu_report_html( $report, $row->name ) . '</body></html>',
-			'seo-report-' . $slug . '.html'
-		);
-	} else {
-		$is_pdf = true;
-		$file   = azwc_fu_tempfile( $pdf, 'seo-report-' . $slug . '.pdf' );
-	}
-
-	if ( is_wp_error( $file ) ) {
-		return azwc_fu_err( $file, 500 );
-	}
-
-	$sent = azwc_fu_mail_report( $row, $report, array( $file ), $is_pdf );
-	wp_delete_file( $file );
+	list( $sent, $is_pdf ) = azwc_fu_deliver_report( $row, $report );
 
 	if ( ! $sent ) {
 		return azwc_fu_err(

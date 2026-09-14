@@ -1,0 +1,57 @@
+{
+  "folder_names": [
+    "(\\HasChildren \\UnMarked) \"/\" Archive",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2026",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2025",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Spam",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"WP candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" AZPL",
+    "(\\HasNoChildren \\UnMarked) \"/\" EverythingIT",
+    "(\\HasChildren \\UnMarked) \"/\" Candidates",
+    "(\\HasNoChildren \\UnMarked) \"/\" Candidates/DCS",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" Notes",
+    "(\\HasChildren \\UnMarked \\Trash) \"/\" Trash",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren \\UnMarked \\Sent) \"/\" Sent",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Junk",
+    "(\\HasNoChildren \\UnMarked) \"/\" INBOX/CASE",
+    "(\\HasNoChildren \\UnMarked \\Drafts) \"/\" Drafts",
+    "(\\HasChildren) \"/\" INBOX"
+  ],
+  "sent_folder_used": "Sent",
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8718,
+        "from": "Semrush Position Tracking <position-tracking-alerts@semrush.com>",
+        "to": "info@azwebcorp.com",
+        "subject": "Notification of rank change. Project: azwebcorp.com",
+        "date": "Mon, 7 Sep 2026 07:22:37 +0000",
+        "message_id": "<010001a07abf616b-bc04bb39-e6d9-4d98-b27d-f23594d4b0a5-000000@email.amazonses.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Project: azwebcorp.com (azwebcorp.com)\nLocation: United States, Keywords: 3\nDate: \n\n\n\nIf you do not wish to receive these emails in the future, please click <a href=\"https://www.semrush.com/messaging/unsubscribe?token=eyJhbGciOiJQUzI1NiIsImtpZCI6IjEwMTM5ODIxNjMxMjUyODQ4MDQ4IiwidHlwIjoiSldUIn0.eyJpc3MiOiJoZXJtZXMiLCJleHAiOjE3OTY1NDE3NTcsImlhdCI6MTc4ODc2NTc1NywidiI6MiwidSI6MjM0MjMyMzcsInMiOjEzNywiYSI6IjAxYTA3YWJmLTVmOWYtNzI2Ni04ZjZhLTg5ODA0MjI3MmZmYSIsInIiOjEyNTE5MDk4fQ.ZhNzNfsQ4NnFfe6m8r1QSJMlS7KcTRM40qPkaIUGYq4Esw9yAlN83d4w21FALtw4MKpPqqNZq95-O2-dqx6JYM3Zcnc2Vq-MetbHZPtUVJQrvmqGPZEHK88w-1Ej__Ax_mZqsn0eHm972ai3dump0tSumpK4bDPNRQLX9KVpqtcKnyHVxYqQq_GJx4TFTFfcNjYkAM3OzgUG8CCgQYkuH29BpH_n4ww535acGHkByK3ZME24RhDEBjJ1jN-kFHlkuxkyoGhFIdHWDpUkE9ruv4rC74k-ebwciMKRztRj-1eGR2frm5ZPtBGyUH38EsNurRi1CyoJuab8m8wGls5j3A?utm_source=tech_delivery&amp;utm_medium=all_tools&amp;utm_campaign=layout_2021&amp;utm_content=unsubscribe\">here</a>.\n\nIf you have any other questions or concerns, do not hesitate to reach out to us. See our contact details – https://www.semrush.com/company/contacts/\n\nWe hope you enjoy using Semrush!\nSincerely,\nThe Semrush Team."
+      },
+      {
+        "uid": 8719,
+        "from": "Semrush Position Tracking <position-tracking-alerts@semrush.com>",
+        "to": "Khemia <khemia@azwebcorp.com>",
+        "subject": "Notification of rank change. Project: khemia.com",
+        "date": "Mon, 7 Sep 2026 07:30:30 +0000",
+        "message_id": "<010001a07ac6995d-896a89d2-de25-44af-a92c-e4fc18eec3f8-000000@email.amazonses.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Project: khemia.com (khemia.com)\nLocation: United States, Keywords: 1\nDate: \n\n\n\nIf you do not wish to receive these emails in the future, please click <a href=\"https://www.semrush.com/messaging/unsubscribe?token=eyJhbGciOiJQUzI1NiIsImtpZCI6IjEwMTM5ODIxNjMxMjUyODQ4MDQ4IiwidHlwIjoiSldUIn0.eyJpc3MiOiJoZXJtZXMiLCJleHAiOjE3OTY1NDIyMzAsImlhdCI6MTc4ODc2NjIzMCwidiI6MiwidSI6MjYwNTA1NDcsInMiOjEzNywiYSI6IjAxYTA3YWM2LTk2NDQtNzA0Ni05NDg3LTkzYWQ2NzQ1OGY1NSIsInIiOjE1Nzg1MzE3fQ.Sn3x0TllKDOFDXe0umJE8wxZqH5XElX4AnAn7XgvKimB_mRTOESCI-55UycC5hsklI8L7oi632qZrMcypXQ4mdj2KFvhQ__sudEfAHQHbQTARoe7UXrOSozkjjZSHao3UPTadN23b6lH6PZlpcUcVebjet21TbCtPbAHO1VPKD1Q9tiJoMER-unS22EaVZ5DLMnETnYPcKIWvqvC-d365MExOdcu4kD-4KdQWokDij-ReFFrfGu02otVKvGH9zJa2Vh-3B7Lq4t1xfM24dM8hHadP3J-TffyIL3Np907CA0WDOZWJhxBV0SLUzTPY8n743pWg8hEENqEQqJyh3HU8w?utm_source=tech_delivery&amp;utm_medium=all_tools&amp;utm_campaign=layout_2021&amp;utm_content=unsubscribe\">here</a>.\n\nIf you have any other questions or concerns, do not hesitate to reach out to us. See our contact details – https://www.semrush.com/company/contacts/\n\nWe hope you enjoy using Semrush!\nSincerely,\nThe Semrush Team."
+      }
+    ],
+    "max_uid": 8719,
+    "max_date": "Mon, 7 Sep 2026 07:30:30 +0000"
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 0,
+    "max_date": null
+  }
+}

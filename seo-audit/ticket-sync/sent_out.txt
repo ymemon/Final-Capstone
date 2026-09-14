@@ -1,0 +1,31 @@
+=====
+UID: 1202
+From: Team AZ Web Corp <requests@azwebcorp.com>
+To: Faraz Irfan <faraz@eit.ie>
+Subject: Everything IT — competitor review (it.ie) + a few website ideas
+Date: Tue, 01 Sep 2026 03:01:25 -0700
+Message-ID: <178825688525.8272.2052823294107868101@azwebcorp.com>
+In-Reply-To: None
+References: None
+Body snippet: Dear Faraz,  As part of the ongoing work on the site, our CEO asked us to take a proper look at one of your competitors — it.ie — and put together some ideas for Everything IT's website off the back of it. We've also added a few ideas of our own that didn't come from that review at all. Nothing here is built or live — we wanted your read on it first.  WHAT STOOD OUT ON IT.IE  - Dedicated industry/sector pages (schools, healthcare, financial services, logistics, etc.) alongside their location pages, so a visitor can self-identify by industry, not just by city.  - A trust bar of ce
+=====
+UID: 1203
+From: Yasir Memon <ceo@azwebcorp.com>
+To: Michael Bustard <mbustard@pvcancer.com>
+Subject: RE: Palo Verde website - status update
+Date: Tue, 01 Sep 2026 04:33:08 -0700
+Message-ID: <178826238895.6840.1182022057562711166@azwebcorp.com>
+In-Reply-To: <PH8PR04MB8685012FFBC3A128391B7A4DA1A92@PH8PR04MB8685.namprd04.prod.outlook.com>
+References: <178795119460.15412.4562638545020380794@Yasir> <PH8PR04MB8685634DA1AFAABD16AA67D2A1A92@PH8PR04MB8685.namprd04.prod.outlook.com>
+ <178820687381.28960.5964742578496699676@azwebcorp.com> <PH8PR04MB8685012FFBC3A128391B7A4DA1A92@PH8PR04MB8685.namprd04.prod.outlook.com>
+Body snippet: Hi Michael,  While we were tracking down what you'd seen on the older URL, we took the opportunity to do a fuller pass over the new build. A few things we found and fixed on the spot without needing to wait on you, and a longer list where we'd like your input before we go further.  FIXED ALREADY - NO ACTION NEEDED  - An unedited placeholder blog post ("Blog Post Title," leftover theme boilerplate) was publicly visible - unpublished it.  - Leftover "Presenters / Attendees / Places" counters on the homepage - a leftover from the theme's original event-site demo content, unrelated to
+=====
+UID: 1204
+From: Team AZ Web Corp <requests@azwebcorp.com>
+To: Faraz Irfan <faraz@eit.ie>
+Subject: Everything IT — hardware supply barely shows up on the site
+Date: Tue, 01 Sep 2026 07:49:39 -0700
+Message-ID: <178827417972.25604.10852565300685732627@azwebcorp.com>
+In-Reply-To: None
+References: None
+Body snippet: Dear Faraz,  While going through the site, we noticed something worth flagging: hardware supply doesn't have much presence on the website at all, even though it's part of what Everything IT does.  WHAT'S THERE TODAY  - One line on the homepage - "Providing strategically procured quality, business-grade hardware and seamless onboarding…" - and that's the most direct mention anywhere on the site.  - Asset Management and Inventory Rotation & Warehousing Services both reference hardware in passing, as part of tracking/logistics language, not as a sellable offering someone can search

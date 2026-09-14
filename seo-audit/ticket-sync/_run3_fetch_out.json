@@ -1,0 +1,12 @@
+{
+  "inbox": {
+    "messages": [],
+    "max_uid": 4078,
+    "max_date": null
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 4078,
+    "max_date": null
+  }
+}

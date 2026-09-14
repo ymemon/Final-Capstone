@@ -1,0 +1,12 @@
+Options -Indexes
+
+# The booking database and operational files must never be downloadable.
+<FilesMatch "(?i)^(?:\.env|config\.php(?:\..*)?|booking\.(?:db|sqlite|sqlite3)|.*\.(?:sql|md|log|bat|bak))$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(?:src|templates|migrations|tests|bin)(?:/|$) - [F,L,NC]
+    RewriteRule ^cron/drain-mail\.php$ - [F,L,NC]
+</IfModule>

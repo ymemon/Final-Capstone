@@ -1,0 +1,14 @@
+--- INBOX ---
+4079 | Yelp <no-reply@mail.yelp.com> | Here?s an A+ brunch place for you ? | Sat, 12 Sep 2026 18:11:02 +0000 (UTC)
+  msgid: <ZAIZ6ZbwQtu7hPpvRArgTg@geopod-ismtpd-42> | in-reply-to: None
+  body: Recommendations for nearby brunch / spots.?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? / Yelp    body, table, td, a, p, span, ul, li {font-family: Arial, / sans-serif!important;} 96            Yelp Logo  / ( https://www.yelp.com/search?utm_medium=email&utm_source=Braze_260228_rc_gr_brunch_var1_2&utm_campaign=Sep-12-2026&utm_term=dd2G8nRvn-JORyNPkoW9mg&ytl_=4390c8156ac95c
+
+--- SENT (new) ---
+1181 | Rebound Body Studio <info@azwebcorp.com> -> Randi <massage@reboundbodystudio.com> | Your studio login link
+1182 | Rebound Body Studio <info@azwebcorp.com> -> AZWebCorp <info@azwebcorp.com> | Rebound logoff-safe worker test
+1183 | Rebound Body Studio <info@azwebcorp.com> -> Randi <massage@reboundbodystudio.com> | Your studio login link
+1184 | Rebound Body Studio <info@azwebcorp.com> -> Randi <massage@reboundbodystudio.com> | Your studio login link
+1185 | Rebound Body Studio <info@azwebcorp.com> -> Randi Martinez <randi.martinez.23@gmail.com> | Confirmed: Myofascial Unwinding (120min), Friday 11 September, 9:00 AM
+1186 | Rebound Body Studio <info@azwebcorp.com> -> Randi Martinez <randi.martinez.23@gmail.com> | We have your request - Friday 11 September, 2:00 PM
+1187 | Rebound Body Studio <info@azwebcorp.com> -> Rebound Body Studio <massage@reboundbodystudio.com> | New booking request - Randi Martinez, Friday 11 September, 2:00 PM
+1190 | Rebound Body Studio <info@azwebcorp.com> -> Yasir <yasirmemon1976@gmail.com> | Your studio login link

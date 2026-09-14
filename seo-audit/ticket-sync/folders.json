@@ -1,0 +1,21 @@
+[
+  "(\\HasChildren \\UnMarked) \"/\" Archive",
+  "(\\HasNoChildren \\UnMarked) \"/\" Archive/2026",
+  "(\\HasNoChildren \\UnMarked) \"/\" Archive/2025",
+  "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Spam",
+  "(\\HasNoChildren \\UnMarked) \"/\" \"WP candidate\"",
+  "(\\HasNoChildren \\UnMarked) \"/\" \"SEO candidate\"",
+  "(\\HasNoChildren \\UnMarked) \"/\" AZPL",
+  "(\\HasNoChildren \\UnMarked) \"/\" EverythingIT",
+  "(\\HasChildren \\UnMarked) \"/\" Candidates",
+  "(\\HasNoChildren \\UnMarked) \"/\" Candidates/DCS",
+  "(\\HasNoChildren \\UnMarked) \"/\" \"Junk E-mail\"",
+  "(\\HasNoChildren \\UnMarked) \"/\" Notes",
+  "(\\HasChildren \\UnMarked \\Trash) \"/\" Trash",
+  "(\\HasNoChildren \\UnMarked) \"/\" \"Trash/Candidates 1\"",
+  "(\\HasNoChildren \\Marked \\Sent) \"/\" Sent",
+  "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Junk",
+  "(\\HasNoChildren \\UnMarked) \"/\" INBOX/CASE",
+  "(\\HasNoChildren \\UnMarked \\Drafts) \"/\" Drafts",
+  "(\\HasChildren) \"/\" INBOX"
+]

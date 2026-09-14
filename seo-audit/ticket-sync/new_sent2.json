@@ -1,0 +1,14 @@
+[
+  {
+    "uid": 1203,
+    "folder": "Sent",
+    "from": "Yasir Memon <ceo@azwebcorp.com>",
+    "to": "Michael Bustard <mbustard@pvcancer.com>",
+    "subject": "RE: Palo Verde website - status update",
+    "date": "Tue, 01 Sep 2026 04:33:08 -0700",
+    "message_id": "<178826238895.6840.1182022057562711166@azwebcorp.com>",
+    "in_reply_to": "<PH8PR04MB8685012FFBC3A128391B7A4DA1A92@PH8PR04MB8685.namprd04.prod.outlook.com>",
+    "references": "<178795119460.15412.4562638545020380794@Yasir> <PH8PR04MB8685634DA1AFAABD16AA67D2A1A92@PH8PR04MB8685.namprd04.prod.outlook.com>\r\n <178820687381.28960.5964742578496699676@azwebcorp.com> <PH8PR04MB8685012FFBC3A128391B7A4DA1A92@PH8PR04MB8685.namprd04.prod.outlook.com>",
+    "body": "Hi Michael,\r\n\r\nWhile we were tracking down what you'd seen on the older URL, we took the\r\nopportunity to do a fuller pass over the new build. A few things we found\r\nand fixed on the spot without needing to wait on you, and a longer list\r\nwhere we'd like your input before we go further.\r\n\r\nFIXED ALREADY - NO ACTION NEEDED\r\n\r\n- An unedited placeholder blog post (\"Blog Post Title,\" leftover theme\r\nboilerplate) was publicly visible - unpublished it.\r\n\r\n- Leftover \"Presenters / Attendees / Places\" counters on the homepage - a\r\nleftover from the theme's original event-site demo content, unrelated to a\r\ncancer center - removed.\r\n\r\n- All 5 insurance logos (UnitedHealthcare, Aetna, Cigna, Medicare, Humana)\r\nwere pulling from Wikimedia Commons links that Wikimedia had since moved -\r\nthey were showing as broken images on all 4 location pages. Re-sourced the\r\ncorrect current logos and hosted them directly on the site so this can't\r\nbreak again.\r\n\r\n- Estrella was the only one of the 4 locations missing its \"Find Us Here\"\r\nmap - added it, matching the other 3 pages.\r\n\r\nStaging build for reference: https://875051.us16.myftpupload.com/\r\n\r\nNEEDS YOUR INPUT BEFORE WE GO FURTHER\r\n\r\n1. pvcancer.com still isn't pointed at the new build. This is the root\r\ncause of the mix-up last week, and it's the actual blocker to the site\r\nbeing live to the public at all, regardless of how ready the content is.\r\nWorth prioritizing.\r\n\r\n2. The public intake forms collect SSN, date of birth, medical power of\r\nattorney, and full insurance details. This is a compliance question more\r\nthan a content one - how is this data currently handled/encrypted, and is\r\na plain web form the right way to collect SSN at all? Wanted to raise it\r\ndirectly rather than quietly change anything ourselves.\r\n\r\n3. Contact email is inconsistent across the site. Most pages show\r\ninfo@pvhomed.com, but Dr. Mamani's bio page shows\r\ninfo@paloverdecancer.com. Which one is actually monitored? A lead could\r\ncurrently go to the wrong inbox"
+  }
+]

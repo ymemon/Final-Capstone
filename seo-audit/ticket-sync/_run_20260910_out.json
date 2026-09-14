@@ -1,0 +1,24 @@
+{
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8829,
+        "from": "\"Anthropic, PBC\" <failed-payments@mail.anthropic.com>",
+        "to": "info@azwebcorp.com",
+        "subject": "$10.92 payment to Anthropic, PBC was unsuccessful",
+        "date": "Thu, 10 Sep 2026 11:11:32 +0000",
+        "message_id": "<010001a08b0406ab-93fd559e-0bc0-493e-9182-9a88163301ac-000000@email.amazonses.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Anthropic, PBC  (https://www.anthropic.com/)\n\nAnthropic, PBC\n\n$10.92 payment to Anthropic, PBC was unsuccessful We were unable to charge your Mastercard ending in 7081 for your Anthropic, PBC payment. Please update your payment information to complete your purchase. Update payment information (https://claude.ai/api/stripe/payment_update_redirect?stripe_source=failed_payment)\n\nPowered by    stripe logo (https://stripe.com)"
+      }
+    ],
+    "max_uid": 8829,
+    "max_date": "Thu, 10 Sep 2026 11:11:32 +0000"
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 0,
+    "max_date": null
+  }
+}

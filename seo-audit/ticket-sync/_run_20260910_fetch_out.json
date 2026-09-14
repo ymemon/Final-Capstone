@@ -1,0 +1,34 @@
+{
+  "folders": [
+    "Archive",
+    "Archive/2026",
+    "Archive/2025",
+    "Spam",
+    "WP candidate",
+    "SEO candidate",
+    "AZPL",
+    "EverythingIT",
+    "Candidates",
+    "Candidates/DCS",
+    "Junk E-mail",
+    "Notes",
+    "Trash",
+    "Trash/Candidates 1",
+    "Sent",
+    "Junk",
+    "INBOX/CASE",
+    "Drafts",
+    "INBOX"
+  ],
+  "sent_folder_used": "Sent",
+  "inbox": {
+    "messages": [],
+    "max_uid": 8814,
+    "max_date": null
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 0,
+    "max_date": null
+  }
+}

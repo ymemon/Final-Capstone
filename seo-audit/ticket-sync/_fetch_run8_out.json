@@ -1,0 +1,125 @@
+{
+  "folders": [
+    "(\\HasChildren) \"/\" \"INBOX\"",
+    "(\\HasNoChildren \\Sent) \"/\" \"Sent\"",
+    "(\\HasNoChildren \\Drafts) \"/\" \"Drafts\"",
+    "(\\HasNoChildren \\Junk) \"/\" \"Spam\"",
+    "(\\HasChildren \\Trash) \"/\" \"Trash\"",
+    "(\\HasChildren \\Archive) \"/\" \"Archive\"",
+    "(\\HasNoChildren) \"/\" \"Scheduled\"",
+    "(\\HasNoChildren) \"/\" \"AZPL\"",
+    "(\\HasNoChildren) \"/\" \"Archive/2025\"",
+    "(\\HasNoChildren) \"/\" \"Archive/2026\"",
+    "(\\HasChildren) \"/\" \"Candidates\"",
+    "(\\HasNoChildren) \"/\" \"Candidates/DCS\"",
+    "(\\HasNoChildren) \"/\" \"EverythingIT\"",
+    "(\\HasNoChildren) \"/\" \"INBOX/CASE\"",
+    "(\\HasNoChildren) \"/\" \"Junk\"",
+    "(\\HasNoChildren) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren) \"/\" \"Notes\"",
+    "(\\HasNoChildren) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren) \"/\" \"WP candidate\""
+  ],
+  "inbox": {
+    "messages": [],
+    "max_uid": 4086,
+    "max_date": null,
+    "uidnext": "\"INBOX\" (UIDNEXT 4087)"
+  },
+  "sent": {
+    "messages": [
+      {
+        "uid": 1181,
+        "from": "Rebound Body Studio <info@azwebcorp.com>",
+        "to": "Randi <massage@reboundbodystudio.com>",
+        "subject": "Your studio login link",
+        "date": null,
+        "message_id": null,
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Randi,\n\nHere's your one-time login link for the studio dashboard:\n\nhttps://azwebcorp.com/preview/rebound/booking/public/admin/index.html?token=41-UJtDAPqQLkwUIN95pzgUnDcI_qY43\n\nThis link expires in 15 minutes and can only be used once. If you didn't request this, you can safely ignore this email.\n\nRebound Body Studio"
+      },
+      {
+        "uid": 1182,
+        "from": "Rebound Body Studio <info@azwebcorp.com>",
+        "to": "AZWebCorp <info@azwebcorp.com>",
+        "subject": "Rebound logoff-safe worker test",
+        "date": null,
+        "message_id": null,
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi AZWebCorp,\n\nThank you for requesting an appointment with Rebound Body Studio. We've received your request for:\n\n  Delivery test (1 minutes)\n  Thursday 10 September, 12:55 PM\n\nWe'll review your request and confirm or let you know if we need to suggest a different time. You should hear from us within 24 hours.\n\nView or cancel your request: \n\nQuestions? Reply to this email or call (480) 944-0494.\n\nBest regards,\nRebound Body Studio\nmassage@reboundbodystudio.com"
+      },
+      {
+        "uid": 1183,
+        "from": "Rebound Body Studio <info@azwebcorp.com>",
+        "to": "Randi <massage@reboundbodystudio.com>",
+        "subject": "Your studio login link",
+        "date": null,
+        "message_id": null,
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Randi,\n\nHere's your one-time login link for the studio dashboard:\n\nhttps://azwebcorp.com/preview/rebound/booking/public/admin/index.html?token=nrTZiTdafrS8yJvHaReMt-ZHiMWaZj9K\n\nThis link expires in 15 minutes and can only be used once. If you didn't request this, you can safely ignore this email.\n\nRebound Body Studio"
+      },
+      {
+        "uid": 1184,
+        "from": "Rebound Body Studio <info@azwebcorp.com>",
+        "to": "Randi <massage@reboundbodystudio.com>",
+        "subject": "Your studio login link",
+        "date": null,
+        "message_id": null,
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Randi,\n\nHere's your one-time login link for the studio dashboard:\n\nhttps://azwebcorp.com/preview/rebound/booking/public/admin/index.html?token=3o2ZJqUOltpeqOqeV0a5M4b2KkvhjjiM\n\nThis link expires in 15 minutes and can only be used once. If you didn't request this, you can safely ignore this email.\n\nRebound Body Studio"
+      },
+      {
+        "uid": 1185,
+        "from": "Rebound Body Studio <info@azwebcorp.com>",
+        "to": "Randi Martinez <randi.martinez.23@gmail.com>",
+        "subject": "Confirmed: Myofascial Unwinding (120min), Friday 11 September, 9:00 AM",
+        "date": null,
+        "message_id": null,
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Randi Martinez,\n\nYour appointment is confirmed!\n\n  Myofascial Unwinding (120min) (120 minutes)\n  Friday 11 September, 9:00 AM\n  Price: $175.00\n\nWe're looking forward to seeing you. Please arrive 5 minutes early.\n\nIf you need to reschedule or cancel, visit: https://azwebcorp.com/preview/rebound/booking/public/manage.html?token=Dn6ODA0XDmFzItxA_pXRcELLt0zU-CVp\n\nQuestions? Call (480) 944-0494 or reply to this email.\n\nBest regards,\nRebound Body Studio\nmassage@reboundbodystudio.com"
+      },
+      {
+        "uid": 1186,
+        "from": "Rebound Body Studio <info@azwebcorp.com>",
+        "to": "Randi Martinez <randi.martinez.23@gmail.com>",
+        "subject": "We have your request - Friday 11 September, 2:00 PM",
+        "date": null,
+        "message_id": null,
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Randi Martinez,\n\nThank you for requesting an appointment with Rebound Body Studio. We've received your request for:\n\n  Myofascial Unwinding (90min) (90 minutes)\n  Friday 11 September, 2:00 PM\n\nWe'll review your request and confirm or let you know if we need to suggest a different time. You should hear from us within 24 hours.\n\nView or cancel your request: https://azwebcorp.com/preview/rebound/booking/public/manage.html?token=usvfyecXJ7YQrZfJ7cjua6V7JnV3iJpt\n\nQuestions? Reply to this email or call (480) 944-0494.\n\nBest regards,\nRebound Body Studio\nmassage@reboundbodystudio.com"
+      },
+      {
+        "uid": 1187,
+        "from": "Rebound Body Studio <info@azwebcorp.com>",
+        "to": "Rebound Body Studio <massage@reboundbodystudio.com>",
+        "subject": "New booking request - Randi Martinez, Friday 11 September, 2:00 PM",
+        "date": null,
+        "message_id": null,
+        "in_reply_to": null,
+        "references": null,
+        "body": "New booking request from Randi Martinez\n\nService: Myofascial Unwinding (90min) (90 minutes)\nRequested time: Friday 11 September, 2:00 PM\nClient email: \n\nApprove or decline: https://azwebcorp.com/preview/rebound/booking/public/admin/index.html\n\n---\nThis is an automated alert. Do not reply to this email."
+      },
+      {
+        "uid": 1190,
+        "from": "Rebound Body Studio <info@azwebcorp.com>",
+        "to": "Yasir <yasirmemon1976@gmail.com>",
+        "subject": "Your studio login link",
+        "date": null,
+        "message_id": null,
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Yasir,\n\nHere's your secure login link for the studio dashboard:\n\nhttps://azwebcorp.com/preview/rebound/booking/public/admin/index.html?token=jQMTb9gm4oCCflprkyM2bj_D9EcaaJJr\n\nThis link expires in 15 minutes. If you didn't request this, you can safely ignore this email.\n\nRebound Body Studio"
+      }
+    ],
+    "max_uid": 1190,
+    "max_date": null,
+    "uidnext": "\"Sent\" (UIDNEXT 1193)"
+  }
+}

@@ -117,3 +117,10 @@ Not a one-time pitch — sign up free at qwoted.com under `info@azwebcorp.com`, 
 - **Page 2 Podcast** — real/active but no self-serve guest form; would need a cold pitch to host Jon Clark's agency (Moving Traffic Media) with a genuinely standout angle given how established the show is. Didn't draft this one — a generic pitch to an industry-leading show without a specific hook is more likely to be ignored than to land.
 - **Business Growth Lab** — recommend dropping (see `outreach-tracker.csv` note — niche mismatch, no guest-application path found).
 - **Gilbert Chamber**, **ASBA**, **DesignRush**, **The Phoenix Review**, **Phoenix Business Journal**, **AZ Big Media** — these need either a phone call for real pricing (Chamber/ASBA), a paid-tier decision (DesignRush), or a genuine news hook rather than a cold pitch (the press outlets, Phoenix Review roundup) — not pitch-copy problems, so nothing to draft yet.
+
+
+---
+
+> **2026-08-25:** revised pitches built on new first-party data live in
+> `outreach-pitch-drafts-2026-08-25.md`. Those supersede pitches #2, #4 and #5
+> below, and add a follow-up (not a resend) for In Business Magazine.

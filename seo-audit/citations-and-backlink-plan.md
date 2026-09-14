@@ -107,3 +107,68 @@ step by step whenever that's picked back up.
 ## Outreach targets (earned links, not directories)
 See `outreach-tracker.csv` — separate file, tracks status per pitch since
 each of these requires actual human/editorial approval on the other end.
+
+---
+
+## 2026-08-25 update — the "no unique content" blocker has lifted
+
+The 2026-08-22 conclusion above was right at the time: automated directory
+signup is structurally blocked everywhere, and cold outreach with nothing
+behind it is near-zero yield and mildly risky. **Two of those inputs changed
+today**, which re-opens the earned-link side specifically.
+
+### 1. There is now a real linkable asset
+`/how-much-does-seo-cost-in-arizona/` went from **43 characters** (an H1 and
+nothing else, while ranking at position ~23 for 81 pricing queries) to a
+~1,150-word article that takes an unusual and defensible position: it explains
+what drives SEO cost and **publishes no price list at all**, on the grounds
+that a number quoted before seeing the site is marketing rather than a quote.
+That is a genuine editorial angle, not a portfolio piece — which matters,
+because the strongest guest-post target on the tracker (Lilach Bullock)
+explicitly rejects showcase pieces and asks for lessons.
+
+### 2. There is now an original first-party data story
+Today's diagnostic work produced findings that are genuinely uncommon, all
+verifiable from our own Search Console:
+
+- **"Our best-ranking page was empty."** The single strongest URL on the site
+  by impressions (3,203 impressions, avg position 23.5, 81 queries) contained
+  43 characters of content, and its legacy URL was 301'd to a page that did
+  not answer the query. A concrete, slightly embarrassing, very teachable
+  finding.
+- **An entire 13-page city cluster was invisible to Google.** Diagnosed with
+  the **URL Inspection API** (not guesswork): some pages read
+  `Discovered - currently not indexed` with `lastCrawlTime: None` after eight
+  months; others `URL is unknown to Google`. Root cause was that the XML
+  sitemap was their only referring URL — and the homepage, which linked to 21
+  internal pages, linked to none of them. Ruled out duplicate content
+  quantitatively (pairwise 6-gram Jaccard 0.03-0.09).
+- **A recurring GSC data-contamination pattern**: keyword-research CSV rows
+  (`...,210.00,low,2,approved`) ingested as search queries, inflating a dead
+  URL into a 574-impression "opportunity".
+
+The through-line — *"sitemap presence is not discovery, and impressions
+without clicks can mean the page is literally empty"* — is a real article, and
+it is exactly the technical-lessons genre the drafted pitches target.
+
+### Revised priority order (value x achievability)
+
+| # | Action | Who | Why this rank |
+|---|---|---|---|
+| 1 | **Claim/verify Google Business Profile** | **you** (real login) | For local commercial terms this outweighs any single backlink. Still unverified whether it is claimed. Walkthrough ready in `claim-listings-walkthrough.md`. |
+| 2 | **Fix the wrong phone at its YellowPages source** | **you** (Cloudflare blocks automation) | Corrects an *active wrong trust signal* — (623) 670-1611 is not AZWebCorp's number. Repairing an existing citation beats adding a new one. Propagates to Yahoo Local and other YP mirrors. |
+| 3 | **Re-aim the drafted pitches at the data story** | me to draft, you to send | The pitches in `outreach-pitch-drafts.md` were written before this data existed. The findings above are a materially stronger hook than the original angles. |
+| 4 | Qwoted signup (free, ongoing) | you (account creation) | Not a one-off pitch — a recurring channel where an Arizona agency-owner voice can earn genuine editorial links. |
+| 5 | Directory listings that do not bot-block | you (real sessions) | Bing Places, Apple Business Connect, BBB, Clutch. Data ready in `claim-listings-walkthrough.md`. |
+
+### What has NOT changed
+Automated directory signup is still off the table — that was a structural
+finding, not a tooling gap, and nothing today alters it. Buying links, mass
+directory submission, and reciprocal-link schemes remain out of scope: this
+project just spent effort *disavowing* 223 reviewed linking pages including
+forum-spam networks, and re-creating that problem would be self-defeating.
+
+**Honest expectation setting:** authority is the slowest lever in SEO. Even
+everything above executed well is a 3-6 month arc before it moves
+`/arizona-seo-services/` off position 57 — unlike the on-page fixes, which
+should show within weeks. Worth starting now precisely because it is slow.

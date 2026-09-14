@@ -1,0 +1,18 @@
+Run: 2026-09-12 (later run), checkpoint carried in at uid=4081 / "Sat, 12 Sep 2026 19:51:07 +0000"
+
+INBOX: 0 new messages since checkpoint (UIDNEXT=4082 confirms 4081 is still the newest
+message; the one message returned by a UID>4081 search was a range-clamp artifact,
+not new mail - it was the same Amazon Marketplace feedback-request notification
+already covered by the checkpoint).
+
+SENT: candidate UIDs 1189-1190 dated same day but both <= checkpoint timestamp -
+0 new messages after checkpoint.
+
+Checkpoint: re-posted unchanged (uid=4081, same date) since no new mail in either folder.
+
+Stale check (48h): GET /stale?hours=48 -> [] (none).
+
+Result: no tickets created, no activity logged, no nudges drafted, no notifications sent.
+
+Note: sync_log.txt was locked by another process during this run (likely a
+concurrent run) - couldn't append there, wrote this standalone summary instead.

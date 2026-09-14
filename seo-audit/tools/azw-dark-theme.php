@@ -48,8 +48,15 @@ function azw_dark_theme_css() {
 	}
 
 	/* ---- the ground ---------------------------------------------------- */
+	/* NOT background-attachment:fixed. On a page whose height changes after
+	   load (the SEO audit tool renders a much taller results section into
+	   the same document), a fixed background only paints the area that was
+	   visible in the original viewport — the newly revealed area below it
+	   is left with no gradient until the user scrolls, which shows up as a
+	   visible seam/blend of colours. Plain (scrolling) background covers
+	   the full document height correctly regardless of when content grows. */
 	body{
-		background:linear-gradient(135deg,#050608,#111823 60%,#30240a) fixed !important;
+		background:linear-gradient(135deg,#050608,#111823 60%,#30240a) !important;
 		color:var(--azw-body);
 	}
 
@@ -138,12 +145,41 @@ function azw_dark_theme_css() {
 	   - .elementor-element-f11c945 is a featured-post panel still painted
 	     with the OLD palette: linear-gradient(167deg,#dde423,#e6b84d), the
 	     lime-to-gold that was supposed to have gone.
+	   - .elementor-element-f25e66d is the "Why Choose AZWebcorp for Digital
+	     Marketing?" section, further down the same Arizona Digital Marketing
+	     page as e6776eb above. A second stock photo
+	     (248245535_4395372703845973_453328748403252440_n-1.jpg — a bright,
+	     colourful office scene) missed by the original sweep because it is
+	     one page section lower than the hero everyone checked. Found
+	     2026-08-25 from a direct client report of "theme color mismatch" on
+	     this page, not from survey.js — its off-brand-background check only
+	     flags large sections it walks past, and can still miss one if the
+	     run stops short, so a client-visible mismatch surviving a "clean"
+	     survey result is possible and worth re-checking here first.
 
 	   Named individually because CSS cannot select an element by the value of
 	   its background-image, and blanket-removing background-image would take
-	   every hero and every photo with it. */
+	   every hero and every photo with it.
+
+	   Both of these sections also have their OWN separate
+	   .elementor-background-overlay child div — a real Elementor element
+	   (Section > Background > Overlay), not CSS, added back when the section
+	   held a stock photo to darken it for text contrast. Overriding only the
+	   section's own background-image left this overlay sitting on top,
+	   painting flat neutral grey (rgb(49,49,49) / rgb(39,39,39), no hue at
+	   all) over the correct gradient underneath at ~80-88% opacity — which is
+	   the actual "still not resolved" mismatch a client reported by eye after
+	   the background-image fix alone had already shipped. Both the section's
+	   background-image AND its overlay child need overriding together. */
 	body .elementor-element-e6776eb{
 		background-image:linear-gradient(135deg,#050608,#111823 60%,#30240a) !important;
+	}
+	body .elementor-element-f25e66d .elementor-element-populated{
+		background-image:linear-gradient(135deg,#050608,#111823 60%,#30240a) !important;
+	}
+	body .elementor-element-e6776eb > .elementor-background-overlay,
+	body .elementor-element-f25e66d .elementor-background-overlay{
+		background-color:transparent !important;
 	}
 	body .elementor-element-f11c945 .elementor-element-populated{
 		background-image:none !important;

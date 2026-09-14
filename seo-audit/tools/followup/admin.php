@@ -49,7 +49,7 @@ function azwc_fu_admin_page() {
 
 	// phpcs:ignore WordPress.Security.NonceVerification -- read-only filter.
 	$kind  = isset( $_GET['kind'] ) ? sanitize_key( wp_unslash( $_GET['kind'] ) ) : 'call';
-	$kind  = in_array( $kind, array( 'call', 'report' ), true ) ? $kind : 'call';
+	$kind  = in_array( $kind, array( 'call', 'report', 'unlock' ), true ) ? $kind : 'call';
 
 	$rows = $wpdb->get_results(
 		$wpdb->prepare(
@@ -75,7 +75,7 @@ function azwc_fu_admin_page() {
 		. '</p>';
 
 	echo '<h2 class="nav-tab-wrapper">';
-	foreach ( array( 'call' => 'Call bookings', 'report' => 'Report requests' ) as $k => $label ) {
+	foreach ( array( 'call' => 'Call bookings', 'report' => 'Report requests', 'unlock' => 'Audit unlocks' ) as $k => $label ) {
 		printf(
 			'<a href="%s" class="nav-tab%s">%s</a>',
 			esc_url( admin_url( 'admin.php?page=azwc-leads&kind=' . $k ) ),

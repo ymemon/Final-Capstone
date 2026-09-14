@@ -1,0 +1,58 @@
+{
+  "folder_names": [
+    "(\\HasChildren \\UnMarked) \"/\" Archive",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2026",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2025",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Spam",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"WP candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" AZPL",
+    "(\\HasNoChildren \\UnMarked) \"/\" EverythingIT",
+    "(\\HasChildren \\UnMarked) \"/\" Candidates",
+    "(\\HasNoChildren \\UnMarked) \"/\" Candidates/DCS",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" Notes",
+    "(\\HasChildren \\UnMarked \\Trash) \"/\" Trash",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren \\UnMarked \\Sent) \"/\" Sent",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Junk",
+    "(\\HasNoChildren \\UnMarked) \"/\" INBOX/CASE",
+    "(\\HasNoChildren \\UnMarked \\Drafts) \"/\" Drafts",
+    "(\\HasChildren) \"/\" INBOX"
+  ],
+  "sent_folder_used": "Sent",
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8784,
+        "from": "Team AZ Web Corp <requests@azwebcorp.com>",
+        "to": "Michael Bustard <mbustard@pvcancer.com>",
+        "subject": "RE: pvcancer social media accounts",
+        "date": "Wed, 09 Sep 2026 06:21:33 -0700",
+        "message_id": "<178896009344.20188.2151275374712500200@azwebcorp.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Mike,\n\nFollowing up on the social accounts.\n\nWe completely understand that the website has to go through the doctors\nbefore it goes live, and we are not trying to push on that - sign-off on a\ncancer practice's website should take the time it takes, and we would\nrather it were reviewed properly than rushed.\n\nThe social accounts are a separate track though, and they do not depend on\nthat approval at all. Facebook, Instagram and the LinkedIn page already\nexist, they are already yours, and nothing we post to them touches the\nwebsite that is under review. So we would like to get started on those now\nrather than waiting.\n\nThe reason it matters: both accounts were being posted to regularly before\nwe came on board - Facebook every day or two, Instagram through the end of\nAugust. Momentum on a page is much easier to keep than to rebuild, and\nright now the gap is growing while we wait on access rather than on\nanything to do with content. We already have the audit done and know the\nthemes that have been working.\n\nWHAT WE NEED ACCESS TO\nAll three are accounts you already own - nothing new gets created.\n\n  * Facebook Page - facebook.com/pvhomed\n    Admin or Editor via Meta Business Suite. Settings > Page setup >\n    People, or assign us as a Partner if the page sits inside a\n    Business Manager account.\n\n  * Instagram - @paloverdecancerspecialists\n    Easiest route is linking it to the same Business Suite account\n    as the Facebook page, then granting us access there. Otherwise\n    E"
+      }
+    ],
+    "max_uid": 8784,
+    "max_date": "Wed, 09 Sep 2026 06:21:33 -0700"
+  },
+  "sent": {
+    "messages": [
+      {
+        "uid": 1169,
+        "from": "Team AZ Web Corp <requests@azwebcorp.com>",
+        "to": "Michael Bustard <mbustard@pvcancer.com>",
+        "subject": "RE: pvcancer social media accounts",
+        "date": "Wed, 09 Sep 2026 06:21:33 -0700",
+        "message_id": "<178896009344.20188.2151275374712500200@azwebcorp.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Mike,\n\nFollowing up on the social accounts.\n\nWe completely understand that the website has to go through the doctors\nbefore it goes live, and we are not trying to push on that - sign-off on a\ncancer practice's website should take the time it takes, and we would\nrather it were reviewed properly than rushed.\n\nThe social accounts are a separate track though, and they do not depend on\nthat approval at all. Facebook, Instagram and the LinkedIn page already\nexist, they are already yours, and nothing we post to them touches the\nwebsite that is under review. So we would like to get started on those now\nrather than waiting.\n\nThe reason it matters: both accounts were being posted to regularly before\nwe came on board - Facebook every day or two, Instagram through the end of\nAugust. Momentum on a page is much easier to keep than to rebuild, and\nright now the gap is growing while we wait on access rather than on\nanything to do with content. We already have the audit done and know the\nthemes that have been working.\n\nWHAT WE NEED ACCESS TO\nAll three are accounts you already own - nothing new gets created.\n\n  * Facebook Page - facebook.com/pvhomed\n    Admin or Editor via Meta Business Suite. Settings > Page setup >\n    People, or assign us as a Partner if the page sits inside a\n    Business Manager account.\n\n  * Instagram - @paloverdecancerspecialists\n    Easiest route is linking it to the same Business Suite account\n    as the Facebook page, then granting us access there. Otherwise\n    E"
+      }
+    ],
+    "max_uid": 1169,
+    "max_date": "Wed, 09 Sep 2026 06:21:33 -0700"
+  }
+}

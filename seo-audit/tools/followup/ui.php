@@ -48,10 +48,10 @@ function azwc_fu_render() {
 	.azwc-fu-card:active{transform:translateY(1px)}
 	.azwc-fu-card b{display:block;color:#fff;font-size:15.5px;font-weight:750;margin-bottom:3px}
 	.azwc-fu-card span{display:block;color:#aab2bd;font-size:13px;line-height:1.5}
-	.azwc-fu-card.is-primary{background:#e6b84d;border-color:#e6b84d}
-	.azwc-fu-card.is-primary b{color:#161208}
-	.azwc-fu-card.is-primary span{color:#4a3d18}
-	.azwc-fu-card.is-primary:hover{background:#f5d47d;border-color:#f5d47d}
+	.azwc-fu-card.is-primary{background:rgba(230,184,77,.09);border-color:#e6b84d}
+	.azwc-fu-card.is-primary b{color:#f5ca61}
+	.azwc-fu-card.is-primary span{color:#e3e7ed}
+	.azwc-fu-card.is-primary:hover{background:rgba(230,184,77,.18);border-color:#f5ca61}
 
 	.azwc-fu-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:flex-start;justify-content:center;
 		padding:24px 14px;overflow-y:auto;background:rgba(4,6,10,.74)}

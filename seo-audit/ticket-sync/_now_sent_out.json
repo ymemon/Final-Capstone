@@ -1,0 +1,14 @@
+[
+  {
+    "uid": "1196",
+    "from": "Team AZ Web Corp <requests@azwebcorp.com>",
+    "to": "ceo@azwebcorp.com",
+    "cc": "",
+    "subject": "Weekly SEO run — 14 Sep 2026",
+    "date": "Mon, 14 Sep 2026 08:00:52 -0700",
+    "message_id": "<178939805238.6872.2861900923099738264@azwebcorp.com>",
+    "in_reply_to": null,
+    "references": null,
+    "body": "Weekly SEO run completed.\r\n\r\nWhat happened:\r\n  AZ Web Corp: sent (internal) -> ceo@azwebcorp.com\r\n  Prestige Windows: queued for approval -> Nassim@prestigehomestudioaz.com\r\n  Everything IT: queued for approval -> faraz@eit.ie\r\n  PaloVerde Cancer Specialists: not sent — no Search Console access\r\n\r\n--------------------------------------------------------------\r\n\r\nPaloVerde Cancer Specialists (pvcancer.com): no Search Console access. No Search Console property exists for this client at all - not for pvcancer.com, pvhomed.com or the temporary myftpupload domain (checked against the full property list 2026-09-09). Nothing to connect until the site goes live on the real domain and the property is created and verified. send_to_client stays false until then.\r\n\r\nFull record: seo-audit/weekly-report/sent-log.md\r\n"
+  }
+]

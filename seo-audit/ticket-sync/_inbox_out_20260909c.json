@@ -1,0 +1,18 @@
+{
+  "count": 1,
+  "maxuid": 8783,
+  "maxdate": "Wed, 09 Sep 2026 05:51:33 -0700",
+  "messages": [
+    {
+      "uid": "8783",
+      "from": "Phil — AZ Web Corp <requests@azwebcorp.com>",
+      "to": "massage@reboundbodystudio.com",
+      "subject": "Rebound Body Studio — the site is now 14 pages, and I need five codes from you",
+      "date": "Wed, 09 Sep 2026 05:51:33 -0700",
+      "message_id": "<178895829310.22712.8042817304801419934@azwebcorp.com>",
+      "in_reply_to": null,
+      "references": null,
+      "body": "Hi Randi,\r\n\r\nPlease disregard my last note - I have since gone through your official\r\nMassageBook profile properly and rebuilt the site around what is actually\r\nthere.\r\n\r\nHere is where it stands, now fourteen pages rather than one:\r\nhttps://azwebcorp.com/preview/rebound/\r\n\r\nIt uses your own logo and your teal and yellow throughout. Every service\r\nhas its own page - therapeutic, sports, prenatal, deep core, stretch and\r\ncorrective exercise - with all your durations and prices, both 3-packs, a\r\ndeals page, a studio page for the three of you, and a page explaining what\r\nmassage actually does to muscle and connective tissue. The address is set\r\nto 1138 N. Higley Rd, Suite 109. Screenshots below.\r\n\r\nWorth checking the prices and how I have described Brian and Wendy, since\r\nI read all of that off your booking pages rather than from you.\r\n\r\nTHE FIVE CODES THAT SWITCH YOUR CALENDAR ON\r\n\r\nYour booking calendar is the one thing I genuinely cannot build myself,\r\nand it is worth explaining why rather than just asking.\r\n\r\nMassageBook ties the booking widget to your account, and your public pages\r\nare deliberately set to refuse being displayed inside another website. I\r\nchecked this properly rather than assuming it. So there is no version of\r\nthis where I can wire up your live availability from the outside - the\r\ncode has to come from inside your account.\r\n\r\nIn the meantime the booking page carries a real calendar built from your\r\nopening hours: it shows which days you work and until when, and each day\r\nopens the live diary in MassageBook. What it deliberately does not show is\r\nindividual free slots, because I do not have your diary and I am not\r\nwilling to send someone to book a time that is already taken.\r\n\r\nAbout five minutes of your time fixes it. In MassageBook go to Business >\r\nSetup > Website Integration and work through the Widgets tabs. There is a\r\nblue Copy button on each. I need five:\r\n\r\n  * The booking page / scheduler\r\n    The calendar itself, and the important one.\r"
+    }
+  ]
+}

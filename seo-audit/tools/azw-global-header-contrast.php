@@ -429,6 +429,34 @@ add_action('wp_footer', static function () {
         body.home header#masthead .main-navigation {
             display: block !important;
         }
+        /* Keep the expanded desktop menu on one row after adding Case Studies.
+           The theme's 25/75 Bootstrap split left the seven labels a few pixels
+           short, which pushed Company onto a second line at every wide size. */
+        body header#masthead .bottom-header .row > .col-lg-3 {
+            flex: 0 0 20%;
+            max-width: 20%;
+        }
+        body header#masthead .bottom-header .row > .col-lg-9 {
+            flex: 0 0 80%;
+            max-width: 80%;
+        }
+        body header#masthead #primary-menu > li {
+            white-space: nowrap;
+        }
+        body header#masthead #primary-menu > li > a {
+            padding-right: 12px !important;
+        }
+    }
+    @media (min-width: 992px) and (max-width: 1199px) {
+        body header#masthead #primary-menu > li > a {
+            font-size: 12px !important;
+            padding-right: 4px !important;
+        }
+        body header#masthead .header-btn-1.button-primary {
+            font-size: 12px !important;
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+        }
     }
 
     /* azw-sticky-dark ------------------------------------------------

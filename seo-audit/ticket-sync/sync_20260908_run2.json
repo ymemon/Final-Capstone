@@ -1,0 +1,57 @@
+{
+  "folder_names": [
+    "(\\HasChildren \\UnMarked) \"/\" Archive",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2026",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2025",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Spam",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"WP candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" AZPL",
+    "(\\HasNoChildren \\UnMarked) \"/\" EverythingIT",
+    "(\\HasChildren \\UnMarked) \"/\" Candidates",
+    "(\\HasNoChildren \\UnMarked) \"/\" Candidates/DCS",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" Notes",
+    "(\\HasChildren \\UnMarked \\Trash) \"/\" Trash",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren \\UnMarked \\Sent) \"/\" Sent",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Junk",
+    "(\\HasNoChildren \\UnMarked) \"/\" INBOX/CASE",
+    "(\\HasNoChildren \\UnMarked \\Drafts) \"/\" Drafts",
+    "(\\HasChildren) \"/\" INBOX"
+  ],
+  "sent_folder_used": "Sent",
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8765,
+        "from": "Amazon Business <no-reply@business.amazon.com>",
+        "to": "info@azwebcorp.com",
+        "subject": "You did not start a business to compare prices",
+        "date": "Tue, 8 Sep 2026 13:23:10 +0000",
+        "message_id": "<010001a0812fd35d-635a476b-9a5d-4296-aa9c-b16759d6ac82-000000@email.amazonses.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "<!doctype html>\n<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n <head>\n  <title>Let Amazon Business handle the busywork—so you can focus on what matters most</title>\n  <!--[if !mso]><!-- -->\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n  <!--<![endif]-->\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <style type=\"text/css\">\n        #outlook a {\n            padding: 0;\n        }\n\n        body,\n        .body {\n            margin: 0;\n            padding: 0;\n            -webkit-text-size-adjust: 100%;\n            -ms-text-size-adjust: 100%;\n        }\n\n        table {\n            border-spacing: 0;\n        }\n\n        img {\n            border: 0;\n            height: auto;\n            line-height: 100%;\n            outline: none;\n            text-decoration: none;\n            -ms-interpolation-mode: bicubic;\n        }\n\n        p {\n            display: block;\n            margin: 13px 0;\n        }\n    </style>\n  <!--[if mso]>                    <xml>                      <o:OfficeDocumentSettings xmlns:o=\"urn:schemas-microsoft-com:office:office\">                    <o:AllowPNG/>                          <o:PixelsPerInch>96</o:PixelsPerInch>                      </o:OfficeDocumentSettings>                   <w:WordDocument xmlns:w=\"urn:schemas-microsoft-com:office:word\">               <"
+      },
+      {
+        "uid": 8766,
+        "from": "Anthropic <no-reply-0jvtW2EPXGPJR-ERRIyt8A@mail.anthropic.com>",
+        "to": "info@azwebcorp.com",
+        "subject": "Your secure link to Claude.ai is here | 2026-09-08 07:10:03",
+        "date": "Tue, 08 Sep 2026 14:10:03 +0000 (UTC)",
+        "message_id": "<PdcGEnmDRrixVeux9y99bw@geopod-ismtpd-67>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "<!doctype html><html lang=\"und\" dir=\"auto\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\"><head><title></title><!--[if !mso]><!--><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><!--<![endif]--><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><style type=\"text/css\">#outlook a { padding:0; }\n      body { margin:0;padding:0;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }\n      table, td { border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt; }\n      img { border:0;height:auto;line-height:100%; outline:none;text-decoration:none;-ms-interpolation-mode:bicubic; }\n      p { display:block;margin:13px 0; }</style><!--[if mso]>\n    <noscript>\n    <xml>\n    <o:OfficeDocumentSettings>\n      <o:AllowPNG/>\n      <o:PixelsPerInch>96</o:PixelsPerInch>\n    </o:OfficeDocumentSettings>\n    </xml>\n    </noscript>\n    <![endif]--><!--[if lte mso 11]>\n    <style type=\"text/css\">\n      .mj-outlook-group-fix { width:100% !important; }\n    </style>\n    <![endif]--><!--[if !mso]><!--><link href=\"https://fonts.googleapis.com/css?family=Roboto:300,400,500,700\" rel=\"stylesheet\" type=\"text/css\"><style type=\"text/css\">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);</style><!--<![endif]--><style type=\"text/css\">@media only screen and (min-width:480px) {\n        .mj-column-per-100 { widt"
+      }
+    ],
+    "max_uid": 8766,
+    "max_date": "Tue, 08 Sep 2026 14:10:03 +0000 (UTC)"
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 0,
+    "max_date": null
+  }
+}

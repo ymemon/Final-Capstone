@@ -91,7 +91,51 @@ function azw_rel_map() {
         'web-design-gilbert-az'   => array('seo-services-gilbert-az', 'arizona-web-design', 'web-design-phoenix-az', 'web-development'),
         'seo-services-gilbert-az' => array('arizona-seo-services', 'web-design-gilbert-az', 'seo-company-phoenix-az', 'arizona-web-design'),
 
+        /*
+         * 2026-08-25: authority injection for the city/service cluster.
+         *
+         * Google's URL Inspection API reported these pages as "Discovered -
+         * currently not indexed" and, for several, "URL is unknown to Google"
+         * with the XML sitemap as their ONLY referring URL - despite carrying
+         * 1,100-2,400 words each. A sitemap entry alone is a weak discovery
+         * signal; without real internal links Google decides they are not
+         * worth crawling, which is exactly what happened for eight months.
+         *
+         * These four sources are the highest-authority pages on the site (the
+         * homepage above all - it previously linked to 21 internal pages and
+         * not one of them was in this cluster). Linking from here is the
+         * cheapest available way to pass crawl priority to pages that already
+         * have the content to earn rankings.
+         *
+         * NOTE: the homepage's slug is 'online-presence-solutions', not
+         * 'home' - post 117, set as the static front page.
+         */
+        'online-presence-solutions' => array('arizona-web-design', 'web-design-phoenix-az', 'seo-company-phoenix-az', 'web-design-gilbert-az'),
+        'about-azwebcorp'           => array('arizona-web-design', 'web-development', 'arizona-seo-services', 'web-design-gilbert-az'),
+        'contact-us'                => array('web-design-phoenix-az', 'web-design-gilbert-az', 'seo-company-phoenix-az', 'phoenix-web-development'),
+        'our-featured-projects'     => array('arizona-web-design', 'phoenix-web-development', 'web-design-phoenix-az', 'web-development'),
+
     );
+}
+
+/**
+ * Heading for the block.
+ *
+ * The original text was hardcoded to "Related hosting & domain services",
+ * which was accurate when this only covered the hosting cluster but reads as a
+ * non-sequitur under a city or SEO page. Anything outside the hosting set gets
+ * a neutral heading instead.
+ */
+function azw_rel_heading($slug) {
+    $hosting = array(
+        'hosting-domains', 'web-hosting', 'web-hosting-plus', 'wordpress-hosting',
+        'vps-hosting', 'domain-registration', 'domain-transfer', 'business-email',
+        'ssl', 'website-backup', 'website-builder',
+    );
+
+    return in_array($slug, $hosting, true)
+        ? 'Related hosting &amp; domain services'
+        : 'Explore more of what we do';
 }
 
 function azw_rel_render($slug) {
@@ -119,7 +163,7 @@ function azw_rel_render($slug) {
     }
 
     return '<aside class="azw-related" aria-labelledby="azw-related-heading">'
-        . '<h2 id="azw-related-heading" class="azw-rel-heading">Related hosting &amp; domain services</h2>'
+        . '<h2 id="azw-related-heading" class="azw-rel-heading">' . azw_rel_heading($slug) . '</h2>'
         . '<ul class="azw-rel-grid">' . $items . '</ul>'
         . '</aside>'
         . azw_rel_styles();
@@ -133,15 +177,21 @@ function azw_rel_styles() {
     $done = true;
     // data-noptimize: Autoptimize otherwise folds inline CSS into a cached
     // aggregate, which delays every edit behind a bundle rebuild.
+    /*
+     * Palette matches the sitewide dark theme (azw-dark-theme.php). The
+     * original values here were light (#fbfcfd panel, #fff cards) from before
+     * the site went dark, which left a white slab at the bottom of every page
+     * carrying this block - the same class of theme mismatch reported on the
+     * marketing pages. Gold accent is #e6b84d, the brand value.
+     */
     return '<style id="azw-related-css" data-noptimize="1">'
-        . '.azw-related{max-width:1080px;margin:44px auto;padding:28px;border:1px solid #e3e8ed;border-radius:14px;background:#fbfcfd}'
-        . '.azw-related .azw-rel-heading{margin:0 0 18px;font-size:20px;line-height:1.25;color:#111823}'
+        . '.azw-related{max-width:1080px;margin:44px auto;padding:28px;border:1px solid rgba(230,184,77,.24);border-radius:14px;background:rgba(255,255,255,.03)}'
+        . '.azw-related .azw-rel-heading{margin:0 0 18px;font-size:20px;line-height:1.25;color:#fff}'
         . '.azw-rel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:14px;margin:0;padding:0;list-style:none}'
-        . '.azw-rel-item{padding:16px 18px;background:#fff;border:1px solid #e8edf2;border-radius:11px}'
-        . '.azw-rel-link{display:block;font-weight:700;font-size:15px;color:#9b711b;text-decoration:none}'
-        . '.azw-rel-link:hover,.azw-rel-link:focus{color:#7d5a12;text-decoration:underline}'
-        . '.azw-rel-desc{display:block;margin-top:5px;font-size:13px;line-height:1.5;color:#5d6875}'
-        . '@media(prefers-color-scheme:dark){}'
+        . '.azw-rel-item{padding:16px 18px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.10);border-radius:11px}'
+        . '.azw-rel-link{display:block;font-weight:700;font-size:15px;color:#f5d47d;text-decoration:none}'
+        . '.azw-rel-link:hover,.azw-rel-link:focus{color:#ffe8a8;text-decoration:underline}'
+        . '.azw-rel-desc{display:block;margin-top:5px;font-size:13px;line-height:1.5;color:#aab2bd}'
         . '</style>';
 }
 

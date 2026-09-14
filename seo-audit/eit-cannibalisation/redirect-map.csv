@@ -1,0 +1,21 @@
+from,to,reason,from_clicks,from_impr,to_clicks,to_impr
+/about-us-2/,/about-us/,keeps the page with more clicks/impressions and the better average position,1,213,3,1844
+/contact-2/,/contact/,keeps the page with more clicks/impressions and the better average position,1,85,43,3416
+/faq-2/,/faq/,keeps the page with more clicks/impressions and the better average position,0,2,1,90
+/our-team-2/,/our-team/,keeps the page with more clicks/impressions and the better average position,5,34,20,1274
+/it-support-cork-2/,/cork/,keeps the page with more clicks/impressions and the better average position,1,280,3,1271
+/it-support-galway-2/,/it-support-galway/,keeps the page with more clicks/impressions and the better average position,0,10,18,3659
+/it-support-limerick-2/,/it-support-limerick/,keeps the page with more clicks/impressions and the better average position,0,66,20,4728
+/it-support-waterford-2/,/it-support-waterford/,keeps the page with more clicks/impressions and the better average position,0,23,12,3670
+/it-support-ireland-nationwide-2/,/it-support-ireland-nationwide/,keeps the page with more clicks/impressions and the better average position,0,315,6,6955
+/it-support-cork/,/cork/,keeps the page with more clicks/impressions and the better average position,3,1271,16,4170
+/galway/,/it-support-galway/,keeps the page with more clicks/impressions and the better average position,7,3634,18,3659
+/limerick/,/it-support-limerick/,keeps the page with more clicks/impressions and the better average position,3,456,20,4728
+/waterford/,/it-support-waterford/,keeps the page with more clicks/impressions and the better average position,6,388,12,3670
+/it-support-south-dublin/,/south-dublin/,keeps the page with more clicks/impressions and the better average position,3,2425,8,7207
+/dublin-city-centre/,/it-support-dublin-city-centre/,keeps the page with more clicks/impressions and the better average position,1,1422,6,3499
+/managed-services/,/business-continuity-services/managed-services/,keeps the page with more clicks/impressions and the better average position,0,419,1,1790
+/procurement/,/business-continuity-services/procurement/,keeps the page with more clicks/impressions and the better average position,1,4,1,4087
+/professional-services/,/business-continuity-services/professional-services/,keeps the page with more clicks/impressions and the better average position,0,87,1,173
+/third-party-services/,/business-continuity-services/third-party-services/,keeps the page with more clicks/impressions and the better average position,0,20,0,28
+/business-continuity/,/business-continuity-services/,keeps the page with more clicks/impressions and the better average position,0,246,2,1938

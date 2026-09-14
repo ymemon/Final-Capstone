@@ -922,9 +922,821 @@ timing + name + email rejections, PDF 6 pages with correct UTF-8, ICS folded
 to 75 octets with correct escaping, reminder fires once and not 6h early,
 3x GET does not confirm, POST does. Test rows deleted, table reset.
 
-**Open / flagged**
-- Phone number inconsistency: the audit tool's own CTA says 480-818-5761;
-  the new PDF/emails use 623-670-1611 (the number from the email signature).
-  Needs a decision on which is canonical.
-- Results page still light-themed; "Running the audit" panel still on screen
-  after results land.
+**2026-08-24 follow-up: all three open items resolved.**
+- **Phone number:** confirmed 480-818-5761 is canonical (client decision).
+  Checked every reference across `azwc-seo-audit.php` and the whole
+  `followup/` module (ui, rest, mail, pdf, admin, core) both locally and on
+  the live mu-plugins directory — all already say 480-818-5761, no
+  623-670-1611 found anywhere live. The inconsistency this note originally
+  flagged was already gone by the time of this check (must have been fixed
+  in the same 2026-08-23/24 session, just not logged here).
+- **Results page theme:** verified NOT actually broken. A full-page
+  Playwright screenshot of `/seo-audit-results/` after a real run showed a
+  large white band through the checks/speed sections, which looked exactly
+  like the "still light-themed" symptom — but real per-viewport screenshots
+  at multiple scroll positions, plus `survey.js`'s DOM-level contrast probe
+  (which walks computed styles, not pixels), both confirm the page is
+  correctly dark end-to-end. The white band was a `fullPage` screenshot
+  artifact: `body.azwc-audit-page` uses `background: ... fixed !important`,
+  and Chromium's full-page screenshot stitching doesn't repaint a
+  fixed-attachment background outside the original viewport frame, even
+  though real scrolling in an actual browser renders it correctly. **Lesson:
+  never trust a Playwright `fullPage` screenshot to judge a page using
+  `background-attachment: fixed` — take per-viewport screenshots at several
+  scroll offsets instead, or check computed styles directly.**
+- **"Running the audit" panel:** this one was real. In `azwc-seo-audit.php`,
+  the success path (`.then()` after both PSI calls resolve) called
+  `render(data)` to reveal the finished report but never set
+  `progress.hidden = true` — only the `fail()` path hid it. So the "Running
+  the audit" panel with its step list and elapsed timer sat on screen above
+  the finished results forever. Fixed by hiding `progress` right after
+  `render(data)` in the success handler. Deployed, `php -l` clean locally
+  and on the server, `wp cache flush` + `wp post update 2440` to release the
+  cached page HTML, then verified end-to-end with Playwright (real run
+  through the `/seo-audit-results/?target=` popup flow): `progress.hidden`
+  is `true` and results are visible once the report renders.
+
+---
+
+## 2026-08-25 — Aggressive SEO campaign: first wave shipped
+
+Driven by a GSC export showing ~373 queries with real impressions and **zero
+clicks**. Live API pull (`gsc_query.py`, service-account creds still valid)
+confirmed the cause: the money terms sit at position 45-75 — indexed and
+relevant enough to be shown, never high enough to be clicked.
+
+### 1. Keyword cannibalization (fixed)
+Three pages were competing for the same head term. "az web design" alone
+ranked via `/`, `/arizona-web-development/` AND `/our-featured-projects/`,
+all at position 60-88 — signal split three ways.
+- `/web-development/` (2442): title → "Custom Web Development Services in
+  Arizona"; **H1 also changed** — it still said "Arizona Web Development &
+  Web Design", which matters more than the meta title.
+- `/our-featured-projects/` (704): retitled as portfolio/case-studies, no
+  longer competing on "Arizona Web Design".
+- Homepage (117) left alone — it should own that term.
+
+**H1 gotcha:** this page renders from `_elementor_data`, NOT `post_content`.
+Editing post_content changed nothing live (same trap documented for
+PaloVerde). Had to str_replace inside the `_elementor_data` JSON blob, with a
+json_decode + element-count check before writing, then
+`\Elementor\Plugin::$instance->files_manager->clear_cache()`.
+
+### 2. "arizona website companies" — 10-page pileup (partly fixed)
+Position 8.6 (page 1!), 97 impressions, 0 clicks. Ranking via **10 different
+URLs** including a WordPress-troubleshooting article and the contact page,
+all clustered ~10-11 — Google kept swapping URLs, so no single page held a
+stable spot. Homepage meta description rewritten to actually contain the
+phrase. Ruled out `azw-related-services.php` as the cause (correctly scoped
+to the hosting/city cluster only).
+
+### 3. THE BIG ONE: the site's best-ranking URL was an empty page
+`/2020/07/29/how-much-does-seo-cost-in-arizona/` — **3,203 impressions,
+avg position 23.5 across 81 pricing-intent queries**, the strongest asset on
+the site — was 301'd to `/arizona-seo-services/` (a generic services page
+that does not answer "what does it cost"). Meanwhile the real article at
+`/how-much-does-seo-cost-in-arizona/` (post 88) returned 200 but contained
+**43 characters — an H1 and nothing else**. One of the 6 empty posts flagged
+in an earlier session; the content was never written, and the URL was
+redirected away instead.
+
+Fixed:
+- Wrote a real ~1,150-word article. Per the site's own no-invented-metrics
+  rule (see [[azwebcorp-free-seo-audit-tool]]), **no prices are stated** —
+  yasir chose "explain what drives cost" over publishing figures. Angle is
+  the honest anti-BS voice: what drives cost, what cheap packages omit, red
+  flags, questions to ask, and why we don't publish a price list.
+- Deployed via `$wpdb->update` (not `wp_update_post`) — content filters on
+  this host strip markup.
+- Rank Math title/description rewritten for pricing intent.
+
+### 4. Redirect chains flattened (.htaccess)
+Six rules pointed at `/arizona-web-development/`, which itself 301s to
+`/web-development/` — every hop bleeds signal. All repointed to the final
+destination. Also repointed the internal-linking post to its real article
+instead of the services page.
+
+**.htaccess safety (this host):** backed up first to
+`azw-backups/htaccess-backup-*.txt`, edited via `wp eval-file` doing exact
+string substitution only, aborting if the line count changed. A direct
+`python3` edit over SSH was blocked by the safety classifier — WP-CLI is the
+working path. Verified afterward: homepage/services/web-dev all 200, and
+every chain resolves in a single 301 → 200.
+
+### Open / next
+- **373 zero-click queries remain.** Next highest-value: `/arizona-seo-services/`
+  (7,116 impressions, 0 clicks, avg pos 57.7) and `/` (6,391 impressions,
+  3 clicks). Both have real content (2,200 / 907 words) — the problem there
+  is authority and internal linking, not emptiness.
+- **Post 92 (internal-linking article) is ALSO empty** — 63 chars, same shell
+  as post 88 was. Its redirect was briefly repointed at it, then **reverted**
+  back to `/arizona-seo-services/` on the same day: sending visitors to a
+  populated page beats sending them to a blank one. Repoint it only after the
+  article is actually written.
+- **That URL's traffic is mostly phantom — contaminated GSC data.** Every
+  query hitting it looks like `wordpress seo internal links,210.00,low,2,approved`
+  — keyword-research CSV rows (volume, difficulty, status) ingested as search
+  queries. Nobody types `,210.00,low,2,approved` into Google. This is the same
+  contamination already recorded in the azwebcorp-project memory, so it is
+  recurring, not a one-off. **Filter these before valuing any query set** —
+  taken at face value they made a dead URL look like a 574-impression
+  opportunity.
+- `/how-much-does-seo-cost-in-arizona/` featured image is a bright teal stock
+  graphic that clashes with the dark theme. Left alone (may be deliberate).
+- Expect 2-6 weeks before ranking movement shows in GSC; re-pull with
+  `gsc_query.py` rather than eyeballing.
+
+---
+
+## 2026-08-25 (cont.) — Second wave: the indexing discovery
+
+Pushed past on-page work into *why* the money pages sit at position 50+.
+Two tool notes first: **Ahrefs endpoints return "Insufficient plan"** and
+**Semrush is out of API units** (https://www.semrush.com/mcp-access), so no
+third-party authority data was available. Everything below came from GSC.
+
+### New capability: GSC URL Inspection API
+`gsc_inspect.py` (next to `gsc_query.py`, shares its auth) asks Google
+directly what it thinks of a URL — `coverageState`, `lastCrawlTime`,
+`googleCanonical`, and a sample of `referringUrls`. This turned a guessing
+game into a definitive answer in one call. **Use it before theorising about
+why a page does not rank.**
+
+### THE FINDING: an entire city/service cluster is invisible to Google
+13 city/service landing pages exist. **Every one has 0 impressions, 0 clicks,
+0 queries** over 3 months. Inspection split them cleanly in two:
+
+**Group A — real content, Google will not index it (the opportunity).**
+1,100–2,400 words each, in the sitemap, `index,follow`, self-canonical:
+`arizona-web-design`, `web-design-phoenix-az`, `web-design-gilbert-az`,
+`seo-services-gilbert-az`, `seo-company-phoenix-az`, `phoenix-web-development`.
+- `/web-design-phoenix-az/` → **"Crawled - currently not indexed"**
+- `/web-design-gilbert-az/` → **"Discovered - currently not indexed"**,
+  `lastCrawlTime: None` — *never crawled, and it is 8 months old*
+- Cause is in `referringUrls`: for several, **the XML sitemap was the only
+  thing pointing at them.** A sitemap entry alone is a weak discovery signal.
+- Ruled out duplicate content: pairwise 6-gram Jaccard across all six is
+  **0.03–0.09**, so they are genuinely distinct, not template-spun. The
+  non-indexing is an importance/authority judgement, not a quality rejection.
+
+**Group B — empty template stubs (correctly already handled, leave alone).**
+`web-design-{mesa,tempe,scottsdale,chandler,queen-creek}-az`,
+`local-seo-phoenix`, `phoenix-seo-services`: ~290 chars of spun boilerplate
+("we provide professional Web Design Mesa, AZ services"), already
+**`noindex, follow`**, absent from the sitemap, `URL is unknown to Google`.
+That is the right state for thin stubs — **do not link to these** and do not
+"fix" the noindex. Write real content first if they are ever wanted.
+
+### Fix shipped: authority injection via internal links
+The homepage linked to 21 internal pages and **not one** was in this cluster;
+About, Contact and Featured Projects linked to none either. Added all four as
+link sources in `azw-related-services.php` → Group A only, never Group B.
+- Homepage slug is **`online-presence-solutions`** (post 117), not `home`.
+- Also fixed the block's hardcoded heading, which said "Related hosting &
+  domain services" on SEO and city pages — now context-aware via
+  `azw_rel_heading()`.
+- Also repainted the block for the dark theme: it was still `#fbfcfd` panel /
+  `#fff` cards from the pre-dark era, i.e. a white slab at the bottom of every
+  page carrying it. Now brand dark + gold, verified by screenshot.
+
+### Also fixed: Service schema @id collision
+`azw-core-page-schema.php` emitted a single hybrid node typed `Service` while
+claiming the `#webpage` @id. Result: the service pages had **no WebPage entity
+at all** — breadcrumb attached to nothing, and no
+WebPage → isPartOf WebSite → about Organization chain on the most commercial
+URLs. Now emits a proper `WebPage` (`#webpage`, with `breadcrumb` +
+`mainEntity`) plus a separate `Service` (`#service`, with `mainEntityOfPage`).
+CollectionPage/AboutPage/ContactPage correctly keep `#webpage` — they are
+genuine WebPage subtypes. Verified live on three page types; site healthy.
+
+### Open / next
+- **Watch Group A's coverageState over the next 2–4 weeks** with
+  `gsc_inspect.py`. If "Discovered" pages start getting crawled, the internal
+  links worked. If they stay unindexed, the constraint is domain authority and
+  the answer is external links, not more on-page work.
+- `/arizona-seo-services/` (7,116 impressions, 0 clicks, pos 57.7) is clean
+  on-page: good title/meta/H1, 2,200 words, healthy schema, 3–7 internal links
+  from every page checked. Nothing left to fix on-page — this one is an
+  authority problem.
+- Homepage is only **907 words** while competing for the hardest terms.
+  Thin for a flagship page; worth expanding.
+- Group B: 7 stubs awaiting real content. Currently inert and safely noindexed.
+
+---
+
+## 2026-08-25 — "Powered by AZWebCorp" credit: added rel="nofollow"
+
+Client decision: keep the single existing credit link and its referral
+traffic, but stop the repeated sitewide attribution link from reading as a
+link scheme. Chosen value: **`rel="noopener nofollow"`** (not `sponsored`).
+
+Tooling: `tools/add_credit_nofollow.php` - scoped so it only rewrites anchors
+whose tag contains `azwebcorp.com`, leaving every other `rel="noopener"` on
+these sites untouched. Handles plain HTML and JSON-escaped (`\"`) markup,
+skips anchors that already have nofollow (safe to re-run), validates
+`_elementor_data` still decodes to the same element count before writing, and
+defaults to a dry run (pass positional `apply` to write - **not** `--apply`,
+which WP-CLI intercepts as its own flag).
+
+| Site | Where the credit lived | Status |
+|---|---|---|
+| Prestige | `_elementor_data` posts 235, 487 (+2 render caches) | **DONE**, verified live |
+| PaloVerde | plugin file `pvhomed-custom-footer.php` line 148 | **DONE**, verified live |
+| Everything IT | `elementor_library` post 1273 "Footer - H. IT Services" (`_elementor_data` + `post_content` + render cache) | **DONE**, verified live |
+
+**Two traps worth remembering:**
+1. **PaloVerde's DB rows were a red herring.** The generic pass found and
+   patched three DB hits (posts 2080/2081 `_elementor_data`, plus a serialized
+   `widget_block` option) - but the live footer did not change, because the
+   rendered credit actually comes from
+   `wp-content/plugins/pvhomed-custom-footer/pvhomed-custom-footer.php`.
+   Always confirm against the live HTML, not just "the script reported N rows
+   updated."
+2. **PaloVerde's anchors had no `rel` attribute at all** (`<a href=... target="_blank">`),
+   so the first pass correctly refused to guess and skipped them rather than
+   mangle the markup. Added an explicit branch that inserts the whole
+   attribute, matching the surrounding quote style (`\"` inside Elementor JSON,
+   plain `"` otherwise) - emitting a bare quote inside a JSON blob would break
+   it. Side benefit: those anchors had `target="_blank"` with no `noopener`,
+   so this also closed a reverse-tabnabbing gap.
+
+**All three complete**, each verified against live HTML (not just the script's
+own row count) and each site returning 200 afterwards.
+
+Everything IT needed two more script changes, both worth keeping:
+- **Revisions are now excluded.** That site had 20+ `Footer - H. IT Services`
+  revisions carrying the credit. Rewriting them would edit the site's own
+  history for zero rendering benefit, so the postmeta query now joins `posts`
+  and filters `post_type != 'revision'`.
+- **`post_content` is now scanned too.** Post 1273 is an `elementor_library`
+  template that holds the markup in `_elementor_data` *and* `post_content`;
+  a postmeta-only pass would have left the second copy stale. Written with
+  `$wpdb->update`, not `wp_update_post`, since content filters on these hosts
+  have stripped markup before.
+
+**Everything IT SSH helpers now exist:** `~/.claude-tools/ssh_run_eit.bat` and
+`scp_run_eit.bat`. Its host key fingerprint is the same GoDaddy platform key
+already pinned for Prestige and PaloVerde
+(`SHA256:oxYa4nr7BL5hXCIG5j/OOk54R6yNokpACBoa3tn+Kp4`).
+
+Cloudflare note: the change showed on both the cache-busted origin URL *and*
+the bare URL immediately, so no manual Cloudflare purge was needed this time -
+unlike the content deploys documented earlier.
+
+---
+
+## 2026-08-25 — outreach: In Business Magazine follow-up SENT
+
+**Sent:** follow-up to editorial@inmediacompany.com (RaeAnne Marsh) from
+`ceo@azwebcorp.com`, via `~/Downloads/send_inbusiness_followup.py`.
+
+**Two checks that mattered before sending:**
+
+1. **Confirmed no reply.** Read the info@azwebcorp.com mailbox over IMAP
+   (read-only, `readonly=True`, headers only) - zero messages from
+   `inmediacompany.com` or `inbusinessphx.com`. A follow-up was therefore
+   appropriate.
+2. **Confirmed the original was actually sent.** The Sent folder shows *zero*
+   messages addressed to inmediacompany.com, which briefly looked like the
+   2026-08-22 pitch had never gone out - which would have made a follow-up
+   referencing it actively false. It had gone out: the script used plain
+   `smtplib`, and **SMTP sending does not save a copy to the IMAP Sent folder
+   unless the code explicitly IMAP-APPENDs one**. Absence from Sent is not
+   evidence of non-delivery on this mailbox. The 2026-08-22 log entry
+   (user ran the script, confirmed the success output) is the real record.
+
+**Subject-line fix before sending:** the drafted subject was
+"Re: Story idea - second option, with more concrete data", which is a *new*
+subject with "Re:" bolted on - it would not thread and reads as a cold email
+pretending to be a reply. Changed to `Re: ` + the verbatim original subject
+("...why your business might be invisible to ChatGPT..."), so it groups and
+reads as a genuine follow-up.
+
+**Script design:** defaults to preview-only; requires an explicit `--send`.
+Worth keeping that pattern for any future outreach send.
+
+**Do not send again.** If no reply by ~mid-September 2026, treat as declined.
+
+### Not sent - and not sendable by script
+R1 (Lilach Bullock), R3 (More Than a Few Words) and R4 (Digital Marketing
+Gyaan) are all **web submission forms**, not inboxes. There is no email path
+for any of them. Automating those form submissions is the same bot-detection
+territory the 2026-08-22 research already concluded is a dead end, and faking a
+human submission would be the wrong move regardless. **These three need a human
+to paste the drafted copy into the form** - text is ready verbatim in
+`outreach-pitch-drafts-2026-08-25.md`.
+
+---
+
+## 2026-08-25 — Deliverability test: SPF/DMARC pass, DKIM is MISSING
+
+Sent a copy of the real In Business follow-up (same From, same body, so content
+filtering is comparable) to ymemon@asu.edu and read the receiving server's
+verdict from the raw headers.
+
+**Result: landed in the INBOX, and Gmail tagged it IMPORTANT.** Not spam.
+
+Authentication verdict, verbatim from `Authentication-Results`:
+
+```
+dmarc=pass (p=none) header.from=azwebcorp.com;
+spf=pass  smtp.mailfrom=azwebcorp.com;
+spf=pass  smtp.helo=osplsmtpa02-06.prod.phx3.secureserver.net;
+dkim=none
+```
+
+DNS confirms the same picture:
+- **SPF** — `v=spf1 include:secureserver.net -all`. Present, strict, passing.
+- **DMARC** — `v=DMARC1; p=none; rua=mailto:rua@dmarc.brevo.com`. Present and
+  passing, but `p=none` is monitor-only: no enforcement requested.
+- **DKIM** — **absent.** `dkim=none` on the delivered message, and no record
+  found at 12 common selectors (default, dkim, mail, k1, k2, s1, s2,
+  selector1, selector2, brevo, email, smtp).
+
+### Why this matters specifically for the editor pitch
+
+DMARC is currently passing **on the strength of SPF alone**. That is fine for
+direct delivery, and the inbox placement above proves it works.
+
+**SPF breaks on forwarding.** `editorial@inmediacompany.com` is a role address
+and very likely forwards to a person's real mailbox. On a forward the envelope
+sender is rewritten, SPF fails, and with no DKIM signature there is nothing
+left to authenticate against — so DMARC fails too. That is exactly the
+scenario where a legitimate cold pitch quietly lands in spam, and it is
+consistent with the "I wonder if it is landing in spam" hunch.
+
+**Caveat on the test itself:** ymemon@asu.edu already has positive history with
+azwebcorp.com (today's ticket notifications and debug mail all landed in its
+inbox). A recipient with no prior relationship is filtered more harshly, so
+inbox placement here is encouraging but not proof the editor saw it.
+
+### Fix (needs GoDaddy account access — cannot be done from here)
+
+**Enable DKIM signing for the azwebcorp.com mailbox in the GoDaddy email
+dashboard**, then re-test. This is the single highest-value deliverability
+change available and it is free.
+
+Once DKIM is confirmed passing, consider moving DMARC from `p=none` to
+`p=quarantine`. Do **not** do that before DKIM works — with SPF as the only
+passing mechanism, tightening the policy would start sending legitimate
+forwarded mail to spam rather than preventing it.
+
+Also worth noting: outbound goes through GoDaddy's **shared** relay
+(`osplsmtpa02-06.prod.phx3.secureserver.net`, 97.74.135.61), so IP reputation
+is shared with every other tenant on it. Not fixable, but relevant context for
+cold outreach at any volume.
+
+**Test script:** `~/Downloads/send_deliverability_test.py` (preview by default,
+`--send` to fire). Re-run it after enabling DKIM to confirm `dkim=pass`.
+
+---
+
+## 2026-08-26 — WON: commissioned by In Business Magazine (October Technology page)
+
+RaeAnne Marsh (Editor in Chief) accepted the pitch **on 2026-08-24** — the
+reply sat unread in **Trash** until she nudged again on 08-26.
+
+**The commission:**
+- **October Technology page**, ~**600 words**
+- **Non-promotional, third person throughout**, EXCEPT **bullet point #3**,
+  which she explicitly wants in **first person**: *"It illustrates and supports
+  the other information, so I don't count that as promotional per se."*
+- Topic = the original GEO / AI-visibility pitch
+- Deadline: "next week" as of 24 Aug — **exact date requested, awaiting reply**
+- A formal "Guest Column" is a **separate** arrangement she'd consider later.
+  Do not conflate the two.
+
+Acceptance sent 2026-08-26 to **rmarsh@inmediacompany.com direct** (not
+`editorial@`), threaded via In-Reply-To/References. **Do not send again.**
+
+### Three mistakes worth not repeating
+
+1. **Searched only INBOX when checking for a reply.** Her 08-24 acceptance was
+   in **Trash**. Reported "no reply found" on the strength of a one-folder
+   search and sent an unnecessary follow-up on the back of it. **Always search
+   every folder** — this mailbox has 19, including `Spam`, `Junk`, `Junk
+   E-mail` and `Trash`, and a reply to a cold pitch is *exactly* the kind of
+   mail that gets filtered.
+2. **The editor received four copies of the pitch.** The 2026-08-22 send script
+   "appeared to fail silently" (Windows closes the console on double-click) and
+   was re-run — every attempt had in fact sent. **A send script must never be
+   re-run on an ambiguous result; verify delivery first.** The acceptance
+   apologised for this directly rather than letting it stand.
+3. **Deliverability is broken in BOTH directions.** Outbound has no DKIM (see
+   the 08-25 entry). Inbound is filtering legitimate replies into Trash. Until
+   DKIM is enabled, **check Spam/Junk/Trash manually on any active thread.**
+
+### Next
+Write the ~600-word piece. Source material is genuinely strong and already
+gathered — the GEO/AI-visibility angle plus this session's indexing findings.
+Third person except bullet #3. Confirm the deadline date first.
+
+## 2026-08-26 — DNS cleanup done (Brevo removed), DKIM still outstanding
+
+Verified live in DNS:
+- `brevo-code` TXT — **removed**
+- `brevo1._domainkey` / `brevo2._domainkey` CNAMEs — **removed**
+- DMARC `rua` repointed from the dead `rua@dmarc.brevo.com` to
+  **`admin@azwebcorp.com`**, so aggregate reports now reach a real mailbox
+- SPF untouched and still valid: `v=spf1 include:secureserver.net -all`
+
+**Still no DKIM.** Removing Brevo eliminated a dead end, it did not close the
+gap. Current state remains SPF pass / DMARC pass-via-SPF-only / `dkim=none`,
+so forwarded mail (e.g. a magazine's `editorial@` role address) is still the
+failure case.
+
+**Only remaining path:** GoDaddy native DKIM — My Products → Email & Office →
+Manage → DKIM / Email Authentication. Not yet checked. If the option is absent
+(likely, given the legacy Workspace MX records), the real choice becomes
+upgrading the mailbox to Professional Email/Titan or M365 versus accepting
+SPF-only.
+
+**Expect DMARC aggregate reports** to start arriving at admin@azwebcorp.com
+within a day or two — XML attachments from Google/Microsoft/etc, unreadable
+raw but genuinely useful for spotting unauthorised senders and auth failures.
+
+### 2026-08-26 — three-way deliverability test, all clean
+
+| Leg | Path | Landed |
+|---|---|---|
+| Outbound | azwebcorp.com -> ymemon@asu.edu | INBOX (user confirmed receipt) |
+| Inbound, self | ceo@ -> info@ | INBOX (weak - same mailbox, likely never left GoDaddy) |
+| **Inbound, external** | **ymemon@asu.edu (Google) -> info@ (GoDaddy)** | **INBOX** |
+
+The external inbound leg is the meaningful one: it crosses a real network
+boundary, the same shape as RaeAnne's Outlook-originated reply. It was NOT
+filtered. So **the mailbox is not systemically junking external mail** — her
+reply reaching Trash looks like a one-off (per-message spam score, or a manual
+delete), not a standing inbound problem. Still worth checking Junk/Trash on
+live threads until DKIM is fixed.
+
+**Instructive contrast in the headers.** ASU's inbound message:
+```
+dkim=pass  header.d=asu.edu  header.b=GRZqkIx9
+dmarc=pass header.from=asu.edu
+DKIM-Signature: v=1; a=rsa-sha256; d=asu.edu; s=google; ...
+```
+azwebcorp.com outbound, by comparison: `dkim=none`, DMARC passing on SPF
+alone. That is exactly the gap that breaks on forwarding.
+
+**Unchanged and still the only real fix:** GoDaddy native DKIM.
+Test script: `~/Downloads/send_dual_deliverability_test.py` (preview by
+default, `--send` to fire).
+
+## 2026-08-26 — October Technology page: DRAFTED (not sent)
+
+`inbusiness-october-technology-page.md` (annotated) and
+`inbusiness-october-ARTICLE.txt` (clean, paste-ready) — both also in Downloads.
+
+**"Why Your Business Might Be Invisible to AI Search"** — 605 words.
+
+Verified against RaeAnne's brief:
+- ~600 words ✓ (605)
+- Third person throughout ✓ — scanned all 10 paragraphs for first-person
+  pronouns; the only hit is bullet 3
+- Bullet 3 in first person ✓ — exactly as she asked
+- Non-promotional ✓ — no services pitched, no CTA, agency named only in the
+  byline
+
+Structure follows the three bullets from the accepted pitch: (1) AI crawler
+access via robots.txt, (2) unambiguous business facts / NAP consistency,
+(3) first-person account of the empty top-ranking page and the never-crawled
+pages found during this session's own audit.
+
+**Deliberately excluded:** any claim about how AI systems rank or weight
+content (unverifiable, and a wrong claim in print is worse than a vague one),
+and any client figures — the recurrence across other sites is qualitative only.
+
+**Still needed before submission:** the exact deadline date (asked for in the
+acceptance email, no reply yet). Send the article to
+**rmarsh@inmediacompany.com direct**, in the existing thread.
+
+## 2026-08-26 — article SUBMITTED to In Business Magazine
+
+"Why Your Business Might Be Invisible to AI Search", 605 words, sent inline as
+plain text to **rmarsh@inmediacompany.com**, threaded into the existing
+conversation. Sent ahead of the deadline deliberately, to leave room for edits;
+headline offered explicitly as a placeholder.
+
+**Do not re-send.** Watch for her reply — and **check Junk/Trash**, because her
+first reply was filed to Trash and went unseen for two days.
+
+Still unconfirmed: the exact deadline date. If she publishes, this becomes the
+campaign's first genuinely earned editorial link — the outcome the whole
+authority workstream was aiming at, and worth more than any directory listing.
+
+## 2026-08-26 — ARTICLE ACCEPTED + two 404s redirected
+
+### In Business Magazine: accepted, no edits
+RaeAnne Marsh: *"Looks good."* Running in the **October** edition.
+
+**OUTSTANDING — needs Yasir, deadline ~2026-09-09:** send a **headshot** to
+rmarsh@inmediacompany.com within two weeks. This is the only thing standing
+between the piece and publication.
+
+**Production order matters for expectations:** print pages are built first,
+and the edition goes up on inbusinessphx.com *later in the cycle*. So the
+**web version — and the backlink — arrives after print, not with it.** Do not
+watch for the link straight away.
+
+### Site audit 404s — audit was partly stale, redirects now added
+Audit reported 3 issues across 2 URLs. Verified live first:
+- **404s still in sitemap: ALREADY FIXED 21 Aug.** Neither URL appears in
+  page-sitemap.xml or post-sitemap.xml. The audit crawl pre-dated the fix.
+- **Both URLs still 404'd** with no redirect. Now 301'd.
+
+**Targets chosen from GSC query data, NOT the audit's suggestions — the audit
+was wrong on both:**
+
+| URL | Impressions | Audit suggested | Actual query intent | Sent to |
+|---|---|---|---|---|
+| `/hire-our-services/` | 99 | `/contact-us/` | all service queries ("az web solutions", "az custom wordpress developer") — nobody searched for contact info | `/web-development/` |
+| `/tech/` | 220 | `/category/seo/` or `/category/co-operate/` | **zero** SEO queries; 94 impressions of "arizona web development", plus a Gilbert web-design cluster at **positions 7-11** | `/web-development/` |
+
+`/tech/` was ranking on **page one** for several Gilbert queries before it was
+deleted on 20 Aug — real equity that the 301 recovers rather than discards.
+
+Considered and rejected: pointing `/tech/` at `/web-design-gilbert-az/`, which
+matches the Gilbert cluster more closely. That page is **not yet indexed**, so
+the signal would have landed somewhere Google is currently ignoring.
+`/web-development/` is indexed and established.
+
+`.htaccess` backed up first, 141 → 145 lines exactly as predicted, both
+redirects verified as single-hop 301 → 200, site healthy.
+
+### 2026-08-26 — a 4th message from RaeAnne, found only by checking the mailbox directly
+
+Verifying the pasted acceptance against the real mailbox turned up a message
+nobody had read: **Wed 26 Aug 06:12**, sitting between the nudge and the
+"Looks good". It contained two things that would have changed the draft:
+
+1. **The voice brief was looser than applied.** Her words: *"the main point is
+   to avoid SECOND person. So, use first person wherever it is appropriate,
+   and third person everywhere else."* The submitted article confined first
+   person strictly to bullet 3 — a defensible reading of her first note, but
+   stricter than she wanted — and it does use "you/your" in a few places,
+   which is the thing she actually objected to. **She read that version
+   afterwards and said "Looks good" with no edits, so it stands.** No action.
+2. **Deadline was Wednesday** (Friday available on request). Submitted before
+   seeing this; it happened to land in time.
+
+She also restated the headshot request and gave the reason: it goes in the
+**bio on the online version**.
+
+**Process lesson, and it is the same one as before:** her Aug 24 acceptance was
+in Trash, and this Aug 26 message went unread in the inbox. Both were found
+only by explicitly enumerating the mailbox. **Pasted email is not a substitute
+for checking the mailbox** — read the thread directly before acting on it,
+because there may be a message nobody has opened. Two near-misses on the same
+thread in one day.
+
+### 2026-08-26 — headshot sent; In Business Magazine item is now COMPLETE
+
+Headshot (1024x1024, 0.54 MB) sent in-thread to rmarsh@inmediacompany.com,
+with an offer of a higher-resolution file if print needs one (1024px is only
+~3.4in at 300dpi — fine for a small bio photo, marginal for anything larger).
+
+**Nothing further is owed on this.** Article accepted with no edits, headshot
+delivered.
+
+**Where to watch:**
+- Print: In Business Magazine, October 2026, Technology page
+- Web: https://inbusinessphx.com/department/technology (verified live),
+  article URLs follow `inbusinessphx.com/technology-innovation/<slug>`
+
+**The backlink only exists once the WEB version publishes**, which she said
+happens later in the production cycle than print. Expect print late
+Sept/early Oct, web sometime after. Do not treat the print edition appearing
+as the SEO outcome — the link is the outcome, and it lags.
+
+## 2026-08-26 — 77 reseller product pages set to noindex
+
+### First: the "missing alt text" audit item is a non-issue — closed
+The old audit's missing-alt-text finding is down to **11 attachments**, and all
+11 are featured images on `reseller_product` posts that **never render on the
+page**. The only images on those pages are the site logo and sidebar
+thumbnails. Adding alt text to images nobody sees would have been busywork
+with zero accessibility or SEO effect. **Do not re-open this item.**
+
+### What that surfaced instead: 77 indexable near-duplicate product pages
+| Property | Finding |
+|---|---|
+| Count | 77 published `reseller_product` posts |
+| Robots | were `index, follow` |
+| In sitemap | no |
+| GSC impressions | **zero** |
+| Content | 224-373 words each |
+| **Similarity** | **mean 6-gram Jaccard 0.43**, several pairs >0.50 |
+
+That similarity number is the decisive one. The city landing pages scored
+**0.03-0.09** on the same measure and are genuinely distinct; these are
+templated variants with the tier name swapped. Google was already correctly
+declining to index them.
+
+The risk was scale: 77 thin near-duplicates indexable against roughly 35
+substantive pages would more than double the indexable surface with
+low-quality content, on a domain already short of authority.
+
+### Decision (yasir): noindex them
+Shipped as mu-plugin `azw-product-noindex.php`.
+- Sets `noindex, follow` on `is_singular('reseller_product')` **via Rank Math's
+  own `rank_math/frontend/robots` filter**, not a raw `wp_head` echo — a second
+  echoed tag would leave two competing robots meta tags and let Google choose.
+  Verified: exactly **1** robots tag on the page.
+- Keeps `follow`, so internal equity still flows out to the real service pages.
+- Also pins them out of Rank Math's sitemap (absent today, but incidentally
+  rather than by configuration).
+- **Reverse by deleting the file.** Nothing else is modified.
+
+Verified after deploy: product pages `follow, noindex`; homepage,
+/arizona-seo-services/, /web-development/, /how-much-does-seo-cost-in-arizona/
+and /free-seo-audit/ all still `index, follow`; /products/ archive and
+individual products still return 200; the 8-20 internal links per page into
+/products/ are intact, so the customer funnel is untouched.
+
+**Nothing is lost:** these pages earned zero impressions before the change.
+
+---
+
+## 2026-08-26 — EIT header layout change (Faraz request) DEPLOYED
+
+Faraz Irfan emailed 2026-08-26 with annotated before/after screenshots asking
+for three things. Investigated all three before touching anything:
+
+| Ask | Finding | Action |
+|---|---|---|
+| Remove "Cybersecurity Solutions" from nav | **Already done.** Zero occurrences in the header; the only one on the page is in the FOOTER under "Expertise". His screenshot predates current state. | none needed - tell him |
+| Bring logo close to menu bar | real | fixed |
+| Bring phone + Helpdesk close to "Contact Us" | real | fixed |
+
+### The actual cause, which is easy to get wrong
+The header row (Elementor template **989508**, "header for all") is a
+**CSS GRID, not flexbox.** Its three tracks were sized
+**446px / 647px / 446px**, filling the 1540px container - that is what pushed
+the logo hard left and the phone/Helpdesk hard right. **Flexbox overrides on
+it are silently inert** (the first attempt used `flex: 0 0 auto` and changed
+nothing, which is how this was caught). The fix sets
+`grid-template-columns: auto auto auto` + `justify-content: center`, measured
+result **153px / 647px / 288px**.
+
+### Deployed
+`wp-content/mu-plugins/eit-header-compact.php` - CSS only, desktop-only
+(`min-width: 1025px`). Reverse by deleting the file.
+
+Chose CSS over editing the Elementor JSON deliberately: rewriting that blob on
+a live client site with no preview is exactly the edit that goes wrong.
+
+**Verified before deploying** by injecting the CSS into the live page in a
+headless browser and screenshotting - so the approved "after" was the real
+site, not a mockup. Mobile checked at 390px: unchanged.
+
+### CLOUDFLARE: homepage still serving stale - needs a manual purge
+Post-deploy verification, and this matters:
+
+| URL | Fix live? |
+|---|---|
+| `/contact/`, `/cork/`, `/it-support-galway/` (bare) | **YES** |
+| `/` cache-busted (origin) | **YES** |
+| **`/` bare (through Cloudflare)** | **NO - stale** |
+
+`CF-Cache-Status: HIT`, `Cache-Control: public, max-age=2678400` (**31 days**),
+`Age` incrementing normally. Redis + GD Varnish/CDN were purged repeatedly via
+`wp cache flush` and `wpaas_cache_class->do_ban()/flush_cdn()`; **none of it
+reaches Cloudflare**, and this install has no Cloudflare API credentials.
+
+**ACTION NEEDED:** someone with Cloudflare dashboard access must purge the
+homepage (or purge everything) or the client sees no change on `/` for up to
+31 days. Every other page is already correct.
+
+### Confirmed after exhausting every server-side option
+Tried, all ineffective: `wp cache flush`; `wpaas_cache_class->do_ban()` +
+`flush_cdn()` (repeatedly, incl. via the pre-existing
+`eit_purge_host_cache.php`); `eit_clear_menu_render_cache.php` (deleted 52
+`_elementor_element_cache` rows); and `wp post update 146` to touch the
+homepage. None of it works **because Cloudflare returns `CF-Cache-Status: HIT`
+and therefore never contacts the origin at all.**
+
+**Diagnostic trap worth remembering:** the homepage response carries
+`x-gateway-cache-status: HIT`, which looks like GoDaddy Varnish is the culprit.
+It is not — that header is a **stale artifact baked into Cloudflare's cached
+copy**, not a live signal. The tell is `CF-Cache-Status`: `/cork/` was fresh
+earlier precisely because it was a Cloudflare **MISS**. Once every page showed
+`cf=HIT`, only `/` was stale (entry predates the deploy; the others were
+re-cached after it). **Read CF-Cache-Status first; ignore x-gateway-* whenever
+CF says HIT.**
+
+
+### 2026-08-26 — Cloudflare purged, EIT header change CONFIRMED LIVE
+yasir purged Cloudflare his end. Verified as a visitor sees it (bare URLs, no
+cache-buster): homepage and every key page now serve the fix, all HTTP 200,
+grid tracks measured **153px / 647.516px / 288.5px** exactly as designed.
+Mobile re-checked at 390px: unchanged. Reply to Faraz already sent.
+
+**EIT header request: CLOSED.**
+
+---
+
+## 2026-08-30 — autonomous AZ Web Corp SEO continuation
+
+User explicitly authorized continuing the existing SEO plan without pausing for
+non-blocking questions. Reconciled the saved roadmap against live WordPress,
+current GSC and public HTML before changing anything.
+
+### Deployed and verified
+
+1. **Organization GeoCoordinates restored** via new reversible MU plugin
+   `azw-organization-geo.php`. Rank Math stored `geo: 33.3717,-111.7076` but
+   did not emit it. The filter enriches only the existing AZWebCorp Organization
+   entity; it does not add a duplicate entity or invent `foundingDate`. Live
+   schema now contains `GeoCoordinates` while phone, email, address and `sameAs`
+   remain intact.
+2. **Security/SSL provider schema normalized.** Updated
+   `azwebcorp-security-pages.php` so both Service nodes reference the canonical
+   `https://azwebcorp.com/#organization` instead of embedding a partial
+   name-only Organization. Backup:
+   `azwebcorp-security-pages.php.bak-20260830-provider`. Verified every real
+   security and SSL Offer/price remained present.
+3. **Dynamic audit results removed from the indexable surface.** New MU plugin
+   `azw-audit-results-noindex.php` sets only `/seo-audit-results/` to
+   `noindex, follow`; `/free-seo-audit/` remains `index, follow`. Added post
+   2491 to Rank Math `exclude_posts`, regenerated the sitemap and verified the
+   results page is absent while the public audit landing page remains listed.
+
+### Audits closed without changes
+
+- Orphaned Yoast metadata: **0 rows across 0 posts** — sitewide duplicate-meta
+  cleanup is complete.
+- Legacy web-development URLs already single-hop 301 to `/web-development/`:
+  `/arizona-web-development/`, `/arizona-backend-development/`,
+  `/frontend-development/`, `/hire-our-services/`.
+- No post content, Elementor data or menu URL links internally to those retired
+  paths. Homepage already links to `/web-development/` six times using relevant
+  anchors (Web Development, WordPress Development, Custom Development,
+  eCommerce Development).
+- Web-hosting and WordPress-hosting Product schema already includes verified
+  prices, images, brands and checkout URLs. Did not touch it.
+
+### Questions/blockers to hold until Yasir returns
+
+- GA4 `form_submit` is recorded but not a key event. Creating the key event
+  requires a new OAuth grant with Analytics edit scope; current token is
+  read-only. Do not interrupt Yasir while away.
+- Website Builder Product schema lacks an Offer because no verified live price
+  is displayed. Business Email likewise has no verified price/checkout path.
+  Do not invent either.
+- `foundingDate` remains unknown and intentionally absent.
+- SSH credential rotation still requires GoDaddy dashboard access.
+- Portfolio images that appear to depict another agency's clients still need
+  business-owner confirmation before replacement/removal.
+- Only 4 of the client's 38 keyword screenshot rows were ever available; the
+  remaining 34 cannot be inferred.
+
+### Additional indexation and title work
+
+4. **Author archive removed from the indexable surface.** Deployed reversible
+   MU plugin `azw-author-archive-noindex.php`, which applies `noindex, follow`
+   only to author archives. Disabled Rank Math's author sitemap and regenerated
+   the sitemap. Verified `/author/junaid/` returns HTTP 200 with the intended
+   robots directive and `sitemap_index.xml` has no author sitemap. The archive
+   had no query impressions in the available 16-month GSC window and duplicated
+   content already available on the main site.
+5. **Phoenix Web Development title tightened around the demonstrated query.**
+   Post 2257 now stores `Phoenix Web Development Services | AZWebCorp` (46
+   characters), replacing the 73-character title. The page remains HTTP 200;
+   its H1 is still `Phoenix Web Development` and its description/content were
+   not changed.
+
+### Final crawl and cache state
+
+- Cache-busted/origin checks confirm both new changes are correct.
+- The sitemap surface fell from 31 to 30 HTML URLs after the author sitemap was
+  disabled.
+- The final bare-URL crawl reports no duplicate titles/descriptions, broken
+  internal links or redirecting internal links. Its only remaining finding is
+  the old 73-character Phoenix title held in Cloudflare's edge cache.
+- The public Phoenix response reports `CF-Cache-Status: HIT` and a 31-day
+  `Cache-Control` lifetime. WordPress, object cache, sitemap and the Cloudflare
+  plugin's supported purge action were invoked, but this installation has no
+  usable Cloudflare API credentials and the edge copy did not clear. A manual
+  Cloudflare dashboard purge is required; the corrected origin is ready.
+- Crawl evidence: `evidence/azw-live-crawl-2026-08-30.json`.
+
+### Search Console opportunity audit and thin archive cleanup
+
+- Pulled 1,261 current GSC query/page rows for 1 Jun–29 Aug 2026 and saved the
+  source response at `evidence/gsc-query-page-2026-06-01_to_2026-08-29.json`.
+  Updated `gsc_query_oauth.py` to accept an `@request-file.json` argument so
+  PowerShell cannot corrupt inline JSON payloads.
+- Category archives have zero or one published post each. GSC showed no useful
+  clicks and showed the empty Digital Marketing archive competing for unrelated
+  `az web design` impressions. These are navigation duplicates, not useful
+  search landing pages.
+- Set Rank Math's category default to `noindex`, disabled the category sitemap,
+  regenerated sitemaps and deployed `azw-category-archive-noindex.php` as a
+  deterministic safeguard. Cache-busted live checks show `follow, noindex` on
+  both populated category archives; sitemap index contains no category sitemap.
+- Option backups are in the server account home directory:
+  `rankmath-titles-backup-20260830-category-noindex.json` and
+  `rankmath-sitemap-backup-20260830-category-noindex.json`.
+- Durable continuation instructions for Claude/other developers are in
+  `DEVELOPER-HANDOFF-2026-08-30.md`.

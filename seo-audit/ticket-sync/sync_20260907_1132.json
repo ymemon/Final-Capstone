@@ -1,0 +1,46 @@
+{
+  "folder_names": [
+    "(\\HasChildren \\UnMarked) \"/\" Archive",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2026",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2025",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Spam",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"WP candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" AZPL",
+    "(\\HasNoChildren \\UnMarked) \"/\" EverythingIT",
+    "(\\HasChildren \\UnMarked) \"/\" Candidates",
+    "(\\HasNoChildren \\UnMarked) \"/\" Candidates/DCS",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" Notes",
+    "(\\HasChildren \\UnMarked \\Trash) \"/\" Trash",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren \\UnMarked \\Sent) \"/\" Sent",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Junk",
+    "(\\HasNoChildren \\UnMarked) \"/\" INBOX/CASE",
+    "(\\HasNoChildren \\UnMarked \\Drafts) \"/\" Drafts",
+    "(\\HasChildren) \"/\" INBOX"
+  ],
+  "sent_folder_used": "Sent",
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8721,
+        "from": "Praveen Reddy R <praveenreddyr@zealinfy.com>",
+        "to": "\"info@azwebcorp.com\" <info@azwebcorp.com>",
+        "subject": "Exploring a Technology Delivery Partnership | ZealInfy - AZWebCorp",
+        "date": "Mon, 7 Sep 2026 09:40:24 +0000",
+        "message_id": "<PN3P287MB1665F1C380CA646EFF6F9C4BD8B22@PN3P287MB1665.INDP287.PROD.OUTLOOK.COM>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi AZWebCorp Team,\n\nI’m Praveen Reddy R., CEO of ZealInfy Software Pvt Ltd.\n\nYour Arizona-based development model stood out because you explicitly support designers and agencies with overflow capacity and white-label delivery while staying invisible behind their brand.\n\nAt ZealInfy, we are looking to establish select long-term technology delivery partnerships with complementary US providers.\n\nWe bring AI Agents & Agentic AI, OpenAI/Azure OpenAI, LLM & RAG, intelligent automation, document intelligence, C#/.NET, React, Angular, Python/FastAPI, REST APIs, SaaS/custom applications and Microsoft Azure.\n\nWe can support AZWebCorp through white-label delivery, project-based delivery, engineering overflow, AI implementation, co-delivery and ongoing monthly engineering support.\n\nOur objective is straightforward: Help AZWebCorp take on more opportunities without turning away work because of engineering capacity or specialized technical requirements.\n\nWe are comfortable with NDA, white-label arrangements and client protection, and can start with a suitable project or small pilot.\n\nWould you be open to a short 15–20 minute conversation to explore this further?\n\nBest regards,\nPraveen Reddy R. | ZealInfy - CEO\nZealInfy Software Pvt Ltd."
+      }
+    ],
+    "max_uid": 8721,
+    "max_date": "Mon, 7 Sep 2026 09:40:24 +0000"
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 0,
+    "max_date": null
+  }
+}

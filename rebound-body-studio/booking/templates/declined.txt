@@ -1,0 +1,10 @@
+Hi {CLIENT_NAME},
+
+Thank you for your request for {WHEN}. Unfortunately, we're unable to accommodate that time and don't have a suitable alternative available.
+
+We'd love to work with you on a different date. Please visit our booking page to request another appointment: {BASE_URL}
+
+If you'd like to discuss this, feel free to call {STUDIO_PHONE}.
+
+Best regards,
+{STUDIO_NAME}

@@ -1,0 +1,10 @@
+{CAMPAIGN_BODY}
+
+---
+{STUDIO_NAME}
+{STUDIO_ADDRESS}
+{STUDIO_EMAIL}
+
+This is a promotional email from {STUDIO_NAME}.
+Stop marketing emails: {UNSUBSCRIBE_LINK}
+Opting out of promotions does not stop appointment confirmations, reminders, or other appointment messages.

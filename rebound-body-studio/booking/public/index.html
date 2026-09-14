@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<title>Book an Appointment — Rebound Body Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<style>
+:root{
+  --paper:#f2f6f7; --surface:#ffffff; --sunk:#e6eef0;
+  --ink:#0e1c28; --ink-2:#39515f; --ink-3:#68808d;
+  --line:#d7e2e6; --accent:#0a5474; --accent-ink:#063d57; --on-accent:#ffffff;
+  --ochre:#a8830f;
+  --shadow:0 1px 2px rgba(17,33,42,.04), 0 18px 40px -24px rgba(17,33,42,.30);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Newsreader",Georgia,serif; font-size:16px; line-height:1.5;
+  padding:28px 16px;
+}
+.wrap{max-width:600px; margin:0 auto}
+.card{
+  background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  box-shadow:var(--shadow); padding:32px;
+}
+h1{
+  font-family:"Archivo",sans-serif; font-weight:800; letter-spacing:-.02em;
+  font-size:26px; margin:0 0 6px; color:var(--ink);
+}
+.subtitle{color:var(--ink-3); font-size:15px; margin:0 0 28px}
+.label{
+  font-family:"Archivo",sans-serif; font-size:11.5px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3);
+  display:block; margin-bottom:7px;
+}
+.field{margin-bottom:20px}
+input, select, textarea{
+  width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:8px;
+  font-family:"Newsreader",Georgia,serif; font-size:15.5px; color:var(--ink);
+  background:var(--surface);
+}
+input:focus, select:focus, textarea:focus{
+  outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(10,84,116,.12);
+}
+textarea{resize:vertical; min-height:80px}
+.check-row{display:flex; align-items:flex-start; gap:10px}
+.check-row input[type=checkbox]{width:auto; margin-top:3px}
+.check-row label{font-size:14.5px; color:var(--ink-2); font-family:"Newsreader",Georgia,serif}
+button.submit{
+  width:100%; padding:14px; background:var(--accent); color:var(--on-accent);
+  border:none; border-radius:9px; font-family:"Archivo",sans-serif; font-weight:700;
+  font-size:15px; cursor:pointer; transition:background .15s;
+}
+button.submit:hover{background:var(--accent-ink)}
+button.submit:disabled{background:var(--ink-3); cursor:not-allowed}
+.error{color:#b3261e; font-size:13.5px; margin-top:6px; font-family:"Archivo",sans-serif}
+.success{
+  background:var(--sunk); border:1px solid var(--line); border-radius:10px;
+  padding:20px; text-align:center;
+}
+.success h2{font-family:"Archivo",sans-serif; color:var(--accent-ink); margin:0 0 8px; font-size:19px}
+.success p{color:var(--ink-2); margin:0; font-size:15px}
+.day-group{margin-bottom:18px}
+.day-label{
+  font-family:"Archivo",sans-serif; font-size:12.5px; font-weight:700;
+  color:var(--ink-2); margin-bottom:8px; text-transform:uppercase; letter-spacing:.08em;
+}
+.slot-grid{display:flex; flex-wrap:wrap; gap:8px}
+.slot-btn{
+  padding:9px 14px; border:1px solid var(--line); border-radius:7px;
+  background:var(--surface); color:var(--ink); font-family:"Archivo",sans-serif;
+  font-size:13.5px; font-weight:600; cursor:pointer; transition:all .12s;
+}
+.slot-btn:hover{border-color:var(--accent); background:var(--sunk)}
+.slot-btn.selected{background:var(--accent); border-color:var(--accent); color:var(--on-accent)}
+.slots-box{
+  max-height:340px; overflow-y:auto; border:1px solid var(--line); border-radius:10px;
+  padding:16px; background:var(--sunk);
+}
+.slots-empty{color:var(--ink-3); font-size:14.5px; text-align:center; padding:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>Book Your Session</h1>
+    <p class="subtitle">Rebound Body Studio &middot; Mesa, AZ</p>
+
+    <div id="packageNotice" role="status" style="margin-bottom:22px"></div>
+    <p id="packageHelp"><a href="packages.html?v=20260912-square-3#recover" target="_top">Use a package or check your balance</a></p>
+    <p>Times below are in Arizona time. Wendy's corrective exercise appointments are arranged separately through the studio.</p>
+    <form id="bookingForm">
+      <div class="field">
+        <label class="label" for="name">Your Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <div class="field">
+        <label class="label" for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="field">
+        <label class="label" for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone">
+      </div>
+
+      <div class="field">
+        <label class="label" for="service">Service</label>
+        <select id="service" name="service" required>
+          <option value="">Select a service&hellip;</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="label">Available Times</label>
+        <div id="slotsContainer" class="slots-box" style="display:none;"></div>
+        <div id="slotsEmpty" class="slots-empty" style="display:none;">Select a service to see available times.</div>
+        <input type="hidden" id="selectedSlot" name="selectedSlot">
+        <div class="error" id="slotError"></div>
+      </div>
+
+      <div class="field">
+        <label class="label" for="technique">Preferred Technique <span style="text-transform:none;font-weight:500;color:var(--ink-3)">(optional)</span></label>
+        <input type="text" id="technique" name="technique" placeholder="e.g. deep pressure, relaxing">
+      </div>
+
+      <div class="field">
+        <label class="label" for="notes">Notes <span style="text-transform:none;font-weight:500;color:var(--ink-3)">(optional)</span></label>
+        <textarea id="notes" name="notes" placeholder="Anything we should know before your session?"></textarea>
+      </div>
+
+      <p style="font-size:14px">Receive occasional news and special offers, or opt out below.</p>
+      <div class="field check-row">
+        <input type="checkbox" id="marketing" name="marketing">
+        <label for="marketing">Please do not send me marketing emails or special offers</label>
+      </div>
+
+      <p style="font-size:14px;color:var(--ink-2)">You will still receive appointment confirmations and reminders. Previous marketing opt-outs remain in place.</p>
+      <p style="font-size:14px">Please arrive 5–10 minutes early. Review our <a href="policy.html" target="_blank" rel="noopener">cancellation and late-arrival policy</a> before requesting an appointment.</p>
+      <button type="submit" class="submit" id="submitBtn">Request Appointment</button>
+    </form>
+
+    <div id="success" class="success" style="display:none;">
+      <h2>Request Received</h2>
+      <p>Check your email for confirmation — Randi reviews every request personally and will confirm shortly.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Relative, not root-absolute: this page is embedded at /booking/public/
+// on her real domain, but under /preview/rebound/booking/public/ here. A
+// leading-slash path would resolve against the origin root and 404 under
+// any subdirectory deployment; a relative one resolves against this page's
+// own URL and works in both places.
+const API_BASE = '../api';
+let packageToken = new URLSearchParams(location.hash.slice(1)).get('package') || '';
+let activePackage = null, slotsSequence = 0;
+if (packageToken) history.replaceState({packageToken}, '', location.pathname + location.search);
+else packageToken = history.state?.packageToken || '';
+
+
+async function loadServices() {
+    try {
+        if (packageToken) {
+            const response = await fetch(API_BASE + '/packages.php', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'view',token:packageToken})});
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || 'Package not available.');
+            if (data.status !== 'active' || data.remaining < 1) throw new Error('This package has no sessions available to book. Check its payment status and balance.');
+            activePackage = data;
+            document.getElementById('packageNotice').textContent = data.package_name + ': ' + data.remaining + ' sessions available. This request will reserve one session. Gift recipients can enter their own name and email below.';
+            document.getElementById('packageHelp').innerHTML = '<a href="packages.html?v=20260912-square-3#token=' + packageToken + '" target="_top">Back to package balance</a> · <a href="index.html?v=20260912-packages-2">Book without a package</a>';
+        }
+        const res = await fetch(API_BASE + '/services.php?v=20260912-packages', {cache:'no-store'});
+        if (!res.ok) throw new Error('Unable to load services. Please refresh or call the studio.');
+        const services = await res.json();
+        const select = document.getElementById('service');
+        services.filter(s => !activePackage || activePackage.services.some(item => Number(item.id) === Number(s.id))).forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s.id;
+            opt.textContent = s.name + (activePackage ? ' — 1 package session' : ' — $' + (s.price_cents / 100).toFixed(0));
+            select.appendChild(opt);
+        });
+    } catch (e) { document.getElementById('packageNotice').textContent = e.message; document.getElementById('submitBtn').disabled = true; }
+}
+
+document.getElementById('service').addEventListener('change', async (e) => {
+    const serviceId = e.target.value;
+    const sequence = ++slotsSequence;
+    document.getElementById('selectedSlot').value = '';
+    document.getElementById('slotError').textContent = '';
+    document.getElementById('slotsContainer').style.display = 'none';
+    const container = document.getElementById('slotsContainer');
+    const empty = document.getElementById('slotsEmpty');
+    if (!serviceId) { container.style.display = 'none'; empty.style.display = 'block'; return; }
+
+    try {
+        const res = await fetch(API_BASE + '/slots.php?serviceId=' + serviceId + '&_=' + Date.now(), {
+            cache: 'no-store',
+        });
+        const daySlots = await res.json();
+        if (sequence !== slotsSequence) return;
+        if (!res.ok) throw new Error(daySlots.error || 'Unable to load times.');
+        container.innerHTML = '';
+
+        const days = Object.keys(daySlots).sort();
+        if (days.length === 0) {
+            empty.textContent = 'No times currently available for this service.';
+            empty.style.display = 'block';
+            container.style.display = 'none';
+            return;
+        }
+        empty.style.display = 'none';
+
+        days.forEach(date => {
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'day-group';
+            const dayLabel = document.createElement('div');
+            dayLabel.className = 'day-label';
+            dayLabel.textContent = new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
+                weekday: 'short', month: 'short', day: 'numeric'
+            });
+            dayDiv.appendChild(dayLabel);
+
+            const grid = document.createElement('div');
+            grid.className = 'slot-grid';
+            daySlots[date].forEach(slot => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'slot-btn';
+                btn.textContent = slot.label;
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    document.getElementById('selectedSlot').value = slot.start;
+                    document.getElementById('slotError').textContent = '';
+                });
+                grid.appendChild(btn);
+            });
+            dayDiv.appendChild(grid);
+            container.appendChild(dayDiv);
+        });
+        container.style.display = 'block';
+    } catch (e) { if(sequence === slotsSequence) document.getElementById('slotError').textContent = e.message; }
+});
+
+document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const payload = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        serviceId: parseInt(document.getElementById('service').value),
+        startSql: document.getElementById('selectedSlot').value,
+        techniquePref: document.getElementById('technique').value,
+        clientNote: document.getElementById('notes').value,
+        marketingOptOut: document.getElementById('marketing').checked,
+    };
+
+    if (activePackage) { payload.packagePurchaseId = activePackage.id; payload.packageToken = packageToken; }
+
+    if (!payload.startSql) {
+        document.getElementById('slotError').textContent = 'Please select a time slot above.';
+        return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    try {
+        const res = await fetch(API_BASE + '/request.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+        if (!res.ok) {
+            const err = await res.json();
+            throw new Error(err.error || 'Booking failed');
+        }
+        if (activePackage) document.getElementById('packageNotice').textContent = 'One package session is reserved for this request. It will be returned if the appointment is cancelled or declined.';
+        document.getElementById('bookingForm').style.display = 'none';
+        document.getElementById('success').style.display = 'block';
+    } catch (e) {
+        alert('Error: ' + e.message);
+        btn.disabled = false;
+        btn.textContent = 'Request Appointment';
+    }
+});
+
+loadServices();
+</script>
+</body>
+</html>

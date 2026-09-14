@@ -1,0 +1,25 @@
+Hi {CLIENT_NAME},
+
+Your appointment is confirmed!
+
+  {SERVICE_NAME} ({DURATION_MIN} minutes)
+  {WHEN}
+  Price: {PRICE_USD}
+
+We're looking forward to seeing you. Please arrive 5–10 minutes early.
+
+If you need to reschedule or cancel, visit: {MANAGE_LINK}
+
+Cancellation and rescheduling policy: Cancellations or rescheduling with less than 24 hours notice may be charged 50% of the scheduled service amount. With less than 12 hours notice, missed appointments, or no-shows, you may be charged 100% of the scheduled service amount.
+
+Late arrival: If you arrive late, your session may be shortened to honor other scheduled appointments, and you may still be responsible for the full scheduled service fee.
+
+Questions? Call {STUDIO_PHONE} or reply to this email.
+
+Best regards,
+{STUDIO_NAME}
+{STUDIO_EMAIL}
+
+
+Finding Suite 109: Park outside Speakeasy Salon Suites near Knuckle Sandwiches. Look for the purple Speakeasy sign. Inside, follow the first hallway almost to the back. The front TV directory lists Suite 109. If the suite door is closed, please wait in the back waiting room.
+Google Maps: https://www.google.com/maps/dir/?api=1&destination=Speakeasy+Salon+Suites+1138+N+Higley+Rd+Mesa+AZ+85205

@@ -1,0 +1,16 @@
+
+/* -- Hands-on-back illustration -------------------------------------------
+   Original vector drawing: not stock, not a photograph, and hers outright.
+   Every colour is a token so it resolves in both themes. The hands are line
+   work over a pale fill rather than solid silhouettes, which read as gloves. */
+.plate{margin:0 0 54px; border:var(--rule); border-radius:3px; background:var(--sunk);
+  overflow:hidden}
+.plate .handsback{width:100%; height:auto; display:block}
+.plate figcaption{border-top:var(--rule); padding:16px 22px; font-size:15px; color:var(--ink-3);
+  line-height:1.55; background:var(--surface)}
+
+.handsback .contour path{fill:none; stroke:var(--ink); stroke-width:1.25; opacity:.22}
+.handsback .contour-pressed path{fill:none; stroke:var(--accent); stroke-width:1.7; opacity:.5}
+.handsback .spine{fill:none; stroke:var(--ink); stroke-width:1.7; opacity:.3}
+
+.handsback .press circle{fill:var(--accent); opacity:.5}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Your Appointment — Rebound Body Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<style>
+:root{
+  --paper:#f2f6f7; --surface:#ffffff; --sunk:#e6eef0;
+  --ink:#0e1c28; --ink-2:#39515f; --ink-3:#68808d;
+  --line:#d7e2e6; --accent:#0a5474; --accent-ink:#063d57; --on-accent:#ffffff;
+  --ochre:#a8830f; --good:#1e7d47; --bad:#b3261e;
+  --shadow:0 1px 2px rgba(17,33,42,.04), 0 18px 40px -24px rgba(17,33,42,.30);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Newsreader",Georgia,serif; font-size:16px; line-height:1.5;
+  padding:28px 16px;
+}
+.wrap{max-width:520px; margin:0 auto}
+h1{font-family:"Archivo",sans-serif; font-weight:800; letter-spacing:-.02em; font-size:24px; margin:0 0 4px}
+.subtitle{color:var(--ink-3); font-size:15px; margin:0 0 24px}
+.card{
+  background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  box-shadow:var(--shadow); padding:28px;
+}
+.status-pill{
+  display:inline-block; font-family:"Archivo",sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase; padding:4px 12px; border-radius:20px;
+  margin-bottom:16px;
+}
+.status-requested{background:#fdf1dc; color:var(--ochre)}
+.status-confirmed{background:#e7f4ec; color:var(--good)}
+.status-completed{background:var(--sunk); color:var(--ink-3)}
+.status-cancelled, .status-declined, .status-no_show{background:#fbe9e7; color:var(--bad)}
+.detail-row{display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--line); font-size:15px}
+.detail-row:last-child{border-bottom:none}
+.detail-row .k{color:var(--ink-3); font-family:"Archivo",sans-serif; font-size:12.5px; text-transform:uppercase; letter-spacing:.06em}
+.detail-row .v{color:var(--ink); font-weight:500; text-align:right}
+button{
+  font-family:"Archivo",sans-serif; font-weight:700; font-size:14px; cursor:pointer;
+  border-radius:9px; border:none; padding:12px 18px; width:100%; margin-top:22px;
+  background:#fbe9e7; color:var(--bad); transition:background .15s;
+}
+button:hover{background:#f7d9d5}
+button:disabled{opacity:.5; cursor:not-allowed}
+.error{color:var(--bad); font-size:14px; margin-top:14px; font-family:"Archivo",sans-serif; text-align:center}
+.empty-state{text-align:center; color:var(--ink-3); padding:20px 0}
+textarea{
+  width:100%; margin-top:12px; padding:10px 12px; border:1px solid var(--line); border-radius:8px;
+  font-family:"Newsreader",Georgia,serif; font-size:14.5px; resize:vertical; min-height:60px;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Your Appointment</h1>
+  <p class="subtitle">Rebound Body Studio</p>
+
+  <div class="card" id="content">
+    <div class="empty-state">Loading&hellip;</div>
+  </div>
+</div>
+
+<script>
+// Relative, not root-absolute - see booking/public/index.html for why.
+const API_BASE = '../api';
+
+function statusLabel(s) {
+    return s.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function getToken() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('token');
+}
+
+async function load() {
+    const token = getToken();
+    const content = document.getElementById('content');
+    if (!token) {
+        content.innerHTML = '<div class="empty-state">No appointment link provided.</div>';
+        return;
+    }
+
+    try {
+        const res = await fetch(API_BASE + '/manage.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `token=${encodeURIComponent(token)}&action=view`,
+        });
+        const a = await res.json();
+        if (!res.ok) throw new Error(a.error || 'Appointment not found');
+
+        content.innerHTML = `
+          <span class="status-pill status-${a.status}">${statusLabel(a.status)}</span>
+          <div class="detail-row"><span class="k">Service</span><span class="v">${a.service_name}</span></div>
+          <div class="detail-row"><span class="k">When</span><span class="v">${a.when_human}</span></div>
+          <div class="detail-row"><span class="k">Duration</span><span class="v">${a.duration_min} minutes</span></div>
+          <div class="detail-row"><span class="k">Price</span><span class="v">${a.price_usd}</span></div>
+          ${a.studio_note ? `<div class="detail-row"><span class="k">Note from studio</span><span class="v">${a.studio_note}</span></div>` : ''}
+          ${a.can_cancel ? `
+            <p style="font-size:14px">Late cancellations may incur a fee: 50% with less than 24 hours notice; 100% with less than 12 hours notice or for a no-show. <a href="policy.html" target="_blank" rel="noopener">View the full policy</a>.</p><textarea id="cancelReason" placeholder="Reason for cancelling (optional)"></textarea>
+            <button id="cancelBtn">Cancel Appointment</button>
+          ` : ''}
+        `;
+
+        if (a.can_cancel) {
+            document.getElementById('cancelBtn').addEventListener('click', () => cancelAppt(token));
+        }
+    } catch (e) {
+        content.innerHTML = `<div class="error">${e.message}</div>`;
+    }
+}
+
+async function cancelAppt(token) {
+    const btn = document.getElementById('cancelBtn');
+    const reason = document.getElementById('cancelReason').value;
+    btn.disabled = true;
+    btn.textContent = 'Cancelling…';
+    try {
+        const res = await fetch(API_BASE + '/manage.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `token=${encodeURIComponent(token)}&action=cancel&reason=${encodeURIComponent(reason)}`,
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        load();
+    } catch (e) {
+        alert('Error: ' + e.message);
+        btn.disabled = false;
+        btn.textContent = 'Cancel Appointment';
+    }
+}
+
+load();
+</script>
+</body>
+</html>

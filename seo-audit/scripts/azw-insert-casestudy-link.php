@@ -28,7 +28,7 @@ $targets = array(
 		// class attribute or changed whitespace does not break the match.
 		'anchor' => '#<h2[^>]*>\s*When we are the wrong choice\s*</h2>#i',
 		'html'   => "\n<h2>What we can show you</h2>\n\n"
-			. "<p>We are not going to put a fabricated Phoenix result on this page. The one engagement we currently have permission to publish is not a Phoenix one at all — it is a managed IT provider in Ireland, written up on the <a href=\"/case-studies/\">case studies page</a> with its Search Console numbers and with the parts that went sideways left in.</p>\n\n"
+			. "<p>We are not going to put a fabricated Phoenix result on this page. Our published work includes a managed IT provider in Ireland with measured Search Console results and an Arizona window company whose ground-up website is live while its SEO phase is only beginning. Both are documented on the <a href=\"/case-studies/\">case studies page</a>, and unfinished SEO work is labeled as unfinished.</p>\n\n"
 			. "<p>What it demonstrates is method rather than local proof: finding that a site was competing against itself across duplicate location pages, cutting them down, and moving the equity rather than discarding it. That diagnosis is the same one we would run here. Judge it on whether the reasoning matches your situation, not on whether the client shares your zip code.</p>\n\n",
 	),
 	'arizona-seo-services'   => array(

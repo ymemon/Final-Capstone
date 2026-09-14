@@ -1,0 +1,8 @@
+Hi {CLIENT_NAME},
+
+Your appointment for {WHEN} has been cancelled. The slot is now available for other clients.
+
+If you'd like to rebook, visit: {BASE_URL}
+
+See you next time,
+{STUDIO_NAME}

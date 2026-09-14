@@ -1,0 +1,41 @@
+{
+  "folders": [
+    "(\\HasChildren) \"/\" \"INBOX\"",
+    "(\\HasNoChildren \\Sent) \"/\" \"Sent\"",
+    "(\\HasNoChildren \\Drafts) \"/\" \"Drafts\"",
+    "(\\HasNoChildren \\Junk) \"/\" \"Spam\"",
+    "(\\HasChildren \\Trash) \"/\" \"Trash\"",
+    "(\\HasChildren \\Archive) \"/\" \"Archive\"",
+    "(\\HasNoChildren) \"/\" \"Scheduled\"",
+    "(\\HasNoChildren) \"/\" \"AZPL\"",
+    "(\\HasNoChildren) \"/\" \"Archive/2025\"",
+    "(\\HasNoChildren) \"/\" \"Archive/2026\"",
+    "(\\HasChildren) \"/\" \"Candidates\"",
+    "(\\HasNoChildren) \"/\" \"Candidates/DCS\"",
+    "(\\HasNoChildren) \"/\" \"EverythingIT\"",
+    "(\\HasNoChildren) \"/\" \"INBOX/CASE\"",
+    "(\\HasNoChildren) \"/\" \"Junk\"",
+    "(\\HasNoChildren) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren) \"/\" \"Notes\"",
+    "(\\HasNoChildren) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren) \"/\" \"WP candidate\""
+  ],
+  "inbox": {
+    "messages": [
+      {
+        "uid": 4086,
+        "from": "Rebound Massage <massage@reboundbodystudio.com>",
+        "to": "requests@azwebcorp.com",
+        "subject": "PHIL?!",
+        "date": "Sat, 12 Sep 2026 16:59:40 -0700",
+        "message_id": "<CACP5Xgfbukx0bWTByYnasMrOf-pwVrC94OzbCGgG7ZOQbcV12w@mail.gmail.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi!\n\nThis is the lady with Rebound Body Studio. Do you know who I am already\nwhen I email you? I set up a Square account that you can integrate with the\nwebsiteee.... I couldn't find my Merchant ID anywhere, and it looks like\nmaybe they use the email address instead? But there was something about\ndevelopers too in the AI overview (screenshot attached). I don't know what\nyou need :( Can you tell me what else to get to you so that you can attach\nthe square account to the website so clients can buy packages maybe even by\ntomorrow (but if not its okay)?\n\n[image: where to find square merchant id - Google Search.png]"
+      }
+    ],
+    "max_uid": 4086,
+    "max_date": "Sat, 12 Sep 2026 16:59:40 -0700"
+  }
+}

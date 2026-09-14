@@ -1,0 +1,10 @@
+Hi {CLIENT_NAME},
+
+We regret to inform you that we've had to cancel your appointment for {WHEN}. We apologize for any inconvenience.
+
+Please contact us to reschedule: {STUDIO_PHONE} or {STUDIO_EMAIL}
+
+We'd like to find you another time as soon as possible.
+
+Best regards,
+{STUDIO_NAME}

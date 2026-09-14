@@ -2,21 +2,29 @@
   Target URL: /case-studies/   (new)
 
   PUBLISHING NOTE — READ BEFORE PUSHING LIVE
-  Only the Everything IT case study is cleared to publish. Faraz Irfan gave
-  explicit permission to be named and to have results shown.
+  Everything IT and Prestige Windows are cleared to publish. Faraz Irfan gave
+  explicit permission for Everything IT to be named and to have results shown.
+  AZWebCorp's owner confirmed on 9 Sep 2026 that Prestige Windows has no issue
+  with its website being listed as a case study. The Prestige entry names the
+  business only; it does not name the owner personally.
+  The AZWebCorp SEO Client Portal is AZWebCorp's own product, so it has no
+  third-party publishing-permission dependency. Its screenshot uses the
+  AZWebCorp account rather than exposing a client's private reporting data.
+  The AZWebCorp Public SEO Audit is also an in-house product. Its screenshot
+  shows a public example-domain report and does not imply that the example
+  domain is a client, partner or endorser of AZWebCorp.
 
-  Palo Verde Cancer Specialists and Prestige Windows are NOT in this file's
-  published body. Drafted stubs for both sit at the bottom, commented out,
-  because neither has (a) a recorded client go-ahead to be named in AZ Web
-  Corp's own marketing, and Palo Verde additionally has (b) no live site yet
-  — pvcancer.com still resolves to the old design, so any "we rebuilt this"
-  claim sends a prospect to a page that contradicts it.
+  Palo Verde Cancer Specialists is NOT in this file's published body. A drafted
+  stub sits at the bottom, commented out, because it has no recorded client
+  go-ahead to be named in AZ Web Corp's own marketing and no live site yet —
+  pvcancer.com still resolves to the old design, so any "we rebuilt this" claim
+  sends a prospect to a page that contradicts it.
 
   Uncomment each only once both conditions are satisfied. Same rule as
   ../content/README.md: an unverifiable claim is worse than an absent one.
 -->
 <title>Case Studies | AZWebCorp</title>
-<meta name="description" content="Client work by AZ Web Corp, published only where the client agreed to be named and the result measured, including what fell short. Call (480) 818-5761.">
+  <meta name="description" content="Four verified AZWebCorp case studies covering measured SEO, website development, a client portal and a public audit tool. Call (480) 818-5761.">
 <link rel="canonical" href="https://azwebcorp.com/case-studies/">
 
 <script type="application/ld+json">
@@ -46,7 +54,7 @@
     "postalCode": "85234",
     "addressCountry": "US"
   },
-  "description": "Search engine optimisation, web design and web development work by AZ Web Corp, documented with the measured results where results exist."
+  "description": "Search engine optimisation, web design, web development, reporting software and public auditing tools by AZ Web Corp, documented with measured results where results exist."
 }
 </script>
 
@@ -60,7 +68,7 @@
       "name": "Why are there so few case studies here?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Because we only publish work where the client agreed to be named and where there is something measured to report. Engagements that are too new to have produced data are not written up as though they had."
+        "text": "Because we only publish work where the client agreed to be named and where there is a checkable outcome to report. SEO engagements that are too new to have produced data are not described as though they already produced results."
       }
     },
     {
@@ -96,7 +104,53 @@
 
   <p>Most agency case studies are unfalsifiable. A percentage with no baseline, a graph with no axis labels, a client who cannot be contacted to confirm any of it. We would rather publish fewer of them and have each one checkable.</p>
 
-  <p>So this page has one entry on it. That is not because there is only one client — it is because a case study needs two things we will not fake: <strong>a client who has agreed to be named, and a result that was actually measured.</strong> Work that is too recent to have produced data does not get written up as though it had. When those engagements mature, they will appear here with their numbers, including the ones that did not go to plan.</p>
+  <p>This page has four entries: two client engagements and two products we built ourselves. A case study needs an outcome that can actually be checked and, for client work, permission to name the business. For SEO work, that means measured data. For a new website or software platform, the finished build itself can be inspected while future performance is clearly labeled as still in progress.</p>
+
+  <style>
+    .azwc-case-study-list{display:grid;gap:1.25rem;margin:2rem 0 2.5rem}
+    .azwc-case-study{overflow:hidden;border:1px solid rgba(238,183,62,.32);border-radius:16px;background:rgba(12,18,27,.72);transition:border-color .2s ease,box-shadow .2s ease}
+    .azwc-case-study[open]{border-color:rgba(238,183,62,.82);box-shadow:0 16px 42px rgba(0,0,0,.2)}
+    .azwc-case-study>summary{position:relative;display:block;padding:1.35rem 4.75rem 1.35rem 1.5rem;cursor:pointer;list-style:none;font-size:0;line-height:0}
+    .azwc-case-study>summary::-webkit-details-marker{display:none}
+    .azwc-case-study>summary::marker{content:""}
+    .azwc-case-study>summary:hover{background:rgba(255,255,255,.025)}
+    .azwc-case-study>summary:focus-visible{outline:3px solid #eeb73e;outline-offset:-4px}
+    .azwc-cs-label{display:block;margin-bottom:.4rem;color:#eeb73e;font-size:.73rem;font-weight:800;line-height:1.4;letter-spacing:.12em;text-transform:uppercase}
+    .azwc-cs-company{display:block;color:#fff;font-size:1.45rem;font-weight:800;line-height:1.2}
+    .azwc-cs-project{display:block;margin-top:.35rem;color:rgba(255,255,255,.78);font-size:1rem;line-height:1.45}
+    .azwc-cs-meta{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem;font-size:0;line-height:0}
+    .azwc-cs-meta span{display:inline-flex;align-items:center;justify-content:flex-start;padding:.42rem .7rem;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(255,255,255,.045);color:rgba(255,255,255,.82);font-size:.82rem;line-height:1.35;text-align:left}
+    .azwc-cs-meta strong{margin-right:.3rem;color:#fff}
+    .azwc-cs-toggle{position:absolute;top:50%;right:1.4rem;width:2.5rem;height:2.5rem;transform:translateY(-50%);border:1px solid rgba(238,183,62,.55);border-radius:50%;background:rgba(238,183,62,.08)}
+    .azwc-cs-toggle::before,.azwc-cs-toggle::after{content:"";position:absolute;top:50%;left:50%;width:14px;height:2px;transform:translate(-50%,-50%);border-radius:2px;background:#eeb73e}
+    .azwc-cs-toggle::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .2s ease,opacity .2s ease}
+    .azwc-case-study[open] .azwc-cs-toggle::after{opacity:0;transform:translate(-50%,-50%) rotate(0)}
+    .azwc-cs-body{padding:1.5rem;border-top:1px solid rgba(238,183,62,.22);background:rgba(0,0,0,.1)}
+    .azwc-cs-body>h2:first-child{margin-top:0}
+    @media (max-width:640px){
+      .azwc-case-study>summary{padding:1.15rem 3.85rem 1.15rem 1rem}
+      .azwc-cs-company{font-size:1.2rem}
+      .azwc-cs-project{font-size:.92rem}
+      .azwc-cs-meta{display:grid;gap:.45rem}
+      .azwc-cs-meta span{display:block;border-radius:10px;font-size:.78rem;text-align:left}
+      .azwc-cs-toggle{right:.85rem;width:2.25rem;height:2.25rem}
+      .azwc-cs-body{padding:1rem}
+    }
+  </style>
+
+  <div class="azwc-case-study-list" aria-label="Published case studies">
+    <details class="azwc-case-study" name="azwc-case-study">
+      <summary>
+        <span class="azwc-cs-label">Technical SEO</span>
+        <span class="azwc-cs-company">Everything IT</span>
+        <span class="azwc-cs-project">Location-page consolidation with measured Search Console results</span>
+        <span class="azwc-cs-meta">
+          <span><strong>Technology:</strong> WordPress, Google Search Console, 301 redirects</span>
+          <span><strong>Outcome:</strong> Clicks +32%, impressions +18%</span>
+        </span>
+        <span class="azwc-cs-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="azwc-cs-body">
 
   <h2>Everything IT — consolidating a sprawling location-page structure</h2>
 
@@ -132,6 +186,19 @@
 
   <p>Clicks to the four pages rose 32% and impressions 18%. On individual commercial searches, the page-one movement is the part that matters more than the totals: <em>business IT support Waterford</em> averaged position 2.5, <em>IT services Limerick</em> around 5, <em>IT support Limerick</em> around 7, and <em>network specialists Cork</em> 9.5.</p>
 
+  <h3>The Search Console view</h3>
+
+  <p>The page-level table above isolates the four location pages changed in this project. The screenshot below is a second, broader view: the client's entire Google Search Console property for the latest three months against the same period last year, as viewed on September 9, 2026. Because the whole-property view includes more than these four pages, it should not be read as though every gain came from the location-page consolidation.</p>
+
+  <figure class="wp-block-image size-full azwc-case-study-evidence" style="margin:2rem 0;">
+    <a href="https://azwebcorp.com/wp-content/uploads/2026/09/gsc-performance-everything-it-2026-09-09.png" target="_blank" rel="noopener">
+      <img src="https://azwebcorp.com/wp-content/uploads/2026/09/gsc-performance-everything-it-2026-09-09.png" alt="Google Search Console performance report captured September 9, 2026, showing 538 clicks, 93,300 impressions, 0.6% click-through rate and average position 29.1 for the latest three months" width="1751" height="907" loading="lazy" decoding="async" class="skip-lazy wp-image-2525" style="display:block;width:100%;height:auto;border:1px solid rgba(0,0,0,.14);border-radius:10px;">
+    </a>
+    <figcaption style="margin-top:.75rem;padding:0!important;background:none!important;color:inherit!important;font-size:.95rem;line-height:1.6;text-align:left;opacity:.82;"><strong>Google Search Console snapshot - September 9, 2026.</strong> Solid lines show the latest three months; dotted lines show the same period last year. Clicks rose from 165 to 538, impressions from 40.5K to 93.3K, CTR from 0.4% to 0.6%, and average position improved from 50.1 to 29.1 (lower is better). Click the image to view the full-size screenshot.</figcaption>
+  </figure>
+
+  <p><small>Evidence dated September 9, 2026. We will update this case study as newer reporting periods become available.</small></p>
+
   <h3>What did not go to plan</h3>
 
   <p>Two things, stated plainly because a case study that reports only the good half is an advertisement.</p>
@@ -146,16 +213,180 @@
 
   <p>An AI chat assistant for the site has been built and is running on a staging environment for the client to evaluate before any decision about putting it in front of real visitors. It is mentioned here because it is part of the engagement, not because there is a result to report yet. There is not.</p>
 
+      </div>
+    </details>
+
+    <details class="azwc-case-study" name="azwc-case-study">
+      <summary>
+        <span class="azwc-cs-label">Web design &amp; development</span>
+        <span class="azwc-cs-company">Prestige Windows</span>
+        <span class="azwc-cs-project">A ground-up WordPress website for an Arizona window company</span>
+        <span class="azwc-cs-meta">
+          <span><strong>Technology:</strong> WordPress, Elementor, PHP, CSS</span>
+          <span><strong>Status:</strong> Website live; SEO started September 9, 2026</span>
+        </span>
+        <span class="azwc-cs-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="azwc-cs-body">
+
+  <h2>Prestige Windows — a ground-up website for an Arizona window company</h2>
+
+  <p><strong>Client:</strong> Prestige Windows, an Arizona window and door company.<br>
+  <strong>Work:</strong> Website strategy, visual design, user experience, WordPress development, content structure and lead capture.<br>
+  <strong>Build launched:</strong> May 2026.<br>
+  <strong>SEO phase:</strong> Began September 9, 2026. The baseline and measured results will be added here as the data matures.<br>
+  <strong>Website:</strong> <a href="https://prestigewindowsaz.com/" target="_blank" rel="noopener">prestigewindowsaz.com</a></p>
+
+  <h3>The starting point</h3>
+
+  <p>This was a ground-up website project, not a redesign of an existing Prestige Windows site. The job was to turn a premium window and door offering into a clear digital experience: establish the visual direction, organize a broad product range, help homeowners understand their options and give them straightforward ways to request a quote or consultation.</p>
+
+  <h3>What AZWebCorp built</h3>
+
+  <ul>
+    <li><strong>A distinct visual system.</strong> Deep charcoal, warm gold, architectural typography and large-format imagery give the site a high-end identity suited to the products Prestige sells.</li>
+    <li><strong>A complete WordPress site structure.</strong> The build includes Home, About, Products, Window Configurator, Gallery, Blog, FAQ and Contact experiences rather than a single brochure page.</li>
+    <li><strong>Product education.</strong> Visitors can explore window systems, glass options and signature collections before they are asked to contact the business.</li>
+    <li><strong>Multiple lead paths.</strong> Consultation booking, quote requests, phone contact and the window configurator give people more than one practical way to take the next step.</li>
+    <li><strong>A responsive, maintainable foundation.</strong> The site works across desktop and mobile, and its WordPress structure gives the business room to add project work, service content and search-focused pages without rebuilding the platform.</li>
+    <li><strong>Technical search foundations.</strong> Page-level metadata controls, structured data, service-area signals and deliberate index controls provide the starting point for the SEO phase that follows the build.</li>
+  </ul>
+
+  <figure class="wp-block-image size-full azwc-case-study-evidence" style="margin:2rem 0;">
+    <a href="https://azwebcorp.com/wp-content/uploads/2026/09/prestige-windows-homepage-build-2026-09-09.png" target="_blank" rel="noopener">
+      <img src="https://azwebcorp.com/wp-content/uploads/2026/09/prestige-windows-homepage-build-2026-09-09.png" alt="Prestige Windows homepage designed and built by AZWebCorp, captured September 9, 2026" width="1600" height="1000" loading="lazy" decoding="async" class="skip-lazy wp-image-2528" style="display:block;width:100%;height:auto;border:1px solid rgba(0,0,0,.14);border-radius:10px;">
+    </a>
+    <figcaption style="margin-top:.75rem;padding:0!important;background:none!important;color:inherit!important;font-size:.95rem;line-height:1.6;text-align:left;opacity:.82;"><strong>Prestige Windows live homepage — September 9, 2026.</strong> This is a dated capture of the ground-up WordPress build before the new SEO reporting period. Click the image to view it full size, or <a href="https://prestigewindowsaz.com/" target="_blank" rel="noopener">visit the live website</a>.</figcaption>
+  </figure>
+
+  <h3>The result at launch</h3>
+
+  <p>The result at this stage is the working website itself. It is live, publicly inspectable and gives prospective customers clear routes from initial product research to a consultation or quote request. That is a website-build outcome; it is not being presented as proof of an SEO increase.</p>
+
+  <h3>SEO phase — started September 9, 2026</h3>
+
+  <p>The search campaign begins with a dated baseline before conclusions are drawn. Future updates will report Google Search Console clicks, impressions, click-through rate, average position and landing-page movement, together with GA4 engagement and lead data where attribution is reliable. No traffic or ranking lift is claimed here today because the measurement period has only just begun.</p>
+
+  <p>As the campaign matures, this section will be updated with the comparison window, the actual reporting screenshots and what did or did not move. The website-build record will stay separate from the SEO record so one is never used as evidence for the other.</p>
+
+      </div>
+    </details>
+
+    <details class="azwc-case-study" name="azwc-case-study">
+      <summary>
+        <span class="azwc-cs-label">Custom software platform</span>
+        <span class="azwc-cs-company">AZWebCorp SEO Client Portal</span>
+        <span class="azwc-cs-project">A private reporting workspace where each client can see performance in one place</span>
+        <span class="azwc-cs-meta">
+          <span><strong>Technology:</strong> React, TypeScript, Cloudflare, GA4 &amp; Search Console APIs</span>
+          <span><strong>Status:</strong> Built for individual client access</span>
+        </span>
+        <span class="azwc-cs-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="azwc-cs-body">
+
+  <h2>AZWebCorp SEO Client Portal — one private dashboard per client</h2>
+
+  <p><strong>Product:</strong> AZWebCorp's in-house SEO reporting platform.<br>
+  <strong>Work:</strong> Product strategy, interface design, full-stack development, Google data integrations and client-specific access.<br>
+  <strong>Technology:</strong> React 19, TypeScript, Vite, Cloudflare Workers, Cloudflare D1, Drizzle ORM, Recharts, Google Search Console and Google Analytics 4.<br>
+  <strong>Snapshot date:</strong> September 9, 2026.</p>
+
+  <h3>The problem</h3>
+
+  <p>SEO reporting is usually scattered across separate products, emailed spreadsheets and occasional screenshots. A client may know that work is happening without having a simple place to see what changed, where traffic came from, which pages are moving and what deserves attention next.</p>
+
+  <h3>What AZWebCorp built</h3>
+
+  <p>The portal gives each client a private workspace that brings the reporting layers together under one roof. The dashboard opens with the current signal rather than a wall of raw exports, then lets the client move into the detail when they need it.</p>
+
+  <ul>
+    <li><strong>One performance dashboard</strong> for Search Console clicks, impressions, click-through rate, average position and ranking-keyword coverage alongside GA4 users and sessions.</li>
+    <li><strong>A live activity view</strong> showing current visitors, active pages, locations and devices when Google Analytics data is available.</li>
+    <li><strong>Dedicated work areas</strong> for keywords, landing pages, opportunities, technical checks, Google Business, AI visibility, competitor analysis and reports.</li>
+    <li><strong>Practical date controls and exports</strong> so a client can compare recent periods and take a copy of the data without asking the agency to assemble it manually.</li>
+    <li><strong>Separate client access</strong> so every business opens its own reporting workspace rather than seeing a shared agency dashboard or another client's information.</li>
+  </ul>
+
+  <figure class="wp-block-image size-full azwc-case-study-evidence" style="margin:2rem 0;">
+    <a href="https://azwebcorp.com/wp-content/uploads/2026/09/azwebcorp-seo-client-portal-2026-09-09.png" target="_blank" rel="noopener">
+      <img src="https://azwebcorp.com/wp-content/uploads/2026/09/azwebcorp-seo-client-portal-2026-09-09.png" alt="AZWebCorp SEO client portal dashboard showing live analytics, Search Console metrics, charts and reporting tools in one private workspace" width="1523" height="970" loading="lazy" decoding="async" class="skip-lazy wp-image-2532" style="display:block;width:100%;height:auto;border:1px solid rgba(0,0,0,.14);border-radius:10px;">
+    </a>
+    <figcaption style="margin-top:.75rem;padding:0!important;background:none!important;color:inherit!important;font-size:.95rem;line-height:1.6;text-align:left;opacity:.82;"><strong>AZWebCorp SEO Client Portal — September 9, 2026.</strong> The AZ Web Corp workspace is shown so the product can be demonstrated without exposing another client's private account. Click the image to view the full-size dashboard.</figcaption>
+  </figure>
+
+  <h3>The result</h3>
+
+  <p>Clients no longer have to translate a collection of disconnected reports into a picture of performance. They can sign in, see the current executive signal, inspect the supporting Search Console and Analytics data, and move from the overview into the specific area they care about. It makes ongoing SEO work easier to understand without pretending that every useful detail belongs on the first screen.</p>
+
+  <p>This case study documents the platform that was built. Adoption, reporting use and future feature changes will be added only when there is enough evidence to describe them accurately.</p>
+
+      </div>
+    </details>
+
+    <details class="azwc-case-study" name="azwc-case-study">
+      <summary>
+        <span class="azwc-cs-label">Public SEO audit tool</span>
+        <span class="azwc-cs-company">AZWebCorp Public SEO Audit</span>
+        <span class="azwc-cs-project">A live browser-based audit anyone can run for a public website</span>
+        <span class="azwc-cs-meta">
+          <span><strong>Technology:</strong> WordPress, PHP, JavaScript, REST API, PageSpeed Insights</span>
+          <span><strong>Status:</strong> Live at azwebcorp.com/seo</span>
+        </span>
+        <span class="azwc-cs-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="azwc-cs-body">
+
+  <h2>AZWebCorp Public SEO Audit — a self-service technical website check</h2>
+
+  <p><strong>Product:</strong> AZWebCorp's public SEO audit tool.<br>
+  <strong>Work:</strong> Audit methodology, interface design, WordPress plugin development, live crawling, report generation and Google performance-data integration.<br>
+  <strong>Technology:</strong> WordPress, PHP, JavaScript, WordPress REST API, DOM parsing and Google PageSpeed Insights.<br>
+  <strong>Availability:</strong> <a href="https://azwebcorp.com/seo/" target="_blank" rel="noopener">Open to anyone at azwebcorp.com/seo</a>.<br>
+  <strong>Snapshot date:</strong> September 9, 2026.</p>
+
+  <h3>The problem</h3>
+
+  <p>Many website audits are either a short sales form that hides the useful information or a dense technical export that leaves the owner to interpret it alone. A business should be able to test a public website, see what was actually checked and understand which findings deserve attention before committing to a sales conversation.</p>
+
+  <h3>What AZWebCorp built</h3>
+
+  <ul>
+    <li><strong>A public, self-service scan</strong> that accepts a website address and produces the report in the browser without requiring a client-portal account.</li>
+    <li><strong>Measured crawl data</strong> covering the submitted site's response, page weight, technical setup, on-page elements, structured data, indexability, branding and international signals.</li>
+    <li><strong>A clear result breakdown</strong> that separates passed checks, warnings, failures and informational findings instead of hiding everything behind one score.</li>
+    <li><strong>Mobile performance evidence</strong> from Google PageSpeed Insights, including Core Web Vitals and the thresholds used to interpret them.</li>
+    <li><strong>Detailed findings and next steps</strong> so the report explains the affected item and the corrective action rather than merely labeling it as a problem.</li>
+    <li><strong>Fresh-scan and responsible-use controls</strong> that let a visitor re-run an audit while caching and rate limits protect the service from repeated automated requests.</li>
+  </ul>
+
+  <figure class="wp-block-image size-full azwc-case-study-evidence" style="margin:2rem 0;">
+    <a href="https://azwebcorp.com/wp-content/uploads/2026/09/azwebcorp-public-seo-audit-tool-2026-09-09.png" target="_blank" rel="noopener">
+      <img src="https://azwebcorp.com/wp-content/uploads/2026/09/azwebcorp-public-seo-audit-tool-2026-09-09.png" alt="AZWebCorp public SEO audit report showing an overall health score, result breakdown, category scores, Core Web Vitals and detailed findings" width="1880" height="984" loading="lazy" decoding="async" class="skip-lazy wp-image-2538" style="display:block;width:100%;height:auto;border:1px solid rgba(0,0,0,.14);border-radius:10px;">
+    </a>
+    <figcaption style="margin-top:.75rem;padding:0!important;background:none!important;color:inherit!important;font-size:.95rem;line-height:1.6;text-align:left;opacity:.82;"><strong>AZWebCorp Public SEO Audit — September 9, 2026.</strong> This dated screenshot shows an example report generated for a publicly accessible domain. The domain shown is not presented as an AZWebCorp client, partner or endorser. Click the image to view the full-size report.</figcaption>
+  </figure>
+
+  <h3>The result</h3>
+
+  <p>The result is a working public product: anyone can visit <a href="https://azwebcorp.com/seo/" target="_blank" rel="noopener">azwebcorp.com/seo</a>, test a public website and move from a high-level score into the evidence behind it. The audit makes technical findings easier to discuss because the visitor and the agency can begin with the same dated report.</p>
+
+  <p>This case study documents the tool that was built. A report score describes the website scanned at that moment; it is not a claim that running the audit by itself improves rankings, traffic or revenue.</p>
+
+      </div>
+    </details>
+  </div>
+
   <h2>Why the list is short</h2>
 
-  <p>Other work is underway — website builds and search work for clients in Arizona and elsewhere. It is not on this page for one of two reasons: the site has not launched yet, so there is nothing to measure, or the client has not been asked whether they want to be named and we are not going to assume.</p>
+  <p>Other work is underway — website builds and search work for clients in Arizona and elsewhere. It is not on this page because the work cannot yet be independently checked or the client has not agreed to be named, and we are not going to assume.</p>
 
-  <p>That is a slower way to build a portfolio page. It is also the reason the one entry above can be checked line by line.</p>
+  <p>That is a slower way to build a portfolio page. It is also the reason the four entries above can be checked line by line.</p>
 
   <h2>FAQ</h2>
 
   <h3>Why are there so few case studies here?</h3>
-  <p>Because we only publish work where the client agreed to be named and where there is something measured to report. Engagements that are too new to have produced data are not written up as though they had.</p>
+  <p>Because we only publish work where the client agreed to be named and where there is a checkable outcome to report. SEO engagements that are too new to have produced data are not described as though they already produced results.</p>
 
   <h3>Do you work with clients outside Arizona?</h3>
   <p>Yes. Everything IT is in Ireland and the work was delivered from Gilbert, Arizona. Technical SEO, content and reporting do not require the agency to be in the same country. Where physical presence genuinely matters, such as photography or in-person meetings, we say so before the engagement starts.</p>
@@ -202,17 +433,4 @@
   azwebcorp.com yet either (the only Scottsdale URL is a 45-word noindexed
   stub), so that page has to be written before it can link anywhere.
 
-  PRESTIGE WINDOWS — web development
-  Blocked on permission only; the site IS live and public, so unlike Palo
-  Verde this one can link out once cleared. Engagement began ~16 Aug 2026;
-  the site itself was built in an earlier phase. No reporting has been
-  generated yet, so this is a build case study, not a results one.
-
-  AZ WEB CORP SEO PORTAL / AI-CRAWLER VISIBILITY — own-tooling showcase
-  No permission issue, it is our own product. Held back until outstanding
-  hardening work in the portal spec is signed off — details deliberately
-  not repeated here, since this file is in a public repository. Once that
-  is closed out this is a genuine differentiator worth writing up:
-  tracking which AI crawlers read a client's site is uncommon for an
-  agency this size.
 -->

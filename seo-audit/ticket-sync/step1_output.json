@@ -1,0 +1,31 @@
+{
+  "checkpoint": {
+    "uid": 4078,
+    "date": "Sat, 12 Sep 2026 11:41:26 GMT"
+  },
+  "folder_names": [
+    "INBOX",
+    "Sent",
+    "Drafts",
+    "Spam",
+    "Trash",
+    "Archive",
+    "Scheduled",
+    "AZPL",
+    "Archive/2025",
+    "Archive/2026",
+    "Candidates",
+    "Candidates/DCS",
+    "EverythingIT",
+    "INBOX/CASE",
+    "Junk",
+    "Junk E-mail",
+    "Notes",
+    "SEO candidate",
+    "Trash/Candidates 1",
+    "WP candidate"
+  ],
+  "inbox": [],
+  "sent": [],
+  "sent_folder_used": "Sent"
+}

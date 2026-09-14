@@ -1,0 +1,24 @@
+{
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8812,
+        "from": "AZ Web Corp approvals <requests@azwebcorp.com>",
+        "to": "ceo@azwebcorp.com",
+        "subject": "Approve? Re: Rebound Body Studio — one more thing, about what you pay MassageBook",
+        "date": "Wed, 09 Sep 2026 18:26:14 -0700",
+        "message_id": "<178900357473.3272.8118859054151226782@azwebcorp.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "AWAITING YOUR APPROVAL\nRandi / Rebound: offer to rebuild the client-facing MassageBook features into her own site so she stops paying a third party, plus answers to the personal questions in her last two emails (including telling her Phil is an AI - she was never told).\n\nTo:      massage@reboundbodystudio.com\nCc:      randi.martinez.23@gmail.com\nSubject: Re: Rebound Body Studio — one more thing, about what you pay MassageBook\nQueued:  2026-09-09T18:26:14\n\nYasir asked for this one to be approved before it goes out.\n\nAPPROVE AND SEND:\n  https://azwebcorp.com/azwc-approve.php?id=a2cb5ab12087bbd1&a=approve&t=bb9fca67af3e693ceb717c4a3d16db3053a89bb6531d46be7781f3d5c9e615f9\n\nHOLD (do not send):\n  https://azwebcorp.com/azwc-approve.php?id=a2cb5ab12087bbd1&a=hold&t=2e727a2bbaffb53c38f6cb8d0cecc6eb0adca17bd916bd408cf36d89635a10ae\n\nApproving records the decision; the email is sent from the office machine within\nabout fifteen minutes. Nothing is sent by clicking.\n\n----- the email as it will go out -----\n\nHi Randi,\n\nTwo things I owe you an answer on, and one you should probably think about\nbefore your next MassageBook bill.\n\nSTOP PAYING FOR THE PARTS WE CAN BUILD\n\nYou are currently paying a third party for the part of your business that\nsits on your own website. That is worth questioning.\n\nThe booking calendar, gift certificates, packages, current offers,\nreviews, the client sign-in - every one of those is something we can build\ndirectly into reboundbodystudio.com. Not a widget borrowed "
+      }
+    ],
+    "max_uid": 8812,
+    "max_date": "Wed, 09 Sep 2026 18:26:14 -0700"
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 0,
+    "max_date": null
+  }
+}

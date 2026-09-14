@@ -49,6 +49,33 @@ function azwc_fu_dompdf_ready() {
 	return $ready;
 }
 
+/**
+ * The real AZ Web Corp logo, inlined as a data URI.
+ *
+ * dompdf runs with isRemoteEnabled = false (report content must never be able
+ * to fetch anything), so a plain <img src="https://..."> to the live file
+ * would silently render as nothing. Reading the file straight off disk and
+ * inlining it sidesteps that entirely — no network fetch involved, so the
+ * safety setting is untouched. Dark lettering on gold Z, for the PDF's white
+ * page background (see [[azwebcorp-logo-2026]] for why there are two
+ * variants and which is which).
+ */
+function azwc_fu_logo_data_uri() {
+	static $uri = null;
+	if ( null !== $uri ) {
+		return $uri;
+	}
+
+	$path = WP_CONTENT_DIR . '/uploads/2024/06/Azwebcorp-black_logo-300x80.png';
+	if ( ! is_readable( $path ) ) {
+		$uri = '';
+		return $uri;
+	}
+
+	$uri = 'data:image/png;base64,' . base64_encode( file_get_contents( $path ) ); // phpcs:ignore
+	return $uri;
+}
+
 function azwc_fu_status_colour( $status ) {
 	$map = array(
 		'pass' => '#0f9d58',
@@ -105,7 +132,7 @@ function azwc_fu_report_html( $report, $name = '' ) {
 	@page { margin: 34mm 16mm 20mm; }
 	body { font-family: "DejaVu Sans", sans-serif; font-size: 10pt; line-height: 1.55; color: #1c2129; }
 	h1, h2, h3, h4 { margin: 0; font-weight: bold; }
-	.wordmark { font-size: 15pt; letter-spacing: .16em; color: #9b711b; }
+	.wordmark { display: block; height: 30pt; margin-bottom: 4pt; }
 	.cover { border-bottom: 3px solid #e6b84d; padding-bottom: 14px; margin-bottom: 20px; }
 	.cover h1 { font-size: 21pt; margin: 10px 0 4px; }
 	.cover .dom { font-size: 12pt; color: #444c57; }
@@ -134,7 +161,12 @@ function azwc_fu_report_html( $report, $name = '' ) {
 </style>
 
 <div class="cover">
-	<div class="wordmark">AZ WEB CORP</div>
+	<?php $logo = azwc_fu_logo_data_uri(); ?>
+	<?php if ( $logo ) : ?>
+		<img class="wordmark" src="<?php echo esc_attr( $logo ); ?>" alt="AZ Web Corp">
+	<?php else : ?>
+		<div style="font-size:15pt;letter-spacing:.16em;color:#9b711b;">AZ WEB CORP</div>
+	<?php endif; ?>
 	<h1>SEO Audit Report</h1>
 	<div class="dom"><?php echo $e( $host ); ?></div>
 	<div class="when">

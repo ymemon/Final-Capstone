@@ -1,0 +1,16 @@
+Hi {CLIENT_NAME},
+
+Thank you for requesting an appointment with {STUDIO_NAME}. We've received your request for:
+
+  {SERVICE_NAME} ({DURATION_MIN} minutes)
+  {WHEN}
+
+We'll review your request and confirm or let you know if we need to suggest a different time. You should hear from us within 24 hours.
+
+View or cancel your request: {MANAGE_LINK}
+
+Questions? Reply to this email or call {STUDIO_PHONE}.
+
+Best regards,
+{STUDIO_NAME}
+{STUDIO_EMAIL}

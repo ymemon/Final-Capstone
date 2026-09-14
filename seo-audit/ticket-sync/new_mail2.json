@@ -1,0 +1,40 @@
+{
+  "INBOX": [
+    {
+      "uid": 8612,
+      "folder": "INBOX",
+      "from": "Yasir <azwebcorp11@gmail.com>",
+      "to": "info@azwebcorp.com",
+      "subject": "Fwd: everythingit.ie: robots.txt updated. Review changes",
+      "date": "Tue, 1 Sep 2026 04:32:31 -0700",
+      "message_id": "<CAJUqsfAvf++zMWSt5eGNpQ8OccXZR3+GOREPvYG6adXGgo_8wA@mail.gmail.com>",
+      "in_reply_to": "<010001a05c960e2d-3f03e936-46a9-42e0-a2a6-92d72390392f-000000@email.amazonses.com>",
+      "references": "<010001a05c960e2d-3f03e936-46a9-42e0-a2a6-92d72390392f-000000@email.amazonses.com>",
+      "body": "---------- Forwarded message ---------\r\nFrom: Semrush Site Audit <site-audit@semrush.com>\r\nDate: Tue, Sep 1, 2026 at 3:48 AM\r\nSubject: everythingit.ie: robots.txt updated. Review changes\r\nTo: Yasir <azwebcorp11@gmail.com>\r\n\r\n\r\n\r\n\r\n<https://l.semrush.com/l0/ad92/01a05c96-0c56-759d-9b8b-e7dfb28bc307/%3Futm_source%3Dtech_delivery%26utm_medium%3Dall_tools%26utm_campaign%3Dlayout_2021%26utm_content%3Dlogo>\r\n\r\nSite AuditSite Audit\r\n\r\nProject: everythingit.ie\r\n<https://l.semrush.com/l0/a164/01a05c96-0c56-759d-9b8b-e7dfb28bc307/siteaudit%2Fcampaign%2F23598331%2Freview%2Foverview%3Futm_source%3Dtech_delivery%26utm_medium%3Dsite_audit%26utm_campaign%3Dsite_audit_tech%26utm_content%3Drobots_txt_updates%26utm_term%3Dgo_to_project>\r\nWebsite URL: everythingit.ie\r\nDate: Sep 1, 2026 (10:48:51)\r\n\r\n\r\nHello,\r\n\r\nHere is the update for your Site Audit campaign.\r\n\r\n\r\nWe have detected that your robots.txt file has been changed.\r\n\r\nrobots.txt file has been changed\r\n<https://l.semrush.com/l0/9af7/01a05c96-0c56-759d-9b8b-e7dfb28bc307/siteaudit%2Fcampaign%2F23598331%2Freview%2Frobots%3Futm_source%3Dtech_delivery%26utm_medium%3Dsite_audit%26utm_campaign%3Dsite_audit_tech%26utm_content%3Drobots_txt_updates%26utm_term%3Drobots_txt_check_updates>\r\n\r\nA robots.txt file is used to instruct search engines what content on your\r\nwebsite they should crawl. Even a minor change to this file may negatively\r\naffect your website’s indexability. Unplanned and ill-considered updates\r\nmay dramatically damage your website’s rankings.\r\n View all changes\r\n<https://l.semrush.com/l0/9af7/01a05c96-0c56-759d-9b8b-e7dfb28bc307/siteaudit%2Fcampaign%2F23598331%2Freview%2Frobots%3Futm_source%3Dtech_delivery%26utm_medium%3Dsite_audit%26utm_campaign%3Dsite_audit_tech%26utm_content%3Drobots_txt_updates%26utm_term%3Drobots_txt_check_updates>\r\n\r\nSite Health\r\n\r\n\r\n85%\r\n<https://l.semrush.com/l0/8d88/01a05c96-0c56-759d-9b8b-e7dfb28bc307/siteaudit%2Fcampaign%2F23598331%2Freview%2Foverview%3Futm_source%3Dtech_delivery%26utm_medium%"
+    },
+    {
+      "uid": 8613,
+      "folder": "INBOX",
+      "from": "Yasir Memon <ceo@azwebcorp.com>",
+      "to": "Michael Bustard <mbustard@pvcancer.com>",
+      "subject": "RE: Palo Verde website - status update",
+      "date": "Tue, 01 Sep 2026 04:33:08 -0700",
+      "message_id": "<178826238895.6840.1182022057562711166@azwebcorp.com>",
+      "in_reply_to": "<PH8PR04MB8685012FFBC3A128391B7A4DA1A92@PH8PR04MB8685.namprd04.prod.outlook.com>",
+      "references": "<178795119460.15412.4562638545020380794@Yasir> <PH8PR04MB8685634DA1AFAABD16AA67D2A1A92@PH8PR04MB8685.namprd04.prod.outlook.com>\r\n <178820687381.28960.5964742578496699676@azwebcorp.com> <PH8PR04MB8685012FFBC3A128391B7A4DA1A92@PH8PR04MB8685.namprd04.prod.outlook.com>",
+      "body": "Hi Michael,\r\n\r\nWhile we were tracking down what you'd seen on the older URL, we took the\r\nopportunity to do a fuller pass over the new build. A few things we found\r\nand fixed on the spot without needing to wait on you, and a longer list\r\nwhere we'd like your input before we go further.\r\n\r\nFIXED ALREADY - NO ACTION NEEDED\r\n\r\n- An unedited placeholder blog post (\"Blog Post Title,\" leftover theme\r\nboilerplate) was publicly visible - unpublished it.\r\n\r\n- Leftover \"Presenters / Attendees / Places\" counters on the homepage - a\r\nleftover from the theme's original event-site demo content, unrelated to a\r\ncancer center - removed.\r\n\r\n- All 5 insurance logos (UnitedHealthcare, Aetna, Cigna, Medicare, Humana)\r\nwere pulling from Wikimedia Commons links that Wikimedia had since moved -\r\nthey were showing as broken images on all 4 location pages. Re-sourced the\r\ncorrect current logos and hosted them directly on the site so this can't\r\nbreak again.\r\n\r\n- Estrella was the only one of the 4 locations missing its \"Find Us Here\"\r\nmap - added it, matching the other 3 pages.\r\n\r\nStaging build for reference: https://875051.us16.myftpupload.com/\r\n\r\nNEEDS YOUR INPUT BEFORE WE GO FURTHER\r\n\r\n1. pvcancer.com still isn't pointed at the new build. This is the root\r\ncause of the mix-up last week, and it's the actual blocker to the site\r\nbeing live to the public at all, regardless of how ready the content is.\r\nWorth prioritizing.\r\n\r\n2. The public intake forms collect SSN, date of birth, medical power of\r\nattorney, and full insurance details. This is a compliance question more\r\nthan a content one - how is this data currently handled/encrypted, and is\r\na plain web form the right way to collect SSN at all? Wanted to raise it\r\ndirectly rather than quietly change anything ourselves.\r\n\r\n3. Contact email is inconsistent across the site. Most pages show\r\ninfo@pvhomed.com, but Dr. Mamani's bio page shows\r\ninfo@paloverdecancer.com. Which one is actually monitored? A lead could\r\ncurrently go to the wrong inbox"
+    },
+    {
+      "uid": 8614,
+      "folder": "INBOX",
+      "from": "Semrush Position Tracking <position-tracking@semrush.com>",
+      "to": "yasir@azwebcorp.com",
+      "subject": "Position Tracking Update - Your rankings increased\r\n (everythingit.ie)",
+      "date": "Tue, 1 Sep 2026 12:06:28 +0000",
+      "message_id": "<010001a05cdd18ec-3e15147a-74d1-4b0b-9100-668c5a3e69e9-000000@email.amazonses.com>",
+      "in_reply_to": null,
+      "references": null,
+      "body": "This email cannot be displayed due to an unexpected error. You can try viewing it in another browser or email client.\r\n\r\n\r\nIf you do not wish to receive these emails in the future, please click <a href=\"https://www.semrush.com/messaging/unsubscribe?token=eyJhbGciOiJQUzI1NiIsImtpZCI6IjEwMTM5ODIxNjMxMjUyODQ4MDQ4IiwidHlwIjoiSldUIn0.eyJpc3MiOiJoZXJtZXMiLCJleHAiOjE3OTYwNDAzODgsImlhdCI6MTc4ODI2NDM4OCwidiI6MiwidSI6MjU3NTExMDQsInMiOjUxLCJhIjoiMDFhMDVjZGQtMTVkMi03OWJmLTllMGYtNzRmNjk5Y2Y5Y2U2IiwiciI6MTU0NjIyMDB9.YZf80pwgfTGtzRvcQ_PpcAcx3Y2XBg2uyOMm9CtBpCyPHpMXzceOAJB8yrbRHAesnV7YdMcH9eBWSXMX5l8tSPQpasNKLun_OltL02-tHE4CVQoRcsg3uP79QRR7gOLKJ0MbTsyWQCia8wFWe97qJCmaJNMUs_GpwRc_tFoFLvPnEkvqMMp_eNWeltXAfwtRcZHEceh9Sqgg_h2aD0bDR9nEAu-SFeBc3kWISA09po06LeN_34ABcurP7Vh7KHuLEUZOX7f8qs4a5_dwXIZD3xq-OtMdBatk7sZ69xzG5sAsPJZabJ1jSJ6L1Yt0CJaKSt0h3JXihZPLQNsDB3XXBQ?utm_source=tech_delivery&amp;utm_medium=all_tools&amp;utm_campaign=layout_2021&amp;utm_content=unsubscribe\">here</a>.\r\n\r\nIf you have any other questions or concerns, do not hesitate to reach out to us. See our contact details – https://www.semrush.com/company/contacts/\r\n\r\nWe hope you enjoy using Semrush!\r\nSincerely,\r\nThe Semrush Team.\r\n\r\n\r\n"
+    }
+  ]
+}

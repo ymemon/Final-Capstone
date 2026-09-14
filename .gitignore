@@ -26,6 +26,10 @@ seo-audit/ticket-sync/*_err.txt
 *.log
 client-watch/watch_log.txt
 
+# Runtime lock files for background daemons - transient PID/lock state, one
+# of them is even held open by a live process (permission-denied on add).
+*.lock
+
 # Python
 __pycache__/
 *.pyc
@@ -52,3 +56,21 @@ seo-audit/portal/data/
 seo-audit/portal/dist/
 seo-audit/portal/azwebcorp/index.html
 seo-audit/portal/.deploy-live/
+
+# Full client roster (names, work emails, site URLs, internal notes) used by
+# the mail-watcher's allowlist - business-confidential, keep off a public repo.
+client-watch/clients.json
+
+# Leftover Chromium browser-profile directories from screenshot/automation
+# tooling (found 2026-09-14) - contain real browser History/Login Data/
+# Cookies/Web Data SQLite files, never source, never appropriate to commit.
+rebound-body-studio/build/cd5/
+rebound-body-studio/build/cd6/
+rebound-body-studio/build/cd7/
+rebound-body-studio/build/cd8/
+seo-audit/weekly-report/cd/
+
+# Corrupted zero/near-zero-byte filenames from a broken shell command in some
+# past session - pure noise, no content.
+rebound-body-studio/fetchColumn()
+seo-audit/tools/flush_cdn()

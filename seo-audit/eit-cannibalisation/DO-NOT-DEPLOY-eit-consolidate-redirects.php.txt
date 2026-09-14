@@ -1,0 +1,139 @@
+<?php
+/**
+ * ############################################################################
+ * ##  DO NOT DEPLOY THIS FILE. Kept only as a record of what was proposed.  ##
+ * ############################################################################
+ *
+ * Checked against everythingit.ie production on 2026-09-09 (cache-busted, every
+ * URL followed to its final destination). The map below does not describe that
+ * site. Three of its rules would have caused INFINITE REDIRECT LOOPS on live,
+ * published, trafficked pages:
+ *
+ *   production already sends  /business-continuity-services/procurement/  ->  /procurement/
+ *   this file would have sent /procurement/  ->  /business-continuity-services/procurement/
+ *
+ * and the same in both directions for /third-party-services/ and
+ * /business-continuity/. Those three pages would have returned
+ * ERR_TOO_MANY_REDIRECTS until the plugin was removed.
+ *
+ * Beyond the loops, the premise did not hold either:
+ *   - The "-2" duplicates are DRAFTS (about-us-2, contact-2, faq-2, our-team-2,
+ *     it-support-galway-2, -limerick-2, -waterford-2, it-services-2). Drafts are
+ *     not publicly reachable and are not competing for anything. Their Search
+ *     Console impressions are historical.
+ *   - Nine of the URLs in the map do not exist on production at all.
+ *   - Eleven of the twenty redirects were already live, via
+ *     wp-content/mu-plugins/eit-legacy-slug-redirects.php or WordPress's own
+ *     canonical guessing.
+ *   - "/it-services/ does not exist" was wrong: it is the slug of post 146,
+ *     which IS the front page, so /it-services/ 301s to /.
+ *
+ * The analysis appears to have been made against the staging site, which is not
+ * a copy of production. FINDINGS.md has been corrected.
+ *
+ * What was actually deployable is in eit-redirect-chain-flatten.php: four chain
+ * flattenings and one live 404, each destination verified to return 200 and to
+ * not itself redirect.
+ */
+
+/* ---- ORIGINAL FILE BELOW, UNCHANGED, FOR THE RECORD ---- */
+
+/**
+ * Plugin Name: EIT — consolidate duplicate pages
+ * Description: 301s twenty near-duplicate URLs onto one canonical page each, to
+ *              stop the site competing with itself in search.
+ *
+ * WHY
+ * Search Console (1 Jun - 6 Sep 2026) shows twenty pairs of pages answering the
+ * same intent, with about 11,400 impressions sitting on the weaker twin of each
+ * pair. While that is true Google has to choose between them, and for the money
+ * terms it has been falling back to the homepage - every one of "it support",
+ * "managed it services dublin", "it support companies" and the rest currently
+ * ranks `/` rather than any dedicated page. Consolidating is the single biggest
+ * lever available here.
+ *
+ * HOW
+ * A 301 is a permanent redirect, which is what passes the accumulated ranking
+ * signal from the retired URL to the surviving one. Every entry below points at
+ * its FINAL destination - no chains - because each extra hop leaks a little of
+ * that signal and Google stops following after a few.
+ *
+ * WHICH PAGE SURVIVES
+ * Not a guess: for each pair the page with more clicks, then more impressions,
+ * then the better average position was kept. The full table with the figures is
+ * in redirect-map.csv alongside this file.
+ *
+ * REVERSIBILITY
+ * Deactivating this plugin removes every redirect instantly. Nothing is deleted
+ * and no content is edited - the retired pages still exist in WordPress, they
+ * simply stop being reachable at their old URL.
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+/** from => to. Paths only, leading and trailing slash, already chain-flattened. */
+function eit_redirect_map(): array {
+    return [
+        '/about-us-2/'                        => '/about-us/',
+        '/contact-2/'                         => '/contact/',
+        '/faq-2/'                             => '/faq/',
+        '/our-team-2/'                        => '/our-team/',
+        '/it-support-cork-2/'                 => '/cork/',
+        '/it-support-galway-2/'               => '/it-support-galway/',
+        '/it-support-limerick-2/'             => '/it-support-limerick/',
+        '/it-support-waterford-2/'            => '/it-support-waterford/',
+        '/it-support-ireland-nationwide-2/'   => '/it-support-ireland-nationwide/',
+        '/it-support-cork/'                   => '/cork/',
+        '/galway/'                            => '/it-support-galway/',
+        '/limerick/'                          => '/it-support-limerick/',
+        '/waterford/'                         => '/it-support-waterford/',
+        '/it-support-south-dublin/'           => '/south-dublin/',
+        '/dublin-city-centre/'                => '/it-support-dublin-city-centre/',
+        '/managed-services/'                  => '/business-continuity-services/managed-services/',
+        '/procurement/'                       => '/business-continuity-services/procurement/',
+        '/professional-services/'             => '/business-continuity-services/professional-services/',
+        '/third-party-services/'              => '/business-continuity-services/third-party-services/',
+        '/business-continuity/'               => '/business-continuity-services/',
+    ];
+}
+
+add_action('template_redirect', function () {
+    // Never interfere with the admin, feeds, REST or anything already 404ing
+    // its way somewhere else.
+    if (is_admin() || wp_doing_ajax() || is_feed()) {
+        return;
+    }
+
+    $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+    if (!is_string($path) || $path === '') {
+        return;
+    }
+    // Normalise to a single trailing slash so /about-us-2 and /about-us-2/ both
+    // match, and lowercase because WordPress permalinks are lowercase here.
+    $path = strtolower(rtrim($path, '/') . '/');
+
+    $map = eit_redirect_map();
+    if (!isset($map[$path])) {
+        return;
+    }
+
+    $target = home_url($map[$path]);
+
+    // A redirect that lands on itself is an infinite loop and takes the page
+    // down. The map is built to be loop-free, but this costs nothing and means
+    // a future typo degrades to "no redirect" rather than "site unreachable".
+    if (untrailingslashit($target) === untrailingslashit(home_url($path))) {
+        return;
+    }
+
+    // Preserve the query string - campaign tags and gclid must survive.
+    $qs = $_SERVER['QUERY_STRING'] ?? '';
+    if ($qs !== '') {
+        $target .= (strpos($target, '?') === false ? '?' : '&') . $qs;
+    }
+
+    wp_redirect($target, 301);
+    exit;
+}, 1);

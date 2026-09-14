@@ -1,0 +1,133 @@
+============================================================
+SeqNum/UID: 1110
+From: Team AZ Web Corp <requests@azwebcorp.com>
+To: Faraz Irfan <faraz@eit.ie>
+Subject: RE: Everything IT — hardware supply barely shows up on the site
+Date: Wed, 02 Sep 2026 06:53:05 -0700
+Message-ID: <178835718558.22372.15201234984964429539@azwebcorp.com>
+In-Reply-To: <AMBPR03MB1129319B12CA5392364AFF770CEA82@AMBPR03MB11293.eurprd03.prod.outlook.com>
+References: <178827417972.25604.10852565300685732627@azwebcorp.com> <AMBPR03MB1129319B12CA5392364AFF770CEA82@AMBPR03MB11293.eurprd03.prod.outlook.com>
+Body snippet: Dear Faraz,
+
+The hardware supply demo page is ready for your review.
+
+HARDWARE DEMO PAGE
+
+Built using your procurement/logistics report as the source for everything
+on it - the lifecycle, the departments involved, the stock room, delivery
+model and the full capability list. Nothing on the page is invented;
+anything not in your report (pricing, specific vendor names, warranty
+terms) was left off rather than guessed at, matching what you asked for.
+
+Link: https://everythingit.ie/hardwa
+
+============================================================
+SeqNum/UID: 1111
+From: Team AZ Web Corp <requests@azwebcorp.com>
+To: Faraz Irfan <faraz@eit.ie>
+Subject: A thought on your ordering process
+Date: Wed, 02 Sep 2026 06:55:57 -0700
+Message-ID: <178835735706.31728.7728165098000812470@azwebcorp.com>
+In-Reply-To: None
+References: None
+Body snippet: Dear Faraz,
+
+One more idea, this time from Yasir directly - our CEO took a look at how
+Everything IT currently handles customer orders and had a suggestion.
+
+From what we can see, when a customer wants to order from you today, it
+happens over email or however it comes in - there doesn't seem to be an
+online ordering portal for customers who'd prefer that.
+
+WHAT WE COULD BUILD
+
+A full customer ordering portal with inventory built in - something like
+everythingit.ie/orders (exact path/
+
+============================================================
+SeqNum/UID: 1112
+From: Team AZ Web Corp <requests@azwebcorp.com>
+To: Faraz Irfan <faraz@eit.ie>
+Subject: RE: A thought on your ordering process
+Date: Wed, 02 Sep 2026 07:02:44 -0700
+Message-ID: <178835776490.28356.6331446204448737637@azwebcorp.com>
+In-Reply-To: None
+References: None
+Body snippet: Dear Faraz,
+
+Quick correction from Yasir - sorry, I'd missed that you'd already sent
+over the Procurement, Device Deployment & Logistics Service Model PDF with
+your last reply. I've gone back and read it properly now, stage by stage.
+
+Rather than just say "yes, we can automate all of it" - which wouldn't be
+fully accurate - here's a real breakdown of what a portal could actually
+take off your team's plate versus what stays a physical or judgment-based
+task, based specifically on your 8-
+
+============================================================
+SeqNum/UID: 1113
+From: Team AZ Web Corp <requests@azwebcorp.com>
+To: Yasir Memon <yasir@azwebcorp.com>
+Subject: Site enhancement ideas — PaloVerde + Prestige (competitor-informed)
+Date: Wed, 02 Sep 2026 08:01:47 -0700
+Message-ID: <178836130799.29436.1009621555119748147@azwebcorp.com>
+In-Reply-To: None
+References: None
+Body snippet: Hi Yasir,
+
+Went through PaloVerde's staging build and Prestige's live site, and pulled up
+a few real competitors for comparison - Ironwood Cancer & Research Centers and
+Arizona Oncology for PaloVerde, Weathersby Windows & Doors for Prestige (a
+similar AZ dealer, not a manufacturer, so a fair comparison). Screenshots of
+the more useful comparisons are attached.
+
+PALOVERDE (STAGING)
+===================
+
+TWO REAL BUGS WORTH FIXING REGARDLESS OF ANYTHING ELSE
+
+- Homepage has a stray par
+
+============================================================
+SeqNum/UID: 1114
+From: Team AZ Web Corp <requests@azwebcorp.com>
+To: Michael Bustard <mbustard@pvcancer.com>
+Subject: RE: pvcancer social media accounts
+Date: Wed, 02 Sep 2026 08:05:07 -0700
+Message-ID: <178836150799.34668.17507703436673289683@azwebcorp.com>
+In-Reply-To: None
+References: None
+Body snippet: Hi Mike,
+
+Went through the three social accounts you sent over so we understand what's
+already there before touching anything.
+
+FACEBOOK (FACEBOOK.COM/PVHOMED)
+
+374 followers, actively posted - most recent post was about 12 hours before
+we checked, a shared piece from Chemo Companions about comfort-bag
+deliveries to patients. The post before that (about a day old) was a
+medication-list reminder graphic. Recent photo grid shows a consistent set
+of educational graphics: medication list
+
+============================================================
+SeqNum/UID: 1115
+From: Team AZ Web Corp <requests@azwebcorp.com>
+To: Nassim tantouri <Nassim@prestigehomestudioaz.com>
+Subject: RE: action required
+Date: Wed, 02 Sep 2026 08:06:08 -0700
+Message-ID: <178836156897.8592.478226594709563682@azwebcorp.com>
+In-Reply-To: None
+References: None
+Body snippet: Hi Nassim,
+
+Quick, specific ask on the social media piece we mentioned in our note
+on the 26th - we checked, and Prestige Windows doesn't have Facebook or
+Instagram accounts set up yet.
+
+Since we'll be managing social media for Prestige going forward, we need
+those accounts to actually exist first. Could you create the two major
+ones - a Facebook Page and an Instagram Business account - for Prestige
+Windows? Doesn't need to be more than the basic setup (logo, name,
+contact info) since
+

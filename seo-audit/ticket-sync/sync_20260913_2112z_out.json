@@ -1,0 +1,27 @@
+{
+  "folders": [
+    "(\\HasChildren) \"/\" \"INBOX\"",
+    "(\\HasNoChildren \\Sent) \"/\" \"Sent\"",
+    "(\\HasNoChildren \\Drafts) \"/\" \"Drafts\"",
+    "(\\HasNoChildren \\Junk) \"/\" \"Spam\"",
+    "(\\HasChildren \\Trash) \"/\" \"Trash\"",
+    "(\\HasChildren \\Archive) \"/\" \"Archive\"",
+    "(\\HasNoChildren) \"/\" \"Scheduled\"",
+    "(\\HasNoChildren) \"/\" \"AZPL\"",
+    "(\\HasNoChildren) \"/\" \"Archive/2025\"",
+    "(\\HasNoChildren) \"/\" \"Archive/2026\"",
+    "(\\HasChildren) \"/\" \"Candidates\"",
+    "(\\HasNoChildren) \"/\" \"Candidates/DCS\"",
+    "(\\HasNoChildren) \"/\" \"EverythingIT\"",
+    "(\\HasNoChildren) \"/\" \"INBOX/CASE\"",
+    "(\\HasNoChildren) \"/\" \"Junk\"",
+    "(\\HasNoChildren) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren) \"/\" \"Notes\"",
+    "(\\HasNoChildren) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren) \"/\" \"WP candidate\""
+  ],
+  "inbox": [],
+  "sent": [],
+  "sent_folder_detected": "Sent"
+}

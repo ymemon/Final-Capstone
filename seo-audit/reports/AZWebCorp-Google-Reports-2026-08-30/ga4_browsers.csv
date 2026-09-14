@@ -1,0 +1,5 @@
+﻿browser,sessions,totalUsers,newUsers,activeUsers,engagedSessions,engagementRate,averageSessionDuration,screenPageViews,eventCount,keyEvents
+Chrome,25,24,24,24,9,0.36,113.15737476,30,98,0
+Safari,5,1,1,1,2,0.4,207.0194888,10,23,0
+Firefox,4,1,1,1,4,1.0,859.1180395,13,37,0
+Edge,2,2,2,2,1,0.5,295.994928,5,16,0

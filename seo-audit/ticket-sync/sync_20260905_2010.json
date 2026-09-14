@@ -1,0 +1,113 @@
+{
+  "folder_names": [
+    "(\\HasChildren \\UnMarked) \"/\" Archive",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2026",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2025",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Spam",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"WP candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" AZPL",
+    "(\\HasNoChildren \\UnMarked) \"/\" EverythingIT",
+    "(\\HasChildren \\UnMarked) \"/\" Candidates",
+    "(\\HasNoChildren \\UnMarked) \"/\" Candidates/DCS",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" Notes",
+    "(\\HasChildren \\UnMarked \\Trash) \"/\" Trash",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren \\Marked \\Sent) \"/\" Sent",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Junk",
+    "(\\HasNoChildren \\UnMarked) \"/\" INBOX/CASE",
+    "(\\HasNoChildren \\UnMarked \\Drafts) \"/\" Drafts",
+    "(\\HasChildren) \"/\" INBOX"
+  ],
+  "sent_folder_used": "Sent",
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8686,
+        "from": "Azwebcorp <info@azwebcorp.com>",
+        "to": "\"info@azwebcorp.com\" <info@azwebcorp.com>",
+        "subject": "",
+        "date": "Sat, 5 Sep 2026 19:44:03 -0700 (MST)",
+        "message_id": "<1739358493.104542.1788662643990@am1.myprofessionalmail.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "https://claude.ai/code/artifact/6dcb7e21-1a2b-4f11-80be-caa52762bdb4"
+      },
+      {
+        "uid": 8687,
+        "from": "Azwebcorp <info@azwebcorp.com>",
+        "to": "\"info@azwebcorp.com\" <info@azwebcorp.com>",
+        "subject": "",
+        "date": "Sat, 5 Sep 2026 19:46:30 -0700 (MST)",
+        "message_id": "<1098313820.104652.1788662790060@am1.myprofessionalmail.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "https://claude.ai/code/artifact/6dcb7e21-1a2b-4f11-80be-caa52762bdb4"
+      },
+      {
+        "uid": 8688,
+        "from": "\"Amazon.com\" <store-news@amazon.com>",
+        "to": "info@azwebcorp.com",
+        "subject": "Book recommendations for yasir",
+        "date": "Sun, 6 Sep 2026 03:02:27 +0000",
+        "message_id": "<010001a074aad419-44131b79-0768-41f1-a9bb-c189482a727b-000000@email.amazonses.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Book picks just for you https://www.amazon.com/your-books?tabView=library&discoveryType=on&viewType=genres&ref=abptr_srm_em_clc_ss_hero\n\n\n\nNew releases for youBest SellerKindle Edition: $14.99Other formats:Audiobook, Hardcover\n\nBook 2 of 2: The Stonewater Kingdom\n\n\n\nThe Knave and the Moon (The...\n\n\nby Rachel Gillig\nIn this dark sequel to \"The Knight and the Moth\", Sybil Delling is forced to marry King Benji while seeking a mysterious knave who might help her destroy his power over the kingdom.\nBest SellerHardcover: $26.60Other formats:Kindle\n\n\n\nHomemaking with Babs: Tips and Tricks...\n\n\nby Barbara Costello\nNew York Times bestselling author Babs shares a practical homemaking guide with organizing routines, seasonal checklists, natural DIY cleaners, and tips for involving the whole family.\nFor you in Children's Chapter BooksKindle Edition: $3.99Other formats:Audiobook, Library Binding  & 1 more \n\nBook 9 of 24: Owl Diaries\n\n\n\nEva's Big Sleepover: A Branches Book...\n\n\nby Rebecca Elliott\nEva plans a sleepover for her birthday, but her friend Sue seems hesitant, so Eva must help overcome Sue's sleepover jitters.\nKindle Edition: $3.99Other formats:Audiobook, Library Binding  & 1 more \n\nBook 8 of 24: Owl Diaries\n\n\n\nEva and the Lost Pony: A Branches...\n\n\nby Rebecca Elliott\nDuring a big storm in Treetopolis, Eva must prove she's ready for the Owl Oath by helping a lost pony while demonstrating bravery, wisdom, and kindness. This book is part of a series now adapted into \"Eva the Owlet\""
+      },
+      {
+        "uid": 8689,
+        "from": "Phil - AZ Web Corp <requests@azwebcorp.com>",
+        "to": "yasir@azwebcorp.com",
+        "subject": "Re: test subject",
+        "date": "Sat, 05 Sep 2026 20:10:39 -0700",
+        "message_id": "<178866423983.10136.6349947564855146996@azwebcorp.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi,\n\nGot your message - thanks for reaching out. I'm on it now and will follow up\nshortly with next steps.\n\nPhil\nAccount & Delivery, AZ Web Corp\nrequests@azwebcorp.com"
+      }
+    ],
+    "max_uid": 8689,
+    "max_date": "Sat, 05 Sep 2026 20:10:39 -0700"
+  },
+  "sent": {
+    "messages": [
+      {
+        "uid": 1122,
+        "from": "Azwebcorp <info@azwebcorp.com>",
+        "to": "\"info@azwebcorp.com\" <info@azwebcorp.com>",
+        "subject": "",
+        "date": "Sat, 5 Sep 2026 19:44:03 -0700 (MST)",
+        "message_id": "<1739358493.104542.1788662643990@am1.myprofessionalmail.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "https://claude.ai/code/artifact/6dcb7e21-1a2b-4f11-80be-caa52762bdb4"
+      },
+      {
+        "uid": 1123,
+        "from": "Azwebcorp <info@azwebcorp.com>",
+        "to": "\"info@azwebcorp.com\" <info@azwebcorp.com>",
+        "subject": "",
+        "date": "Sat, 5 Sep 2026 19:46:30 -0700 (MST)",
+        "message_id": "<1098313820.104652.1788662790060@am1.myprofessionalmail.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "https://claude.ai/code/artifact/6dcb7e21-1a2b-4f11-80be-caa52762bdb4"
+      },
+      {
+        "uid": 1124,
+        "from": "Phil - AZ Web Corp <requests@azwebcorp.com>",
+        "to": "yasir@azwebcorp.com",
+        "subject": "Re: test subject",
+        "date": "Sat, 05 Sep 2026 20:10:39 -0700",
+        "message_id": "<178866423983.10136.6349947564855146996@azwebcorp.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi,\n\nGot your message - thanks for reaching out. I'm on it now and will follow up\nshortly with next steps.\n\nPhil\nAccount & Delivery, AZ Web Corp\nrequests@azwebcorp.com"
+      }
+    ],
+    "max_uid": 1124,
+    "max_date": "Sat, 05 Sep 2026 20:10:39 -0700"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "folder_names": [
+    "(\\HasChildren \\UnMarked) \"/\" Archive",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2026",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2025",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Spam",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"WP candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" AZPL",
+    "(\\HasNoChildren \\UnMarked) \"/\" EverythingIT",
+    "(\\HasChildren \\UnMarked) \"/\" Candidates",
+    "(\\HasNoChildren \\UnMarked) \"/\" Candidates/DCS",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" Notes",
+    "(\\HasChildren \\UnMarked \\Trash) \"/\" Trash",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren \\UnMarked \\Sent) \"/\" Sent",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Junk",
+    "(\\HasNoChildren \\UnMarked) \"/\" INBOX/CASE",
+    "(\\HasNoChildren \\UnMarked \\Drafts) \"/\" Drafts",
+    "(\\HasChildren) \"/\" INBOX"
+  ],
+  "sent_folder_used": "Sent",
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8804,
+        "from": "Yelp Detroit <no-reply@mail.yelp.com>",
+        "to": "khemia@azwebcorp.com",
+        "subject": "One-of-a-kind restaurants 💫",
+        "date": "Wed, 09 Sep 2026 18:11:06 +0000 (UTC)",
+        "message_id": "<4VGYshDkQcuA0oYDjBWnLw@geopod-ismtpd-113>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "These Metro-Detroit spots are off the beaten path—in a good way.͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌\nYelp   body, table, td, a, p, span, ul, li {font-family: Arial,\nsans-serif!important;} 96            yelp logo (\nhttps://www.yelp.com/collection/a6VLbKWHHhIUyUtdR87u1g?utm_medium=email&utm_source=Braze_260909_rc_cm_localyelp_uniquerestos_var1_Detroit&utm_campaign=Sep-09-2026&utm_term=dd2G8nRvn-JORyNPkoW9mg&ytl_=b298ea5ee5711e8d807841b3306e51eb\n)\n\n• Metro-Detroit •\n--------------------------------------\n\n\n\n\n\n\n\n\n\n\nSeptember\n9th,\n2026 | ISSUE\n#36\n-----------------------------------------------------------------\n\nFind wings close to you (\nhttps://www.yelp.com/collection/a6VLbKWHHhIUyUtdR87u1g?utm_medium=email&utm_source=Braze_260909_rc_cm_localyelp_uniquerestos_var1_Detroit&utm_campaign=Sep-09-2026&utm_term=dd2G8nRvn-JORyNPkoW9mg&ytl_=b298ea5ee5711e8d807841b3306e51eb\n)          Most unique restaurants (\nhttps://www.yelp.com/collection/a6VLbKWHHhIUyUtdR87u1g?utm_medium=email&utm_source=Braze_260909_rc_cm_localyelp_uniquerestos_var1_Detroit&utm_campaign=Sep-09-2026&utm_term=dd2G8nRvn-JORyNPkoW9mg&ytl_=b298ea5ee5711e8d807841b3306e51eb\n)\n\n****************\nDine differently\n****************\n\n--------------------------------------------\nThese restaurants bring a"
+      }
+    ],
+    "max_uid": 8804,
+    "max_date": "Wed, 09 Sep 2026 18:11:06 +0000 (UTC)"
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 0,
+    "max_date": null
+  }
+}

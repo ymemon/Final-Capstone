@@ -1,0 +1,14 @@
+Run: 2026-09-12, checkpoint carried in at uid=4079 / "Sat, 12 Sep 2026 18:11:02 GMT"
+
+INBOX: 0 new messages since checkpoint.
+
+SENT: 8 new messages (uids 1181-1190), all automated Rebound Body Studio
+booking-widget transactional mail (one-time login links, booking
+confirmation/request acks, internal new-booking alert) - not manual
+client correspondence. Skipped per "skip internal/automated mail" rule.
+
+Checkpoint: re-posted unchanged (uid=4079, same date) since no new INBOX mail.
+
+Stale check (48h, waiting_us... waiting_client): GET /stale?hours=48 -> [] (none).
+
+Result: no tickets created, no activity logged, no nudges drafted, no notifications sent.

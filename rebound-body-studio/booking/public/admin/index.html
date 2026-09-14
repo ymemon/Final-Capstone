@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Studio Dashboard — Rebound Body Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<style>
+:root{
+  --paper:#f2f6f7; --surface:#ffffff; --sunk:#e6eef0;
+  --ink:#0e1c28; --ink-2:#39515f; --ink-3:#68808d;
+  --line:#d7e2e6; --accent:#0a5474; --accent-ink:#063d57; --on-accent:#ffffff;
+  --ochre:#a8830f; --good:#1e7d47; --bad:#b3261e;
+  --shadow:0 1px 2px rgba(17,33,42,.04), 0 18px 40px -24px rgba(17,33,42,.30);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Newsreader",Georgia,serif; font-size:16px; line-height:1.5;
+  padding:28px 16px;
+}
+.wrap{max-width:840px; margin:0 auto}
+h1{font-family:"Archivo",sans-serif; font-weight:800; letter-spacing:-.02em; font-size:26px; margin:0 0 4px}
+.subtitle{color:var(--ink-3); font-size:15px; margin:0 0 24px}
+.card{
+  background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  box-shadow:var(--shadow); padding:28px; margin-bottom:20px;
+}
+.label{
+  font-family:"Archivo",sans-serif; font-size:11.5px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3);
+  display:block; margin-bottom:7px;
+}
+input{
+  width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:8px;
+  font-family:"Newsreader",Georgia,serif; font-size:15.5px; color:var(--ink);
+}
+input:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(10,84,116,.12)}
+button{
+  font-family:"Archivo",sans-serif; font-weight:700; font-size:14px; cursor:pointer;
+  border-radius:8px; border:none; padding:10px 18px; transition:background .15s;
+}
+.btn-primary{background:var(--accent); color:var(--on-accent)}
+.btn-primary:hover{background:var(--accent-ink)}
+.btn-good{background:#e7f4ec; color:var(--good)}
+.btn-good:hover{background:#d3ecdc}
+.btn-bad{background:#fbe9e7; color:var(--bad)}
+.btn-bad:hover{background:#f7d9d5}
+button:disabled{opacity:.5; cursor:not-allowed}
+.section-title{font-family:"Archivo",sans-serif; font-weight:700; font-size:13px;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2); margin:0 0 14px}
+.req-row{
+  display:flex; justify-content:space-between; align-items:flex-start; gap:16px;
+  padding:16px 0; border-bottom:1px solid var(--line);
+}
+.req-row:last-child{border-bottom:none}
+.req-info b{font-family:"Archivo",sans-serif; font-size:15.5px; color:var(--ink); display:block}
+.req-info .meta{color:var(--ink-2); font-size:14px; margin-top:2px}
+.req-info .note{color:var(--ink-3); font-size:13.5px; margin-top:6px; font-style:italic}
+.req-actions{display:flex; gap:8px; flex-shrink:0}
+.empty-state{text-align:center; color:var(--ink-3); padding:30px 0; font-size:15px}
+.appt-row{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:12px 0; border-bottom:1px solid var(--line); font-size:14.5px;
+}
+.appt-row:last-child{border-bottom:none}
+.status-pill{
+  font-family:"Archivo",sans-serif; font-size:11px; font-weight:700; letter-spacing:.06em;
+  text-transform:uppercase; padding:3px 10px; border-radius:20px;
+}
+.status-requested{background:#fdf1dc; color:var(--ochre)}
+.status-confirmed{background:#e7f4ec; color:var(--good)}
+.status-completed{background:var(--sunk); color:var(--ink-3)}
+.status-cancelled, .status-declined{background:#fbe9e7; color:var(--bad)}
+.status-no_show{background:#fbe9e7; color:var(--bad)}
+.error{color:var(--bad); font-size:13.5px; margin-top:8px; font-family:"Archivo",sans-serif}
+.hint{color:var(--ink-3); font-size:14px; margin-top:6px}
+#logoutBar{display:flex; justify-content:flex-end; margin-bottom:8px}
+#logoutBar a{color:var(--ink-3); font-size:13px; font-family:"Archivo",sans-serif; text-decoration:none}
+#logoutBar a:hover{text-decoration:underline}
+
+.wrap{max-width:1080px}.label{font-size:14px;letter-spacing:.02em}.status-pill{font-size:12px;white-space:nowrap}
+input,select,textarea{font:inherit}textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;resize:vertical}
+select{padding:8px;border:1px solid var(--line);border-radius:8px;background:white;color:var(--ink)}
+.calendar-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.calendar-toolbar h3{margin:0;flex:1;font:700 22px Archivo,sans-serif}
+.calendar-grid,.weekday-row{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.weekday-row{text-align:center;font:600 14px Archivo,sans-serif;margin:16px 0 8px}
+.calendar-day{min-height:116px;text-align:left;padding:10px 8px;background:var(--paper);border:2px solid transparent;color:var(--ink);font-size:14px;overflow-wrap:anywhere}
+.calendar-day:hover{background:var(--sunk)}.calendar-day.selected{border-color:var(--accent);background:#e5f1f6}.calendar-day.today .day-number{color:var(--accent);text-decoration:underline}
+.day-number{font-size:18px}.day-count{display:block;font-size:12px;font-weight:500;color:var(--ink-2)}.day-events{display:block;font:12px/1.45 Archivo,sans-serif;margin-top:6px}.day-events span{display:block;margin-top:4px}
+.day-title{font:700 20px Archivo,sans-serif;margin-top:28px}.list-date{margin:16px 0 0;color:var(--ink-2)}
+.client-row{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding:14px 0;overflow-wrap:anywhere}.client-row label{flex-shrink:0;font-size:14px}
+.appt-row{gap:12px;overflow-wrap:anywhere}.appt-row b{font-family:Archivo,sans-serif}.appt-row .meta{color:var(--ink-2);font-size:14px}
+#campaignSubject{margin-bottom:16px}#marketingMessage{margin-top:14px}#campaignPreview{border:1px solid var(--line);border-radius:8px;padding:20px;margin-top:20px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:16px/1.6 Georgia,serif}
+details{margin-top:22px}summary{cursor:pointer;color:var(--accent);font-family:Archivo,sans-serif}#logoutBar{gap:16px;align-items:center;flex-wrap:wrap}button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(max-width:650px){body{padding:16px 8px}.card{padding:18px 12px}.req-row,.client-row{flex-direction:column;align-items:stretch}.req-actions{flex-wrap:wrap}.calendar-day{min-height:66px;padding:6px 2px;text-align:center}.day-events{display:none}.day-count{font-size:12px}.calendar-toolbar h3{order:-1;flex-basis:100%}.appt-row{align-items:flex-start;flex-direction:column}.weekday-row{font-size:12px}.calendar-grid,.weekday-row{gap:2px}}
+.package-order{padding:22px 0;border-bottom:1px solid var(--line)}.package-order form{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin:18px 0}.package-order label{flex:1;min-width:150px}.package-order input{margin-top:6px}.package-order .balance-line{font-weight:bold}.appointment-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="loginView">
+    <h1>Studio Dashboard</h1>
+    <p class="subtitle">Rebound Body Studio</p>
+    <div class="card">
+      <p style="margin-top:0">Enter your studio email and we'll send you a secure login link.</p>
+      <form id="loginForm"><label class="label" for="loginEmail">Email Address</label>
+      <input type="email" required autocomplete="email" id="loginEmail" placeholder="you@reboundbodystudio.com">
+      <button class="btn-primary" type="submit" id="loginBtn" style="margin-top:14px; width:100%">Send Login Link</button></form>
+      <div class="error" id="loginError"></div>
+      <div class="hint" id="loginSent" style="display:none">Check your email for the login link — it's valid for 15 minutes.</div>
+    </div>
+  </div>
+
+  <div id="dashboardView" style="display:none">
+    <div id="logoutBar"><button id="refreshButton" class="btn-primary">Refresh</button><span id="lastUpdated" class="hint"></span><a href="#" id="logoutLink">Log out</a></div>
+    <h1>Studio Dashboard</h1>
+    <p class="subtitle">Rebound Body Studio</p>
+
+    <div id="dashboardError" class="error" role="alert"></div>
+    <div class="card">
+      <div class="section-title">Pending Requests</div>
+      <div id="requestsList"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Appointment calendar</h2>
+      <div class="calendar-toolbar"><button id="prevMonth" aria-label="Previous month">Previous</button><h3 id="monthTitle"></h3><button id="nextMonth" aria-label="Next month">Next</button><button id="todayButton">Today</button></div>
+      <p class="hint">All appointments use Arizona time. Select a day to see its details.</p>
+      <div class="weekday-row" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+      <div id="calendarGrid" class="calendar-grid" aria-label="Appointment days"></div>
+      <h3 id="dayTitle" class="day-title"></h3><div id="dayAppointments" aria-live="polite"></div>
+      <details><summary>All appointments this month</summary><div id="calendarList"></div></details>
+    </div>
+    <div class="card">
+      <h2 class="section-title">Packages and session balances</h2>
+      <p id="squareConnection" role="status">Checking Square connection…</p>
+      <p class="hint">Customers can buy packages without booking an appointment. Online Square payments activate sessions automatically once connected. Record an offline payment only after it has been received. Recording payment here does not charge a card.</p>
+      <p><a href="../packages.html?v=20260912-square-3" target="_blank" rel="noopener">Open the package order page</a></p>
+      <p id="packageMessage" role="status"></p><div id="packageOrders"></div>
+    </div>
+    <div class="card">
+      <h2 class="section-title">Customer email preferences</h2>
+      <p class="hint">Marketing emails can be turned off independently. Appointment confirmations, reminders and cancellation messages continue.</p>
+      <div id="clientsList"></div>
+    </div>
+    <div class="card">
+      <h2 class="section-title">Marketing emails</h2>
+      <p id="recipientCount"></p>
+      <form id="campaignForm">
+        <label class="label" for="campaignSubject">Subject</label><input id="campaignSubject" maxlength="180" required>
+        <label class="label" for="campaignBody">Message</label><textarea id="campaignBody" rows="8" maxlength="20000" required placeholder="Write the news or special offer you want to share."></textarea>
+        <p class="hint">Your studio details and a marketing-only unsubscribe link are added automatically.</p>
+        <button class="btn-primary" id="previewCampaign" type="submit">Preview email</button>
+      </form>
+      <div id="marketingMessage" role="status" aria-live="polite"></div>
+      <section id="campaignPreview" hidden>
+        <h3>Review your email</h3><h4 id="previewSubject"></h4><pre id="previewBody"></pre>
+        <button type="button" class="btn-primary" id="sendCampaign" disabled>Send email</button>
+      </section>
+      <details><summary>Recent campaigns</summary><div id="campaignHistory"></div></details>
+    </div>
+  </div>
+
+</div>
+
+<script src="dashboard.js?v=20260912-square-1"></script>
+</body>
+</html>

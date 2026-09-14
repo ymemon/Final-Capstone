@@ -1,0 +1,1979 @@
+<?php
+/**
+ * Plugin Name: AZWebCorp Ultimate SEO Audit
+ * Description: Comprehensive, visitor‑facing SEO audit with premium UI. Every number is measured from the actual site response.
+ * Version: 2.1.0
+ * Author: AZWebCorp
+ *
+ * ---------------------------------------------------------------------------
+ * EVERY NUMBER THIS TOOL SHOWS IS MEASURED.
+ * No estimates, no traffic guesses, no artificial authority scores.
+ * ---------------------------------------------------------------------------
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+/* -------------------------------------------------------------------------
+ * CORE CONFIG & CONSTANTS
+ * ---------------------------------------------------------------------- */
+define('AZWC_AUDIT_VERSION', '2.1.0');
+define('AZWC_AUDIT_CACHE_HOURS', 6);
+define('AZWC_AUDIT_RATE_PER_HOUR', 12);
+define('AZWC_AUDIT_TIMEOUT', 30);
+define('AZWC_AUDIT_MAX_BYTES', 3145728);
+define('AZWC_PSI_TIMEOUT', 150);
+define('AZWC_LAZY_MANY', 10);
+define('AZWC_LAZY_MIN_PCT', 25);
+define('AZWC_LINKCHECK_MAX', 10);
+define('AZWC_LINKCHECK_TIMEOUT', 6);
+define('AZWC_SITEMAP_STALE_DAYS', 180);
+
+function azwc_audit_psi_key()
+{
+    if (defined('AZWC_PSI_KEY') && AZWC_PSI_KEY) {
+        return AZWC_PSI_KEY;
+    }
+    return (string) get_option('azwc_audit_psi_key', '');
+}
+
+/* -------------------------------------------------------------------------
+ * EXECUTION LOCKING & RATE LIMITING
+ * ---------------------------------------------------------------------- */
+function azwc_audit_acquire_lock($url, $stage)
+{
+    $lock_key = 'azwc_lock_' . md5($url . '_' . $stage);
+    if (get_transient($lock_key)) {
+        return false;
+    }
+    set_transient($lock_key, true, 45);
+    return $lock_key;
+}
+
+function azwc_audit_release_lock($lock_key)
+{
+    if ($lock_key) {
+        delete_transient($lock_key);
+    }
+}
+
+function azwc_audit_rate_ok()
+{
+    $ip = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : 'unknown';
+    $key = 'azwc_audit_rate_' . md5($ip);
+    $n = (int) get_transient($key);
+    if ($n >= AZWC_AUDIT_RATE_PER_HOUR) {
+        return false;
+    }
+    set_transient($key, $n + 1, HOUR_IN_SECONDS);
+    return true;
+}
+
+/* -------------------------------------------------------------------------
+ * INPUT SAFETY & NETWORK BOUNDARIES
+ * ---------------------------------------------------------------------- */
+function azwc_audit_normalize($input)
+{
+    $input = trim((string) $input);
+    if ('' === $input || strlen($input) > 255) {
+        return new WP_Error('azwc_bad_input', 'Enter a domain, for example example.com');
+    }
+    if (!preg_match('#^https?://#i', $input)) {
+        $input = 'https://' . $input;
+    }
+    $parts = wp_parse_url($input);
+    if (empty($parts['host'])) {
+        return new WP_Error('azwc_bad_input', 'That does not look like a domain.');
+    }
+    $scheme = strtolower($parts['scheme'] ?? 'https');
+    if (!in_array($scheme, array('http', 'https'), true)) {
+        return new WP_Error('azwc_bad_input', 'Only http and https addresses can be checked.');
+    }
+    $host = strtolower($parts['host']);
+    if (false === strpos($host, '.')) {
+        return new WP_Error('azwc_bad_input', 'Enter a full domain, for example example.com');
+    }
+    $ips = azwc_audit_resolve($host);
+    if (is_wp_error($ips)) {
+        return $ips;
+    }
+    foreach ($ips as $ip) {
+        if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            return new WP_Error('azwc_private', 'That address is on a private network and cannot be checked.');
+        }
+    }
+    $path = $parts['path'] ?? '/';
+    return $scheme . '://' . $host . ('' === $path ? '/' : $path);
+}
+
+function azwc_audit_resolve($host)
+{
+    $records = @dns_get_record($host, DNS_A | DNS_AAAA);
+    $ips = array();
+    if ($records) {
+        foreach ($records as $r) {
+            if (!empty($r['ip'])) {
+                $ips[] = $r['ip'];
+            }
+            if (!empty($r['ipv6'])) {
+                $ips[] = $r['ipv6'];
+            }
+        }
+    }
+    if (!$ips) {
+        $resolved = gethostbyname($host);
+        if ($resolved && $resolved !== $host) {
+            $ips[] = $resolved;
+        }
+    }
+    if (!$ips) {
+        return new WP_Error('azwc_dns', 'That domain does not resolve. Check the spelling.');
+    }
+    return $ips;
+}
+
+function azwc_audit_link_host_ok($link_url)
+{
+    $parts = wp_parse_url($link_url);
+    if (empty($parts['host'])) {
+        return false;
+    }
+    $ips = azwc_audit_resolve($parts['host']);
+    if (is_wp_error($ips)) {
+        return false;
+    }
+    foreach ($ips as $ip) {
+        if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function azwc_audit_probe_link($link_url)
+{
+    $args = array(
+        'timeout' => AZWC_LINKCHECK_TIMEOUT,
+        'redirection' => 4,
+        'reject_unsafe_urls' => true,
+        'user-agent' => 'AZWebCorpSEOAudit/' . AZWC_AUDIT_VERSION . ' (+https://azwebcorp.com/free-seo-audit/)',
+        'limit_response_size' => 2048,
+    );
+    $r = wp_remote_head($link_url, $args);
+    $code = is_wp_error($r) ? 0 : (int) wp_remote_retrieve_response_code($r);
+    if (0 === $code || in_array($code, array(405, 501), true)) {
+        $r = wp_remote_get($link_url, $args);
+        $code = is_wp_error($r) ? 0 : (int) wp_remote_retrieve_response_code($r);
+    }
+    return $code;
+}
+
+/* -------------------------------------------------------------------------
+ * FETCHING
+ * ---------------------------------------------------------------------- */
+function azwc_audit_fetch($url, $method = 'GET')
+{
+    $started = microtime(true);
+    $args = array(
+        'timeout' => AZWC_AUDIT_TIMEOUT,
+        'redirection' => 5,
+        'reject_unsafe_urls' => true,
+        'method' => $method,
+        'user-agent' => 'AZWebCorpSEOAudit/' . AZWC_AUDIT_VERSION . ' (+https://azwebcorp.com/free-seo-audit/)',
+        'limit_response_size' => AZWC_AUDIT_MAX_BYTES,
+        'headers' => array('Accept' => 'text/html,application/xhtml+xml,*/*'),
+    );
+    $response = wp_remote_request($url, $args);
+    $elapsed = (microtime(true) - $started) * 1000;
+    if (is_wp_error($response)) {
+        return $response;
+    }
+    return array(
+        'status' => (int) wp_remote_retrieve_response_code($response),
+        'headers' => wp_remote_retrieve_headers($response)->getAll(),
+        'body' => (string) wp_remote_retrieve_body($response),
+        'ms' => (int) round($elapsed),
+    );
+}
+
+function azwc_audit_chain($url, $max = 5)
+{
+    $chain = array();
+    $current = $url;
+    for ($i = 0; $i < $max; $i++) {
+        $r = wp_remote_request($current, array(
+            'timeout' => AZWC_AUDIT_TIMEOUT,
+            'redirection' => 0,
+            'reject_unsafe_urls' => true,
+            'method' => 'HEAD',
+            'user-agent' => 'AZWebCorpSEOAudit/' . AZWC_AUDIT_VERSION,
+        ));
+        if (is_wp_error($r)) {
+            break;
+        }
+        $code = (int) wp_remote_retrieve_response_code($r);
+        $location = wp_remote_retrieve_header($r, 'location');
+        $chain[] = array('url' => $current, 'status' => $code);
+        if ($code < 300 || $code >= 400 || !$location) {
+            break;
+        }
+        $current = 0 === strpos($location, 'http') ? $location : untrailingslashit($current) . '/' . ltrim($location, '/');
+    }
+    return $chain;
+}
+
+/* -------------------------------------------------------------------------
+ * DOM UTILITIES
+ * ---------------------------------------------------------------------- */
+function azwc_audit_dom_parser($html)
+{
+    if (!class_exists('DOMDocument')) {
+        return null;
+    }
+    $libxml_state = libxml_use_internal_errors(true);
+    $dom = new DOMDocument();
+    $loaded = $dom->loadHTML('<?xml encoding="UTF-8">' . $html, LIBXML_NONET | LIBXML_NOWARNING);
+    libxml_clear_errors();
+    libxml_use_internal_errors($libxml_state);
+    if (!$loaded) {
+        return null;
+    }
+    return new DOMXPath($dom);
+}
+
+function azwc_audit_plain_english($id)
+{
+    static $map = array(
+        'indexable' => 'Search engines have to be allowed to list a page before it can ever show up in results.',
+        'robots_txt' => 'robots.txt is a small file at the root of your site telling search engines which areas they may look at.',
+        'sitemap' => 'A sitemap is a machine-readable list of every page you want found.',
+        'canonical' => 'A canonical tag helps search engines identify the primary version of a page.',
+        'https' => 'HTTPS encrypts connection traffic and protects visitor data integrity.',
+        'redirects' => 'Tracks redirect hops between the initial request and final URL.',
+        'mixed_content' => 'Checks for unencrypted HTTP asset references on an HTTPS page.',
+        'compression' => 'Server-level HTTP compression reduces byte transfer sizes.',
+        'html_size' => 'Measures the total HTML byte weight before asset downloads.',
+        'title' => 'Evaluates page title length and search snippet readability.',
+        'description' => 'Checks for meta description tags and character thresholds.',
+        'h1' => 'Verifies proper H1 heading usage across the document.',
+        'content_depth' => 'Measures total visible body word volume.',
+        'image_alt' => 'Checks images for screen reader and search alt text attributes.',
+        'viewport' => 'Ensures mobile viewport declarations exist for responsive layout rendering.',
+        'lang' => 'Verifies primary document language attributes.',
+        'structured_data' => 'Validates presence of Schema.org JSON-LD blocks.',
+        'open_graph' => 'Checks Open Graph title and image tags for social preview rendering.',
+        'favicon' => 'Confirms favicon icon tag declarations.',
+        'links' => 'Evaluates internal link density and navigation connectivity.',
+        'heading_order' => 'Checks sequential heading level ordering across the DOM.',
+        'charset' => 'Confirms document character encoding declarations.',
+        'twitter_card' => 'Checks Twitter/X social card markup declarations.',
+        'img_dimensions' => 'Checks explicit image width and height attributes to prevent layout shifts.',
+        'lazy_images' => 'Checks image lazy loading usage and hero image configuration.',
+        'blank_noopener' => 'Checks for rel="noopener" on new-tab link targets.',
+        'empty_links' => 'Identifies empty or anchor-only link placeholders.',
+        'security_headers' => 'Evaluates presence of active HTTP transport security headers.',
+        'broken_links' => 'Probes a sample of page links for HTTP errors.',
+        'structured_data_valid' => 'Validates syntax within JSON-LD script blocks.',
+        'sitemap_freshness' => 'Parses sitemap lastmod dates to evaluate crawl freshness.',
+        'hreflang' => 'Evaluates internationalization hreflang tags for duplicate conflicts.',
+        'resource_hints' => 'Advanced code that speeds up browser connection times for critical site files.',
+        'deprecated_html' => 'Checks for obsolete code that causes modern mobile devices to render slowly.',
+        'form_accessibility' => 'Ensures visitors with disabilities or screen readers can use your contact forms.',
+        'apple_touch_icon' => 'A custom brand logo for users who save your website to an iPhone/iPad screen.',
+        'meta_keywords' => 'Legacy metadata ignored by Google since 2009. Having this indicates an outdated strategy.',
+        'og_image_reachable' => 'Verifies that the Open Graph image URL actually loads.',
+        'favicon_reachable' => 'Confirms the favicon file is accessible.',
+        'viewport_valid' => 'Checks that the viewport meta tag is configured correctly for mobile.',
+        'script_attributes' => 'Ensures external scripts use defer or async to avoid render-blocking.',
+    );
+    return isset($map[$id]) ? $map[$id] : '';
+}
+
+function azwc_audit_check($id, $label, $status, $detail, $weight = 1, $group = 'technical', $items = array())
+{
+    $plain = azwc_audit_plain_english($id);
+    return compact('id', 'label', 'status', 'detail', 'plain', 'weight', 'group', 'items');
+}
+
+function azwc_audit_match_all($pattern, $subject)
+{
+    $m = array();
+    $ok = @preg_match_all($pattern, $subject, $m);
+    if (false === $ok || !is_array($m) || !isset($m[0]) || !is_array($m[0])) {
+        return array(array(), array());
+    }
+    if (!isset($m[1]) || !is_array($m[1])) {
+        $m[1] = array();
+    }
+    return $m;
+}
+
+function azwc_audit_abs_url($ref, $base)
+{
+    $ref = trim(html_entity_decode($ref, ENT_QUOTES));
+    if ('' === $ref || 0 === stripos($ref, 'data:')) {
+        return '';
+    }
+    if (preg_match('#^https?://#i', $ref)) {
+        return $ref;
+    }
+    $p = wp_parse_url($base);
+    if (empty($p['host'])) {
+        return '';
+    }
+    $scheme = $p['scheme'] ?? 'https';
+    if (0 === strpos($ref, '//')) {
+        return $scheme . ':' . $ref;
+    }
+    $origin = $scheme . '://' . $p['host'];
+    if (0 === strpos($ref, '/')) {
+        return $origin . $ref;
+    }
+    $dir = rtrim(dirname($p['path'] ?? '/'), '/\\');
+    return $origin . $dir . '/' . $ref;
+}
+
+function azwc_audit_strip_blocks($html)
+{
+    foreach (array('script', 'style', 'noscript', 'template', 'svg') as $tag) {
+        $offset = 0;
+        while (false !== ($start = stripos($html, '<' . $tag, $offset))) {
+            $close = stripos($html, '</' . $tag, $start);
+            if (false === $close) {
+                $html = substr($html, 0, $start);
+                break;
+            }
+            $end = strpos($html, '>', $close);
+            $end = false === $end ? strlen($html) : $end + 1;
+            $html = substr($html, 0, $start) . ' ' . substr($html, $end);
+            $offset = $start + 1;
+        }
+    }
+    return $html;
+}
+
+function azwc_audit_text($html)
+{
+    $stripped = azwc_audit_strip_blocks($html);
+    $stripped = str_replace('<', ' <', $stripped);
+    $plain = wp_strip_all_tags($stripped);
+    $collapsed = preg_replace('/\s+/', ' ', $plain);
+    return trim(null === $collapsed ? $plain : $collapsed);
+}
+
+/* -------------------------------------------------------------------------
+ * CORE AUDIT ENGINE (All Measurable Checks)
+ * ---------------------------------------------------------------------- */
+function azwc_audit_run_checks($url, $page, $chain)
+{
+    $html = $page['body'];
+    $headers = array_change_key_case($page['headers']);
+    $checks = array();
+    $parts = wp_parse_url($url);
+    $host = $parts['host'];
+    $xpath = azwc_audit_dom_parser($html);
+
+    /* --- Indexability --- */
+    $robots_meta = '';
+    if (preg_match('#<meta[^>]+name=["\']robots["\'][^>]*content=["\']([^"\']+)#i', $html, $m)) {
+        $robots_meta = strtolower($m[1]);
+    }
+    $x_robots = strtolower(is_array($headers['x-robots-tag'] ?? '') ? implode(',', $headers['x-robots-tag']) : ($headers['x-robots-tag'] ?? ''));
+    $noindexed = (false !== strpos($robots_meta, 'noindex')) || (false !== strpos($x_robots, 'noindex'));
+    $checks[] = azwc_audit_check(
+        'indexable',
+        'Search engines are allowed to index this page',
+        $noindexed ? 'fail' : 'pass',
+        $noindexed
+            ? 'A noindex directive is present, which removes this page from search results entirely.'
+            : 'No noindex directive found in the meta robots tag or X-Robots-Tag header.',
+        4,
+        'indexability'
+    );
+
+    $robots_txt = azwc_audit_fetch($parts['scheme'] . '://' . $host . '/robots.txt');
+    $has_robots = !is_wp_error($robots_txt) && 200 === $robots_txt['status'];
+    $rt_body = $has_robots ? $robots_txt['body'] : '';
+    $blocks_all = (bool) preg_match('/^\s*disallow:\s*\/\s*$/im', $rt_body);
+    $checks[] = azwc_audit_check(
+        'robots_txt',
+        'robots.txt is present and not blocking the site',
+        $blocks_all ? 'fail' : ($has_robots ? 'pass' : 'warn'),
+        $blocks_all
+            ? 'robots.txt contains "Disallow: /", which blocks all crawling.'
+            : ($has_robots ? 'robots.txt found and permits crawling.' : 'No robots.txt found at origin.'),
+        2,
+        'indexability'
+    );
+
+    /* Sitemap */
+    $sitemap_in_robots = (bool) preg_match('/^\s*sitemap:\s*(\S+)/im', $rt_body, $sm);
+    $sitemap_url = $sitemap_in_robots ? trim($sm[1]) : $parts['scheme'] . '://' . $host . '/sitemap.xml';
+    $sitemap = azwc_audit_fetch($sitemap_url);
+    $has_sitemap = !is_wp_error($sitemap) && 200 === $sitemap['status'] && false !== stripos($sitemap['body'], '<');
+    $sitemap_urls = $has_sitemap ? substr_count($sitemap['body'], '<loc>') : 0;
+    $is_index = $has_sitemap && false !== stripos($sitemap['body'], '<sitemapindex');
+    $child_page_count = 0;
+    if ($is_index) {
+        preg_match_all('#<sitemap>\s*<loc>\s*([^<\s]+)#i', $sitemap['body'], $sm_matches);
+        $children = array_slice($sm_matches[1] ?? array(), 0, 3);
+        foreach ($children as $child_url) {
+            $c_res = azwc_audit_fetch(trim($child_url));
+            if (!is_wp_error($c_res) && 200 === $c_res['status']) {
+                $child_page_count += substr_count($c_res['body'], '<loc>');
+            }
+        }
+    }
+    $sitemap_label = !$has_sitemap
+        ? ''
+        : ($is_index
+            ? sprintf('Sitemap index found at %s, referencing %d child sitemaps (%d URLs sampled across children).', $sitemap_url, $sitemap_urls, $child_page_count)
+            : sprintf('Sitemap found at %s listing %d URL%s.', $sitemap_url, $sitemap_urls, 1 === $sitemap_urls ? '' : 's'));
+    $checks[] = azwc_audit_check(
+        'sitemap',
+        'An XML sitemap is reachable',
+        $has_sitemap ? 'pass' : 'warn',
+        $has_sitemap ? $sitemap_label : 'No XML sitemap found at /sitemap.xml or declared in robots.txt.',
+        2,
+        'indexability'
+    );
+
+    /* Sitemap Freshness */
+    $sitemap_lastmods = array();
+    if ($has_sitemap) {
+        preg_match_all('#<lastmod>\s*([^<\s]+)#i', $sitemap['body'], $lm);
+        foreach ($lm[1] as $raw) {
+            $ts = strtotime(trim($raw));
+            if ($ts) {
+                $sitemap_lastmods[] = $ts;
+            }
+        }
+    }
+    if ($sitemap_lastmods) {
+        $newest = max($sitemap_lastmods);
+        $days = (int) floor((time() - $newest) / DAY_IN_SECONDS);
+        $future = $days < 0;
+        $abs = abs($days);
+        $checks[] = azwc_audit_check(
+            'sitemap_freshness',
+            'The sitemap reflects recent activity',
+            $future ? 'warn' : ($abs <= 30 ? 'pass' : ($abs <= AZWC_SITEMAP_STALE_DAYS ? 'warn' : 'fail')),
+            $future
+                ? sprintf('Newest <lastmod> date is %s (in future).', gmdate('Y-m-d', $newest))
+                : sprintf('Newest <lastmod> date in sitemap is %s (%d day%s ago).', gmdate('Y-m-d', $newest), $abs, 1 === $abs ? '' : 's'),
+            1,
+            'indexability'
+        );
+    } elseif ($has_sitemap) {
+        $checks[] = azwc_audit_check(
+            'sitemap_freshness',
+            'The sitemap reflects recent activity',
+            'info',
+            'The sitemap does not specify <lastmod> dates.',
+            1,
+            'indexability'
+        );
+    }
+
+    $canonical = '';
+    if (preg_match('#<link[^>]+rel=["\']canonical["\'][^>]*href=["\']([^"\']+)#i', $html, $m)) {
+        $canonical = trim($m[1]);
+    }
+    $checks[] = azwc_audit_check(
+        'canonical',
+        'A canonical URL is declared',
+        $canonical ? 'pass' : 'warn',
+        $canonical ? 'Canonical URL points to ' . $canonical : 'No canonical tag found.',
+        2,
+        'indexability'
+    );
+
+    /* --- Technical Transport --- */
+    $is_https = 'https' === $parts['scheme'];
+    $checks[] = azwc_audit_check(
+        'https',
+        'The site is served over HTTPS',
+        $is_https ? 'pass' : 'fail',
+        $is_https ? 'HTTPS connection active and verified.' : 'Site reached over unencrypted HTTP.',
+        3,
+        'technical'
+    );
+
+    $hops = max(0, count($chain) - 1);
+    $checks[] = azwc_audit_check(
+        'redirects',
+        'Redirects are kept short',
+        $hops <= 1 ? 'pass' : ($hops <= 2 ? 'warn' : 'fail'),
+        0 === $hops ? 'Resolves directly with zero redirects.' : sprintf('%d redirect hop(s) detected.', $hops),
+        2,
+        'technical',
+        $hops > 0 ? wp_list_pluck($chain, 'url') : array()
+    );
+
+    // Mixed content only ever applies to a RESOURCE THE PAGE LOADS ITSELF —
+    // an <img>/<script>/<iframe> src, or a <link> (stylesheet/icon) href.
+    // A plain <a href="http://..."> is a navigation destination a visitor
+    // has to click; browsers never treat that as mixed content, so matching
+    // bare href= here (the original regex) mislabels an ordinary broken
+    // link — e.g. a mistyped tel: number that WordPress's URL sanitizer
+    // turned into http://+1... — as a security finding it is not.
+    $mixed = 0;
+    $mixed_items = array();
+    if ($is_https) {
+        $mixed_matches = array();
+        if (preg_match_all('#\bsrc\s*=\s*["\'](http://[^"\']+)#i', $html, $mm)) {
+            $mixed_matches = array_merge($mixed_matches, $mm[1]);
+        }
+        if (preg_match_all('#<link\b[^>]+\bhref\s*=\s*["\'](http://[^"\']+)#i', $html, $mm)) {
+            $mixed_matches = array_merge($mixed_matches, $mm[1]);
+        }
+        $mixed_items = array_slice(array_values(array_unique($mixed_matches)), 0, 12);
+        $mixed = count($mixed_items);
+    }
+    $checks[] = azwc_audit_check(
+        'mixed_content',
+        'No insecure resources on a secure page',
+        $mixed > 0 ? 'fail' : 'pass',
+        $mixed > 0 ? sprintf('%d insecure HTTP asset resource(s) referenced on HTTPS page.', $mixed) : 'All referenced assets use HTTPS.',
+        2,
+        'technical',
+        $mixed_items
+    );
+
+    $compressed = !empty($headers['content-encoding']);
+    $checks[] = azwc_audit_check(
+        'compression',
+        'The HTML is compressed in transit',
+        $compressed ? 'pass' : 'warn',
+        $compressed ? 'Content-Encoding: ' . (is_array($headers['content-encoding']) ? implode(',', $headers['content-encoding']) : $headers['content-encoding']) : 'No Content-Encoding header found.',
+        1,
+        'technical'
+    );
+
+    $bytes = strlen($html);
+    $checks[] = azwc_audit_check(
+        'html_size',
+        'HTML document size is reasonable',
+        $bytes < 150000 ? 'pass' : ($bytes < 400000 ? 'warn' : 'fail'),
+        sprintf('Document payload size is %s (%d ms response time).', size_format($bytes), $page['ms']),
+        1,
+        'technical'
+    );
+
+    /* --- On-Page Structure --- */
+    $title = '';
+    if (preg_match('#<title[^>]*>(.*?)</title>#is', $html, $m)) {
+        $title = trim(html_entity_decode(wp_strip_all_tags($m[1])));
+    }
+    $tlen = mb_strlen($title);
+    $checks[] = azwc_audit_check(
+        'title',
+        'The page has a title of usable length',
+        '' === $title ? 'fail' : (($tlen >= 20 && $tlen <= 60) ? 'pass' : 'warn'),
+        '' === $title ? 'No title tag present.' : sprintf('%d characters: "%s"', $tlen, $title),
+        3,
+        'onpage'
+    );
+
+    $desc = '';
+    if (preg_match('#<meta[^>]+name=["\']description["\'][^>]*content=["\']([^"\']*)#i', $html, $m)) {
+        $desc = trim(html_entity_decode($m[1]));
+    }
+    $dlen = mb_strlen($desc);
+    $checks[] = azwc_audit_check(
+        'description',
+        'A meta description is present',
+        '' === $desc ? 'fail' : (($dlen >= 70 && $dlen <= 165) ? 'pass' : 'warn'),
+        '' === $desc ? 'No meta description tag present.' : sprintf('%d characters in description.', $dlen),
+        2,
+        'onpage'
+    );
+
+    preg_match_all('#<h1[^>]*>(.*?)</h1>#is', $html, $h1s);
+    $h1_count = count($h1s[0]);
+    $checks[] = azwc_audit_check(
+        'h1',
+        'Exactly one H1 heading',
+        1 === $h1_count ? 'pass' : (0 === $h1_count ? 'fail' : 'warn'),
+        0 === $h1_count ? 'No H1 tag found.' : sprintf('%d H1 tag(s) detected.', $h1_count),
+        2,
+        'onpage'
+    );
+
+    $words = str_word_count(azwc_audit_text($html));
+    $checks[] = azwc_audit_check(
+        'content_depth',
+        'The page has substantive content',
+        $words >= 300 ? 'pass' : ($words >= 120 ? 'warn' : 'fail'),
+        sprintf('%d words of visible content text detected.', $words),
+        2,
+        'onpage'
+    );
+
+    preg_match_all('#<img\b[^>]*>#i', $html, $imgs);
+    $img_total = count($imgs[0]);
+    $img_noalt = 0;
+    $img_items = array();
+    foreach ($imgs[0] as $img) {
+        if (!preg_match('#\balt\s*=\s*["\'][^"\']*[^\s"\']#i', $img)) {
+            $img_noalt++;
+            if (count($img_items) < 12 && preg_match('#\bsrc\s*=\s*["\']([^"\']+)#i', $img, $sm)) {
+                $abs = azwc_audit_abs_url($sm[1], $url);
+                if ($abs) {
+                    $img_items[] = $abs;
+                }
+            }
+        }
+    }
+    $checks[] = azwc_audit_check(
+        'image_alt',
+        'Images carry alt text',
+        0 === $img_total ? 'info' : (0 === $img_noalt ? 'pass' : ($img_noalt / $img_total < 0.25 ? 'warn' : 'fail')),
+        0 === $img_total ? 'No images found.' : sprintf('%d of %d images missing alt attributes.', $img_noalt, $img_total),
+        1,
+        'onpage',
+        $img_items
+    );
+
+    $viewport = (bool) preg_match('#<meta[^>]+name=["\']viewport["\']#i', $html);
+    $checks[] = azwc_audit_check(
+        'viewport',
+        'A mobile viewport is declared',
+        $viewport ? 'pass' : 'fail',
+        $viewport ? 'Viewport meta tag detected.' : 'Missing mobile viewport tag.',
+        3,
+        'onpage'
+    );
+
+    /* --- NEW: Viewport Content Validation --- */
+    $viewport_valid = false;
+    if ($viewport) {
+        preg_match('#<meta[^>]+name=["\']viewport["\'][^>]*content=["\']([^"\']+)#i', $html, $vm);
+        if (!empty($vm[1])) {
+            $content = strtolower($vm[1]);
+            if (strpos($content, 'width=device-width') !== false && strpos($content, 'initial-scale') !== false) {
+                $viewport_valid = true;
+            }
+        }
+    }
+    $checks[] = azwc_audit_check(
+        'viewport_valid',
+        'Viewport is configured correctly for mobile',
+        $viewport_valid ? 'pass' : ($viewport ? 'warn' : 'fail'),
+        $viewport_valid ? 'Viewport has width=device-width and initial-scale set.' : ($viewport ? 'Viewport exists but lacks width=device-width or initial-scale.' : 'No viewport meta tag.'),
+        2,
+        'onpage'
+    );
+
+    $lang = (bool) preg_match('#<html[^>]+lang=["\'][a-z]#i', $html);
+    $checks[] = azwc_audit_check(
+        'lang',
+        'The page declares its language',
+        $lang ? 'pass' : 'warn',
+        $lang ? 'Language declared on HTML element.' : 'No lang attribute on HTML tag.',
+        1,
+        'onpage'
+    );
+
+    /* --- Structured Data & Metadata --- */
+    preg_match_all('#<script[^>]+application/ld\+json[^>]*>(.*?)</script>#is', $html, $ld);
+    $types = array();
+    $ld_invalid = array();
+    foreach ($ld[1] as $block) {
+        $trimmed = trim($block);
+        if ('' === $trimmed) {
+            continue;
+        }
+        $data = json_decode($trimmed, true);
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            $snippet = mb_substr(preg_replace('/\s+/', ' ', $trimmed), 0, 140);
+            $ld_invalid[] = $snippet . (mb_strlen($trimmed) > 140 ? '…' : '');
+            continue;
+        }
+        if (!is_array($data)) {
+            continue;
+        }
+        array_walk_recursive($data, function ($v, $k) use (&$types) {
+            if ('@type' === $k && is_string($v)) {
+                $types[$v] = true;
+            }
+        });
+    }
+    $types = array_keys($types);
+    $checks[] = azwc_audit_check(
+        'structured_data',
+        'Structured data is present',
+        $types ? 'pass' : 'warn',
+        $types ? 'JSON-LD types detected: ' . implode(', ', array_slice($types, 0, 8)) : 'No JSON-LD structured data found.',
+        2,
+        'structured'
+    );
+
+    $ld_total = count(array_filter($ld[1], function ($b) {
+        return '' !== trim($b);
+    }));
+    if ($ld_total > 0) {
+        $checks[] = azwc_audit_check(
+            'structured_data_valid',
+            'Structured data parses correctly',
+            empty($ld_invalid) ? 'pass' : 'fail',
+            empty($ld_invalid) ? sprintf('All %d JSON-LD block(s) parsed cleanly.', $ld_total) : sprintf('%d JSON-LD block(s) failed parsing.', count($ld_invalid)),
+            2,
+            'structured',
+            $ld_invalid
+        );
+    }
+
+    $og = (bool) preg_match('#<meta[^>]+property=["\']og:title["\']#i', $html);
+    $og_img = (bool) preg_match('#<meta[^>]+property=["\']og:image["\']#i', $html);
+    $azw_og_label = ($og && $og_img) ? 'Social sharing tags are set' : ($og ? 'Social sharing image is missing' : 'Social sharing tags are missing');
+    $checks[] = azwc_audit_check(
+        'open_graph',
+        $azw_og_label,
+        ($og && $og_img) ? 'pass' : ($og ? 'warn' : 'fail'),
+        ($og && $og_img) ? 'Open Graph title and image tags present.' : 'Open Graph sharing metadata incomplete.',
+        1,
+        'structured'
+    );
+
+    /* --- NEW: OG Image Reachability --- */
+    $og_image_url = '';
+    if ($og_img) {
+        preg_match('#<meta[^>]+property=["\']og:image["\'][^>]*content=["\']([^"\']+)#i', $html, $ogm);
+        if (!empty($ogm[1])) {
+            $og_image_url = trim($ogm[1]);
+        }
+    }
+    $og_image_ok = false;
+    if (!empty($og_image_url)) {
+        $img_check = azwc_audit_fetch($og_image_url, 'HEAD');
+        if (!is_wp_error($img_check) && $img_check['status'] === 200) {
+            $og_image_ok = true;
+        }
+    }
+    $checks[] = azwc_audit_check(
+        'og_image_reachable',
+        'Open Graph image is accessible',
+        $og_image_ok ? 'pass' : ($og_image_url ? 'warn' : 'info'),
+        $og_image_ok ? 'OG image loads successfully.' : ($og_image_url ? 'OG image URL does not return a 200 status.' : 'No OG image defined.'),
+        1,
+        'structured'
+    );
+
+    $favicon = (bool) preg_match('#<link[^>]+rel=["\'][^"\']*icon#i', $html);
+    $checks[] = azwc_audit_check(
+        'favicon',
+        'A favicon is declared',
+        $favicon ? 'pass' : 'warn',
+        $favicon ? 'Favicon link tag detected.' : 'No favicon link tag declared.',
+        1,
+        'structured'
+    );
+
+    /* --- NEW: Favicon Reachability --- */
+    $favicon_url = '';
+    if ($favicon) {
+        preg_match('#<link[^>]+rel=["\'][^"\']*icon["\'][^>]*href=["\']([^"\']+)#i', $html, $fm);
+        if (!empty($fm[1])) {
+            $favicon_url = azwc_audit_abs_url($fm[1], $url);
+        }
+    }
+    $favicon_ok = false;
+    if (!empty($favicon_url)) {
+        $fav_check = azwc_audit_fetch($favicon_url, 'HEAD');
+        if (!is_wp_error($fav_check) && $fav_check['status'] === 200) {
+            $favicon_ok = true;
+        }
+    }
+    $checks[] = azwc_audit_check(
+        'favicon_reachable',
+        'Favicon file loads successfully',
+        $favicon_ok ? 'pass' : ($favicon_url ? 'warn' : 'info'),
+        $favicon_ok ? 'Favicon is accessible.' : ($favicon_url ? 'Favicon URL does not return a 200 status.' : 'No favicon defined.'),
+        1,
+        'structured'
+    );
+
+    /* --- Link Analysis & Broken Links --- */
+    preg_match_all('~<a\b[^>]+href\s*=\s*["\']([^"\']+)["\']~i', $html, $links);
+    $internal = 0;
+    $external = 0;
+    foreach ($links[1] as $href) {
+        if (0 === strpos($href, '/') || false !== stripos($href, $host)) {
+            $internal++;
+        } elseif (preg_match('#^https?://#i', $href)) {
+            $external++;
+        }
+    }
+    $checks[] = azwc_audit_check(
+        'links',
+        'The page links onward into the site',
+        $internal >= 5 ? 'pass' : ($internal >= 1 ? 'warn' : 'fail'),
+        sprintf('%d internal and %d external links detected.', $internal, $external),
+        1,
+        'onpage'
+    );
+
+    $link_targets = array();
+    foreach ($links[1] as $href) {
+        $href = trim($href);
+        if ('' === $href || 0 === strpos($href, '#') || preg_match('#^(mailto|tel|javascript):#i', $href)) {
+            continue;
+        }
+        $abs = azwc_audit_abs_url($href, $url);
+        if ($abs && preg_match('#^https?://#i', $abs)) {
+            $link_targets[$abs] = true;
+        }
+    }
+    $link_targets = array_keys($link_targets);
+
+    $link_sample = array();
+    foreach ($link_targets as $target) {
+        if (count($link_sample) >= AZWC_LINKCHECK_MAX) {
+            break;
+        }
+        if (azwc_audit_link_host_ok($target)) {
+            $link_sample[] = $target;
+        }
+    }
+
+    $broken_links = array();
+    foreach ($link_sample as $target) {
+        $code = azwc_audit_probe_link($target);
+        if (0 === $code || $code >= 400) {
+            $broken_links[] = $target . ' — ' . ($code ?: 'no response');
+        }
+    }
+    if ($link_sample) {
+        $checks[] = azwc_audit_check(
+            'broken_links',
+            empty($broken_links) ? 'Sampled links all work' : 'Some sampled links are broken',
+            empty($broken_links) ? 'pass' : (count($broken_links) / count($link_sample) < 0.34 ? 'warn' : 'fail'),
+            sprintf('Sampled %d links: %s.', count($link_sample), empty($broken_links) ? 'all loaded successfully' : count($broken_links) . ' failed'),
+            2,
+            'onpage',
+            $broken_links
+        );
+    }
+
+    /* --- Additional Diagnostics --- */
+    $hm = azwc_audit_match_all('#<h([1-6])\b#i', $html);
+    $levels = array_map('intval', $hm[1]);
+    $skips = array();
+    $prev = 0;
+    foreach ($levels as $lv) {
+        if ($prev && $lv > $prev + 1) {
+            $skips[] = 'h' . $prev . ' followed by h' . $lv;
+        }
+        $prev = $lv;
+    }
+    $checks[] = azwc_audit_check(
+        'heading_order',
+        'Headings run in order without skipping levels',
+        $skips ? 'warn' : 'pass',
+        $skips ? sprintf('%d skipped heading level(s) detected.', count($skips)) : sprintf('%d headings ordered correctly.', count($levels)),
+        1,
+        'onpage',
+        array_slice($skips, 0, 10)
+    );
+
+    $has_charset = (bool) preg_match('#<meta[^>]+charset#i', $html);
+    $checks[] = azwc_audit_check(
+        'charset',
+        'Character encoding is declared',
+        $has_charset ? 'pass' : 'warn',
+        $has_charset ? 'Meta charset declaration present.' : 'No character set declared.',
+        1,
+        'technical'
+    );
+
+    $tw = (bool) preg_match('#<meta[^>]+name=["\']twitter:card["\']#i', $html);
+    $checks[] = azwc_audit_check(
+        'twitter_card',
+        'Twitter/X card tags are set',
+        $tw ? 'pass' : 'warn',
+        $tw ? 'twitter:card tag detected.' : 'No twitter:card meta tag found.',
+        1,
+        'structured'
+    );
+
+    /* Image Dimensions */
+    $dim_missing = 0;
+    $no_dims = array();
+    foreach ($imgs[0] as $img) {
+        if (!preg_match('#\bwidth\s*=#i', $img) || !preg_match('#\bheight\s*=#i', $img)) {
+            $dim_missing++;
+            if (count($no_dims) < 12 && preg_match('#\bsrc\s*=\s*["\']([^"\']+)#i', $img, $dm)) {
+                $abs = azwc_audit_abs_url($dm[1], $url);
+                if ($abs) {
+                    $no_dims[] = $abs;
+                }
+            }
+        }
+    }
+    $checks[] = azwc_audit_check(
+        'img_dimensions',
+        'Images declare width and height',
+        0 === $img_total ? 'info' : (0 === $dim_missing ? 'pass' : ($dim_missing / $img_total < 0.3 ? 'warn' : 'fail')),
+        0 === $img_total ? 'No images present.' : sprintf('%d of %d images lack width/height attributes.', $dim_missing, $img_total),
+        1,
+        'technical',
+        $no_dims
+    );
+
+    /* Image Lazy Loading */
+    $lazy = 0;
+    $hero_lazy_warning = false;
+    foreach ($imgs[0] as $idx => $img) {
+        $is_lazy = (bool) preg_match('#\bloading\s*=\s*["\']lazy["\']#i', $img);
+        $is_hero_candidate = (0 === $idx) || (bool) preg_match('#\b(hero|banner|featured|header-img)\b#i', $img);
+        if ($is_lazy) {
+            $lazy++;
+        }
+        if ($is_hero_candidate && $is_lazy) {
+            $hero_lazy_warning = true;
+        }
+    }
+    $azw_lazy_heavy = $img_total >= AZWC_LAZY_MANY;
+    $azw_lazy_pct = $img_total > 0 ? (int) round($lazy / $img_total * 100) : 0;
+    if (0 === $img_total) {
+        $azw_lazy_status = 'info';
+        $azw_lazy_detail = 'No images present on page.';
+    } elseif ($hero_lazy_warning) {
+        $azw_lazy_status = 'warn';
+        $azw_lazy_detail = 'An above-the-fold or hero image contains loading="lazy". Lazy loading initial viewport images delays Largest Contentful Paint (LCP).';
+    } elseif (0 === $lazy) {
+        $azw_lazy_status = $azw_lazy_heavy ? 'warn' : 'info';
+        $azw_lazy_detail = sprintf('%d images present, zero using loading="lazy".', $img_total);
+    } elseif ($azw_lazy_heavy && $azw_lazy_pct < AZWC_LAZY_MIN_PCT) {
+        $azw_lazy_status = 'warn';
+        $azw_lazy_detail = sprintf('%d of %d images use loading="lazy" (%d%% coverage).', $lazy, $img_total, $azw_lazy_pct);
+    } else {
+        $azw_lazy_status = 'pass';
+        $azw_lazy_detail = sprintf('%d of %d images use native lazy loading (%d%% coverage).', $lazy, $img_total, $azw_lazy_pct);
+    }
+    $checks[] = azwc_audit_check(
+        'lazy_images',
+        'Image lazy loading structural configuration',
+        $azw_lazy_status,
+        $azw_lazy_detail,
+        1,
+        'technical'
+    );
+
+    /* Rel Noopener */
+    $blanks = azwc_audit_match_all('#<a\b[^>]*target\s*=\s*["\']_blank["\'][^>]*>#i', $html);
+    $unsafe = array();
+    foreach ($blanks[0] as $a) {
+        if (!preg_match('#\brel\s*=\s*["\'][^"\']*noopener#i', $a)) {
+            if (count($unsafe) < 10 && preg_match('#\bhref\s*=\s*["\']([^"\']+)#i', $a, $hm2)) {
+                $unsafe[] = azwc_audit_abs_url($hm2[1], $url) ?: $hm2[1];
+            }
+        }
+    }
+    $checks[] = azwc_audit_check(
+        'blank_noopener',
+        'New-tab links are opened safely',
+        $unsafe ? 'warn' : 'pass',
+        $unsafe ? sprintf('%d target="_blank" link(s) missing rel="noopener".', count($unsafe)) : 'All new-tab links specify rel="noopener".',
+        1,
+        'technical',
+        $unsafe
+    );
+
+    /* Empty Links */
+    $empties = azwc_audit_match_all('#<a\b[^>]*href\s*=\s*["\'](#|)["\'][^>]*>#i', $html);
+    $empty_n = count($empties[0]);
+    $checks[] = azwc_audit_check(
+        'empty_links',
+        'No placeholder or empty links',
+        $empty_n > 0 ? 'warn' : 'pass',
+        $empty_n > 0 ? sprintf('%d empty or placeholder link(s) found.', $empty_n) : 'All links carry valid destination targets.',
+        1,
+        'onpage'
+    );
+
+    /* Security Headers */
+    $hdr = function ($name) use ($headers) {
+        $v = $headers[$name] ?? '';
+        return is_array($v) ? implode(',', $v) : (string) $v;
+    };
+    $sec_present = array();
+    $sec_missing = array();
+    $sec_map = array(
+        'strict-transport-security' => 'HSTS',
+        'x-content-type-options' => 'X-Content-Type-Options',
+        'x-frame-options' => 'X-Frame-Options',
+        'referrer-policy' => 'Referrer-Policy',
+        'content-security-policy' => 'Content-Security-Policy',
+        'permissions-policy' => 'Permissions-Policy',
+        'cross-origin-embedder-policy' => 'Cross-Origin-Embedder-Policy',
+    );
+    foreach ($sec_map as $key => $label) {
+        if ('' !== $hdr($key)) {
+            $sec_present[] = $label;
+        } else {
+            $sec_missing[] = $label;
+        }
+    }
+    $checks[] = azwc_audit_check(
+        'security_headers',
+        'Common security headers are sent',
+        empty($sec_missing) ? 'pass' : (count($sec_missing) <= 3 ? 'warn' : 'fail'),
+        empty($sec_missing)
+            ? 'All seven verified security headers are active: ' . implode(', ', $sec_present) . '.'
+            : sprintf('Present: %s. Missing: %s.', $sec_present ? implode(', ', $sec_present) : 'none', implode(', ', $sec_missing)),
+        1,
+        'technical'
+    );
+
+    /* --- Version 2 Enhanced Checks --- */
+    // Deprecated HTML
+    $bad_tags = array('center', 'font', 'marquee', 'blink');
+    $found_tags = array();
+    foreach ($bad_tags as $tag) {
+        if (stripos($html, "<$tag") !== false) {
+            $found_tags[] = "<$tag>";
+        }
+    }
+    $checks[] = azwc_audit_check(
+        'deprecated_html',
+        'Legacy markup',
+        empty($found_tags) ? 'pass' : 'warn',
+        empty($found_tags) ? 'Using modern HTML5 markup.' : 'Obsolete tags detected: ' . implode(', ', $found_tags),
+        1,
+        'technical'
+    );
+
+    // Resource Hints
+    $has_preconnect = stripos($html, 'rel="preconnect"') !== false;
+    $has_preload = stripos($html, 'rel="preload"') !== false;
+    $has_resource_hints = $has_preconnect || $has_preload;
+    $checks[] = azwc_audit_check(
+        'resource_hints',
+        'Resource hints for performance',
+        $has_resource_hints ? 'pass' : 'info',
+        $has_resource_hints ? 'Resource hinting active.' : 'No resource hints found (preconnect/preload).',
+        1,
+        'technical'
+    );
+
+    // Form Accessibility
+    $has_input = stripos($html, '<input') !== false;
+    $has_label = stripos($html, '<label') !== false;
+    if ($has_input) {
+        $checks[] = azwc_audit_check(
+            'form_accessibility',
+            'Form input accessibility',
+            $has_label ? 'pass' : 'fail',
+            $has_label ? 'Forms have associated labels.' : 'Forms found with no label elements.',
+            1,
+            'accessibility'
+        );
+    }
+
+    // Apple Touch Icon
+    $has_apple = (bool) preg_match('#<link[^>]+rel=["\']apple-touch-icon#i', $html);
+    $checks[] = azwc_audit_check(
+        'apple_touch_icon',
+        'Apple Touch Icon',
+        $has_apple ? 'pass' : 'info',
+        $has_apple ? 'Apple touch icon declared.' : 'No Apple touch icon found.',
+        1,
+        'branding'
+    );
+
+    // Meta Keywords
+    $has_meta_keywords = (bool) preg_match('#<meta[^>]+name=["\']keywords["\']#i', $html);
+    if ($has_meta_keywords) {
+        $checks[] = azwc_audit_check(
+            'meta_keywords',
+            'Meta keywords tag',
+            'warn',
+            'Meta keywords tag detected. Google has ignored this since 2009.',
+            1,
+            'technical'
+        );
+    }
+
+    // Hreflang
+    $has_hreflang = (bool) preg_match('#<link[^>]+rel=["\']alternate["\'][^>]*hreflang#i', $html);
+    $checks[] = azwc_audit_check(
+        'hreflang',
+        'International hreflang tags',
+        $has_hreflang ? 'pass' : 'info',
+        $has_hreflang ? 'Hreflang tags detected for internationalization.' : 'No hreflang tags found.',
+        1,
+        'internationalization'
+    );
+
+    /* --- NEW: Script defer/async detection --- */
+    preg_match_all('#<script\b[^>]*src\s*=\s*["\']([^"\']+)["\'][^>]*>#i', $html, $scripts);
+    $script_count = count($scripts[0]);
+    $script_with_async = 0;
+    $script_with_defer = 0;
+    foreach ($scripts[0] as $tag) {
+        if (preg_match('#\basync\b#i', $tag)) {
+            $script_with_async++;
+        }
+        if (preg_match('#\bdefer\b#i', $tag)) {
+            $script_with_defer++;
+        }
+    }
+    $script_optimized = ($script_count > 0) && (($script_with_async + $script_with_defer) > 0);
+    $checks[] = azwc_audit_check(
+        'script_attributes',
+        'External scripts use async or defer',
+        $script_optimized ? 'pass' : ($script_count > 0 ? 'warn' : 'info'),
+        $script_count > 0
+            ? sprintf('%d script tags found. %d use async, %d use defer.', $script_count, $script_with_async, $script_with_defer)
+            : 'No external script tags found.',
+        1,
+        'technical'
+    );
+
+    return $checks;
+}
+
+/* -------------------------------------------------------------------------
+ * PAGE SPEED INSIGHTS
+ * ---------------------------------------------------------------------- */
+function azwc_audit_psi($url, $strategy = 'mobile')
+{
+    $endpoint = add_query_arg(
+        array_filter(array(
+            'url' => rawurlencode($url),
+            'strategy' => $strategy,
+            'category' => 'performance',
+            'key' => azwc_audit_psi_key(),
+        )),
+        'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
+    );
+    $r = wp_remote_get($endpoint, array('timeout' => AZWC_PSI_TIMEOUT));
+    if (is_wp_error($r) || 200 !== (int) wp_remote_retrieve_response_code($r)) {
+        return null;
+    }
+    $data = json_decode(wp_remote_retrieve_body($r), true);
+    if (!is_array($data) || empty($data['lighthouseResult'])) {
+        return null;
+    }
+    $audits = $data['lighthouseResult']['audits'] ?? array();
+    $score = $data['lighthouseResult']['categories']['performance']['score'] ?? null;
+    $metric = function ($id) use ($audits) {
+        if (empty($audits[$id])) {
+            return null;
+        }
+        return array(
+            'display' => $audits[$id]['displayValue'] ?? null,
+            'value' => $audits[$id]['numericValue'] ?? null,
+            'score' => $audits[$id]['score'] ?? null,
+        );
+    };
+    $field = array();
+    if (!empty($data['loadingExperience']['metrics'])) {
+        foreach ($data['loadingExperience']['metrics'] as $key => $m) {
+            $field[$key] = array(
+                'percentile' => $m['percentile'] ?? null,
+                'category' => $m['category'] ?? null,
+            );
+        }
+    }
+    return array(
+        'strategy' => $strategy,
+        'score' => null === $score ? null : (int) round($score * 100),
+        'lab' => array(
+            'lcp' => $metric('largest-contentful-paint'),
+            'cls' => $metric('cumulative-layout-shift'),
+            'tbt' => $metric('total-blocking-time'),
+            'fcp' => $metric('first-contentful-paint'),
+            'si' => $metric('speed-index'),
+        ),
+        'field' => $field,
+    );
+}
+
+function azwc_audit_authority($url)
+{
+    return array(
+        'available' => false,
+        'reason' => 'Backlink and authority data require direct crawler API connections. No statistical heuristics are substituted.',
+    );
+}
+
+/* -------------------------------------------------------------------------
+ * SCORING ENGINE
+ * ---------------------------------------------------------------------- */
+function azwc_audit_score($checks)
+{
+    $groups = array();
+    $earned = 0;
+    $total = 0;
+    foreach ($checks as $c) {
+        if ('info' === $c['status']) {
+            continue;
+        }
+        $points = 'pass' === $c['status'] ? 1.0 : ('warn' === $c['status'] ? 0.5 : 0.0);
+        $earned += $points * $c['weight'];
+        $total += $c['weight'];
+        $g = $c['group'];
+        if (!isset($groups[$g])) {
+            $groups[$g] = array('earned' => 0, 'total' => 0);
+        }
+        $groups[$g]['earned'] += $points * $c['weight'];
+        $groups[$g]['total'] += $c['weight'];
+    }
+    $out = array();
+    foreach ($groups as $g => $v) {
+        $out[$g] = $v['total'] > 0 ? (int) round($v['earned'] / $v['total'] * 100) : null;
+    }
+    return array(
+        'overall' => $total > 0 ? (int) round($earned / $total * 100) : null,
+        'groups' => $out,
+    );
+}
+
+/* -------------------------------------------------------------------------
+ * REST ROUTE
+ * ---------------------------------------------------------------------- */
+add_action('rest_api_init', function () {
+    register_rest_route('azwc/v1', '/audit', array(
+        'methods' => 'POST',
+        'permission_callback' => '__return_true',
+        'args' => array(
+            'domain' => array('required' => true, 'type' => 'string'),
+            'stage' => array('required' => false, 'type' => 'string', 'default' => 'site'),
+            'strategy' => array('required' => false, 'type' => 'string', 'default' => 'mobile'),
+            'peek' => array('required' => false, 'type' => 'boolean', 'default' => false),
+        ),
+        'callback' => 'azwc_audit_rest',
+    ));
+});
+
+function azwc_audit_rest(WP_REST_Request $request)
+{
+    $url = azwc_audit_normalize($request->get_param('domain'));
+    if (is_wp_error($url)) {
+        return new WP_REST_Response(array('error' => $url->get_error_message()), 400);
+    }
+    $stage = $request->get_param('stage');
+    $strategy = 'desktop' === $request->get_param('strategy') ? 'desktop' : 'mobile';
+    if ('psi' === $stage) {
+        return azwc_audit_stage_psi($url, $strategy, (bool) $request->get_param('peek'));
+    }
+    return azwc_audit_stage_site($url);
+}
+
+function azwc_audit_history_key($host)
+{
+    return 'azwc_audit_history_' . md5($host);
+}
+
+function azwc_audit_stage_site($url)
+{
+    if (function_exists('set_time_limit')) {
+        @set_time_limit(150);
+    }
+    $cache_key = 'azwc_audit_site_' . md5($url);
+    $cached = get_transient($cache_key);
+    if ($cached) {
+        $cached['cached'] = true;
+        return new WP_REST_Response($cached, 200);
+    }
+    if (!azwc_audit_rate_ok()) {
+        return new WP_REST_Response(array('error' => 'Rate limit exceeded. Please try again in an hour.'), 429);
+    }
+    $lock_key = azwc_audit_acquire_lock($url, 'site');
+    if (!$lock_key) {
+        return new WP_REST_Response(array('error' => 'An audit is currently processing for this domain. Please refresh shortly.'), 429);
+    }
+    try {
+        $page = azwc_audit_fetch($url);
+        if (is_wp_error($page) || $page['status'] >= 400) {
+            azwc_audit_release_lock($lock_key);
+            return new WP_REST_Response(array('error' => 'Unable to complete site fetch.'), 422);
+        }
+        $chain = azwc_audit_chain($url);
+        $checks = azwc_audit_run_checks($url, $page, $chain);
+        $score = azwc_audit_score($checks);
+        $host = wp_parse_url($url, PHP_URL_HOST);
+        $history_key = azwc_audit_history_key($host);
+        $previous = $host ? get_transient($history_key) : false;
+        $result = array(
+            'url' => $url,
+            'fetched' => gmdate('c'),
+            'status' => $page['status'],
+            'ms' => $page['ms'],
+            'bytes' => strlen($page['body']),
+            'score' => $score,
+            'checks' => $checks,
+            'authority' => azwc_audit_authority($url),
+            'history' => ($previous && null !== $score['overall'] && null !== $previous['score'])
+                ? array(
+                    'previous_score' => $previous['score'],
+                    'previous_fetched' => $previous['fetched'],
+                    'delta' => $score['overall'] - $previous['score'],
+                )
+                : null,
+            'cached' => false,
+        );
+        if ($host && null !== $score['overall']) {
+            set_transient($history_key, array('score' => $score['overall'], 'fetched' => $result['fetched']), 30 * DAY_IN_SECONDS);
+        }
+        set_transient($cache_key, $result, AZWC_AUDIT_CACHE_HOURS * HOUR_IN_SECONDS);
+    } finally {
+        azwc_audit_release_lock($lock_key);
+    }
+    return new WP_REST_Response($result, 200);
+}
+
+function azwc_audit_stage_psi($url, $strategy, $peek = false)
+{
+    if (function_exists('ignore_user_abort')) {
+        @ignore_user_abort(true);
+    }
+    if (function_exists('set_time_limit')) {
+        @set_time_limit(AZWC_PSI_TIMEOUT + 30);
+    }
+    $cache_key = 'azwc_audit_psi_' . $strategy . '_' . md5($url);
+    $cached = get_transient($cache_key);
+    if (false !== $cached) {
+        return new WP_REST_Response(array('psi' => $cached, 'strategy' => $strategy, 'cached' => true), 200);
+    }
+    if ($peek) {
+        return new WP_REST_Response(array('psi' => null, 'strategy' => $strategy, 'pending' => true, 'cached' => false), 200);
+    }
+    $lock_key = azwc_audit_acquire_lock($url, 'psi_' . $strategy);
+    if (!$lock_key) {
+        return new WP_REST_Response(array('psi' => null, 'strategy' => $strategy, 'pending' => true, 'cached' => false), 200);
+    }
+    try {
+        $psi = azwc_audit_psi($url, $strategy);
+        set_transient($cache_key, $psi, $psi ? AZWC_AUDIT_CACHE_HOURS * HOUR_IN_SECONDS : 20);
+    } finally {
+        azwc_audit_release_lock($lock_key);
+    }
+    return new WP_REST_Response(array('psi' => $psi, 'strategy' => $strategy, 'cached' => false), 200);
+}
+
+/* -------------------------------------------------------------------------
+ * SHORTCODE & UI (Premium Visuals with Group Scores)
+ * ---------------------------------------------------------------------- */
+add_shortcode('azwc_seo_audit', 'azwc_audit_shortcode');
+
+/**
+ * Where the dedicated results tab lives. Falls back to the audit page
+ * itself, so the tool still works if that page is ever removed.
+ */
+function azwc_audit_results_url()
+{
+    $page = get_page_by_path('seo-audit-results');
+    if ($page && 'publish' === $page->post_status) {
+        return get_permalink($page);
+    }
+    return '';
+}
+
+function azwc_audit_shortcode()
+{
+    ob_start();
+    ?>
+    <div id="az-premium-audit" data-endpoint="<?php echo esc_url(rest_url('azwc/v1/audit')); ?>" data-results="<?php echo esc_url(azwc_audit_results_url()); ?>">
+        <div class="az-audit-card search-card">
+            <h2>⚡ Instant SEO Health Audit</h2>
+            <p>Our engine directly probes your server – every metric is measured, never estimated.</p>
+            <form id="az-audit-form">
+                <input type="text" id="azwc-audit-domain" name="domain" placeholder="example.com" required autocomplete="off">
+                <button type="submit">ANALYZE NOW</button>
+            </form>
+        </div>
+
+        <div id="az-audit-progress" hidden>
+            <p class="az-progress-target">Auditing <strong id="az-progress-domain"></strong></p>
+            <div class="az-bar-bg"><div class="az-bar-fill"></div></div>
+            <ul id="az-progress-steps" class="az-progress-steps"></ul>
+        </div>
+
+        <div id="az-audit-results" hidden></div>
+    </div>
+
+    <style>
+        :root {
+            --az-gold: #e6b84d;
+            --az-dark: #050608;
+            --az-card: rgba(255,255,255,0.04);
+            --az-border: rgba(230,184,77,0.2);
+            --az-pass: #0f9d58;
+            --az-warn: #e8a33d;
+            --az-fail: #d64545;
+        }
+        #az-premium-audit { max-width: 1200px; margin: 40px auto; color: #fff; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        .az-audit-card { background: var(--az-card); border: 1px solid var(--az-border); border-radius: 16px; padding: 32px; backdrop-filter: blur(10px); transition: all 0.3s ease; }
+        .search-card { text-align: center; background: linear-gradient(135deg, rgba(230,184,77,0.05), rgba(255,255,255,0.02)); }
+        .search-card h2 { color: var(--az-gold); margin-bottom: 8px; font-weight: 800; letter-spacing: -1px; font-size: 28px; }
+        .search-card p { opacity: 0.7; font-size: 14px; margin-bottom: 24px; }
+        #az-audit-form { display: flex; gap: 10px; max-width: 600px; margin: 0 auto; }
+        #az-audit-form input { flex: 1; padding: 14px 20px; border-radius: 8px; border: 1px solid var(--az-border); background: rgba(0,0,0,0.4); color: #fff; font-size: 16px; transition: all 0.3s ease; }
+        #az-audit-form input:focus { outline: none; border-color: var(--az-gold); box-shadow: 0 0 20px rgba(230,184,77,0.1); }
+        #az-audit-form button { background: var(--az-gold); color: #000; border: 0; padding: 0 30px; border-radius: 8px; font-weight: 900; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
+        #az-audit-form button:hover { transform: translateY(-2px); box-shadow: 0 5px 25px rgba(230,184,77,0.3); }
+        #az-audit-form button:active { transform: translateY(0); }
+        #az-audit-progress { margin-top: 30px; text-align: center; padding: 20px; }
+        .az-bar-bg { background: rgba(255,255,255,0.08); height: 6px; border-radius: 10px; overflow: hidden; margin-bottom: 12px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .az-bar-fill { background: linear-gradient(90deg, var(--az-gold), #f5d78e); height: 100%; width: 0%; transition: width 0.5s ease-in-out; border-radius: 10px; }
+        .pulse { animation: azpulse 1.5s infinite; font-size: 13px; font-weight: 600; text-transform: uppercase; color: var(--az-gold); letter-spacing: 1px; }
+        @keyframes azpulse { 0% { opacity: 0.4; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1); } 100% { opacity: 0.4; transform: scale(0.98); } }
+        .az-progress-target { font-size: 13px; color: rgba(255,255,255,0.5); margin: 0 0 16px; }
+        .az-progress-target strong { color: var(--az-gold); font-weight: 700; }
+        .az-progress-steps { list-style: none; margin: 20px auto 0; padding: 0; max-width: 420px; text-align: left; display: flex; flex-direction: column; gap: 10px; }
+        .az-progress-steps li { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.28); transition: color 0.3s ease; }
+        .az-progress-steps li .az-step-icon { width: 16px; flex-shrink: 0; text-align: center; }
+        .az-progress-steps li.is-active { color: var(--az-gold); }
+        .az-progress-steps li.is-active .az-step-icon { animation: azpulse 1s infinite; }
+        .az-progress-steps li.is-done { color: rgba(255,255,255,0.65); }
+
+        .az-dashboard { display: grid; grid-template-columns: 320px 1fr; gap: 24px; margin-top: 40px; }
+        .az-score-circle { position: relative; width: 180px; height: 180px; margin: 0 auto 20px; }
+        .az-score-circle svg { transform: rotate(-90deg); }
+        .az-score-circle circle { fill: none; stroke-width: 10; stroke-linecap: round; }
+        .az-score-circle .bg { stroke: rgba(255,255,255,0.06); }
+        .az-score-circle .val { stroke: var(--az-gold); stroke-dasharray: 440; transition: stroke-dashoffset 1.5s ease-in-out; }
+        .az-score-num { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 44px; font-weight: 900; color: #fff; }
+        .az-score-num small { font-size: 18px; opacity: 0.5; font-weight: 400; }
+        .az-side-panel { text-align: center; }
+        .az-side-panel h3 { color: #fff; margin: 0 0 4px 0; font-size: 20px; }
+        .az-side-panel .sub { color: rgba(255,255,255,0.4); font-size: 13px; margin: 0 0 20px 0; }
+        .az-check-item { display: flex; align-items: flex-start; gap: 15px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); transition: all 0.2s ease; }
+        .az-check-item:hover { background: rgba(255,255,255,0.02); padding-left: 8px; border-radius: 4px; }
+        .az-check-item:last-child { border-bottom: 0; }
+        .az-status-pill { padding: 3px 12px; border-radius: 20px; font-size: 9px; font-weight: 900; text-transform: uppercase; margin-bottom: 4px; display: inline-block; letter-spacing: 0.5px; }
+        .az-status-pill.pass { background: rgba(15,157,88,0.2); color: #4ccb8a; }
+        .az-status-pill.fail { background: rgba(214,69,69,0.2); color: #ff5f5f; }
+        .az-status-pill.warn { background: rgba(232,163,61,0.2); color: #ffb143; }
+        .az-status-pill.info { background: rgba(100,149,237,0.15); color: #6b8cff; }
+        .az-check-text { flex: 1; }
+        .az-check-text h4 { margin: 0; font-size: 15px; font-weight: 700; color: #fff; }
+        .az-check-text .detail { color: rgba(255,255,255,0.6); font-size: 13px; margin: 4px 0 2px 0; }
+        .az-check-text .explainer { color: var(--az-gold); font-size: 12px; opacity: 0.7; font-style: italic; margin: 2px 0 0 0; }
+        .az-score-detail { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .az-score-detail .stat { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; color: rgba(255,255,255,0.6); }
+        .az-score-detail .stat span:last-child { color: #fff; font-weight: 600; }
+        .az-check-icon { font-size: 18px; margin-top: 2px; }
+        .az-group-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 9px; font-weight: 700; text-transform: uppercase; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.3); margin-top: 4px; letter-spacing: 0.5px; }
+        .az-results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .az-results-header h3 { margin: 0; font-size: 20px; color: #fff; }
+        .az-results-header .count { color: rgba(255,255,255,0.3); font-size: 13px; }
+        .az-group-score { display: inline-block; margin-left: 8px; font-size: 11px; color: rgba(255,255,255,0.3); }
+        @media (max-width: 820px) { .az-dashboard { grid-template-columns: 1fr; } .az-score-circle { width: 150px; height: 150px; } .az-score-num { font-size: 36px; } #az-audit-form { flex-direction: column; } #az-audit-form button { padding: 14px; } .search-card h2 { font-size: 22px; } }
+        @media (max-width: 480px) { .az-audit-card { padding: 20px; } .az-score-circle { width: 120px; height: 120px; } .az-score-num { font-size: 28px; } }
+
+        /* Live build bar — segments stack in left-to-right as each result lands. */
+        .az-build-bar { display: flex; gap: 3px; height: 8px; margin-bottom: 22px; }
+        .az-build-seg { flex: 1; min-width: 2px; border-radius: 3px; background: rgba(255,255,255,0.06); transform: scaleY(0.2); opacity: 0; transform-origin: bottom; transition: transform 0.35s cubic-bezier(.2,.8,.3,1.4), opacity 0.25s ease; }
+        .az-build-seg.is-in { transform: scaleY(1); opacity: 1; }
+        .az-build-seg.az-build-pass { background: var(--az-pass); }
+        .az-build-seg.az-build-warn { background: var(--az-warn); }
+        .az-build-seg.az-build-fail { background: var(--az-fail); }
+        .az-build-seg.az-build-info { background: #6b8cff; }
+        .az-build-seg.is-ghost { opacity: 0.35 !important; }
+
+        /* Staggered item entrance. */
+        .az-check-item.az-anim-in { opacity: 0; transform: translateY(10px); transition: opacity 0.35s ease, transform 0.35s ease; }
+        .az-check-item.az-anim-in.is-in { opacity: 1; transform: translateY(0); }
+
+        /* Ghost rows: real status colour, blurred text, fading toward nothing. */
+        .az-check-item.az-ghost .az-check-text > *:not(.az-status-pill) { filter: blur(5px); user-select: none; pointer-events: none; }
+        .az-check-item.az-ghost.is-in.az-ghost-1 { opacity: 0.65; }
+        .az-check-item.az-ghost.is-in.az-ghost-2 { opacity: 0.35; }
+        .az-check-item.az-ghost.is-in.az-ghost-3 { opacity: 0.1; }
+        #az-checks-wrap.is-locked { position: relative; }
+        #az-checks-wrap.is-locked::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 90px; background: linear-gradient(to bottom, transparent, rgba(5,6,8,0.9) 85%); pointer-events: none; }
+
+        /* Registration gate. */
+        .az-gate { text-align: center; padding: 34px 24px 30px; margin-top: -6px; }
+        .az-gate-lock { font-size: 30px; margin-bottom: 10px; }
+        .az-gate h3 { margin: 0 0 6px; color: #fff; font-size: 20px; }
+        .az-gate p { margin: 0 0 20px; color: rgba(255,255,255,0.6); font-size: 14px; }
+        #az-gate-form { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 520px; margin: 0 auto; }
+        #az-gate-form input[type="text"], #az-gate-form input[type="email"] { flex: 1 1 200px; padding: 13px 16px; border-radius: 8px; border: 1px solid var(--az-border); background: rgba(0,0,0,0.4); color: #fff; font-size: 15px; }
+        #az-gate-form input:focus { outline: none; border-color: var(--az-gold); box-shadow: 0 0 20px rgba(230,184,77,0.1); }
+        #az-gate-form button { flex: 1 1 100%; background: var(--az-gold); color: #000; border: 0; padding: 13px 24px; border-radius: 8px; font-weight: 900; cursor: pointer; }
+        #az-gate-form button:hover { background: #f5d78e; }
+        #az-gate-form button[disabled] { opacity: 0.6; cursor: default; }
+        .az-gate-hp { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; overflow: hidden; }
+        .az-gate-note { margin: 14px 0 0; font-size: 13px; color: var(--az-warn); min-height: 16px; }
+    </style>
+
+    <script>
+    (function() {
+        const container = document.getElementById('az-premium-audit');
+        const form = document.getElementById('az-audit-form');
+        const progress = document.getElementById('az-audit-progress');
+        const results = document.getElementById('az-audit-results');
+        const fill = document.querySelector('.az-bar-fill');
+
+        if (!container || !form) return;
+
+        const input = form.querySelector('input[name="domain"]');
+
+        // What the server genuinely does, in order — this drives the visible
+        // "crawling" list so it never claims an action we don't actually take.
+        const CRAWL_STEPS = [
+            'Connecting to your server',
+            'Fetching homepage HTML',
+            'Reading robots.txt & sitemap',
+            'Scanning meta tags, headings & structured data',
+            'Probing internal links for broken URLs',
+            'Checking security headers & mobile viewport',
+            'Running PageSpeed performance test'
+        ];
+
+        async function runAudit(domain) {
+            results.hidden = true;
+            results.innerHTML = '';
+            progress.hidden = false;
+            fill.style.width = '8%';
+
+            const domainEl = document.getElementById('az-progress-domain');
+            if (domainEl) domainEl.textContent = domain;
+
+            const stepsList = document.getElementById('az-progress-steps');
+            if (stepsList) {
+                stepsList.innerHTML = CRAWL_STEPS.map(function (label) {
+                    return '<li><span class="az-step-icon">○</span>' + esc(label) + '</li>';
+                }).join('');
+            }
+
+            function markStep(i, done) {
+                if (!stepsList) return;
+                const items = stepsList.querySelectorAll('li');
+                const li = items[i];
+                if (!li) return;
+                if (done) {
+                    li.classList.remove('is-active');
+                    li.classList.add('is-done');
+                    li.querySelector('.az-step-icon').textContent = '✓';
+                } else {
+                    li.classList.add('is-active');
+                }
+            }
+
+            let stepIndex = 0;
+            const barSteps = [20, 35, 48, 60, 72, 84, 95];
+            const lastStep = CRAWL_STEPS.length - 1;
+            markStep(0, false);
+            const interval = setInterval(() => {
+                fill.style.width = barSteps[Math.min(stepIndex, barSteps.length - 1)] + '%';
+                if (stepIndex < lastStep) {
+                    markStep(stepIndex, true);
+                    stepIndex++;
+                    markStep(stepIndex, false);
+                } else {
+                    // PageSpeed is the genuine long pole (measured 17-80s in
+                    // production) — leave it active/pulsing instead of
+                    // marking it done before the real response arrives.
+                    clearInterval(interval);
+                }
+            }, 550);
+
+            try {
+                const response = await fetch(container.dataset.endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ domain: domain })
+                });
+
+                clearInterval(interval);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to complete scan.');
+                }
+
+                const data = await response.json();
+                fill.style.width = '100%';
+                if (stepsList) stepsList.querySelectorAll('li').forEach((li, i) => markStep(i, true));
+
+                setTimeout(() => {
+                    progress.hidden = true;
+                    results.hidden = false;
+                    renderResults(data, domain);
+                }, 500);
+
+            } catch (err) {
+                clearInterval(interval);
+                progress.hidden = true;
+                results.hidden = false;
+                results.innerHTML = `
+                    <div class="az-audit-card" style="text-align:center;padding:40px;border-color:rgba(214,69,69,0.3);">
+                        <h3 style="color:#ff5f5f;">⚠️ Scan Failed</h3>
+                        <p style="color:rgba(255,255,255,0.6);">${err.message || 'Unable to complete the audit. Please try again.'}</p>
+                    </div>
+                `;
+            }
+        }
+
+        const resultsUrl = container.dataset.results || '';
+        const targetParam = (function () {
+            try { return new URLSearchParams(window.location.search).get('target') || ''; }
+            catch (e) { return ''; }
+        })();
+
+        // On the dedicated results tab the domain is already decided in the
+        // URL — skip the search card and run immediately.
+        if (targetParam) {
+            input.value = targetParam;
+            const searchCard = container.querySelector('.search-card');
+            if (searchCard) searchCard.hidden = true;
+            runAudit(targetParam);
+        }
+
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            const domain = input.value.trim();
+            if (!domain) return;
+
+            // From the audit page, hand off to the dedicated results tab so the
+            // report and the "book a call"/"email me a PDF" follow-up live on
+            // their own shareable URL. Opened directly from this click so it
+            // is a user gesture and survives popup blocking. On the results
+            // page itself targetParam is already set, so that branch above
+            // runs inline instead of spawning tabs forever.
+            if (resultsUrl && !targetParam) {
+                window.open(resultsUrl + '?target=' + encodeURIComponent(domain), '_blank', 'noopener');
+                return;
+            }
+            runAudit(domain);
+        };
+
+        function renderResults(data, domain) {
+            const score = data.score?.overall ?? 0;
+            const offset = 440 - (440 * score) / 100;
+            const SEVERITY_ORDER = { fail: 0, warn: 1, pass: 2, info: 3 };
+            const checks = (data.checks || []).slice().sort(function (a, b) {
+                const sevDiff = (SEVERITY_ORDER[a.status] ?? 4) - (SEVERITY_ORDER[b.status] ?? 4);
+                if (sevDiff !== 0) return sevDiff;
+                // Within the same severity, surface checks carrying concrete
+                // evidence (e.g. actual broken URLs) first — that's the proof
+                // a first-time visitor needs to trust the report is real.
+                return (b.items && b.items.length ? 1 : 0) - (a.items && a.items.length ? 1 : 0);
+            });
+            const passCount = checks.filter(c => c.status === 'pass').length;
+            const warnCount = checks.filter(c => c.status === 'warn').length;
+            const failCount = checks.filter(c => c.status === 'fail').length;
+
+            // Group scores
+            const groupScores = data.score?.groups || {};
+            const groupLabels = {
+                'technical': 'Technical',
+                'onpage': 'On‑Page',
+                'indexability': 'Indexability',
+                'structured': 'Structured Data',
+                'accessibility': 'Accessibility',
+                'branding': 'Branding',
+                'internationalization': 'International'
+            };
+
+            results.innerHTML = `
+                <div class="az-dashboard">
+                    <div class="az-side-panel">
+                        <div class="az-audit-card">
+                            <div class="az-score-circle">
+                                <svg width="180" height="180" viewBox="0 0 180 180">
+                                    <circle class="bg" cx="90" cy="90" r="70"></circle>
+                                    <circle class="val" cx="90" cy="90" r="70" style="stroke-dashoffset: ${offset}"></circle>
+                                </svg>
+                                <div class="az-score-num">${score}<small>%</small></div>
+                            </div>
+                            <h3>Overall Health</h3>
+                            <p class="sub">${data.ms ? `Response: ${data.ms}ms · ${data.bytes ? (data.bytes/1024).toFixed(0)+'KB' : ''}` : ''}</p>
+                            <div class="az-score-detail">
+                                <div class="stat"><span>✅ Passed</span><span>${passCount}</span></div>
+                                <div class="stat"><span>⚠️ Warnings</span><span>${warnCount}</span></div>
+                                <div class="stat"><span>❌ Failures</span><span>${failCount}</span></div>
+                                <div class="stat" style="border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;margin-top:4px;">
+                                    <span>Total Checks</span><span>${checks.length}</span>
+                                </div>
+                                ${Object.keys(groupScores).length ? `
+                                    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);text-align:left;">
+                                        ${Object.entries(groupScores).map(([g, sc]) => `
+                                            <div class="stat" style="font-size:12px;">
+                                                <span>${groupLabels[g] || g}</span>
+                                                <span>${sc !== null ? sc+'%' : '—'}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                            ${data.history ? `
+                                <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05);font-size:12px;color:rgba(255,255,255,0.4);">
+                                    Previous: ${data.history.previous_score}%
+                                    ${data.history.delta > 0 ? '📈' : data.history.delta < 0 ? '📉' : '➖'}
+                                    (${data.history.delta > 0 ? '+' : ''}${data.history.delta}%)
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <div class="az-audit-card">
+                        <div class="az-results-header">
+                            <h3>📋 Detailed Analysis</h3>
+                            <span class="count">${checks.length} checks</span>
+                        </div>
+                        <div class="az-build-bar" id="az-build-bar"></div>
+                        <div id="az-checks-wrap">
+                            <div id="az-check-list"></div>
+                        </div>
+                        <div class="az-gate" id="az-gate" hidden>
+                            <div class="az-gate-lock">🔒</div>
+                            <h3>See all <span id="az-gate-total">${checks.length}</span> results</h3>
+                            <p>Provide your email address to view the full results and receive a free PDF copy — free, no card required.</p>
+                            <form id="az-gate-form" novalidate>
+                                <input type="text" id="az-gate-name" placeholder="Your name" required autocomplete="name">
+                                <input type="email" id="az-gate-email" placeholder="you@company.com" required autocomplete="email">
+                                <div class="az-gate-hp" aria-hidden="true">
+                                    <label for="az-gate-hp">Leave this empty</label>
+                                    <input type="text" id="az-gate-hp" tabindex="-1" autocomplete="off">
+                                </div>
+                                <button type="submit">View my results & email me the PDF</button>
+                            </form>
+                            <p class="az-gate-note" id="az-gate-note" role="status" aria-live="polite"></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="azwc-followup-cta" class="az-audit-card" style="margin-top:24px;" hidden>
+                    <h3 style="margin:0 0 8px;color:#fff;">Want these fixed?</h3>
+                    <p style="color:rgba(255,255,255,0.6);margin:0 0 14px;">We are in Gilbert. Call
+                        <a href="tel:+14808185761" style="color:var(--az-gold);">(480) 818-5761</a> or email
+                        <a href="mailto:info@azwebcorp.com" style="color:var(--az-gold);">info@azwebcorp.com</a>
+                        and we will walk through this report with you — no charge, no obligation.</p>
+                </div>
+            `;
+
+            startReveal(checks, data, domain);
+        }
+
+        /* ---- gated, animated reveal ------------------------------------ */
+
+        const TEASER_COUNT = 5;
+        const GHOST_COUNT = 3;
+        const STAGGER_MS = 90;
+        const UNLOCK_ENDPOINT = container.dataset.endpoint.replace(/\/audit$/, '/unlock');
+        const LEAD_COOKIE = 'azwc_lead';
+
+        function esc(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+            });
+        }
+
+        function getCookie(name) {
+            const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+            return m ? decodeURIComponent(m[1]) : null;
+        }
+
+        function setCookie(name, value, days) {
+            const d = new Date();
+            d.setTime(d.getTime() + days * 864e5);
+            document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + d.toUTCString() + '; path=/; SameSite=Lax';
+        }
+
+        function knownLead() {
+            try {
+                const raw = getCookie(LEAD_COOKIE);
+                const obj = raw ? JSON.parse(raw) : null;
+                return (obj && obj.email) ? obj : null;
+            } catch (e) { return null; }
+        }
+
+        function checkIcon(status) {
+            return status === 'pass' ? '✅' : status === 'warn' ? '⚠️' : status === 'fail' ? '❌' : 'ℹ️';
+        }
+
+        function checkItemHTML(c) {
+            let list = '';
+            if (c.items && c.items.length > 0) {
+                // Any check carrying real evidence (actual URLs, not just a
+                // count) starts expanded — that's the concrete proof a
+                // visitor needs to see this is a genuine crawl, not a canned
+                // result. Ghost rows stay safe: the surrounding .az-ghost
+                // blur + pointer-events:none still hides the content and
+                // blocks clicking either way.
+                const openAttr = ' open';
+                list = `<details${openAttr} style="margin-top:4px;">
+                    <summary style="cursor:pointer;font-size:11px;color:rgba(255,255,255,0.3);">Show details (${c.items.length})</summary>
+                    <ul style="margin:4px 0 0 0;padding-left:16px;font-size:11px;color:rgba(255,255,255,0.4);max-height:80px;overflow-y:auto;">
+                        ${c.items.map(item => `<li style="word-break:break-all;">${esc(item)}</li>`).join('')}
+                    </ul>
+                </details>`;
+            }
+            return `<div class="az-check-icon">${checkIcon(c.status)}</div>
+                <div class="az-check-text">
+                    <span class="az-status-pill ${c.status}">${esc(c.status.toUpperCase())}</span>
+                    <h4>${esc(c.label)}</h4>
+                    <p class="detail">${esc(c.detail)}</p>
+                    ${c.plain ? `<p class="explainer">💡 ${esc(c.plain)}</p>` : ''}
+                    ${c.group ? `<span class="az-group-badge">${esc(c.group)}</span>` : ''}
+                    ${list}
+                </div>`;
+        }
+
+        /** One real, fully-shown result — the icon strip "builds" alongside it. */
+        function appendReal(list, buildBar, c) {
+            const seg = document.createElement('div');
+            seg.className = 'az-build-seg az-build-' + c.status;
+            buildBar.appendChild(seg);
+            requestAnimationFrame(() => seg.classList.add('is-in'));
+
+            const el = document.createElement('div');
+            el.className = 'az-check-item az-anim-in';
+            el.innerHTML = checkItemHTML(c);
+            list.appendChild(el);
+            requestAnimationFrame(() => el.classList.add('is-in'));
+        }
+
+        /**
+         * A locked row: the real status colour shows (so a visitor can see
+         * real fails are waiting), but the label/detail text is blurred, and
+         * later rows fade toward fully invisible — "fading till completely
+         * disappearing" into the gate below.
+         */
+        function appendGhost(list, buildBar, c, depth) {
+            const seg = document.createElement('div');
+            seg.className = 'az-build-seg az-build-' + c.status + ' is-ghost';
+            buildBar.appendChild(seg);
+            requestAnimationFrame(() => seg.classList.add('is-in'));
+
+            const el = document.createElement('div');
+            el.className = 'az-check-item az-anim-in az-ghost az-ghost-' + depth;
+            el.innerHTML = checkItemHTML(c);
+            list.appendChild(el);
+            requestAnimationFrame(() => el.classList.add('is-in'));
+        }
+
+        function revealSequence(list, buildBar, items, renderer, onDone) {
+            let i = 0;
+            (function step() {
+                if (i >= items.length) { if (onDone) onDone(); return; }
+                renderer(items[i]);
+                i++;
+                setTimeout(step, STAGGER_MS);
+            })();
+        }
+
+        function callUnlock(name, email, domain, score, hp, elapsed) {
+            return fetch(UNLOCK_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name, email: email, domain: domain, score: score, hp: hp || '', elapsed: elapsed })
+            }).then(r => r.json().catch(() => ({})).then(body => ({ ok: r.ok, status: r.status, body: body })));
+        }
+
+        function unlockFollowupCta(domain) {
+            const cta = document.getElementById('azwc-followup-cta');
+            if (cta) cta.hidden = false;
+            if (typeof CustomEvent === 'function') {
+                container.dispatchEvent(new CustomEvent('azwc:rendered', {
+                    bubbles: true,
+                    detail: { domain: domain }
+                }));
+            }
+        }
+
+        function startReveal(checks, data, domain) {
+            const buildBar = document.getElementById('az-build-bar');
+            const list = document.getElementById('az-check-list');
+            const wrap = document.getElementById('az-checks-wrap');
+            const gate = document.getElementById('az-gate');
+            const score = data.score?.overall ?? null;
+            const lead = knownLead();
+
+            function revealRest(fromIndex) {
+                revealSequence(list, buildBar, checks.slice(fromIndex), (c) => appendReal(list, buildBar, c));
+            }
+
+            function showGateForm(afterIndex) {
+                wrap.classList.add('is-locked');
+                gate.hidden = false;
+                const form = document.getElementById('az-gate-form');
+                const note = document.getElementById('az-gate-note');
+                const shownAt = Date.now();
+
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const name = document.getElementById('az-gate-name').value.trim();
+                    const email = document.getElementById('az-gate-email').value.trim();
+                    const hp = document.getElementById('az-gate-hp').value;
+                    const btn = form.querySelector('button');
+
+                    note.textContent = '';
+                    btn.disabled = true;
+                    btn.textContent = 'Unlocking…';
+
+                    callUnlock(name, email, domain, score, hp, Date.now() - shownAt).then(res => {
+                        if (res.ok && res.body.ok) {
+                            setCookie(LEAD_COOKIE, JSON.stringify({ name: name, email: email }), 180);
+                            wrap.classList.remove('is-locked');
+                            gate.hidden = true;
+                            // Ghost placeholders covered these same indexes; fade
+                            // them out before the real versions replace them, so
+                            // nothing briefly shows twice.
+                            list.querySelectorAll('.az-ghost').forEach(el => { el.style.transition = 'opacity 0.25s ease'; el.style.opacity = '0'; });
+                            buildBar.querySelectorAll('.is-ghost').forEach(el => el.remove());
+                            setTimeout(() => {
+                                list.querySelectorAll('.az-ghost').forEach(el => el.remove());
+                                revealRest(afterIndex);
+                            }, 260);
+                            unlockFollowupCta(domain);
+                            return;
+                        }
+                        btn.disabled = false;
+                        btn.textContent = 'View my results & email me the PDF';
+                        note.textContent = (res.body && res.body.error) || 'Something went wrong. Please try again.';
+                    }).catch(() => {
+                        btn.disabled = false;
+                        btn.textContent = 'View my results & email me the PDF';
+                        note.textContent = 'We could not reach the server. Please try again.';
+                    });
+                });
+            }
+
+            function teaseAndGate() {
+                const teaser = checks.slice(0, TEASER_COUNT);
+                const ghosts = checks.slice(TEASER_COUNT, TEASER_COUNT + GHOST_COUNT);
+                revealSequence(list, buildBar, teaser, (c) => appendReal(list, buildBar, c), () => {
+                    revealSequence(list, buildBar, ghosts, (c) => appendGhost(list, buildBar, c, ghosts.indexOf(c) + 1), () => {
+                        showGateForm(TEASER_COUNT);
+                    });
+                });
+            }
+
+            if (lead) {
+                // Known visitor: try a silent re-unlock before showing anything
+                // real, so someone still within their limit never sees a gate.
+                callUnlock(lead.name, lead.email, domain, score, '', 5000).then(res => {
+                    if (res.ok && res.body.ok) {
+                        revealRest(0);
+                        unlockFollowupCta(domain);
+                    } else {
+                        teaseAndGate();
+                        if (res.status === 403) {
+                            window.setTimeout(() => {
+                                const note = document.getElementById('az-gate-note');
+                                const form = document.getElementById('az-gate-form');
+                                if (note && form) {
+                                    form.hidden = true;
+                                    note.textContent = (res.body && res.body.error) || "You've used your free full audits.";
+                                }
+                            }, (TEASER_COUNT + GHOST_COUNT) * STAGGER_MS + 100);
+                        }
+                    }
+                }).catch(teaseAndGate);
+            } else {
+                teaseAndGate();
+            }
+        }
+    })();
+    </script>
+    <?php
+    return ob_get_clean();
+}

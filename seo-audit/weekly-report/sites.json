@@ -1,0 +1,59 @@
+{
+  "_README": [
+    "Weekly SEO report configuration.",
+    "",
+    "gsc_property: the exact Search Console siteUrl. null = no access yet, in",
+    "which case NO client email is sent and an internal notice goes to Yasir",
+    "instead. Never invent figures for a site we cannot measure.",
+    "",
+    "client_email: who receives the report. null = internal only.",
+    "send_to_client: master switch per site. Set false to hold a site back",
+    "without losing its configuration.",
+    "gsc_property may be a domain property (sc-domain:example.com) or a URL-prefix property (https://example.com/). Domain properties are preferred - they cover every subdomain and both protocols.",
+    "cc_extra: optional extra recipients for one site, added on top of the global cc. Everything IT uses it for the standing rule that a director is always copied.",
+    "require_approval: true = client-facing reports are queued for Yasir's Approve/Hold instead of being sent straight to the client. Set to false once he is happy the reports go out correctly on their own. Internal copies to ceo@ are never queued."
+  ],
+  "cc": "ceo@azwebcorp.com",
+  "sites": [
+    {
+      "name": "AZ Web Corp",
+      "domain": "azwebcorp.com",
+      "gsc_property": "https://azwebcorp.com/",
+      "client_email": null,
+      "client_name": null,
+      "send_to_client": false,
+      "notes": "Own agency site. Report goes to Yasir only - there is no client to send to."
+    },
+    {
+      "name": "Prestige Windows",
+      "domain": "prestigewindowsaz.com",
+      "gsc_property": "sc-domain:prestigewindowsaz.com",
+      "client_email": "Nassim@prestigehomestudioaz.com",
+      "client_name": "Nassim",
+      "send_to_client": true,
+      "notes": "Domain property, siteOwner on Yasir's Google account (verified 2026-09-09). The service account gsc-reader@azwebcorp-gsc-77313 gets 403 here - it is only on azwebcorp.com - so gsc_query.py falls back to the OAuth token, same as the portal."
+    },
+    {
+      "name": "Everything IT",
+      "domain": "everythingit.ie",
+      "gsc_property": "sc-domain:everythingit.ie",
+      "client_email": "faraz@eit.ie",
+      "client_name": "Faraz",
+      "send_to_client": true,
+      "notes": "Domain property, siteOwner on Yasir's Google account (verified 2026-09-09). Reached via the OAuth fallback in gsc_query.py, not the service account. STANDING RULE: every email to this client goes to faraz@eit.ie and CCs ahson@eit.ie, a director - hence cc_extra.",
+      "cc_extra": [
+        "ahson@eit.ie"
+      ]
+    },
+    {
+      "name": "PaloVerde Cancer Specialists",
+      "domain": "pvcancer.com",
+      "gsc_property": null,
+      "client_email": "mbustard@pvcancer.com",
+      "client_name": "Mike",
+      "send_to_client": false,
+      "notes": "No Search Console property exists for this client at all - not for pvcancer.com, pvhomed.com or the temporary myftpupload domain (checked against the full property list 2026-09-09). Nothing to connect until the site goes live on the real domain and the property is created and verified. send_to_client stays false until then."
+    }
+  ],
+  "require_approval": true
+}

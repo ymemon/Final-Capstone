@@ -1,0 +1,825 @@
+[
+  {
+    "slug": "home",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 0,
+    "bad": [],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 12342
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 12342
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 12202
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "about-us",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 11,
+    "bad": [
+      {
+        "t": "Our Mission",
+        "fg": "rgb(15, 10, 42)",
+        "bg": "gradient",
+        "r": "1.08",
+        "y": 2809
+      },
+      {
+        "t": "Our mission is to provide holistic, patient-ce",
+        "fg": "rgb(74, 85, 104)",
+        "bg": "gradient",
+        "r": "2.36",
+        "y": 2865
+      },
+      {
+        "t": "Our promise:",
+        "fg": "rgb(74, 85, 104)",
+        "bg": "gradient",
+        "r": "2.36",
+        "y": 3140
+      },
+      {
+        "t": "Our Vision",
+        "fg": "rgb(15, 10, 42)",
+        "bg": "gradient",
+        "r": "1.08",
+        "y": 3347
+      },
+      {
+        "t": "Our vision is a future where every cancer pati",
+        "fg": "rgb(74, 85, 104)",
+        "bg": "gradient",
+        "r": "2.36",
+        "y": 3402
+      },
+      {
+        "t": "Why Patients Choose Palo Verde",
+        "fg": "rgb(15, 10, 42)",
+        "bg": "gradient",
+        "r": "1.08",
+        "y": 5146
+      },
+      {
+        "t": "Choosing a cancer care team is one of the most",
+        "fg": "rgb(74, 85, 104)",
+        "bg": "gradient",
+        "r": "2.36",
+        "y": 5235
+      },
+      {
+        "t": "Our Journey",
+        "fg": "rgb(15, 10, 42)",
+        "bg": "gradient",
+        "r": "1.08",
+        "y": 7979
+      }
+    ],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 10827
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 10827
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 10687
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "services",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 5,
+    "bad": [
+      {
+        "t": "Medical Oncology & Chemotherapy",
+        "fg": "rgb(15, 10, 42)",
+        "bg": "gradient",
+        "r": "1.08",
+        "y": 2184
+      },
+      {
+        "t": "Treatment plans are customized to each patient",
+        "fg": "rgb(74, 85, 104)",
+        "bg": "gradient",
+        "r": "2.36",
+        "y": 2288
+      },
+      {
+        "t": "Convenient Locations Across the Valley",
+        "fg": "rgb(15, 10, 42)",
+        "bg": "gradient",
+        "r": "1.08",
+        "y": 3685
+      },
+      {
+        "t": "Expert oncology care, accessible and closer to",
+        "fg": "rgb(74, 85, 104)",
+        "bg": "gradient",
+        "r": "2.36",
+        "y": 3829
+      },
+      {
+        "t": "Care Designed Around the Patient",
+        "fg": "rgb(15, 10, 42)",
+        "bg": "gradient",
+        "r": "1.08",
+        "y": 4322
+      }
+    ],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 5645
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 5645
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 5505
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "schedule",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 1,
+    "bad": [
+      {
+        "t": "Yes No",
+        "fg": "rgb(245, 245, 245)",
+        "bg": "rgb(255,255,255)",
+        "r": "1.09",
+        "y": 10085
+      }
+    ],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 18907
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 18907
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 18767
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "patient-forms",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 1,
+    "bad": [
+      {
+        "t": "contact form pv",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(255,255,255)",
+        "r": "1.00",
+        "y": 929
+      }
+    ],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 10221
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 10221
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 10081
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "clinical-research",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 0,
+    "bad": [],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 5834
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 5754
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 5754
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1480
+      }
+    ]
+  },
+  {
+    "slug": "conditions-we-treat",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 0,
+    "bad": [],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3728
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3728
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3588
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "east-valley-location",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 1,
+    "bad": [
+      {
+        "t": "Yes No",
+        "fg": "rgb(245, 245, 245)",
+        "bg": "rgb(255,255,255)",
+        "r": "1.09",
+        "y": 10750
+      }
+    ],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 15723
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 15723
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 15555
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "estrella-location",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 1,
+    "bad": [
+      {
+        "t": "Yes No",
+        "fg": "rgb(245, 245, 245)",
+        "bg": "rgb(255,255,255)",
+        "r": "1.09",
+        "y": 10927
+      }
+    ],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 16168
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 16168
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 15999
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "scottsdale-location",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 1,
+    "bad": [
+      {
+        "t": "Yes No",
+        "fg": "rgb(245, 245, 245)",
+        "bg": "rgb(255,255,255)",
+        "r": "1.09",
+        "y": 11040
+      }
+    ],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 16280
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 16280
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 16112
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "glendale-location",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 1,
+    "bad": [
+      {
+        "t": "Yes No",
+        "fg": "rgb(245, 245, 245)",
+        "bg": "rgb(255,255,255)",
+        "r": "1.09",
+        "y": 11097
+      }
+    ],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 16338
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 16338
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 16169
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "your-team",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 0,
+    "bad": [],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 844
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 764
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 248
+      },
+      {
+        "tag": "article",
+        "cls": "post-2159 page type-page status-publish ",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 248
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "medical-oncology",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 0,
+    "bad": [],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 5551
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 5551
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 5382
+      },
+      {
+        "tag": "p",
+        "cls": "",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 150
+      },
+      {
+        "tag": "ul",
+        "cls": "",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 210
+      },
+      {
+        "tag": "p",
+        "cls": "",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 90
+      },
+      {
+        "tag": "p",
+        "cls": "",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 90
+      },
+      {
+        "tag": "p",
+        "cls": "",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 90
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "pet-scan-imaging",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 0,
+    "bad": [],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 7021
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 7021
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 6852
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "privacy-policy",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 0,
+    "bad": [],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3678
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3678
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3481
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "hipaa-notice",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 0,
+    "bad": [],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3738
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3738
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3598
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  },
+  {
+    "slug": "terms-of-service",
+    "bodyBg": "rgb(4, 4, 4)",
+    "badCount": 0,
+    "bad": [],
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "hfeed site",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3787
+      },
+      {
+        "tag": "header",
+        "cls": "site-header header-main-layout-1 ast-pri",
+        "bg": "rgb(52, 52, 74)",
+        "h": 80
+      },
+      {
+        "tag": "div",
+        "cls": "site-content",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3787
+      },
+      {
+        "tag": "div",
+        "cls": "ast-container",
+        "bg": "rgba(0, 0, 0, 0)",
+        "h": 3647
+      },
+      {
+        "tag": "footer",
+        "cls": "pvhomed-footer",
+        "bg": "rgb(13, 17, 23)",
+        "h": 1467
+      }
+    ]
+  }
+]

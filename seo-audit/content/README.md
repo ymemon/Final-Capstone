@@ -10,7 +10,7 @@ Editorial pages targeting commercial keywords the site tracks but has no page fo
 | `seo-company-phoenix-az.html` | `/seo-company-phoenix-az/` | New |
 | `case-studies.html` | `/case-studies/` | New |
 
-`case-studies.html` carries a publishing constraint of its own: only the Everything IT entry is cleared. Palo Verde Cancer Specialists and Prestige Windows are drafted as commented-out blocks at the foot of the file and must not be published until each client has agreed to be named — and, for Palo Verde, until `pvcancer.com` actually resolves to the site we built.
+`case-studies.html` carries a publishing constraint of its own. Everything IT and Prestige Windows are cleared for publication. The Prestige entry names the business and links the website, but does not name the owner personally; permission was confirmed by AZWebCorp's owner on 9 September 2026. The AZWebCorp SEO Client Portal and Public SEO Audit are in-house products, so neither has a client-permission dependency. The portal screenshot uses the AZ Web Corp workspace instead of exposing a client's private account. The public-audit screenshot uses a public example domain and explicitly does not imply a client, partner or endorsement relationship. Palo Verde Cancer Specialists remains a commented-out draft and must not be published until the client has agreed to be named and `pvcancer.com` actually resolves to the site we built.
 
 ## `/arizona-seo-services/` is not managed here any more
 

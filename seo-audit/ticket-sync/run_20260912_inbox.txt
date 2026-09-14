@@ -1,0 +1,52 @@
+=== INBOX: 1 candidate UIDs: [b'4087'] ===
+-----
+UID: 4087
+From: "Amazon.com Reviews" <customer-reviews-messages@amazon.com>
+To: info@azwebcorp.com
+Subject: yasir, did 'ETAISHOW Rolling Backpack' meet your expectations?
+ Review it on Amazon
+Date: Sun, 13 Sep 2026 03:09:35 +0000
+Message-ID: <010001a098bdde2c-278387f3-8091-48fa-9bda-9225e2789f65-000000@email.amazonses.com>
+In-Reply-To: None
+References: None
+Body (first 1500 chars):
+
+  
+
+Your opinion matters!
+
+yasir, do you have a moment? We’d love to know how everything worked out with you. Please take a moment to review your most recent item(s).
+
+ 
+ 
+
+
+
+
+    
+    
+
+    
+What did you think of the item?
+    
+
+    ETAISHOW Rolling Backpack
+
+        https://www.amazon.com/review/review-your-purchases?channel=ec_phy_email_1464177920&asins=B0FLJXB74C
+
+        
+See more
+        
+https://www.amazon.com/review/review-your-purchases?channel=ec_phy_email_1464177920
+        
+
+    
+Update your preferences https://www.amazon.com/gp/cpc/homepage?ref_=pe_ob_ftr_comm_prfs
+Unsubscribe https://www.amazon.com/gp/gss/o/1M9CFE0jNeMu-cSRPMqE.5XayIMa0YPF3X6IDF38gF-sMLDwg6L9eOUMqsMZFwHxb3UDrHk6pJgQN9hZP9na-2w
+©2026 Amazon.com, Inc. or its affiliates. Amazon and all related marks are trademarks of Amazon.com, Inc. or its affiliates, Amazon.com 410 Terry Avenue N., Seattle, WA 98109. Product prices and availability are subject to change. Ref: 1464177920.
+
+Customer reviews must comply with our [Community Guidelines](https://www.amazon.com/gp/help/customer/display.html?nodeId=201929730).
+
+Privacy Notice https://www.amazon.com/gp/help/customer/display.html?nodeId=468496
+Amazon.com
+

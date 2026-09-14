@@ -1,0 +1,46 @@
+{
+  "folder_names": [
+    "(\\HasChildren \\UnMarked) \"/\" Archive",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2026",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2025",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Spam",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"WP candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" AZPL",
+    "(\\HasNoChildren \\UnMarked) \"/\" EverythingIT",
+    "(\\HasChildren \\UnMarked) \"/\" Candidates",
+    "(\\HasNoChildren \\UnMarked) \"/\" Candidates/DCS",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" Notes",
+    "(\\HasChildren \\Marked \\Trash) \"/\" Trash",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren \\UnMarked \\Sent) \"/\" Sent",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Junk",
+    "(\\HasNoChildren \\UnMarked) \"/\" INBOX/CASE",
+    "(\\HasNoChildren \\UnMarked \\Drafts) \"/\" Drafts",
+    "(\\HasChildren) \"/\" INBOX"
+  ],
+  "sent_folder_used": "Sent",
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8690,
+        "from": "Khemia Software <khemiaforms@secureserver.net>",
+        "to": "sales@khemia.com",
+        "subject": "Request A Call!",
+        "date": "Sun, 6 Sep 2026 04:28:22 +0000",
+        "message_id": "<2q3TEQLcWxANKKCGSZKfnyyFUOctnefKFZCUOYtRrQ@khemia.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "From: [name] <madamtaisia@mail.ru>\nSubject: Request A Call\n\nMessage Body:\nName : Nicole Davis\nEmail :-madamtaisia@mail.ru\nPhone Number:- (202) 555-5712\nRequest Demo:- Request a Demo\nTime to Call:- Convenient Time to Call\nTime Zone:-\nMessage :- I would like more information. Please contact me by email — request a demo."
+      }
+    ],
+    "max_uid": 8690,
+    "max_date": "Sun, 6 Sep 2026 04:28:22 +0000"
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 0,
+    "max_date": null
+  }
+}

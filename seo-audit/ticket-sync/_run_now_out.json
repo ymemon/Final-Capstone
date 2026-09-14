@@ -1,0 +1,68 @@
+{
+  "folders": [
+    "Archive",
+    "Archive/2026",
+    "Archive/2025",
+    "Spam",
+    "WP candidate",
+    "SEO candidate",
+    "AZPL",
+    "EverythingIT",
+    "Candidates",
+    "Candidates/DCS",
+    "Junk E-mail",
+    "Notes",
+    "Trash",
+    "Trash/Candidates 1",
+    "Sent",
+    "Junk",
+    "INBOX/CASE",
+    "Drafts",
+    "INBOX"
+  ],
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8813,
+        "from": "AZ Web Corp approvals <requests@azwebcorp.com>",
+        "to": "ceo@azwebcorp.com",
+        "subject": "Approve? Re: Rebound Body Studio — one more thing, about what you pay MassageBook",
+        "date": "Wed, 09 Sep 2026 18:43:58 -0700",
+        "message_id": "<178900463859.3076.13945685464271579421@azwebcorp.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "AWAITING YOUR APPROVAL\nRandi / Rebound: offer to rebuild the client-facing MassageBook features into her own site so she stops paying a third party, plus answers to everything personal in her last two emails.\n\nTo:      massage@reboundbodystudio.com\nCc:      randi.martinez.23@gmail.com\nSubject: Re: Rebound Body Studio — one more thing, about what you pay MassageBook\nQueued:  2026-09-09T18:43:58\n\nRevised per your feedback: no AI disclosure at this stage, the stop-paying-a-third-party point is in your name, and she is told she is on an unlimited package. Supersedes draft a2cb5ab12087bbd1, which was never sent.\n\nAPPROVE AND SEND:\n  https://azwebcorp.com/azwc-approve.php?id=4859ab99867b1997&a=approve&t=3e007b698b53a7fb4c01c38bcbf72f5455e8421d92c0218259107b478dc5b3d4\n\nSEND BACK WITH CHANGES (type what to change):\n  https://azwebcorp.com/azwc-approve.php?id=4859ab99867b1997&a=feedback&t=ffb9b29fa0961fd25bc6365979c1a7daa2556f26ec6a359fcc6df877689166fb\n\nHOLD (do not send, no note):\n  https://azwebcorp.com/azwc-approve.php?id=4859ab99867b1997&a=hold&t=37faaa1a6c831700ae3c458772b5aa8398545045f689dd6b0908975424cd1bd6\n\nApproving records the decision; the email is sent from the office machine within\nabout fifteen minutes. Nothing is sent by clicking.\n\n----- the email as it will go out -----\n\nHi Randi,\n\nTwo things I owe you an answer on, and one you should probably think about\nbefore your next MassageBook bill.\n\nSTOP PAYING FOR THE PARTS WE CAN BUILD\n\nThis one comes from Yasir directly, and"
+      },
+      {
+        "uid": 8814,
+        "from": "Phil — AZ Web Corp <requests@azwebcorp.com>",
+        "to": "massage@reboundbodystudio.com",
+        "subject": "Re: Rebound Body Studio — one more thing, about what you pay MassageBook",
+        "date": "Wed, 09 Sep 2026 18:43:58 -0700",
+        "message_id": "<178900463857.3076.14997922428455809902@azwebcorp.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Randi,\n\nTwo things I owe you an answer on, and one you should probably think about\nbefore your next MassageBook bill.\n\nSTOP PAYING FOR THE PARTS WE CAN BUILD\n\nThis one comes from Yasir directly, and it is worth passing on in his\nwords rather than mine. He has very little patience for a client paying\nevery month for something we could have built them - and right now you are\npaying a third party for the part of your business that sits on your own\nwebsite.\n\nThe booking calendar, gift certificates, packages, current offers,\nreviews, the client sign-in - every one of those is something we can build\ndirectly into reboundbodystudio.com. Not a widget borrowed from someone\nelse's site: yours, on your domain, in your design, with no monthly fee\nattached to it. We are building the site anyway. That work is included.\n\nThe practical difference to you is a bill that stops, and a booking flow\nthat looks like your studio instead of like a directory. Card payments\nwould go straight to Stripe at their standard rate, which is usually\ncheaper than paying a platform to sit in front of Stripe for you.\n\nOne part I would leave exactly where it is: your SOAP notes and intake\nforms. Those are health records, and they belong in a system built to hold\nthem rather than on a website. I would say no to moving those even if you\nasked me to. Everything else is fair game.\n\nNothing needs deciding this week - the widgets are in and working, and\nthere is no hurry. But when the next invoice arrives, tell me wh"
+      }
+    ],
+    "max_uid": 8814,
+    "max_date": "Wed, 09 Sep 2026 18:43:58 -0700"
+  },
+  "sent": {
+    "messages": [
+      {
+        "uid": 1176,
+        "from": "Phil — AZ Web Corp <requests@azwebcorp.com>",
+        "to": "massage@reboundbodystudio.com",
+        "subject": "Re: Rebound Body Studio — one more thing, about what you pay MassageBook",
+        "date": "Wed, 09 Sep 2026 18:43:58 -0700",
+        "message_id": "<178900463857.3076.14997922428455809902@azwebcorp.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi Randi,\n\nTwo things I owe you an answer on, and one you should probably think about\nbefore your next MassageBook bill.\n\nSTOP PAYING FOR THE PARTS WE CAN BUILD\n\nThis one comes from Yasir directly, and it is worth passing on in his\nwords rather than mine. He has very little patience for a client paying\nevery month for something we could have built them - and right now you are\npaying a third party for the part of your business that sits on your own\nwebsite.\n\nThe booking calendar, gift certificates, packages, current offers,\nreviews, the client sign-in - every one of those is something we can build\ndirectly into reboundbodystudio.com. Not a widget borrowed from someone\nelse's site: yours, on your domain, in your design, with no monthly fee\nattached to it. We are building the site anyway. That work is included.\n\nThe practical difference to you is a bill that stops, and a booking flow\nthat looks like your studio instead of like a directory. Card payments\nwould go straight to Stripe at their standard rate, which is usually\ncheaper than paying a platform to sit in front of Stripe for you.\n\nOne part I would leave exactly where it is: your SOAP notes and intake\nforms. Those are health records, and they belong in a system built to hold\nthem rather than on a website. I would say no to moving those even if you\nasked me to. Everything else is fair game.\n\nNothing needs deciding this week - the widgets are in and working, and\nthere is no hurry. But when the next invoice arrives, tell me wh"
+      }
+    ],
+    "max_uid": 1176,
+    "max_date": "Wed, 09 Sep 2026 18:43:58 -0700"
+  }
+}

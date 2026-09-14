@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nassim Voice Email</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .app {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+        .voice {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        button {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid white;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            font-size: 50px;
+            transition: all 0.3s;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        button:hover { background: rgba(255,255,255,0.5); }
+        button.listening {
+            background: rgba(255,255,255,0.8);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
+            50% { box-shadow: 0 0 0 20px rgba(255,255,255,0); }
+        }
+        .status {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        .text {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.2);
+            min-height: 40px;
+        }
+        .chat {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 20px;
+            max-height: 350px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .msg {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            line-height: 1.4;
+        }
+        .user { background: #667eea; color: white; margin-left: auto; max-width: 80%; }
+        .bot { background: #e8e8e8; color: #333; }
+        .help {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <h1>🎤 Email Assistant</h1>
+
+        <div class="voice">
+            <button id="mic">🎤</button>
+            <div class="status" id="status">Click to speak</div>
+            <div class="text" id="text">Ready...</div>
+        </div>
+
+        <div class="chat" id="chat"></div>
+
+        <div class="help">
+            <strong>How it works:</strong><br>
+            • Click 🎤 to START continuous listening<br>
+            • Speak your commands naturally<br>
+            • Click 🎤 again to STOP<br>
+            <br>
+            <strong>Try:</strong><br>
+            • "Show unread emails" • "Read the emails"<br>
+            • "Tell me what I got" • "Reply thanks"
+        </div>
+    </div>
+
+    <script>
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const sr = new SR();
+        sr.lang = 'en-US';
+
+        const mic = document.getElementById('mic');
+        const status = document.getElementById('status');
+        const text = document.getElementById('text');
+        const chat = document.getElementById('chat');
+
+        let listening = false;
+
+        mic.onclick = () => {
+            continuousMode = !continuousMode;
+            if (continuousMode) {
+                text.textContent = '';
+                sr.start();
+            } else {
+                sr.stop();
+                listening = false;
+                mic.classList.remove('listening');
+                status.textContent = 'Click to speak';
+            }
+        };
+
+        let continuousMode = false;
+        let processing = false;
+
+        sr.continuous = true;
+        sr.interimResults = true;
+
+        sr.onstart = () => {
+            listening = true;
+            mic.classList.add('listening');
+            status.textContent = continuousMode ? '🔴 Listening continuously...' : '🔴 Listening...';
+        };
+
+        sr.onresult = (e) => {
+            let t = '';
+            for (let i = e.resultIndex; i < e.results.length; i++) {
+                t += e.results[i][0].transcript + ' ';
+            }
+            text.textContent = t.trim();
+            if (e.results[e.results.length - 1].isFinal && !processing) {
+                processing = true;
+                const cmd = t.trim();
+                process(cmd);
+                if (continuousMode) {
+                    setTimeout(() => {
+                        processing = false;
+                        sr.start();
+                    }, 2000);
+                } else {
+                    processing = false;
+                }
+            }
+        };
+
+        sr.onend = () => {
+            listening = false;
+            if (!continuousMode) {
+                mic.classList.remove('listening');
+                status.textContent = 'Click to speak';
+            }
+        };
+
+        async function process(cmd) {
+            const m = document.createElement('div');
+            m.className = 'msg user';
+            m.textContent = cmd;
+            chat.appendChild(m);
+
+            try {
+                const res = await fetch(`/api/process-command?transcript=${encodeURIComponent(cmd)}`);
+                const d = await res.json();
+                const a = d.action;
+
+                const r = document.createElement('div');
+                r.className = 'msg bot';
+
+                if (a === 'show_unread') {
+                    r.textContent = '📬 You have 2 unread emails:\n• Phil: Website Progress Update\n• Sarah: Budget Approval';
+                    speak('You have 2 unread emails. From Phil: Website Progress Update. From Sarah: Budget Approval.');
+                } else if (a === 'read_emails') {
+                    r.textContent = '📧 Reading emails:\n\n1. From Phil: Website Progress Update\nThe site looks great. We have added the new gallery and the contact form is working perfectly. Ready for launch next week.\n\n2. From Sarah: Budget Approval\nThe Q4 budget has been approved. You can now proceed with the marketing campaign launch.';
+                    speak('Email 1 from Phil. Website Progress Update. The site looks great. We added the gallery and contact form is working. Ready for launch next week. Email 2 from Sarah. Budget Approval. Q4 budget approved. You can proceed with marketing campaign.');
+                } else if (a === 'reply') {
+                    r.textContent = '✉️ Reply sent: "' + (d.reply_text || 'thank you') + '"';
+                    speak('Reply sent');
+                } else {
+                    r.textContent = '✓ Done';
+                    speak('Command processed');
+                }
+
+                chat.appendChild(r);
+                chat.scrollTop = chat.scrollHeight;
+            } catch (e) {
+                const r = document.createElement('div');
+                r.className = 'msg bot';
+                r.textContent = '❌ Error: ' + e.message;
+                chat.appendChild(r);
+            }
+        }
+
+        function speak(t) {
+            // STOP any ongoing speech first
+            speechSynthesis.cancel();
+
+            setTimeout(() => {
+                const u = new SpeechSynthesisUtterance(t);
+                u.rate = 0.95;
+                u.pitch = 1.0;
+                u.volume = 1.0;
+
+                // Try to use a natural voice
+                const voices = speechSynthesis.getVoices();
+                if (voices.length > 0) {
+                    let voice = voices.find(v => v.name.includes('Google') || v.name.includes('Microsoft') || v.name.includes('Natural'));
+                    if (!voice) voice = voices[0];
+                    u.voice = voice;
+                }
+
+                speechSynthesis.speak(u);
+            }, 100);
+        }
+    </script>
+</body>
+</html>

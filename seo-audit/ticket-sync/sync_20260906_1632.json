@@ -1,0 +1,46 @@
+{
+  "folder_names": [
+    "(\\HasChildren \\UnMarked) \"/\" Archive",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2026",
+    "(\\HasNoChildren \\UnMarked) \"/\" Archive/2025",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Spam",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"WP candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"SEO candidate\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" AZPL",
+    "(\\HasNoChildren \\UnMarked) \"/\" EverythingIT",
+    "(\\HasChildren \\UnMarked) \"/\" Candidates",
+    "(\\HasNoChildren \\UnMarked) \"/\" Candidates/DCS",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Junk E-mail\"",
+    "(\\HasNoChildren \\UnMarked) \"/\" Notes",
+    "(\\HasChildren \\UnMarked \\Trash) \"/\" Trash",
+    "(\\HasNoChildren \\UnMarked) \"/\" \"Trash/Candidates 1\"",
+    "(\\HasNoChildren \\UnMarked \\Sent) \"/\" Sent",
+    "(\\HasNoChildren \\UnMarked \\Junk) \"/\" Junk",
+    "(\\HasNoChildren \\UnMarked) \"/\" INBOX/CASE",
+    "(\\HasNoChildren \\UnMarked \\Drafts) \"/\" Drafts",
+    "(\\HasChildren) \"/\" INBOX"
+  ],
+  "sent_folder_used": "Sent",
+  "inbox": {
+    "messages": [
+      {
+        "uid": 8694,
+        "from": "\"Facebook\" <notification@facebookmail.com>",
+        "to": "requests@azwebcorp.com",
+        "subject": "Action required: You're invited to join the prestigewindowsaz business portfolio",
+        "date": "Sun, 6 Sep 2026 15:18:17 -0700",
+        "message_id": "<5653afdb-a3a9-4134-ab34-98b3ee310ce6@facebookmail.com>",
+        "in_reply_to": null,
+        "references": null,
+        "body": "Hi,\n\n \n\n   You're invited to join prestigewindowsazNassim Tantouri invited you to join the prestigewindowsaz business portfolio. Portfolios connect a business’s Facebook Pages and other business assets so you can manage them all in one place.Depending on the access you're given, you can do things like help manage Pages, Instagram accounts, ad accounts and people's assignments.This invitation will expire on October 06, 2026. You won’t be able to accept the invitation after this date.You may need to log in with your managed Meta account if it's required by your organization.Log in to view invitationLearn moreMeta Business Suite is a one-stop shop where you can manage all of your marketing and advertising on Facebook and Instagram.Save timePlan, edit and schedule posts and stories ahead of time.Connect with customersRead and reply to messages and comments using a single inbox.Get resultsTrack what’s working best with performance insights across Meta technologies.   \n\n \n\nThanks,\nThe Facebook team\n\n\n\n========================================\nThis message was sent to requests@azwebcorp.com. If you don't want to receive these emails from Meta in the future, please follow the link below to unsubscribe.\nhttps://www.facebook.com/o.php?k=AfFePpt1fRJSqcCAzQItb-aIe_o&e=requests%40azwebcorp.com&mid=HMTc4ODczMTg2MjQ1NjcxMzpyZXF1ZXN0c0BhendlYmNvcnAuY29tOjY3MA&ee=AQAJhxJDzr2C56NCf4bYQ7-WnHkDuPs886oOW3rUdzEAwK21q0abpX5PS1-8wPY9PFLzBlI9xjRQ5MJujfvyzA\nMeta Platforms, Inc., Attention: Community Su"
+      }
+    ],
+    "max_uid": 8694,
+    "max_date": "Sun, 6 Sep 2026 15:18:17 -0700"
+  },
+  "sent": {
+    "messages": [],
+    "max_uid": 0,
+    "max_date": null
+  }
+}

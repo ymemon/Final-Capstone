@@ -1,0 +1,10 @@
+New booking request from {CLIENT_NAME}
+
+Service: {SERVICE_NAME} ({DURATION_MIN} minutes)
+Requested time: {WHEN}
+Client email: {CLIENT_EMAIL}
+
+Approve or decline: {BASE_URL}/booking/public/admin/index.html
+
+---
+This is an automated alert. Do not reply to this email.

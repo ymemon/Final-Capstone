@@ -1,0 +1,10 @@
+Appointment cancelled by client
+
+Client: {CLIENT_NAME}
+Service: {SERVICE_NAME}
+Was scheduled for: {WHEN}
+
+The slot is now available. Respond to client at {CLIENT_EMAIL} if needed.
+
+---
+This is an automated alert. Do not reply to this email.
