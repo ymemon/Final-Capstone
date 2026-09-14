@@ -197,11 +197,95 @@ foreach ($byCountry as $iso => $c) {
 usort($locations, fn($a, $b) => $b['users'] <=> $a['users']);
 usort($places, fn($a, $b) => $b['users'] <=> $a['users']);
 
+/**
+ * Everything else GA4's own Realtime report shows.
+ *
+ * Yasir: "the live section should have more information - everything that shows
+ * live on all Google portals." GA4 Realtime exposes rather more than the top
+ * pages and the map we were using, so the rest is pulled here:
+ *
+ *   devices   deviceCategory x activeUsers      - desktop / mobile / tablet
+ *   events    eventName x eventCount            - what is actually happening
+ *   sources   sessionSource / sessionMedium     - where the traffic came from
+ *   minutes   activeUsers by minutesAgo         - the users-per-minute bars
+ *
+ * Each is its own request because the Realtime API returns the cross-product of
+ * whatever dimensions are asked for in a single call, which would multiply rows
+ * and blur every total. Failures are tolerated: a missing extra should degrade
+ * that one panel, never take down the live feed.
+ */
+function realtime_rows(string $token, array $dims, array $mets, int $limit = 20): array {
+    $r = post_req(
+        'https://analyticsdata.googleapis.com/v1beta/properties/' . PROPERTY . ':runRealtimeReport',
+        json_encode([
+            'dimensions' => array_map(fn($d) => ['name' => $d], $dims),
+            'metrics'    => array_map(fn($m) => ['name' => $m], $mets),
+            'limit'      => $limit,
+        ]),
+        ['Authorization: Bearer ' . $token, 'Content-Type: application/json']
+    );
+    return $r['rows'] ?? [];
+}
+
+$tok = $auth['access_token'];
+
+$devices = [];
+foreach (realtime_rows($tok, ['deviceCategory'], ['activeUsers'], 10) as $row) {
+    $devices[] = [
+        'device' => $row['dimensionValues'][0]['value'] ?? '(unknown)',
+        'users'  => (int) ($row['metricValues'][0]['value'] ?? 0),
+    ];
+}
+usort($devices, fn($a, $b) => $b['users'] <=> $a['users']);
+
+$events = [];
+foreach (realtime_rows($tok, ['eventName'], ['eventCount'], 12) as $row) {
+    $events[] = [
+        'event' => $row['dimensionValues'][0]['value'] ?? '(unknown)',
+        'count' => (int) ($row['metricValues'][0]['value'] ?? 0),
+    ];
+}
+usort($events, fn($a, $b) => $b['count'] <=> $a['count']);
+
+/**
+ * NOT traffic source. sessionSource and sessionMedium are rejected by the
+ * Realtime API - "Field sessionSource is not a valid dimension" - and Google's
+ * own Realtime report does not show where live visitors came from either. That
+ * data only exists once the session is processed into the standard reports, a
+ * few hours later. Showing an empty "How they arrived" panel would imply we had
+ * lost the data rather than that it does not exist yet, so the panel is
+ * platform instead, which Realtime does provide.
+ */
+$platforms = [];
+foreach (realtime_rows($tok, ['platform'], ['activeUsers'], 10) as $row) {
+    $platforms[] = [
+        'platform' => $row['dimensionValues'][0]['value'] ?? '(unknown)',
+        'users'    => (int) ($row['metricValues'][0]['value'] ?? 0),
+    ];
+}
+usort($platforms, fn($a, $b) => $b['users'] <=> $a['users']);
+
+// Users per minute for the last half hour. GA4 returns minutesAgo as a string
+// "0".."29", where 0 is the minute in progress. Fill every slot so the chart
+// has a bar for quiet minutes rather than a gap.
+$minutes = array_fill(0, 30, 0);
+foreach (realtime_rows($tok, ['minutesAgo'], ['activeUsers'], 40) as $row) {
+    $m = (int) ($row['dimensionValues'][0]['value'] ?? -1);
+    if ($m >= 0 && $m < 30) {
+        $minutes[$m] = (int) ($row['metricValues'][0]['value'] ?? 0);
+    }
+}
+$minutes = array_reverse($minutes);   // oldest first, so it reads left to right
+
 $out = json_encode([
     'activeUsers' => $total,
     'pages'       => $pages,
     'locations'   => $locations,   // country centroids, for the globe
     'places'      => $places,      // city-level rows, for the list
+    'devices'     => $devices,
+    'events'      => $events,
+    'platforms'   => $platforms,
+    'minutes'     => $minutes,     // 30 values, oldest first
     'geoOk'       => $geo !== null,
     'ts'          => gmdate('c'),
 ]);

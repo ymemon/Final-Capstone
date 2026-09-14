@@ -60,9 +60,15 @@ def remote_roster() -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true", help="actually move the pages")
+    ap.add_argument("--only", help="deploy a single slug only, for a staged rollout "
+                     "(e.g. azwebcorp's own internal dashboard before real clients)")
     a = ap.parse_args()
 
     builds = sorted(p for p in DIST.iterdir() if p.is_dir() and p.name != "_owner")
+    if a.only:
+        builds = [b for b in builds if b.name == a.only]
+        if not builds:
+            sys.exit(f"no build named {a.only!r} in dist/")
     if not builds:
         sys.exit("no client builds in dist/ - run: python build_portal.py --all")
 

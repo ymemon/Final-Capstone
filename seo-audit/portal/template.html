@@ -39,8 +39,14 @@
   .pt {
     background: var(--bg); color: var(--ink);
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    min-height: 100vh; display: grid; grid-template-columns: 264px 1fr;
+    min-height: 100vh; display: grid; grid-template-columns: 272px 264px 1fr;
+    transition: grid-template-columns .2s;
   }
+  /* Collapsed = fully slid away, ChatGPT-style, not a thin icon rail - the
+     toggle button that reopens it lives outside this column (in the
+     livebar) precisely because a 0-width column can't hold a visible button
+     of its own. */
+  .pt.chatnav-collapsed { grid-template-columns: 0px 264px 1fr; }
 
   /* ---------- sidebar ---------- */
   .side {
@@ -72,7 +78,13 @@
   nav.navlist svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.7; flex-shrink: 0; }
   nav.navlist .off { margin-left: auto; font-size: 9.5px; color: var(--ink-3); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; }
 
-  .side .role { margin-top: auto; border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: var(--panel); }
+  /* The role footer used to be pushed to the bottom of the viewport with
+     margin-top:auto, which left a large empty gap between the nav list and
+     the footer on any screen taller than the list needs - "wasted room" on
+     the very panel meant to hold every tab (2026-09-12). It now sits flush
+     under the nav instead; on a short nav list any leftover space falls
+     below the footer, off-screen, rather than splitting the sidebar in two. */
+  .side .role { border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: var(--panel); }
   .side .role .rt { font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 7px; }
   .side .role .rd { font-size: 11.5px; color: var(--ink-3); margin-top: 6px; line-height: 1.45; }
 
@@ -112,6 +124,21 @@
   }
   .live-cap { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
   .live-sub { font-size: 11.5px; color: var(--ink-2); }
+  .lgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .lgrid { grid-template-columns: 1fr; } }
+  .minbars { display: flex; align-items: flex-end; gap: 3px; height: 84px; margin-top: 10px; }
+  .minbars i { flex: 1; background: var(--s3); border-radius: 2px 2px 0 0; min-height: 2px;
+               opacity: .85; display: block; }
+  .minbars i.now { background: var(--gold); opacity: 1; }
+  .minaxis { display: flex; justify-content: space-between; font-size: 10.5px;
+             color: var(--ink-3); margin-top: 6px; }
+  .lrow2 { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0;
+           border-bottom: 1px solid var(--line); font-size: 13px; }
+  .lrow2:last-child { border-bottom: 0; }
+  .lrow2 b { font-variant-numeric: tabular-nums; }
+  .live-src { font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase;
+              color: var(--ink-3); border-top: 1px solid var(--line);
+              margin-top: 12px; padding-top: 8px; }
   .live-pages { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12px; color: var(--ink-2); }
   .live-pages b { color: var(--ink); font-variant-numeric: tabular-nums; }
   .live-stale { font-size: 12px; color: var(--ink-3); }
@@ -259,6 +286,61 @@ a.card.linked:hover .kgo, a.card.linked:focus-visible .kgo { opacity: 1; color: 
   .pill.warn { color: var(--gold); border-color: rgba(230,184,77,.4); }
   .pill.no { color: var(--bad); border-color: rgba(230,103,103,.4); }
 
+  /* ---------- Messages (chat-style ticket thread) ----------
+     The conversation LIST used to live here as a two-pane layout; it is now
+     the far-left .chatnav panel instead (see that section), so only the
+     single-thread shell remains. */
+  .msg-thread { background: var(--panel); border: 1px solid var(--line); border-radius: 13px; padding: 16px 18px; min-height: 420px; display: flex; flex-direction: column; }
+  .msg-bubbles { flex: 1; overflow-y: auto; max-height: 55vh; display: flex; flex-direction: column; gap: 10px; padding-bottom: 8px; }
+  .bubble { max-width: 78%; padding: 9px 13px; border-radius: 13px; font-size: 13px; line-height: 1.5; white-space: pre-wrap; }
+  .bubble .bmeta { display: block; font-size: 10.5px; color: var(--ink-3); margin-top: 4px; }
+  .bubble.mine { align-self: flex-end; background: var(--gold-dim); color: var(--ink); border-bottom-right-radius: 4px; }
+  .bubble.theirs { align-self: flex-start; background: var(--panel-2); border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+  .bubble.system { align-self: center; background: none; color: var(--ink-3); font-size: 11.5px; font-style: italic; }
+  .msg-compose { display: flex; gap: 8px; margin-top: 12px; border-top: 1px solid var(--line); padding-top: 12px; }
+  .msg-compose textarea {
+    flex: 1; resize: none; min-height: 42px; max-height: 140px; background: var(--panel-2); color: var(--ink);
+    border: 1px solid var(--line-strong); border-radius: 9px; padding: 10px 12px; font: inherit; font-size: 13px;
+  }
+  .msg-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
+  .chip {
+    background: var(--panel-2); border: 1px solid var(--line-strong); color: var(--ink); border-radius: 999px;
+    padding: 8px 14px; font-size: 12.5px; cursor: pointer;
+  }
+  .chip:hover { border-color: var(--gold); }
+
+  /* ---------- Reminders / To-Do ---------- */
+  .todo-row {
+    display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line);
+  }
+  .todo-row:last-child { border-bottom: 0; }
+  .todo-row.done { opacity: .5; }
+  .todo-row.done .todo-title { text-decoration: line-through; }
+  .todo-check {
+    width: 20px; height: 20px; border-radius: 6px; border: 1px solid var(--line-strong); background: var(--panel-2);
+    flex-shrink: 0; margin-top: 1px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .todo-row.done .todo-check { background: var(--s3); border-color: var(--s3); color: #fff; }
+  .todo-title { font-size: 13.5px; font-weight: 600; }
+  .todo-detail { font-size: 12px; color: var(--ink-2); margin-top: 3px; }
+  .todo-due { font-size: 11px; color: var(--ink-3); margin-top: 4px; }
+  .todo-due.today { color: var(--gold); font-weight: 600; }
+  .todo-due.overdue { color: var(--bad); font-weight: 600; }
+
+  /* ---------- Due-today popup ---------- */
+  .duepop-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 100;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+  }
+  .duepop-card {
+    background: var(--panel); border: 1px solid var(--line-strong); border-radius: 16px;
+    padding: 24px; width: 100%; max-width: 420px;
+  }
+  .duepop-card h3 { margin: 0 0 6px; font-size: 17px; }
+  .duepop-card p.duepop-sub { margin: 0 0 16px; color: var(--ink-3); font-size: 12.5px; }
+  .duepop-card ul { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .duepop-card li { background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; }
+
   .empty { border: 1px dashed var(--line-strong); border-radius: 13px; padding: 30px 26px; text-align: center; }
   .empty h4 { margin: 0 0 8px; font-size: 14px; }
   .empty p { margin: 0 auto; max-width: 520px; font-size: 12.5px; color: var(--ink-3); line-height: 1.6; }
@@ -268,12 +350,61 @@ a.card.linked:hover .kgo, a.card.linked:focus-visible .kgo { opacity: 1; color: 
   .cwrap { position: relative; }
 
   .hamb { display: none; }
+
+  /* ---------- far-left chat panel (ChatGPT-style slide in/out) ----------
+     A dedicated, always-available rail for conversations - separate from the
+     Dashboard/Reminders/Live nav in .side - because per yasir (2026-09-13)
+     it needs room to grow ("we're going to be adding other things up
+     later") without competing with the reporting nav for space. */
+  .chatnav {
+    background: #000; border-right: 1px solid var(--line);
+    height: 100vh; position: sticky; top: 0; overflow: hidden;
+  }
+  .chatnav-inner {
+    width: 272px; height: 100%; padding: 16px 12px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .chatnav-head { display: flex; align-items: center; gap: 8px; }
+  .chatnav-toggle {
+    flex-shrink: 0; width: 30px; height: 30px; border-radius: 8px;
+    background: var(--panel); border: 1px solid var(--line-strong); color: var(--ink);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .chatnav-toggle:hover { border-color: var(--gold); }
+  .chatnav-new {
+    flex: 1; text-align: left; background: var(--gold-dim); border: 1px solid var(--gold);
+    color: var(--ink); border-radius: 9px; padding: 8px 12px; font: inherit;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .chatnav-new:hover { filter: brightness(1.08); }
+  .chatnav-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
+  .chatnav-item {
+    display: block; width: 100%; text-align: left; background: none; border: 0;
+    color: var(--ink-2); padding: 9px 10px; border-radius: 8px; cursor: pointer;
+    font: inherit; font-size: 12.5px;
+  }
+  .chatnav-item:hover { background: rgba(255,255,255,.05); color: var(--ink); }
+  .chatnav-item.active { background: var(--gold-dim); color: var(--ink); font-weight: 600; }
+  .chatnav-item .ci-sub { display: block; font-size: 10.5px; color: var(--ink-3); margin-top: 2px; font-weight: 400; }
+  .chatnav-item.active .ci-sub { color: var(--ink-2); }
+  .chatnav-empty { font-size: 11.5px; color: var(--ink-3); padding: 10px; }
+  .chatnav-note {
+    font-size: 10.5px; color: var(--ink-3); padding: 10px 10px 2px;
+    border-top: 1px solid var(--line); margin-top: 2px;
+  }
+
   @media (max-width: 1100px) { .kpis { grid-template-columns: repeat(3, 1fr); } .g3 { grid-template-columns: 1fr; } }
   @media (max-width: 900px) {
     .pt { grid-template-columns: 1fr; }
     .side { position: fixed; z-index: 60; width: 286px; left: 0; top: 0; transform: translateX(-100%); transition: transform .22s; }
     .pt.open .side { transform: none; }
     .hamb { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--panel); color: var(--ink); cursor: pointer; }
+    /* On narrow screens the chat panel is an off-canvas overlay like .side,
+       toggled independently (both can't sensibly show at once on a phone). */
+    .pt .chatnav { position: fixed; z-index: 61; left: 0; top: 0; width: 286px; height: 100vh; transform: translateX(-100%); transition: transform .22s; }
+    .pt.chatnav-collapsed { grid-template-columns: 1fr; } /* the desktop collapse rule doesn't apply here */
+    .pt.chat-open .chatnav { transform: none; }
+    .chatnav-inner { width: 286px; }
     .g2 { grid-template-columns: 1fr; }
     .kpis { grid-template-columns: repeat(2, 1fr); }
     .view { padding: 18px 15px 60px; }
@@ -362,6 +493,19 @@ a.card.linked:hover .kgo, a.card.linked:focus-visible .kgo { opacity: 1; color: 
 </style>
 
 <div class="pt" id="root">
+  <aside class="chatnav" id="chatnav">
+    <div class="chatnav-inner">
+      <div class="chatnav-head">
+        <button class="chatnav-toggle" id="chatnav-toggle" aria-label="Collapse chat panel">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4L7 12l8 8"/></svg>
+        </button>
+        <button class="chatnav-new" id="chatnav-new">+ New chat</button>
+      </div>
+      <div class="chatnav-list" id="chatnav-list"><div class="chatnav-empty">Loading…</div></div>
+      <div class="chatnav-note">More will live here over time.</div>
+    </div>
+  </aside>
+
   <aside class="side" id="side">
     <div>
       <div class="logo"><img id="logo-img" alt="AZ Web Corp"></div>
@@ -386,6 +530,9 @@ a.card.linked:hover .kgo, a.card.linked:focus-visible .kgo { opacity: 1; color: 
     <div class="livebar">
       <button class="hamb" id="hamb" aria-label="Menu">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <button class="tbtn" id="chatnav-reopen" title="Chats" style="flex-shrink:0">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-3px;margin-right:5px"><path d="M4 5h16v11H8l-4 4z"/></svg>Chats
       </button>
       <div class="live-now">
         <span class="pulse"></span>
@@ -450,7 +597,19 @@ const fmt = n => nf.format(Math.round(n || 0));
 const fmt1 = n => (n || 0).toFixed(1);
 const pctf = n => ((n || 0) * 100).toFixed(1) + '%';
 const dur = s => { s = Math.round(s || 0); const m = Math.floor(s / 60); return m + 'm ' + String(s % 60).padStart(2, '0') + 's'; };
-const shortDate = iso => new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+/* Two date formats arrive here and only one used to work.
+   Search Console returns "2026-06-06"; GA4 returns "20260827" with no hyphens.
+   The old version appended 'T00:00:00' to whatever it was given, so every GA4
+   date became "20260827T00:00:00" -> Invalid Date, which is what was printing
+   under the Sessions chart at both ends of the axis. Normalise YYYYMMDD before
+   parsing, and never render the string "Invalid Date" if something else slips
+   through. */
+const shortDate = iso => {
+  const s = String(iso == null ? '' : iso);
+  const norm = /^\d{8}$/.test(s) ? s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8) : s;
+  const d = new Date(norm + 'T00:00:00');
+  return isNaN(d.getTime()) ? '—' : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+};
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const path = u => { try { return new URL(u).pathname; } catch { return u; } };
 
@@ -476,7 +635,7 @@ function kpiCard(label, value, deltaHtml, linkTo, caption) {
   if (!linkTo) return `<div class="card kpi">${inner}</div>`;
   // Real anchors, not click handlers: middle-click, ctrl-click and "open in new
   // tab" all have to work, and a div with onclick breaks every one of them.
-  return `<a class="card kpi linked" href="?view=${linkTo}" target="_blank" rel="noopener"
+  return `<a class="card kpi linked" href="${viewHref(linkTo)}" target="_blank" rel="noopener"
     title="Open ${label} detail in a new tab">${inner}<span class="kgo" aria-hidden="true">&#8599;</span></a>`;
 }
 
@@ -538,9 +697,25 @@ function execSignal() {
   return { head, body };
 }
 
+/* Deep links must carry the property through.
+   The agency gate at /reports/_owner/ routes on ?c=<slug>. A bare view link
+   replaces the whole query string, so the slug is lost, the gate sees no
+   property and falls through to the chooser - which is what made every "Open"
+   bounce back to the property list, and to the sign-in form when the session
+   had also lapsed, because the form posts back to a URL that no longer said
+   which client it was for.
+   Client copies have no c= param at all, so this is a no-op there. */
+const OWNER_SLUG = new URLSearchParams(location.search).get('c');
+function viewHref(view) {
+  const q = new URLSearchParams();
+  if (OWNER_SLUG) q.set('c', OWNER_SLUG);
+  q.set('view', view);
+  return '?' + q.toString();
+}
+
 /* Small "Open" affordance for a panel header. Same new-tab contract as kpiCard. */
 function openLink(view, what) {
-  return `<a class="popen" href="?view=${view}" target="_blank" rel="noopener"
+  return `<a class="popen" href="${viewHref(view)}" target="_blank" rel="noopener"
     title="Open ${what} in a new tab">Open<span aria-hidden="true">&#8599;</span></a>`;
 }
 
@@ -617,6 +792,49 @@ function table(rows, cols, opts = {}) {
 
 const emptyPanel = (title, why) => `<div class="empty"><h4>${title}</h4><p>${why}</p></div>`;
 
+/* ===========================================================================
+   TICKETS / MESSAGES / REMINDERS
+   Everything below talks to tickets_api.php over a RELATIVE path on purpose:
+   this same template.html is deployed both as the client build (served from
+   html/reports/) and the agency build (served from html/reports/_owner/), and
+   a relative fetch lands on the matching sibling API in each case - the
+   client-facing one, or the agent-facing one - without this file needing to
+   know which build it is beyond PORTAL_ROLE for what UI to show.
+   ======================================================================== */
+const TICKETS_API = 'tickets_api.php';
+
+async function ticketsApi(action, { method = 'GET', body, params } = {}) {
+  let url = TICKETS_API + '?action=' + encodeURIComponent(action);
+  if (params) for (const [k, v] of Object.entries(params)) url += '&' + k + '=' + encodeURIComponent(v);
+  const opts = { method };
+  if (method === 'POST') {
+    opts.headers = { 'Content-Type': 'application/json' };
+    opts.body = JSON.stringify({ action, ...body });
+  }
+  const res = await fetch(url, opts);
+  let data = null;
+  try { data = await res.json(); } catch {}
+  if (!res.ok) throw new Error((data && data.error) || ('request failed (' + res.status + ')'));
+  return data;
+}
+
+function timeAgo(iso) {
+  if (!iso) return '';
+  const s = Math.max(0, (Date.now() - new Date(iso.replace(' ', 'T') + (iso.endsWith('Z') ? '' : 'Z')).getTime()) / 1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return Math.floor(s / 60) + 'm ago';
+  if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+  return Math.floor(s / 86400) + 'd ago';
+}
+
+const STATUS_LABEL = {
+  open: 'Open', in_progress: 'In progress', waiting_on_client: 'Waiting on you',
+  resolved: 'Resolved', closed: 'Closed',
+};
+const STATUS_TONE = {
+  open: 'ok', in_progress: 'ok', waiting_on_client: 'warn', resolved: 'ok', closed: 'no',
+};
+
 /* ---------------- views ---------------- */
 const G = DATA.gsc, A = DATA.ga4, AI = DATA.ai;
 
@@ -653,7 +871,7 @@ const VIEWS = {
           <div class="klabel">Realtime snapshot</div>
           <div class="snapbox"><div class="csub">Top live page</div><div class="snapval" id="live-page">&mdash;</div></div>
           <div class="snapbox"><div class="csub">Top location</div><div class="snapval" id="live-loc">&mdash;</div></div>
-          <a class="bigbtn" href="?view=live" target="_blank" rel="noopener">Open full live view &rarr;</a>
+          <a class="bigbtn" href="${viewHref('live')}" target="_blank" rel="noopener">Open full live view &rarr;</a>
         </div>
       </div>
 
@@ -661,7 +879,7 @@ const VIEWS = {
         <div class="klabel accent">Executive signal</div>
         <h3 class="signalh">${execSignal().head}</h3>
         <p class="signalp">${execSignal().body}</p>
-        <a class="bigbtn ghost" href="?view=opportunities" target="_blank" rel="noopener">View opportunities &rarr;</a>
+        <a class="bigbtn ghost" href="${viewHref('opportunities')}" target="_blank" rel="noopener">View opportunities &rarr;</a>
       </div>
 
       <div class="g2 groups">
@@ -768,6 +986,23 @@ const VIEWS = {
           <div class="card mt"><h3>Where visitors are</h3><div class="csub">Plotted on the globe when the live feed reports location</div><div id="live-places"></div></div>
         </div>
       </div>
+
+      <div class="card mt"><h3>Users per minute</h3>
+        <div class="csub">Last 30 minutes &middot; the rightmost bar is the minute in progress</div>
+        <div id="live-minutes"></div></div>
+
+      <div class="lgrid mt">
+        <div class="card"><h3>Devices</h3>
+          <div class="csub">What people are browsing on right now</div>
+          <div id="live-devices"></div></div>
+        <div class="card"><h3>Platform</h3>
+          <div class="csub">Web, Android or iOS &middot; GA4 Realtime does not expose traffic source</div>
+          <div id="live-platforms"></div></div>
+        <div class="card"><h3>What is happening</h3>
+          <div class="csub">Events firing in the last 30 minutes</div>
+          <div id="live-events"></div></div>
+      </div>
+
       <div class="card mt" id="live-status-card">
         <h3>Feed status</h3><div id="live-status" style="font-size:12.5px;color:var(--ink-3)"></div>
       </div>
@@ -1120,6 +1355,47 @@ const VIEWS = {
         </table>
       </div>`;
     }
+  },
+
+  messages: {
+    // No nav button (not in `order`) - this view is reached only by picking
+    // a conversation in the far-left chat panel, or its "+ New chat" button.
+    // The panel itself (its list, not this shell) is built once at startup
+    // by initChatnav(), independent of which main-nav view is active.
+    label: 'Messages', icon: 'chat',
+    render() {
+      const isOwner = PORTAL_ROLE === 'owner';
+      return `
+      <div class="msg-thread" id="msg-thread">
+        <div class="nodata">Select a conversation from the chat panel${isOwner ? '' : ', or start a new one'}.</div>
+      </div>`;
+    },
+    after() { MSG.isOwner = PORTAL_ROLE === 'owner'; }
+  },
+
+  reminders: {
+    label: 'Reminders', icon: 'check',
+    render() {
+      const isOwner = PORTAL_ROLE === 'owner';
+      return `
+      <h2>Reminders</h2>
+      <div class="lede">${isOwner
+        ? 'Action items you’ve set for clients, across every account.'
+        : 'Anything that needs your action to keep work moving. Check items off as you handle them.'}</div>
+      ${isOwner ? `
+      <div class="card" style="margin-bottom:16px">
+        <h3>Add a reminder</h3>
+        <div class="csub">Shows up for the client the next time they log in, and pops up if it's due today</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+          <input id="td-client" placeholder="client slug (from clients.json)" style="flex:1;min-width:160px;background:var(--panel-2);border:1px solid var(--line-strong);border-radius:8px;padding:9px 10px;color:var(--ink);font:inherit;font-size:12.5px">
+          <input id="td-title" placeholder="What do they need to do?" style="flex:2;min-width:220px;background:var(--panel-2);border:1px solid var(--line-strong);border-radius:8px;padding:9px 10px;color:var(--ink);font:inherit;font-size:12.5px">
+          <input id="td-due" type="date" style="background:var(--panel-2);border:1px solid var(--line-strong);border-radius:8px;padding:9px 10px;color:var(--ink);font:inherit;font-size:12.5px">
+          <button class="tbtn accent" id="td-add">Add</button>
+        </div>
+      </div>` : ''}
+      <div class="card"><div id="todo-list"><div class="nodata">Loading…</div></div></div>`;
+    },
+    after() { initReminders(PORTAL_ROLE === 'owner'); }
   }
 };
 
@@ -1136,11 +1412,338 @@ const ICONS = {
   target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>',
   trophy: '<path d="M8 4h8v5a4 4 0 01-8 0zM5 5h3M16 5h3M10 18h4M9 21h6"/>',
   doc: '<path d="M6 2h8l5 5v15H6z"/><path d="M9 13h7M9 17h5"/>',
-  plug: '<path d="M9 2v6M15 2v6M6 8h12v4a6 6 0 01-12 0zM12 18v4"/>'
+  plug: '<path d="M9 2v6M15 2v6M6 8h12v4a6 6 0 01-12 0zM12 18v4"/>',
+  chat: '<path d="M4 5h16v11H8l-4 4z"/>',
+  check: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12l3 3 5-6"/>'
 };
 
+/* ===========================================================================
+   MESSAGES - conversation list, thread, and the chat-style "new request"
+   wizard that walks a client through one Tier 2 category's fixed questions
+   as chat bubbles rather than a static form (per yasir, 2026-09-12: "make it
+   work like a live phone app"). The questions themselves are never invented
+   client-side - they always come from the categories action, the same
+   taxonomy ticket_api.php validates against, so the wizard can't drift out
+   of sync with what the server will actually accept.
+   ======================================================================== */
+let MSG = { tickets: [], activeId: null, categories: null, wizard: null, isOwner: false };
+
+/** Built once at page load, independent of which main-nav view is active -
+ * the chat panel is permanent chrome, not a tab (per yasir, 2026-09-13). */
+function initChatnav() {
+  MSG.isOwner = PORTAL_ROLE === 'owner';
+  document.getElementById('chatnav-toggle').addEventListener('click', toggleChatnav);
+  document.getElementById('chatnav-reopen').addEventListener('click', toggleChatnav);
+  document.getElementById('chatnav-new').addEventListener('click', () => { show('messages'); startWizard(); });
+  loadMessageList();
+}
+
+function toggleChatnav() {
+  const root = document.getElementById('root');
+  root.classList.toggle('chatnav-collapsed');
+  root.classList.toggle('chat-open');
+}
+
+async function loadMessageList() {
+  const listEl = document.getElementById('chatnav-list');
+  try {
+    const data = await ticketsApi('list');
+    MSG.tickets = data.tickets || [];
+  } catch (e) {
+    listEl.innerHTML = '<div class="chatnav-empty">Could not load: ' + esc(e.message) + '</div>';
+    return;
+  }
+  if (!MSG.tickets.length) {
+    listEl.innerHTML = '<div class="chatnav-empty">Nothing here yet.</div>';
+    return;
+  }
+  listEl.innerHTML = MSG.tickets.map(t => `
+    <button class="chatnav-item ${t.id === MSG.activeId ? 'active' : ''}" data-id="${t.id}">
+      ${esc(t.summary || t.category)}
+      <span class="ci-sub">${MSG.isOwner ? esc(t.client_slug) + ' · ' : ''}${esc(STATUS_LABEL[t.status] || t.status)} · ${timeAgo(t.updated_at)}</span>
+    </button>`).join('');
+  listEl.querySelectorAll('.chatnav-item').forEach(b => b.addEventListener('click', () => {
+    show('messages');
+    openThread(+b.dataset.id);
+  }));
+}
+
+async function openThread(id) {
+  MSG.activeId = id;
+  MSG.wizard = null;
+  document.querySelectorAll('.chatnav-item').forEach(b => b.classList.toggle('active', +b.dataset.id === id));
+  const host = document.getElementById('msg-thread');
+  if (!host) return; // 'messages' view is not the one currently shown
+  host.innerHTML = '<div class="nodata">Loading…</div>';
+  let data;
+  try {
+    data = await ticketsApi('ticket', { params: { id } });
+  } catch (e) {
+    host.innerHTML = '<div class="nodata">Could not load this conversation: ' + esc(e.message) + '</div>';
+    return;
+  }
+  renderThread(data);
+}
+
+function renderThread(data) {
+  const host = document.getElementById('msg-thread');
+  const t = data.ticket;
+  const bubbles = data.messages.map(m => {
+    const cls = m.sender_type === 'system' ? 'system' : (m.sender_type === (MSG.isOwner ? 'agent' : 'client') ? 'mine' : 'theirs');
+    const who = m.sender_type === 'agent' ? 'Agent' : m.sender_type === 'client' ? 'You' : 'System';
+    return `<div class="bubble ${cls}">${esc(m.body)}<span class="bmeta">${cls === 'system' ? '' : who + ' · '}${timeAgo(m.created_at)}${m.channel === 'sms' ? ' · via text' : ''}</span></div>`;
+  }).join('');
+
+  const answersHtml = data.answers.filter(a => a.answer && a.question_key !== 'publish_preference').map(a =>
+    `<div class="mi-sub" style="margin-bottom:4px"><b style="color:var(--ink-2)">${esc(a.question_label)}:</b> ${esc(a.answer)}</div>`).join('');
+
+  host.innerHTML = `
+    <div style="margin-bottom:10px">
+      <div class="mi-top"><span style="font-weight:700">${esc(t.summary || t.category)}</span>
+        <span class="pill ${STATUS_TONE[t.status] || ''}">${esc(STATUS_LABEL[t.status] || t.status)}</span></div>
+      ${MSG.isOwner ? `<div class="mi-sub">${esc(t.client_slug)} · ${esc(t.contact_email || '')}${t.contact_phone ? ' · ' + esc(t.contact_phone) : ''}</div>` : ''}
+      ${answersHtml ? `<details style="margin-top:8px"><summary style="cursor:pointer;font-size:11.5px;color:var(--ink-3)">Original request details</summary>${answersHtml}</details>` : ''}
+    </div>
+    <div class="msg-bubbles" id="msg-bubbles">${bubbles}</div>
+    <div class="msg-compose">
+      <textarea id="msg-input" placeholder="${MSG.isOwner ? 'Reply to the client…' : 'Type a message…'}"></textarea>
+      <button class="tbtn accent" id="msg-send">${MSG.isOwner ? 'Respond' : 'Send'}</button>
+    </div>
+    ${MSG.isOwner ? `<div style="margin-top:10px;display:flex;gap:8px">
+      <button class="tbtn" data-status="resolved">Mark resolved</button>
+      <button class="tbtn" data-status="closed">Close</button>
+    </div>` : ''}`;
+
+  const bubblesEl = document.getElementById('msg-bubbles');
+  bubblesEl.scrollTop = bubblesEl.scrollHeight;
+
+  document.getElementById('msg-send').addEventListener('click', () => sendMessage(t.id));
+  document.getElementById('msg-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(t.id); }
+  });
+  host.querySelectorAll('[data-status]').forEach(b => b.addEventListener('click', async () => {
+    await ticketsApi('status', { method: 'POST', body: { ticket_id: t.id, status: b.dataset.status } });
+    await loadMessageList();
+    openThread(t.id);
+  }));
+}
+
+async function sendMessage(ticketId) {
+  const input = document.getElementById('msg-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const btn = document.getElementById('msg-send');
+  btn.disabled = true;
+  try {
+    if (MSG.isOwner) {
+      await ticketsApi('respond', { method: 'POST', body: { ticket_id: ticketId, body: text } });
+    } else {
+      await ticketsApi('reply', { method: 'POST', body: { ticket_id: ticketId, body: text } });
+    }
+    input.value = '';
+    await loadMessageList();
+    await openThread(ticketId);
+  } catch (e) {
+    alert('Could not send: ' + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+/* ---- new-request wizard (client only): category chips, then one question
+   bubble at a time, styled as a conversation with "AZ Web Corp Assistant"
+   rather than a form, per yasir's "live phone app" request. ---- */
+async function startWizard() {
+  MSG.activeId = null;
+  document.querySelectorAll('.chatnav-item').forEach(b => b.classList.remove('active'));
+  const host = document.getElementById('msg-thread');
+  if (!host) return; // 'messages' view is not the one currently shown
+  host.innerHTML = '<div class="nodata">Loading…</div>';
+  if (!MSG.categories) {
+    try { MSG.categories = (await ticketsApi('categories')).categories; }
+    catch (e) { host.innerHTML = '<div class="nodata">Could not load request types: ' + esc(e.message) + '</div>'; return; }
+  }
+  host.innerHTML = `
+    <div class="msg-bubbles">
+      <div class="bubble theirs">What do you need help with? Pick the closest match, or just describe it and we'll sort it out.<span class="bmeta">AZ Web Corp Assistant</span></div>
+    </div>
+    <div class="msg-chips">${Object.entries(MSG.categories).map(([k, c]) =>
+      `<button class="chip" data-cat="${esc(k)}">${esc(c.label)}</button>`).join('')}</div>`;
+  host.querySelectorAll('[data-cat]').forEach(b => b.addEventListener('click', () => wizardPickCategory(b.dataset.cat)));
+}
+
+function wizardPickCategory(catKey) {
+  const cat = MSG.categories[catKey];
+  MSG.wizard = { catKey, questions: cat.questions, index: 0, answers: {} };
+  renderWizardStep(`Got it — ${cat.label.toLowerCase()}. ${cat.description}`);
+}
+
+function renderWizardStep(introText) {
+  const host = document.getElementById('msg-thread');
+  const w = MSG.wizard;
+  const q = w.questions[w.index];
+  const bubbles = [];
+  if (introText) bubbles.push(`<div class="bubble theirs">${esc(introText)}<span class="bmeta">AZ Web Corp Assistant</span></div>`);
+  bubbles.push(`<div class="bubble theirs">${esc(q.label)}${q.required ? '' : ' (optional — send blank to skip)'}<span class="bmeta">AZ Web Corp Assistant</span></div>`);
+
+  host.innerHTML = `
+    <div class="msg-bubbles" id="msg-bubbles">${MSG.wizard.log || ''}${bubbles.join('')}</div>
+    <div class="msg-compose">
+      ${q.type === 'select'
+        ? `<div class="msg-chips" style="margin:0;flex:1">${q.options.map(o => `<button class="chip" data-opt="${esc(o)}">${esc(o)}</button>`).join('')}</div>`
+        : `<textarea id="msg-input" placeholder="Type your answer…"></textarea><button class="tbtn accent" id="msg-send">Send</button>`}
+    </div>`;
+
+  const bubblesEl = document.getElementById('msg-bubbles');
+  bubblesEl.scrollTop = bubblesEl.scrollHeight;
+
+  if (q.type === 'select') {
+    document.querySelectorAll('#msg-thread [data-opt]').forEach(b =>
+      b.addEventListener('click', () => wizardAnswer(q, b.dataset.opt)));
+  } else {
+    const send = () => { const v = document.getElementById('msg-input').value.trim(); wizardAnswer(q, v); };
+    document.getElementById('msg-send').addEventListener('click', send);
+    document.getElementById('msg-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+    });
+  }
+}
+
+async function wizardAnswer(q, value) {
+  if (q.required && !value) { alert('This one is required.'); return; }
+  const w = MSG.wizard;
+  w.answers[q.key] = value;
+  w.log = (w.log || '') + (document.getElementById('msg-bubbles')?.innerHTML || '');
+  w.log += `<div class="bubble mine">${esc(value || '(skipped)')}<span class="bmeta">You</span></div>`;
+  w.index++;
+
+  if (w.index < w.questions.length) {
+    renderWizardStep();
+    return;
+  }
+
+  // All questions answered - submit.
+  const host = document.getElementById('msg-thread');
+  host.innerHTML = '<div class="nodata">Sending…</div>';
+  try {
+    const res = await ticketsApi('create', { method: 'POST', body: { category: w.catKey, answers: w.answers } });
+    await loadMessageList();
+    await openThread(res.ticket_id);
+  } catch (e) {
+    host.innerHTML = '<div class="nodata">Could not submit: ' + esc(e.message) + ' <button class="tbtn" onclick="startWizard()">Try again</button></div>';
+  }
+}
+
+/* ===========================================================================
+   REMINDERS / TO-DO
+   ======================================================================== */
+async function initReminders(isOwner) {
+  await loadTodos(isOwner);
+  const addBtn = document.getElementById('td-add');
+  if (addBtn) addBtn.addEventListener('click', () => addTodo(isOwner));
+}
+
+function todoDueClass(dueDate) {
+  if (!dueDate) return '';
+  const today = new Date().toISOString().slice(0, 10);
+  if (dueDate < today) return 'overdue';
+  if (dueDate === today) return 'today';
+  return '';
+}
+
+async function loadTodos(isOwner) {
+  const host = document.getElementById('todo-list');
+  let todos;
+  try {
+    const data = await ticketsApi('todos');
+    todos = data.todos || [];
+  } catch (e) {
+    host.innerHTML = '<div class="nodata">Could not load reminders: ' + esc(e.message) + '</div>';
+    return;
+  }
+  if (!todos.length) {
+    host.innerHTML = '<div class="nodata">Nothing on your list right now.</div>';
+    return;
+  }
+  host.innerHTML = todos.map(t => `
+    <div class="todo-row ${t.status === 'done' ? 'done' : ''}">
+      <div class="todo-check" data-id="${t.id}" role="checkbox" aria-checked="${t.status === 'done'}">${t.status === 'done' ? '✓' : ''}</div>
+      <div style="flex:1">
+        <div class="todo-title">${isOwner ? esc(t.client_slug) + ' — ' : ''}${esc(t.title)}</div>
+        ${t.detail ? `<div class="todo-detail">${esc(t.detail)}</div>` : ''}
+        ${t.due_date ? `<div class="todo-due ${todoDueClass(t.due_date)}">Due ${esc(t.due_date)}</div>` : ''}
+      </div>
+    </div>`).join('');
+
+  if (!isOwner) {
+    host.querySelectorAll('.todo-check').forEach(el => el.addEventListener('click', async () => {
+      if (el.getAttribute('aria-checked') === 'true') return; // client can complete, not un-complete
+      await ticketsApi('todo_complete', { method: 'POST', body: { id: +el.dataset.id } });
+      loadTodos(isOwner);
+    }));
+  }
+}
+
+async function addTodo(isOwner) {
+  const clientSlug = document.getElementById('td-client').value.trim();
+  const title = document.getElementById('td-title').value.trim();
+  const dueDate = document.getElementById('td-due').value;
+  if (!clientSlug || !title) { alert('Client slug and a title are both required.'); return; }
+  try {
+    await ticketsApi('todo_create', { method: 'POST', body: { client_slug: clientSlug, title, due_date: dueDate || null } });
+    document.getElementById('td-title').value = '';
+    document.getElementById('td-due').value = '';
+    loadTodos(isOwner);
+  } catch (e) {
+    alert('Could not add reminder: ' + e.message);
+  }
+}
+
+/* ===========================================================================
+   DUE-TODAY POPUP (client builds only)
+   Shown once per calendar day (localStorage-gated, per-browser - see
+   artifact-storage caveats: this is a convenience, not a synced read
+   receipt) so a client who logs in daily is not re-interrupted after they've
+   already seen today's list once.
+   ======================================================================== */
+async function maybeShowDuePopup() {
+  if (PORTAL_ROLE === 'owner') return;
+  const today = new Date().toISOString().slice(0, 10);
+  let seenKey = null;
+  try {
+    seenKey = 'azwc_due_popup_seen';
+    if (localStorage.getItem(seenKey) === today) return;
+  } catch {} // private-browsing/blocked storage: fall through and just show it
+
+  let todos;
+  try {
+    todos = (await ticketsApi('todos_due_today')).todos || [];
+  } catch { return; } // never let a popup failure block loading the dashboard
+
+  if (seenKey) { try { localStorage.setItem(seenKey, today); } catch {} }
+  if (!todos.length) return;
+
+  const backdrop = document.createElement('div');
+  backdrop.className = 'duepop-backdrop';
+  backdrop.innerHTML = `
+    <div class="duepop-card">
+      <h3>Due today</h3>
+      <p class="duepop-sub">${todos.length} thing${todos.length === 1 ? '' : 's'} need${todos.length === 1 ? 's' : ''} your attention.</p>
+      <ul>${todos.map(t => `<li><b>${esc(t.title)}</b>${t.detail ? '<br>' + esc(t.detail) : ''}</li>`).join('')}</ul>
+      <button class="tbtn accent" id="duepop-ok" style="width:100%">Got it</button>
+    </div>`;
+  document.body.appendChild(backdrop);
+  const close = () => backdrop.remove();
+  backdrop.querySelector('#duepop-ok').addEventListener('click', () => { show('reminders'); close(); });
+  backdrop.addEventListener('click', e => { if (e.target === backdrop) close(); });
+}
+
 /* ---------------- shell ---------------- */
-const order = ['dashboard', 'live', 'search', 'keywords', 'analytics', 'landing', 'opportunities', 'technical', 'gbp', 'ai', 'competitors', 'reports', 'connections'];
+// 'messages' is deliberately NOT in this list - conversations live in the
+// dedicated far-left chat panel now, not as a tab competing with reporting
+// views. The VIEWS.messages entry still exists (see below) because the main
+// content area still needs somewhere to render an open thread/the wizard.
+const order = ['dashboard', 'reminders', 'live', 'search', 'keywords', 'analytics', 'landing', 'opportunities', 'technical', 'gbp', 'ai', 'competitors', 'reports', 'connections'];
 let active = 'dashboard';
 
 function buildNav() {
@@ -1199,6 +1802,8 @@ document.getElementById('hamb').addEventListener('click', () => document.getElem
 
 buildNav();
 renderTicker();
+initChatnav();
+maybeShowDuePopup();
 
 /* Deep link: ?view=<key> lets every dashboard card open its detail in a new tab.
    Unknown or absent key falls back to the dashboard rather than erroring. */
@@ -1226,7 +1831,12 @@ function paintLive() {
     pagesEl.innerHTML = '';
   } else if (liveData.error) {
     c.textContent = '–';
-    stale.textContent = liveData.error;
+    // Was liveData.error - the raw code (e.g. "notConfigured") rather than a
+    // reader-facing sentence, unlike the other two places this same error
+    // state is shown (renderLiveDetail, paintLiveCard). Reported 2026-09-13:
+    // a client-visible "notConfigured" next to "active in the last 30 min"
+    // with no explanation.
+    stale.textContent = liveOfflineReason();
     pagesEl.innerHTML = '';
   } else {
     c.textContent = fmt(liveData.activeUsers);
@@ -1263,6 +1873,46 @@ function renderLiveDetail() {
   status.textContent = 'GA4 Realtime API · refreshed every 30 seconds · last update ' +
     new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit' });
   bars(barsEl, (liveData.pages || []).map(p => ({ p: p.page, users: p.users })), 'users', 'p', S.s3, fmt);
+
+  /* The rest of what GA4 Realtime reports. Each panel says its own source, and
+     says plainly when there is simply nobody on the site rather than rendering
+     an empty box that looks broken. */
+  const SRC = '<div class="live-src">Source &middot; Google Analytics 4 &middot; Realtime API</div>';
+  const quiet = '<div class="nodata">Nobody is on the site this minute.</div>';
+
+  const rowList = (rows, labelKey, valueKey, unit) => rows.length
+    ? rows.map(r => `<div class="lrow2"><span>${esc(r[labelKey] || '(not set)')}</span>` +
+        `<b>${fmt(r[valueKey])}${unit ? ' ' + unit : ''}</b></div>`).join('') + SRC
+    : quiet + SRC;
+
+  const dEl = document.getElementById('live-devices');
+  if (dEl) dEl.innerHTML = rowList(liveData.devices || [], 'device', 'users', '');
+
+  const pEl = document.getElementById('live-platforms');
+  if (pEl) pEl.innerHTML = rowList(liveData.platforms || [], 'platform', 'users', '');
+
+  const eEl = document.getElementById('live-events');
+  if (eEl) eEl.innerHTML = rowList(liveData.events || [], 'event', 'count', '');
+
+  /* Users per minute. The array is 30 values, oldest first, so the last bar is
+     the minute currently in progress - highlighted, because a part-finished
+     minute is always lower than the ones before it and otherwise reads as a
+     sudden drop. */
+  const mEl = document.getElementById('live-minutes');
+  if (mEl) {
+    const mins = liveData.minutes || [];
+    if (!mins.length) {
+      mEl.innerHTML = quiet + SRC;
+    } else {
+      const peak = Math.max(1, ...mins);
+      mEl.innerHTML =
+        '<div class="minbars">' + mins.map((v, i) =>
+          `<i class="${i === mins.length - 1 ? 'now' : ''}" style="height:${Math.max(2, v / peak * 84)}px" ` +
+          `title="${v} user${v === 1 ? '' : 's'}, ${mins.length - 1 - i} min ago"></i>`).join('') + '</div>' +
+        '<div class="minaxis"><span>30 min ago</span><span>peak ' + fmt(peak) + '</span><span>now</span></div>' +
+        SRC;
+    }
+  }
 
   /* Locations are plotted only when the feed actually reports them. The
      realtime endpoint currently returns pages and a total with no geo

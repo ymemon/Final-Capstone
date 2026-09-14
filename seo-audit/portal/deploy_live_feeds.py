@@ -89,9 +89,14 @@ def deploy(slug, cfg, target):
     sh([SSH, f"mkdir -p ~/html/reports/{slug}/api"])
     sh([SCP, str(out), f"{target}:html/reports/{slug}/api/live.php"])
     # Copy the key server-side: the private key has no reason to travel.
-    sh([SSH, f"cp {KEY_SOURCE} ~/html/reports/{slug}/api/ga4-key.php "
-             f"&& cp {CENTROIDS_SOURCE} ~/html/reports/{slug}/api/country-centroids.php "
-             f"&& chmod 644 ~/html/reports/{slug}/api/ga4-key.php "
+    #
+    # -u guards the case where slug IS azwebcorp, whose api/ directory is the
+    # source of both files. Without it cp aborts with "are the same file" and
+    # takes the whole --all run down with it, so redeploying every feed failed
+    # purely because the first client in the list happened to be the donor.
+    sh([SSH, f"cp -u {KEY_SOURCE} ~/html/reports/{slug}/api/ga4-key.php 2>/dev/null; "
+             f"cp -u {CENTROIDS_SOURCE} ~/html/reports/{slug}/api/country-centroids.php 2>/dev/null; "
+             f"chmod 644 ~/html/reports/{slug}/api/ga4-key.php "
              f"~/html/reports/{slug}/api/country-centroids.php"])
     print(f"  {slug:<18} deployed (GA4 property {prop})")
     return True

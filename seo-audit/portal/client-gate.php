@@ -31,11 +31,37 @@
  * address to a slug, that address cannot reach anything at all - it fails
  * closed, which is why an empty roster locks everyone out rather than letting
  * everyone in.
+ *
+ * A THIRD HOST CONSTRAINT, FOUND LIVE ON 2026-09-13
+ * The bare URL (https://azwebcorp.com/reports/, no query string) gets cached
+ * by the platform's CDN regardless of any Cache-Control this script sends,
+ * and that cache does not vary by cookie. The first response ever served for
+ * that exact URL - anyone's dashboard, or the anonymous login form - becomes
+ * "the" response for every subsequent visitor until the next manual flush.
+ * That is a real cross-client data leak, not a staleness annoyance, and only
+ * a manual cache flush is available on this host - no rule-based exclusion.
+ *
+ * THE FIX: the bare URL must return the exact same bytes for every visitor,
+ * full stop, so caching it is harmless. It never inspects the session cookie
+ * to decide what to render. Instead it always shows the anonymous shell,
+ * which carries a tiny inline script that checks a separate, non-secret,
+ * JS-readable marker cookie (SEEN_COOKIE - never the real session token) and,
+ * if present, client-side-redirects to the SAME url plus a fresh random
+ * ?s=<token> query string. That token carries no meaning at all; its only
+ * job is to make the URL unique per visit so the CDN cache key differs every
+ * time, which is what actually defeats a cache with no cookie-awareness.
+ * Every response that renders real dashboard content - which still requires
+ * the real, HttpOnly, signed session cookie exactly as before - is now only
+ * ever served under one of these effectively-unguessable ?s= URLs, so even
+ * if the platform caches one, it is cached under a key nobody else will ever
+ * request. See README-level notes in [[azwebcorp-portal-ticket-design]] for
+ * the incident this fixes.
  */
 
 declare(strict_types=1);
 
 const GATE_COOKIE   = 'azwc_portal';
+const SEEN_COOKIE   = 'azwc_seen';         // non-secret marker only - see doc comment above
 const GATE_TTL      = 60 * 60 * 24 * 30;   // stay signed in for a month
 const LINK_TTL      = 60 * 15;             // a magic link is valid 15 minutes
 const RATE_MAX      = 5;                   // send attempts per address per hour
@@ -44,48 +70,27 @@ const RATE_WINDOW   = 3600;
 $BASE  = __DIR__;
 $PAGES = $BASE . '/p';   // protected builds, 404 on direct hit
 
-/* State and roster live in the account home, never under the webroot.
- *
- * A roster.json sitting in /html/reports/ would be served like any other file
- * here - the client dashboards prove that - and it holds every client contact
- * address. The signing secret is worse still: reading it lets anyone mint a
- * session for any client. .htaccess deny rules are not trustworthy on this
- * host, so neither file is placed anywhere a request can reach. */
-$HOME   = getenv('HOME') ?: dirname($BASE, 3);
-$STATE  = $HOME . '/.portal-client-state';
-$ROSTER = $STATE . '/roster.json';
+require_once __DIR__ . '/state_lib.php';
+
+/* Roster and signing secret live in state_lib.php's in-webroot storage - see
+ * that file's doc comment for why $HOME-based storage (this file's previous
+ * approach) silently fails on this host despite looking correct. */
 
 /* ---------------------------------------------------------------- helpers */
 
-function state_dir(): string {
-    global $STATE;
-    if (!is_dir($STATE)) {
-        @mkdir($STATE, 0700, true);
-    }
-    return $STATE;
-}
-
 /** Server-side secret, generated once. Never rendered, never sent. */
 function gate_secret(): string {
-    $f = state_dir() . '/secret';
-    if (is_readable($f)) {
-        $s = trim((string) file_get_contents($f));
-        if ($s !== '') {
-            return $s;
-        }
+    $s = state_read('secret', null);
+    if (is_string($s) && $s !== '') {
+        return $s;
     }
     $s = bin2hex(random_bytes(32));
-    file_put_contents($f, $s);
-    @chmod($f, 0600);
+    state_write('secret', $s);
     return $s;
 }
 
 function roster(): array {
-    global $ROSTER;
-    if (!is_readable($ROSTER)) {
-        return [];
-    }
-    $j = json_decode((string) file_get_contents($ROSTER), true);
+    $j = state_read('roster', []);
     if (!is_array($j)) {
         return [];
     }
@@ -129,26 +134,32 @@ function unsign(string $token): ?string {
     return hash_equals($want, $given) ? $payload : null;
 }
 
-/** Magic links are single use: a spent nonce is recorded and refused after. */
+/** Magic links are single use: a spent nonce is recorded and refused after.
+ *  Kept as one consolidated map (nonce => spent-at) rather than one file per
+ *  nonce, pruned to entries still within LINK_TTL so it cannot grow forever. */
 function nonce_spent(string $nonce): bool {
-    $f = state_dir() . '/spent-' . preg_replace('/[^a-f0-9]/', '', $nonce);
-    if (file_exists($f)) {
+    $now = time();
+    $spent = state_read('nonces', []);
+    $spent = array_filter((array) $spent, fn($t) => $now - (int) $t < LINK_TTL);
+    if (isset($spent[$nonce])) {
         return true;
     }
-    file_put_contents($f, (string) time());
+    $spent[$nonce] = $now;
+    state_write('nonces', $spent);
     return false;
 }
 
 function rate_ok(string $email): bool {
-    $f = state_dir() . '/rate-' . md5($email);
-    $hits = is_readable($f) ? (array) json_decode((string) file_get_contents($f), true) : [];
     $now = time();
-    $hits = array_values(array_filter($hits, fn($t) => $now - (int) $t < RATE_WINDOW));
+    $all = state_read('rate', []);
+    $key = md5($email);
+    $hits = array_values(array_filter((array) ($all[$key] ?? []), fn($t) => $now - (int) $t < RATE_WINDOW));
     if (count($hits) >= RATE_MAX) {
         return false;
     }
     $hits[] = $now;
-    file_put_contents($f, json_encode($hits));
+    $all[$key] = $hits;
+    state_write('rate', $all);
     return true;
 }
 
@@ -165,11 +176,21 @@ function base_url(): string {
 
 /* ------------------------------------------------------------------ views */
 
-function shell(string $title, string $inner): void {
+function shell(string $title, string $inner, bool $autoRedirect = false): void {
     header('Content-Type: text/html; charset=utf-8');
     header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
     header('X-Robots-Tag: noindex, nofollow');
+    // Only the bare, no-?s= response passes true here. It runs before the
+    // page paints, so a returning signed-in visitor sees this shell for a
+    // moment at most before bouncing to their own fresh ?s= url - never
+    // before checking a REAL secret, only the non-sensitive marker cookie.
+    $redirectScript = $autoRedirect
+        ? '<script>(function(){if(/(?:^|; )azwc_seen=1(?:;|$)/.test(document.cookie)){'
+        . 'var t=Math.random().toString(36).slice(2)+Date.now().toString(36);'
+        . 'location.replace(location.pathname+"?s="+t);}})();</script>'
+        : '';
     echo '<!doctype html><html lang="en"><head><meta charset="utf-8">'
+       . $redirectScript
        . '<meta name="viewport" content="width=device-width,initial-scale=1">'
        . '<meta name="robots" content="noindex,nofollow">'
        . '<title>' . htmlspecialchars($title) . ' &middot; AZ Web Corp</title><style>'
@@ -189,7 +210,7 @@ function shell(string $title, string $inner): void {
        . '</style></head><body><div class="card">' . $inner . '</div></body></html>';
 }
 
-function login_page(string $msg = '', string $cls = ''): void {
+function login_page(string $msg = '', string $cls = '', bool $autoRedirect = false): void {
     $m = $msg === '' ? '' : '<p class="' . $cls . '">' . htmlspecialchars($msg) . '</p>';
     shell('Client reporting', <<<HTML
         <h1>Client reporting</h1>
@@ -203,22 +224,59 @@ function login_page(string $msg = '', string $cls = ''): void {
         </form>
         <div class="note">Access is limited to addresses we hold for your account.
         If yours is not recognised, contact AZ Web Corp on (480) 818-5761.</div>
-HTML);
+HTML, $autoRedirect);
 }
 
 /* ---------------------------------------------------------------- routing */
 
-$action = $_GET['do'] ?? '';
+/* A FOURTH HOST CONSTRAINT, FOUND LIVE THE SAME DAY AS THE THIRD
+ * Whenever a response gets the forced `Cache-Control: public` treatment
+ * described above, the platform also strips any Set-Cookie header from it
+ * entirely - confirmed live: a GET to ?do=out and a GET to ?t=<token> both
+ * called setcookie() correctly, and neither cookie ever reached the client.
+ * This means, concretely, that NO GET request under /reports/ has ever been
+ * able to actually set or clear a cookie in production, however correct the
+ * PHP logic is - not just today's chroot fix, this predates it.
+ *
+ * A POST response was observed to keep its own Cache-Control (no-store) and
+ * was not touched, so every place that needs to set or clear a cookie now
+ * does so from a POST handler, never a GET one. The magic link in the email
+ * is still a plain clickable URL (an email client cannot POST), so GET ?t=
+ * now only renders a tiny auto-submitting form - no nonce is consumed and no
+ * cookie is set until that form's POST actually lands. This has a second
+ * benefit: some email providers pre-fetch links in the background to scan
+ * them, which would silently burn a one-time nonce before a real click ever
+ * happened; a pre-fetched GET no longer touches the nonce at all now. */
 
-if ($action === 'out') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'logout') {
     setcookie(GATE_COOKIE, '', ['expires' => time() - 3600, 'path' => '/reports/', 'samesite' => 'Lax']);
+    setcookie(SEEN_COOKIE, '', ['expires' => time() - 3600, 'path' => '/reports/', 'samesite' => 'Lax']);
     header('Location: ' . base_url());
     exit;
 }
 
-/* 1. Consume a magic link. */
-if (isset($_GET['t'])) {
-    $payload = unsign((string) $_GET['t']);
+/* 1a. GET ?t=<token>: show the auto-submitting interstitial only. Cached or
+ *     pre-fetched harmlessly - the token is single-use and unique per email,
+ *     so a cached copy of this exact URL is never requested by anyone else,
+ *     and nothing here has side effects yet. */
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' && isset($_GET['t'])) {
+    $t = htmlspecialchars((string) $_GET['t'], ENT_QUOTES);
+    shell('Signing in', <<<HTML
+        <h1>Signing you in&hellip;</h1>
+        <p>One moment.</p>
+        <form method="post" id="redeem"><input type="hidden" name="t" value="{$t}">
+          <noscript><button type="submit">Continue</button></noscript>
+        </form>
+        <script>document.getElementById('redeem').submit();</script>
+HTML);
+    exit;
+}
+
+/* 1b. POST of that form: the real redemption - nonce consumed and cookies
+ *     set here, and only here, so this is the first point in the whole flow
+ *     where a Set-Cookie header has any chance of surviving the platform. */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['t'])) {
+    $payload = unsign((string) $_POST['t']);
     $ok = false;
     if ($payload !== null) {
         $d = json_decode($payload, true);
@@ -235,15 +293,45 @@ if (isset($_GET['t'])) {
                     'httponly' => true,
                     'samesite' => 'Lax',
                 ]);
+                // Readable by JS on purpose - carries no secret, just tells the
+                // anonymous shell "this browser has a real session, try to find
+                // it" without exposing anything an attacker could use. See the
+                // doc comment at the top of this file for why this exists.
+                setcookie(SEEN_COOKIE, '1', [
+                    'expires'  => time() + GATE_TTL,
+                    'path'     => '/reports/',
+                    'secure'   => true,
+                    'httponly' => false,
+                    'samesite' => 'Lax',
+                ]);
                 $ok = true;
             }
         }
     }
-    header('Location: ' . base_url() . ($ok ? '' : '?e=1'));
+    // A successful sign-in lands on a fresh, effectively-unguessable ?s= url
+    // rather than the bare one - see the top-of-file doc comment for why the
+    // bare url can never be the thing that renders real content. This is a
+    // POST-redirect-GET on purpose, so refreshing the landing page never
+    // re-submits the (now spent) token.
+    $dest = $ok ? ('?s=' . bin2hex(random_bytes(12))) : '?e=1';
+    header('Location: ' . base_url() . $dest);
     exit;
 }
 
-/* 2. Already signed in? Serve that client's page and nothing else. */
+/* 2. The bare url (no ?s=) NEVER inspects the session cookie to decide what
+ *    to render - it always shows the same anonymous shell, which is what
+ *    makes it safe for the platform to cache. A POST (the login form
+ *    submitting) is exempt: the form has no action attribute, so it posts
+ *    back to whatever url rendered it, bare included, and that has to reach
+ *    the handling in step 4 rather than bounce here. */
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' && !isset($_GET['s'])) {
+    login_page('', '', true);
+    exit;
+}
+
+/* 3. Already signed in? Serve that client's page and nothing else. Only
+ *    reachable via a ?s=-qualified url (or a POST) per the gate above, so a
+ *    cached response here is cached under a url nobody else will request. */
 $cookie = $_COOKIE[GATE_COOKIE] ?? '';
 if ($cookie !== '') {
     $payload = unsign($cookie);
@@ -264,16 +352,23 @@ if ($cookie !== '') {
                 shell('Report not ready', '<h1>Report not ready</h1>'
                     . '<p>Your account is recognised but this month\'s report has not been '
                     . 'published yet. Please try again shortly.</p>'
-                    . '<div class="note"><a href="?do=out" style="color:#e6b84d">Sign out</a></div>');
+                    // A plain <a href="?do=out"> would GET, and a GET can no
+                    // longer clear the cookie (see the routing comment above) -
+                    // this has to POST.
+                    . '<div class="note"><form method="post" style="display:inline">'
+                    . '<input type="hidden" name="action" value="logout">'
+                    . '<button type="submit" style="all:unset;color:#e6b84d;cursor:pointer;'
+                    . 'text-decoration:underline">Sign out</button></form></div>');
                 exit;
             }
         }
     }
     // Anything unverifiable is treated as signed out rather than trusted.
     setcookie(GATE_COOKIE, '', ['expires' => time() - 3600, 'path' => '/reports/', 'samesite' => 'Lax']);
+    setcookie(SEEN_COOKIE, '', ['expires' => time() - 3600, 'path' => '/reports/', 'samesite' => 'Lax']);
 }
 
-/* 3. Request a link. */
+/* 4. Request a link. */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = strtolower(trim((string) ($_POST['email'] ?? '')));
 
