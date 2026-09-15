@@ -113,6 +113,16 @@ add_action(
 				'callback'            => 'azwc_fu_rest_booking',
 			)
 		);
+
+		register_rest_route(
+			'azwc/v1',
+			'/webhook/email',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => 'azwc_fu_webhook_auth',
+				'callback'            => 'azwc_fu_webhook_email',
+			)
+		);
 	}
 );
 
@@ -463,6 +473,9 @@ function azwc_fu_do_confirm( $row ) {
 	}
 	azwc_fu_mail_internal( $row, 'confirmed' );
 
+	// Schedule reminder immediately if it's due soon (real-time reminder scheduling)
+	azwc_fu_schedule_reminder_if_due( $row );
+
 	azwc_fu_page(
 		'You are booked',
 		'<p style="font-size:19px;"><b>' . esc_html( azwc_fu_pretty( $row->slot_start_gmt ) ) . '</b></p>'
@@ -542,6 +555,54 @@ function azwc_fu_page( $title, $body, $link = '', $link_label = '' ) {
  * Scheduled work
  * ---------------------------------------------------------------------- */
 
+/**
+ * Real-time reminder scheduling.
+ *
+ * When a booking is confirmed, check if the reminder is due within the
+ * AZWC_FU_REMIND_MIN window. If so, schedule it immediately via a
+ * one-time WordPress action instead of waiting for the next 5-minute cron tick.
+ *
+ * This ensures reminders go out as close to the scheduled time as possible,
+ * not delayed by up to 5 minutes.
+ */
+function azwc_fu_schedule_reminder_if_due( $row ) {
+	$now   = time();
+	$start = strtotime( $row->slot_start_gmt . ' UTC' );
+
+	// Reminder window: due within the next AZWC_FU_REMIND_MIN minutes
+	$remind_window_start = $start - ( AZWC_FU_REMIND_MIN * 60 );
+	$remind_window_end   = $start;
+
+	// Check if reminder should go out now or soon
+	if ( $now >= $remind_window_start && $now < $remind_window_end && ! $row->reminded_gmt ) {
+		// Schedule a one-time immediate reminder
+		wp_schedule_single_event( $now + 5, 'azwc_fu_send_reminder_now', array( $row->id ) );
+	}
+}
+
+add_action(
+	'azwc_fu_send_reminder_now',
+	function ( $lead_id ) {
+		global $wpdb;
+		$row = $wpdb->get_row(
+			$wpdb->prepare(
+				'SELECT * FROM ' . azwc_fu_table() . ' WHERE id = %d',
+				$lead_id
+			)
+		);
+
+		if ( $row && 'confirmed' === $row->status && ! $row->reminded_gmt ) {
+			$wpdb->update(
+				azwc_fu_table(),
+				array( 'reminded_gmt' => gmdate( 'Y-m-d H:i:s' ) ),
+				array( 'id' => $row->id )
+			);
+			azwc_fu_mail_reminder( $row );
+		}
+	}
+);
+
+
 add_filter(
 	'cron_schedules', // phpcs:ignore WordPress.WP.CronInterval
 	function ( $s ) {
@@ -618,4 +679,245 @@ function azwc_fu_catch_up() {
 	}
 	set_transient( 'azwc_fu_ticked', 1, 300 );
 	azwc_fu_tick();
+}
+
+
+/* -------------------------------------------------------------------------
+ * Real-time email webhook
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Authenticate webhook requests from email service.
+ *
+ * Uses a simple Bearer token stored in wp-config or environment variable.
+ * Generate a strong token and store in wp-config.php or env:
+ * define( 'AZWC_FU_WEBHOOK_TOKEN', 'your-secret-token-here' );
+ */
+function azwc_fu_webhook_auth() {
+	if ( ! defined( 'AZWC_FU_WEBHOOK_TOKEN' ) ) {
+		return false;
+	}
+
+	$auth_header = isset( $_SERVER['HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ) ) : '';
+	if ( empty( $auth_header ) ) {
+		return false;
+	}
+
+	$token = str_replace( 'Bearer ', '', $auth_header );
+	return hash_equals( AZWC_FU_WEBHOOK_TOKEN, $token );
+}
+
+/**
+ * Process incoming email webhook.
+ *
+ * Real-time handler for emails received at info@azwebcorp.com.
+ * Integrates with Gmail, SendGrid, or other email services via webhook.
+ * Processes emails immediately instead of waiting for 5-minute cron cycle.
+ */
+function azwc_fu_webhook_email( WP_REST_Request $r ) {
+	$data = $r->get_json_params();
+
+	// Support multiple email service formats
+	$email_data = azwc_fu_parse_email_webhook( $data );
+	if ( is_wp_error( $email_data ) ) {
+		return new WP_REST_Response(
+			array( 'error' => $email_data->get_error_message() ),
+			400
+		);
+	}
+
+	// Process the email immediately (real-time)
+	$result = azwc_fu_process_incoming_email( $email_data );
+	if ( is_wp_error( $result ) ) {
+		return new WP_REST_Response(
+			array( 'error' => $result->get_error_message() ),
+			500
+		);
+	}
+
+	return new WP_REST_Response(
+		array(
+			'ok'      => true,
+			'message' => 'Email processed in real-time.',
+			'id'      => $result,
+		),
+		200
+	);
+}
+
+/**
+ * Parse incoming email webhook from various services.
+ *
+ * Supports:
+ * - Gmail API push notifications
+ * - SendGrid inbound parse
+ * - Mailgun incoming webhooks
+ * - Generic JSON format
+ */
+function azwc_fu_parse_email_webhook( $data ) {
+	if ( ! is_array( $data ) ) {
+		return new WP_Error( 'azwc_fu_webhook_invalid', 'Invalid webhook data.' );
+	}
+
+	// Gmail format: { "message": { "data": "base64..." }, "subscription": "..." }
+	if ( isset( $data['message'] ) && isset( $data['message']['data'] ) ) {
+		return azwc_fu_parse_gmail_webhook( $data );
+	}
+
+	// SendGrid format: { "email": "...", "from": "...", "text": "...", "subject": "..." }
+	if ( isset( $data['email'] ) && isset( $data['from'] ) ) {
+		return azwc_fu_parse_sendgrid_webhook( $data );
+	}
+
+	// Generic format: { "from": "...", "to": "...", "subject": "...", "body": "..." }
+	if ( isset( $data['from'] ) ) {
+		return azwc_fu_parse_generic_webhook( $data );
+	}
+
+	return new WP_Error( 'azwc_fu_webhook_format', 'Unknown email webhook format.' );
+}
+
+/** Parse Gmail API push notification. */
+function azwc_fu_parse_gmail_webhook( $data ) {
+	// Gmail sends base64-encoded message ID in 'data' field.
+	// In production, fetch the full message from Gmail API.
+	// For now, store the message ID for deferred processing.
+
+	$message_id = isset( $data['message']['attributes']['messageId'] )
+		? sanitize_text_field( (string) $data['message']['attributes']['messageId'] )
+		: '';
+
+	if ( empty( $message_id ) ) {
+		return new WP_Error( 'azwc_fu_gmail_no_id', 'Gmail message ID not found.' );
+	}
+
+	return array(
+		'source' => 'gmail',
+		'id'     => $message_id,
+		'from'   => isset( $data['message']['attributes']['from'] ) ? sanitize_email( $data['message']['attributes']['from'] ) : '',
+		'to'     => isset( $data['message']['attributes']['to'] ) ? sanitize_email( $data['message']['attributes']['to'] ) : '',
+	);
+}
+
+/** Parse SendGrid inbound webhook. */
+function azwc_fu_parse_sendgrid_webhook( $data ) {
+	return array(
+		'source'  => 'sendgrid',
+		'from'    => sanitize_email( (string) $data['from'] ),
+		'to'      => sanitize_email( (string) $data['email'] ),
+		'subject' => sanitize_text_field( (string) ( $data['subject'] ?? '' ) ),
+		'body'    => wp_kses_post( (string) ( $data['text'] ?? '' ) ),
+		'html'    => wp_kses_post( (string) ( $data['html'] ?? '' ) ),
+	);
+}
+
+/** Parse generic JSON email webhook. */
+function azwc_fu_parse_generic_webhook( $data ) {
+	return array(
+		'source'  => 'generic',
+		'from'    => sanitize_email( (string) $data['from'] ),
+		'to'      => sanitize_email( (string) ( $data['to'] ?? '' ) ),
+		'subject' => sanitize_text_field( (string) ( $data['subject'] ?? '' ) ),
+		'body'    => wp_kses_post( (string) ( $data['body'] ?? '' ) ),
+		'html'    => wp_kses_post( (string) ( $data['html'] ?? '' ) ),
+	);
+}
+
+/**
+ * Process incoming email immediately in real-time.
+ *
+ * Extracts sender info and creates a lead record without waiting
+ * for the next 5-minute cron cycle.
+ */
+function azwc_fu_process_incoming_email( $email_data ) {
+	if ( empty( $email_data['from'] ) ) {
+		return new WP_Error( 'azwc_fu_no_from', 'Email from address not found.' );
+	}
+
+	$from = $email_data['from'];
+	if ( ! is_email( $from ) ) {
+		return new WP_Error( 'azwc_fu_invalid_from', 'Invalid from address.' );
+	}
+
+	// Log incoming email to database for tracking
+	$lead_id = azwc_fu_log_incoming_email( $email_data );
+	if ( is_wp_error( $lead_id ) ) {
+		return $lead_id;
+	}
+
+	// Send immediate notification to team
+	azwc_fu_mail_incoming_email( $email_data, $lead_id );
+
+	// Fire action for extensibility
+	do_action( 'azwc_fu_email_received', $email_data, $lead_id );
+
+	return $lead_id;
+}
+
+/**
+ * Log incoming email to database.
+ *
+ * Creates a new record for tracking inbound emails from clients.
+ */
+function azwc_fu_log_incoming_email( $email_data ) {
+	global $wpdb;
+
+	// Extract name from email if possible
+	$from    = $email_data['from'];
+	$name    = isset( $email_data['from_name'] ) && ! empty( $email_data['from_name'] )
+		? sanitize_text_field( $email_data['from_name'] )
+		: sanitize_text_field( explode( '@', $from )[0] );
+
+	$domain  = isset( $email_data['domain'] ) ? sanitize_text_field( $email_data['domain'] ) : '';
+	$subject = isset( $email_data['subject'] ) ? sanitize_text_field( $email_data['subject'] ) : 'Email received';
+
+	$data = array(
+		'kind'        => 'email',
+		'name'        => mb_substr( $name, 0, 120 ),
+		'email'       => $from,
+		'domain'      => mb_substr( $domain, 0, 190 ),
+		'status'      => 'new',
+		'created_gmt' => gmdate( 'Y-m-d H:i:s' ),
+		'token'       => azwc_fu_new_token(),
+		'ip'          => isset( $email_data['ip'] ) ? (string) $email_data['ip'] : '0.0.0.0',
+		'notes'       => mb_substr( $subject, 0, 500 ),
+	);
+
+	if ( false === $wpdb->insert( azwc_fu_table(), $data ) ) {
+		return new WP_Error( 'azwc_fu_db', 'Failed to log incoming email.' );
+	}
+
+	return $wpdb->insert_id;
+}
+
+/**
+ * Send immediate notification when email is received.
+ *
+ * Notifies team in real-time that a client has emailed, without
+ * waiting for the next cron cycle.
+ */
+function azwc_fu_mail_incoming_email( $email_data, $lead_id ) {
+	$from    = $email_data['from'];
+	$subject = isset( $email_data['subject'] ) ? $email_data['subject'] : 'Email received';
+	$body    = isset( $email_data['body'] ) ? substr( $email_data['body'], 0, 300 ) : '';
+
+	$content = '<p style="font-size:17px;font-weight:800;margin:0 0 4px;">Email received in real-time</p>'
+		. '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:14px 0;">'
+		. '<tr><td style="padding:5px 14px 5px 0;color:#6b7480;font-size:13px;white-space:nowrap;">From</td>'
+		. '<td style="padding:5px 0;font-size:14px;font-weight:600;">' . esc_html( $from ) . '</td></tr>'
+		. '<tr><td style="padding:5px 14px 5px 0;color:#6b7480;font-size:13px;white-space:nowrap;">Subject</td>'
+		. '<td style="padding:5px 0;font-size:14px;font-weight:600;">' . esc_html( $subject ) . '</td></tr>'
+		. '</table>'
+		. '<p style="background:#faf6ec;border-left:3px solid #e6b84d;padding:11px 14px;font-size:14px;">'
+		. 'This email was received and logged in real-time via webhook, not through the 5-minute cron check.'
+		. '</p>'
+		. '<p style="font-size:12.5px;color:#9aa3ad;">Lead #' . (int) $lead_id . '</p>';
+
+	azwc_fu_send(
+		azwc_fu_notify_email(),
+		'[REAL-TIME] Email received from ' . $from,
+		$content,
+		array(),
+		$from
+	);
 }

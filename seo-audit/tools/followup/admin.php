@@ -49,7 +49,7 @@ function azwc_fu_admin_page() {
 
 	// phpcs:ignore WordPress.Security.NonceVerification -- read-only filter.
 	$kind  = isset( $_GET['kind'] ) ? sanitize_key( wp_unslash( $_GET['kind'] ) ) : 'call';
-	$kind  = in_array( $kind, array( 'call', 'report' ), true ) ? $kind : 'call';
+	$kind  = in_array( $kind, array( 'call', 'report', 'email' ), true ) ? $kind : 'call';
 
 	$rows = $wpdb->get_results(
 		$wpdb->prepare(
@@ -75,7 +75,7 @@ function azwc_fu_admin_page() {
 		. '</p>';
 
 	echo '<h2 class="nav-tab-wrapper">';
-	foreach ( array( 'call' => 'Call bookings', 'report' => 'Report requests' ) as $k => $label ) {
+	foreach ( array( 'call' => 'Call bookings', 'report' => 'Report requests', 'email' => 'Emails received' ) as $k => $label ) {
 		printf(
 			'<a href="%s" class="nav-tab%s">%s</a>',
 			esc_url( admin_url( 'admin.php?page=azwc-leads&kind=' . $k ) ),
@@ -90,25 +90,44 @@ function azwc_fu_admin_page() {
 		return;
 	}
 
+	$show_time_col = 'call' === $kind;
+	$show_score    = 'report' === $kind;
+
 	echo '<table class="wp-list-table widefat fixed striped" style="margin-top:14px;"><thead><tr>'
-		. '<th style="width:150px">' . ( 'call' === $kind ? 'When' : 'Requested' ) . '</th>'
-		. '<th style="width:100px">Status</th><th>Who</th><th>Site</th>'
-		. '<th style="width:70px">Score</th><th style="width:130px">Phone</th>'
+		. ( $show_time_col ? '<th style="width:150px">When</th>' : '<th style="width:150px">Received</th>' )
+		. '<th style="width:100px">Status</th><th>Who</th><th>Details</th>'
+		. ( $show_score ? '<th style="width:70px">Score</th>' : '' )
+		. ( 'call' === $kind ? '<th style="width:130px">Phone</th>' : '' )
 		. '</tr></thead><tbody>';
 
 	foreach ( $rows as $row ) {
 		$when = ( 'call' === $kind && $row->slot_start_gmt ) ? $row->slot_start_gmt : $row->created_gmt;
 		$past = strtotime( $when . ' UTC' ) < time();
 
-		echo '<tr' . ( $past ? ' style="opacity:.62"' : '' ) . '>';
+		echo '<tr' . ( $past && 'call' === $kind ? ' style="opacity:.62"' : '' ) . '>';
 		echo '<td><strong>' . esc_html( azwc_fu_local( $when )->format( 'D j M, g:ia' ) ) . '</strong></td>';
 		echo '<td>' . azwc_fu_admin_badge( $row->status ) . '</td>'; // phpcs:ignore WordPress.Security.EscapeOutput
 		echo '<td>' . esc_html( $row->name ) . '<br><a href="mailto:' . esc_attr( $row->email ) . '">'
 			. esc_html( $row->email ) . '</a></td>';
-		echo '<td><a href="' . esc_url( 'https://' . $row->domain ) . '" target="_blank" rel="noopener">'
-			. esc_html( $row->domain ) . '</a></td>';
-		echo '<td>' . ( null === $row->score ? '&mdash;' : (int) $row->score ) . '</td>';
-		echo '<td>' . ( $row->phone ? esc_html( $row->phone ) : '&mdash;' ) . '</td>';
+
+		// Details column varies by kind
+		if ( 'email' === $kind ) {
+			// For emails, show the subject (stored in notes)
+			echo '<td>' . esc_html( $row->notes ?: '(no subject)' ) . '</td>';
+		} else {
+			// For reports and calls, show domain
+			echo '<td><a href="' . esc_url( 'https://' . $row->domain ) . '" target="_blank" rel="noopener">'
+				. esc_html( $row->domain ) . '</a></td>';
+		}
+
+		if ( $show_score ) {
+			echo '<td>' . ( null === $row->score ? '&mdash;' : (int) $row->score ) . '</td>';
+		}
+
+		if ( 'call' === $kind ) {
+			echo '<td>' . ( $row->phone ? esc_html( $row->phone ) : '&mdash;' ) . '</td>';
+		}
+
 		echo '</tr>';
 	}
 

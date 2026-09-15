@@ -19,12 +19,16 @@ function azwc_fu_table() {
 }
 
 /**
- * One table for both lead types.
+ * Table for all lead types: reports, bookings, and real-time emails.
  *
- * A PDF request and a call booking share almost every column and are the same
- * thing to whoever reads the list in the morning — a person who asked for
- * something. `kind` separates them; the slot columns are simply null for a
- * report request.
+ * A PDF request, call booking, and incoming email share columns and represent
+ * a person who asked for something or reached out. `kind` separates them:
+ * - 'report': PDF request from form
+ * - 'call': call booking request
+ * - 'email': incoming email received in real-time via webhook
+ *
+ * The slot columns are null for reports and emails. The notes column stores
+ * the email subject for real-time emails.
  */
 function azwc_fu_install() {
 	if ( AZWC_FU_DB_VERSION === get_option( 'azwc_fu_db_version' ) ) {
@@ -57,6 +61,7 @@ function azwc_fu_install() {
 			PRIMARY KEY  (id),
 			KEY slot_status (slot_start_gmt, status),
 			KEY kind_created (kind, created_gmt),
+			KEY kind_status (kind, status),
 			KEY email_idx (email),
 			UNIQUE KEY token_idx (token)
 		) {$collate};"
